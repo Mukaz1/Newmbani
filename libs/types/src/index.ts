@@ -2,6 +2,7 @@
 
 export * from './audit'
 export * from './countries'
+export * from './auth'
 export * from './users'
 export * from './properties'
 export * from './databases'
