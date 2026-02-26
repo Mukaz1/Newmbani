@@ -5,6 +5,7 @@ export interface CreateTenant {
     name: string;
     email: string;
     phone: string;
+    password: string;
     address: Address
 }
 

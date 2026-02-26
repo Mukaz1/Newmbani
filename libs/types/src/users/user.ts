@@ -10,8 +10,8 @@ export interface CreateUser {
     phone:string;
     password:string;
     roleId: string;
-    tenenatId?: string;
-    landloardId?:string;
+    tenantId?: string;
+    landlordId?:string;
     employeeId?: string;
     address?:Address
 }

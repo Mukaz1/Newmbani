@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@org/types": ["libs/types/src/index.ts"],
-      "@org/nest": ["libs/nest/src/index.ts"]
+      "@newmbani/types": ["libs/types/src/index.ts"],
+      "@newmbani/shared": ["libs/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
