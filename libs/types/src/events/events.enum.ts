@@ -1,5 +1,5 @@
-import { LandlordEvents } from "../landlords/enums/landlord-events";
-
+import { LandlordEvents } from '../landlords/enums/landlord-events';
+import { PropertyEventEnums } from '../properties/enums/events.enums';
 
 enum GeneralEventEnums {
   // System
@@ -43,7 +43,8 @@ enum GeneralEventEnums {
 
 export const SystemEventsEnum = {
   ...GeneralEventEnums,
-...LandlordEvents,
+  ...LandlordEvents,
+  ...PropertyEventEnums,
 };
 
 export type SystemEventsEnum = typeof SystemEventsEnum;
