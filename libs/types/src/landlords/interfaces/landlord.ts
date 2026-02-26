@@ -1,16 +1,20 @@
-import { Address } from "cluster";
 import { LandlordApprovalStatus } from "../enums/landlord-approval-status.rnum";
 import { AuditData } from "../../audit";
 import { Country } from "../../countries";
+import { Address } from "../../addresses";
 
 export interface CreateLandlord {
     name:string;
+    displayName:string
     email:string;
     phone:string;
-    address: Address
+    address: Address;
+    acceptTerms: boolean;
+    languages?: string[];
+    password:string;
 }
 
-export interface PostCreateLandlord {
+export interface PostCreateLandlord extends CreateLandlord {
     approvalStatus: LandlordApprovalStatus
 }
 

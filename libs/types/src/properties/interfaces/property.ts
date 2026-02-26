@@ -9,7 +9,7 @@ export interface CreateProperty {
     landlordId: string
     categoryId: string
     title: string
-    dscription:string
+    description:string
     rentPrice: number
     deposit: number
     isAvailable: boolean
@@ -18,12 +18,12 @@ export interface CreateProperty {
     address:Address
 }
 
-export interface PostCreateProperty {
-    images:string[]
+export interface PostCreateProperty extends CreateProperty {
+    images?:string[]
     approvalStatus: PropertyApprovalStatus
 }
 
-export interface Property {
+export interface Property extends PostCreateProperty{
     category: PropertyCategory;
     landlord: Landlord;
     country:Country
