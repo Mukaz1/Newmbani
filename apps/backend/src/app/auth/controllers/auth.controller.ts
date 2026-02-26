@@ -1,42 +1,79 @@
-import { Body, Controller, Post, Req, UnauthorizedException } from '@nestjs/common';
-import { Request } from 'express';
+import {
+  Body,
+  Controller,
+  Headers,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { Public } from '../decorators/public.decorator';
+import { RefreshTokenDto } from '../dto/auth/refresh-token.dto';
+import { SignInDto } from '../dto/auth/sign-in.dto';
+import { AuthenticationGuard } from '../guards/authentication.guard';
 import { AuthService } from '../services/auth.service';
-import { RegisterDto } from '../dtos/register.dto';
-import { LoginDto } from '../dtos/login.dto';
-import { RefreshTokenDto } from '../dtos/refresh.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { HttpResponseInterface, HttpStatusCodeEnum } from '@newmbani/types';
+import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 
-
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
-
-  // @Post('register')
-  // register(@Body() registerDto: RegisterDto) {
-  //   return this.authService.register(registerDto);
-  // }
-
-  // @Post('login')
-  // login(@Body() loginDto: LoginDto) {
-  //   return this.authService.login(loginDto);
-  // }
-
-  // @Post('refresh')
-  // refresh(@Body() dto: RefreshTokenDto, @Req() req: Request) {
-  //   const accessToken = extractAccessToken(req);
-  //   return this.authService.refreshToken(accessToken, dto.refreshToken);
-  // }
-
-  // @Post('logout')
-  // logout(@Req() req: Request) {
-  //   const accessToken = extractAccessToken(req);
-  //   return this.authService.logout(accessToken);
-  // }
-}
-
-function extractAccessToken(req: Request): string {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    throw new UnauthorizedException('Missing or invalid Authorization header');
+  /**
+   * Constructor for AuthController class.
+   * @param {AuthService} authService - The authentication service.
+   */
+  constructor(private readonly authService: AuthService) {
+    //
   }
-  return authHeader.replace('Bearer ', '');
+
+  @Public()
+  @ApiResponse({
+    status: HttpStatusCodeEnum.OK,
+    description: 'The user logged in successfully.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Post('sign-in')
+  async signIn(
+    @Body() signInDto: SignInDto,
+    @GenericResponse() res: GenericResponse,
+    @Req() req: any,
+  ) {
+    const response = await this.authService.signIn(signInDto, req);
+    res.setStatus(response.statusCode);
+    return response;
+  }
+
+  /**
+   * Refresh the Auth token
+   *
+   * @param {RefreshTokenDto} refreshTokenDto
+   * @param req
+   * @return {*}
+   * @memberof AuthController
+   */
+  // @UseGuards(JwtRefreshTokenGuard)
+  @Post('refresh-token')
+  async refreshToken(
+    @Body() refreshTokenDto: RefreshTokenDto,
+    @Req() req: any,
+  ): Promise<HttpResponseInterface> {
+    return this.authService.refreshAccessToken(
+      refreshTokenDto.refresh_token,
+      req,
+    );
+  }
+
+  @UseGuards(AuthenticationGuard)
+  @Post('logout')
+  async invalidateToken(
+    @Headers('authorization') authorization: string,
+  ): Promise<HttpResponseInterface> {
+    const token = authorization.split(' ')[1];
+    await this.authService.invalidateToken(token);
+    return {
+      data: undefined,
+      statusCode: HttpStatusCodeEnum.OK,
+      message: 'Token invalidated successfully',
+    };
+  }
 }

@@ -8,6 +8,11 @@ import { DatabaseModule } from './database/database.module';
 import { DefaultModules } from './modules';
 import { AuthModule } from './auth/auth.module';
 import { BullModule } from '@nestjs/bull';
+import { SettingsModule } from './settings/settings.module';
+import { LoggerModule } from './logger/logger.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { QueuesModule } from './queues/queues.module';
+import { SetupModule } from './setup/setup.module';
 
 @Module({
   imports: [
@@ -17,6 +22,11 @@ import { BullModule } from '@nestjs/bull';
     LandlordsModule,
     TenantsModule,
     DatabaseModule,
+    SettingsModule,
+    LoggerModule,
+    NotificationsModule,
+    QueuesModule,
+    SetupModule,
   ],
   controllers: [AppController],
   providers: [AppService],

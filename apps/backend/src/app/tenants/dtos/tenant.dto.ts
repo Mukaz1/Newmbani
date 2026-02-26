@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   ValidateNested,
+  IsBoolean,
 } from 'class-validator';
 import { AddressDto } from '../../common/dto/address.dto';
 import { Type } from 'class-transformer';
@@ -24,6 +25,31 @@ export class CreateTenantDto implements CreateTenant {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => AddressDto)
+  address: AddressDto;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  acceptTerms: boolean;
+}
+
+export class PostTenantDto extends CreateTenantDto {
+  @IsString()
+  @IsOptional()
+  createdBy?: string;
+}
+
+export class UpdateTenantDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  phone: string;
 
   @IsOptional()
   @ValidateNested()

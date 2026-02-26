@@ -1,5 +1,8 @@
+import { AuthEventEnums } from '../auth';
 import { LandlordEvents } from '../landlords/enums/landlord-events';
+import { OTPEventEnums } from '../otp';
 import { PropertyEventEnums } from '../properties/enums/events.enums';
+import { TenantEventEnums } from '../tenants/enums/events.enums';
 
 enum GeneralEventEnums {
   // System
@@ -9,10 +12,10 @@ enum GeneralEventEnums {
   SyncDatabase = 'SyncDatabase',
   UpdateSequence = 'UpdateSequence',
   CompanyLogoUploaded = 'CompanyLogoUploaded',
-  HostLogoUploaded = 'HostLogoUploaded',
-  HostDocumentUploaded = 'HostDocumentUploaded',
+  LandlordLogoUploaded = 'LandlordLogoUploaded',
+  LandlordDocumentUploaded = 'LandlordDocumentUploaded',
 
-  // User Accounts & Hosts
+  // User Accounts & Landlords
   SyncSuperUserAccount = 'SyncSuperUserAccount',
   SuperUserAccountCreated = 'SuperUserAccountCreated',
   UserAccountCreated = 'UserAccountCreated',
@@ -45,6 +48,9 @@ export const SystemEventsEnum = {
   ...GeneralEventEnums,
   ...LandlordEvents,
   ...PropertyEventEnums,
+  ...TenantEventEnums,
+  ...OTPEventEnums,
+  ...AuthEventEnums,
 };
 
 export type SystemEventsEnum = typeof SystemEventsEnum;

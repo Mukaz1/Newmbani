@@ -1,34 +1,46 @@
-import { Address } from "../addresses";
-import { AuditData } from "../audit";
-import { Role } from "../auth";
-import { Landlord } from "../landlords";
-import { Tenant } from "../tenants";
+import { Address } from '../addresses';
+import { Role } from '../authorization';
+import { FileInterface } from '../files';
+import { Landlord } from '../landlords';
+import { Tenant } from '../tenants';
+import { Employee } from './employee';
 
-export interface CreateUser {
-    name: string;
-    email: string;
-    phone:string;
-    password:string;
-    roleId: string;
-    tenantId?: string;
-    landlordId?:string;
-    employeeId?: string;
-    address?:Address
-}
-export interface PostCreateUser extends CreateUser{
-    profileImageUrl?: string;
+export interface User {
+  _id: string;
+  email: string;
+  emailVerified: boolean;
+  name: string;
+  phone: string;
+  phoneVerified: boolean;
+  magicLogin: boolean;
+  verified: boolean;
+  password: string;
+  isPasswordDefault: boolean;
+  landlordId?: string;
+  tenantId: string | null;
+  employeeId?: string;
+  twoFactorEnabled: boolean;
+  roleId?: string | null;
+  fileId?: string | null;
+  profileImageUrl?: string | null;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  lastPasswordChange: Date;
+  createdBy?: string;
+  updatedBy?: string;
+  deletedBy?: string;
+  deletedAt?: Date;
+
+  employee: Employee | null;
+  defaultAddress: Address;
+  landlord: Landlord;
+  tenant: Tenant;
+  role: Role | null;
+  profileImage?: FileInterface;
 }
 
 export interface UpdateUser {
-    name: string;
-    phone: string;
-    address?: Address;
-    profileImageUrl?: string;
-  }
-
-export interface User extends PostCreateUser, AuditData {
-    role: Role
-    tenant: Tenant
-    landlord:Landlord
-
+  name: string;
+  phone: string;
 }

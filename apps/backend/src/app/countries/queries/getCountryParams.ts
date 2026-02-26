@@ -17,15 +17,15 @@ export async function getCountriesParams(data: {
       : undefined;
   const supported: boolean | undefined =
     query && query.supported
-      ? JSON.parse(query.supported as string) ?? undefined
+      ? (JSON.parse(query.supported as string) ?? undefined)
       : undefined;
-  const supportingCustomer: boolean | undefined =
-    query && query.supportingCustomer
-      ? JSON.parse(query.supportingCustomer as string) ?? undefined
+  const supportingTenant: boolean | undefined =
+    query && query.supportingTenant
+      ? (JSON.parse(query.supportingTenant as string) ?? undefined)
       : undefined;
   const supportingLandlord: boolean | undefined =
     query && query.supportingLandlord
-      ? JSON.parse(query.supportingLandlord as string) ?? undefined
+      ? (JSON.parse(query.supportingLandlord as string) ?? undefined)
       : undefined;
 
   const skip = limit * (page - 1);
@@ -42,7 +42,7 @@ export async function getCountriesParams(data: {
     skip,
     // Support
     supported,
-    supportingCustomer,
+    supportingTenant,
     supportingLandlord,
   };
 }

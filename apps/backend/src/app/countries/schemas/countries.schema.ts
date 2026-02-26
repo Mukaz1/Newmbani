@@ -48,17 +48,17 @@ export const CountrySchema = new Schema<Country>(
     },
     supporting: {
       landlord: { type: Boolean, required: true, default: false },
-      customer: { type: Boolean, required: true, default: false },
+      tenant: { type: Boolean, required: true, default: false },
     },
     // Extend Base Schema
     ...PlainBaseSchema.obj,
   },
   {
     collection: DatabaseModelEnums.COUNTRY,
-  }
+  },
 );
 
 export const CountryModel = model<Country>(
   DatabaseModelEnums.COUNTRY,
-  CountrySchema
+  CountrySchema,
 );

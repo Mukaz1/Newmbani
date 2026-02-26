@@ -6,7 +6,7 @@ export interface CountryAggregationPayload {
   sort: object;
   countryId?: string;
   supported?: boolean;
-  supportingCustomer?: boolean;
+  supportingTenant?: boolean;
   supportingLandlord?: boolean;
 }
 
@@ -18,7 +18,7 @@ export async function CountriesQuery(data: CountryAggregationPayload) {
     keyword,
     sort,
     supported,
-    supportingCustomer,
+    supportingTenant,
     supportingLandlord,
   } = data;
 
@@ -51,10 +51,10 @@ export async function CountriesQuery(data: CountryAggregationPayload) {
           },
         }
       : {},
-    supportingCustomer
+    supportingTenant
       ? {
           $match: {
-            'supporting.customer': supportingCustomer,
+            'supporting.tenant': supportingTenant,
           },
         }
       : {},

@@ -22,7 +22,7 @@ export async function getPropertyQueryParams(
     query && query.minPrice ? +query.minPrice || undefined : undefined;
   const maxPrice: number | undefined =
     query && query.maxPrice ? +query.maxPrice || undefined : undefined;
-  // get the host id
+  // get the landlord id
   const landlordId: string | undefined =
     query && query.landlordId
       ? (query.landlordId as string).includes('undefined')

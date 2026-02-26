@@ -1,0 +1,15 @@
+export enum FileTypesEnum {
+  DOCUMENT = 'document',
+  LANDLORD_LOGO = 'landlord-logo',
+  COMPANY_LOGO = 'company-logo',
+  taxId = 'kra-pin-certificate',
+  CERTIFICATE_OF_INCORPORATION = 'incorporation-certificate',
+  CR_12 = 'cr-12',
+  SIGNATURE = 'signature',
+  PROPERTY_THUMBNAIL = 'property-thumbnail',
+  PROPERTY_IMAGE = 'property-image',
+  LANDLORD_DOCUMENT = 'landlord-document',
+  PROFILE_IMAGE = 'profile-image',
+  TOPIC_IMAGE = 'topic-image',
+  SUB_TOPIC_IMAGE = 'sub-topic-image',
+}

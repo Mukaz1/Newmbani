@@ -3,7 +3,7 @@
  * @see {@link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes}
  */
 export enum HttpStatusCodeEnum {
-  /** Server received headers, customer should proceed with request body */
+  /** Server received headers, tenant should proceed with request body */
   CONTINUE = 100,
 
   /** Server agreed to switch protocols */

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { verify } from 'jsonwebtoken';
-import { Socket } from 'socket.io';
 import { Observable } from 'rxjs';
+import { Socket } from 'socket.io';
 
 @Injectable()
 export class WsJwtGuard implements CanActivate {
