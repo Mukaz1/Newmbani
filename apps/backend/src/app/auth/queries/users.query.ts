@@ -26,9 +26,6 @@ export function UserAggregation(data: UserQueryData) {
         tenantId: {
           $toObjectId: '$tenantId',
         },
-        defaultAddressId: {
-          $toObjectId: '$defaultAddressId',
-        },
       },
     },
     userId
@@ -87,20 +84,7 @@ export function UserAggregation(data: UserQueryData) {
         preserveNullAndEmptyArrays: true,
       },
     },
-    {
-      $lookup: {
-        from: DatabaseModelEnums.ADDRESS,
-        localField: 'defaultAddressId',
-        foreignField: '_id',
-        as: 'defaultAddress',
-      },
-    },
-    {
-      $unwind: {
-        path: '$defaultAddress',
-        preserveNullAndEmptyArrays: true,
-      },
-    },
+
     {
       $match: {
         $or: [

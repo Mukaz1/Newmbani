@@ -1,5 +1,5 @@
-import { AuditData } from "../audit";
-import { Role } from "../auth";
+import { AuditData } from '../audit';
+import { Role } from '../authorization';
 
 export interface RegisterEmployee {
   name: string;
@@ -8,7 +8,7 @@ export interface RegisterEmployee {
   phone: string;
   roleId: string;
 }
-export interface PostNewEmployee extends Omit<RegisterEmployee, 'password'>{
+export interface PostNewEmployee extends Omit<RegisterEmployee, 'password'> {
   createdBy: string;
 }
 export interface UpdateEmployee {
@@ -18,6 +18,6 @@ export interface UpdateEmployee {
   phone: string;
 }
 
-export interface Employee extends AuditData, UpdateEmployee{
+export interface Employee extends AuditData, UpdateEmployee {
   role?: Role;
 }

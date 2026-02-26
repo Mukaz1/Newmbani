@@ -73,7 +73,7 @@ export class NotificationsService {
    * @memberof NotificationsService
    */
   async dispatchEmail(mail: SendEmail): Promise<any> {
-    // send email to customer
+    // send email to tenant
     try {
       return await this.mailService.sendEmail(mail);
     } catch (error) {

@@ -39,6 +39,9 @@ import { OtpService } from '../../otp/services/otp.service';
 import { AccountCreatedLandlordEmailTemplate } from '../../landlords/emails/account-created.template';
 import { AccountCreatedTenantEmailTemplate } from '../../tenants/emails/account-created.template';
 import { SyncSuperAdminDto } from '../../setup/dto/sync-db.dto';
+import { UserModel } from '../schemas/user.schema';
+import { TenantModel } from '../../tenants/schemas/tenant.schema';
+import { LandlordModel } from '../../landlords/schemas/landlord.schema';
 
 @Injectable()
 export class UserAutomationService {
@@ -56,12 +59,6 @@ export class UserAutomationService {
    * @memberof UserAutomationService
    */
   constructor(
-    @Inject(DatabaseModelEnums.USER)
-    private readonly user: Model<User>,
-    @Inject(DatabaseModelEnums.TENANT)
-    private tenants: Model<Tenant>,
-    @Inject(DatabaseModelEnums.LANDLORD)
-    private landlords: Model<Landlord>,
     private readonly notificationsService: NotificationsService,
     private readonly settingsService: SettingsService,
     private readonly authorizationService: AuthorizationService,
@@ -163,7 +160,7 @@ export class UserAutomationService {
           ? (metadata.secure_url as string)
           : (metadata.publicUrl as string);
 
-      await this.user.findByIdAndUpdate(userId, {
+      await UserModel.findByIdAndUpdate(userId, {
         profileImageUrl,
         profileImageId: fileId,
         updatedAt: new Date(),
@@ -188,16 +185,16 @@ export class UserAutomationService {
     try {
       const { userId, address } = payload;
 
-      const user = await this.user.findByIdAndUpdate(userId, {
+      const user = await UserModel.findByIdAndUpdate(userId, {
         defaultAddress: address,
         updatedAt: new Date(),
       });
-      await this.tenants.findByIdAndUpdate(user.tenantId, {
+      await TenantModel.findByIdAndUpdate(user.tenantId, {
         billingAddress: address,
         address: address,
         updatedAt: new Date(),
       });
-      await this.landlords.findByIdAndUpdate(user.landlordId, {
+      await LandlordModel.findByIdAndUpdate(user.landlordId, {
         address: address,
         updatedAt: new Date(),
       });
@@ -222,26 +219,26 @@ export class UserAutomationService {
       const { userId, address } = payload;
 
       // Only clear if this was the user's default address
-      const user = await this.user.findById(userId);
+      const user = await UserModel.findById(userId);
       if (user && user.defaultAddress === address) {
-        await this.user.findByIdAndUpdate(userId, {
+        await UserModel.findByIdAndUpdate(userId, {
           defaultAddress: null,
           updatedAt: new Date(),
         });
 
         this.logger.log(`Default address cleared for user ${userId}`);
       }
-      const tenant = await this.tenants.findById(user.tenantId);
+      const tenant = await TenantModel.findById(user.tenantId);
       if (tenant && tenant.address === address) {
-        await this.tenants.findByIdAndUpdate(user.tenantId, {
+        await TenantModel.findByIdAndUpdate(user.tenantId, {
           billingAddress: null,
           address: null,
           updatedAt: new Date(),
         });
       }
-      const landlord = await this.landlords.findById(user.landlordId);
+      const landlord = await LandlordModel.findById(user.landlordId);
       if (landlord && landlord.address === address) {
-        await this.landlords.findByIdAndUpdate(user.landlordId, {
+        await LandlordModel.findByIdAndUpdate(user.landlordId, {
           address: null,
           updatedAt: new Date(),
         });
@@ -280,7 +277,7 @@ export class UserAutomationService {
         updatedAt: new Date(),
       };
 
-      await this.user.findByIdAndUpdate(user._id, updatePayload);
+      await UserModel.findByIdAndUpdate(user._id, updatePayload);
 
       this.logger.log(`User ${user._id} synced with tenant ${tenant._id}`);
     } catch (error) {
@@ -317,7 +314,7 @@ export class UserAutomationService {
         updatedAt: new Date(),
       };
 
-      await this.user.findByIdAndUpdate(user._id, updatePayload);
+      await UserModel.findByIdAndUpdate(user._id, updatePayload);
 
       this.logger.log(`User ${user._id} synced with landlord ${landlord._id}`);
     } catch (error) {
@@ -488,7 +485,7 @@ export class UserAutomationService {
   async setPasswordResetToken(user: User) {
     const passwordResetCode: string = generatePasswordResetCode(user._id);
 
-    await this.user.findByIdAndUpdate(user._id, {
+    await UserModel.findByIdAndUpdate(user._id, {
       passwordResetCode,
     });
   }

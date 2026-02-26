@@ -38,11 +38,12 @@ export const UserSchema = new Schema<User>({
 
   tenantId: { required: false, type: String, trim: true, default: null },
   landlordId: { required: false, type: String, trim: true, default: null },
-  defaultAddressId: {
-    required: false,
-    type: String,
-    trim: true,
-    default: null,
+  defaultAddress: {
+    countryId: { type: String, required: true, trim: true },
+    county: { type: String, required: true, trim: true },
+    town: { type: String, required: false, trim: true },
+    street: { type: String, required: false, trim: true },
+    building: { type: String, required: false, trim: true },
   },
   password: { type: String, required: true, trim: true },
 
@@ -69,12 +70,6 @@ export const UserSchema = new Schema<User>({
 
   employeeId: {
     type: String,
-    required: false,
-    trim: true,
-  },
-
-  notifications: {
-    type: Schema.Types.Mixed,
     required: false,
     trim: true,
   },

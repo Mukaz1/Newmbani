@@ -40,8 +40,4 @@ export const queuesRegister: { name: string }[] = [
   {
     name: QueuesEnum.SEND_PAYMENT_RECEIPT_EMAIL,
   },
-
-  {
-    name: QueuesEnum.SEND_WHATSAPP_MESSAGE,
-  },
 ];

@@ -1,3 +1,3 @@
-export * from './enums/databse-models.enums'
+export * from './enums/database-models.enums';
 export * from './paginated-data';
 export * from './sequence';

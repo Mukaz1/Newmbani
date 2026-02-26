@@ -152,7 +152,7 @@ export class AuthService {
         });
       }
       const { tenantId, landlordId } = user;
-      let permissions: string[] = user.role.permissions ?? [];
+      const permissions: string[] = user.role.permissions ?? [];
 
       user.password = undefined;
       user.role.permissions = [...permissions];

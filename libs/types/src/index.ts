@@ -17,3 +17,6 @@ export * from './settings';
 export * from './otp';
 export * from './logger';
 export * from './notifications';
+export * from './queues';
+export * from './employees';
+export * from './socket';

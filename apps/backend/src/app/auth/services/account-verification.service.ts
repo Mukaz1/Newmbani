@@ -14,6 +14,7 @@ import { UsersService } from './users.service';
 import { generateOTP } from '../utils/generate-otp-code';
 import { NotificationsService } from '../../notifications/services/notifications.service';
 import { SettingsService } from '../../settings/services/settings.service';
+import { OtpService } from '../../otp/services/otp.service';
 
 @Injectable()
 export class AccountVerificationService {
