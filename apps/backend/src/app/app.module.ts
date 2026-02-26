@@ -6,12 +6,20 @@ import { LandlordsModule } from './landlords/landlords.module';
 import { TenantsModule } from './tenants/tenants.module';
 import { DatabaseModule } from './database/database.module';
 import { DefaultModules } from './modules';
+import { AuthModule } from './auth/auth.module';
 import { BullModule } from '@nestjs/bull';
 
 @Module({
-  imports: [...DefaultModules, PropertiesModule, LandlordsModule, TenantsModule, DatabaseModule],
+  imports: [
+    ...DefaultModules,
+    AuthModule,
+    PropertiesModule,
+    LandlordsModule,
+    TenantsModule,
+    DatabaseModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
-  exports: [BullModule]
+  exports: [BullModule],
 })
 export class AppModule {}
