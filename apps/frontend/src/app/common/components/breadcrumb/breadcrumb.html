@@ -1,0 +1,25 @@
+@if (breadcrumb) {
+  <div class="breadcrumbs capitalize text-sm">
+    <ul>
+      <li>
+        <a href="#" routerLink="/" class="text-gray-500" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      </li>
+      @for (item of breadcrumb.links; track item) {
+        @if (item.isClickable) {
+          <li>
+            <a href="#" [routerLink]="item.link" class="text-gray-500 capitalize" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }">
+              {{ item.linkTitle }}
+            </a>
+          </li>
+        }
+        @if (!item.isClickable) {
+          <li class="text-gray-500 dark:text-gray-50 capitalize">
+            {{ item.linkTitle }}
+          </li>
+        }
+      }
+    </ul>
+  </div>
+}

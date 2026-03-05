@@ -1,0 +1,10 @@
+.breadcrumbs {
+    a {
+      @apply dark:text-gray-50;
+      &.active,
+      &:hover {
+        @apply text-[var(--main)] dark:text-lime-500 decoration-white;
+      }
+    }
+  }
+  

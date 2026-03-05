@@ -1,0 +1,25 @@
+<button [type]="type()" [disabled]="(!isLoading === true && !formValid()) || disabled()"
+  (click)="buttonClickedEvent($event)" [ngClass]="
+    'bg-primary-600 text-white flex flex-row justify-center items-center rounded-full px-6 py-2 text-sm font-semibold  hover:bg-teal-800 hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed ' +
+    ' ' +
+    styles +
+    ' ' +
+    { 'cursor-not-allowed': !formValid() && !isLoading }
+  ">
+  @if (!isLoading) {
+  <span class="flex items-center justify-center"
+    [ngClass]="iconPosition() === 'right' ? 'flex-row-reverse gap-1' : 'gap-2'">
+    @if (showIcon()) {
+    <i [ngClass]="icon"></i>
+    }
+    @if(showLabel()){
+    {{ label }}
+    }
+
+  </span>
+  } @if (isLoading) {
+  <span class="flex items-center justify-center" [class.min-w-24]="isLoading">
+    <app-spinner [styles]="'w-[18px] h-[18px]'" class="mr-2" />
+  </span>
+  }
+</button>

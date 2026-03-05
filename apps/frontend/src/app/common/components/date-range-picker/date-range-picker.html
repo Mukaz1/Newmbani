@@ -1,0 +1,65 @@
+<div class="relative  flex gap-2 items-center">
+  @if (label) {
+    <label for=""  class="block mb-1 text-sm font-medium text-gray-700">
+      {{ label }}
+    </label>
+  }
+
+
+  <!-- Trigger -->
+  <button
+    type="button"
+    class="w-64 px-3 py-2 border rounded-md text-left bg-white shadow-sm hover:border-indigo-400 focus:ring focus:ring-indigo-200"
+    (click)="toggle()"
+    >
+    @if (range().startDate) {
+      <span>
+        {{ range().startDate | date:'mediumDate' }}
+        @if (range().endDate) {
+          <span> – {{ range().endDate | date:'mediumDate' }}</span>
+        }
+      </span>
+    } @else {
+      select date range
+    }
+  </button>
+
+  <!-- Calendar popup -->
+  @if (open()) {
+    <div
+      class="absolute mt-2 bg-white border rounded-lg shadow-lg z-50 p-4 w-[22rem]"
+      >
+      <div class="flex items-center justify-between mb-3">
+        <button (click)="prevMonth()" class="px-2 py-1 hover:bg-gray-100 rounded">‹</button>
+        <div class="font-semibold">
+          {{ monthNames[currentMonth()] }} {{ currentYear() }}
+        </div>
+        <button (click)="nextMonth()" class="px-2 py-1 hover:bg-gray-100 rounded">›</button>
+      </div>
+      <!-- Days of week -->
+      <div class="grid grid-cols-7 text-center text-xs font-medium text-gray-500 mb-2">
+        @for (d of weekDays; track d) {
+          <div>{{ d }}</div>
+        }
+      </div>
+      <!-- Days grid -->
+      <div class="grid grid-cols-7 text-center gap-1">
+        @for (day of daysInMonth(); track trackByDay($index, day)) {
+          @if (day > 0) {
+            <button
+              (click)="selectDay(day)"
+              class="w-9 h-9 flex items-center justify-center rounded-full transition"
+              [class.bg-indigo-500]="isSelected(day)"
+              [class.text-white]="isSelected(day)"
+              [class.bg-indigo-100]="isInRange(day) && !isSelected(day)"
+              >
+              {{ day }}
+            </button>
+          } @else {
+            <div class="w-9 h-9"></div>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>

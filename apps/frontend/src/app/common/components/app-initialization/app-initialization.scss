@@ -1,0 +1,144 @@
+.cart-container {
+    animation: cartBounce 2s ease-in-out infinite;
+  }
+  
+  .cart {
+    position: relative;
+    width: 50px;
+    height: 35px;
+  }
+  
+  .cart-body {
+    position: relative;
+    width: 40px;
+    height: 25px;
+    background: #7b1fa2;
+    border-radius: 4px;
+    top: 5px;
+  }
+  
+  .cart-handle {
+    position: absolute;
+    left: -8px;
+    top: 0px;
+    width: 15px;
+    height: 20px;
+    border: 3px solid #7b1fa2;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+  }
+  
+  .cart-basket {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 2px;
+  }
+  
+  .cart-wheels {
+    position: absolute;
+    bottom: -8px;
+    width: 100%;
+  }
+  
+  .wheel {
+    width: 8px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    animation: wheelSpin 1s linear infinite;
+  }
+  
+  .wheel-1 {
+    left: 8px;
+  }
+  
+  .wheel-2 {
+    right: 8px;
+  }
+  
+  .cart-items {
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    width: 30px;
+    height: 15px;
+  }
+  
+  .item {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: itemDrop 3s ease-in-out infinite;
+  }
+  
+  .item-1 {
+    background: #ff6b35;
+    left: 2px;
+    animation-delay: 0s;
+  }
+  
+  .item-2 {
+    background: #f7931e;
+    left: 10px;
+    animation-delay: 0.5s;
+  }
+  
+  .item-3 {
+    background: #ffd23f;
+    left: 18px;
+    animation-delay: 1s;
+  }
+  
+  @keyframes cartBounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-5px);
+    }
+    60% {
+      transform: translateY(-3px);
+    }
+  }
+  
+  @keyframes wheelSpin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes itemDrop {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.8);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    80% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.8);
+    }
+  }
+  
+  /* Custom Tailwind extensions for specific spacing */
+  .w-15 { width: 3.75rem; }
+  .h-11 { height: 2.75rem; }
+  .w-75 { width: 18.75rem; }
+  .mb-15 { margin-bottom: 3.75rem; }
+  .py-15 { padding-top: 3.75rem; padding-bottom: 3.75rem; }

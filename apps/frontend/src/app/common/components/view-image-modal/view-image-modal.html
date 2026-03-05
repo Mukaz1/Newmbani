@@ -1,0 +1,38 @@
+@if (isOpen()) {
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50" tabindex="0"
+    (click)="close()" (keydown)="($event.key === 'Escape' ? close() : null)" aria-modal="true" role="dialog">
+    <div class="relative max-w-4xl w-full mx-4" tabindex="0" (click)="$event.stopPropagation()"
+        (keydown)="($event.key === 'Escape' ? close() : null)" role="document">
+        <!-- Close button -->
+        <button class="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2"
+            (click)="close()" (keydown)="($event.key === 'Enter' || $event.key === ' ') ? close() : null"
+            aria-label="Close dialog">
+            <i bi bi-x text-lg></i>
+
+        </button>
+
+        <!-- Image -->
+        <div class="flex items-center justify-center">
+            <img [src]="currentImage()" alt="View" class="rounded-2xl shadow-lg max-h-[80vh] object-contain" />
+        </div>
+
+        <!-- Navigation controls -->
+        @if (images().length > 1) {
+        <button
+            class="absolute top-1/2 left-2 -translate-y-1/2 text-white bg-black/40 hover:bg-black/70 rounded-full p-3"
+            (click)="previous()" (keydown)="($event.key === 'Enter' || $event.key === ' ') ? previous() : null"
+            tabindex="0" aria-label="Previous image">
+            <i bi bi-chevron-left text-lg></i>
+        </button>
+
+        <button
+            class="absolute top-1/2 right-2 -translate-y-1/2 text-white bg-black/40 hover:bg-black/70 rounded-full p-3"
+            (click)="next()" (keydown)="($event.key === 'Enter' || $event.key === ' ') ? next() : null" tabindex="0"
+            aria-label="Next image">
+            <i bi bi-chevron-right text-lg></i>
+
+        </button>
+        }
+    </div>
+</div>
+}

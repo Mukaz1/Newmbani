@@ -1,10 +1,8 @@
 import { SettingsService } from '../../settings/services/settings.service';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { Model } from 'mongoose';
 import {
   Tenant,
-  DatabaseModelEnums,
   ExpressQuery,
   FileUploadData,
   Landlord,
@@ -348,6 +346,7 @@ export class UserAutomationService {
         const role: Role = roles.find(
           (ro: Role) => ro.name === RolesEnum.SuperAdminRole,
         );
+        console.log('admin role:', role);
 
         // Get the role ID
         const roleId = role._id.toString();
@@ -360,13 +359,15 @@ export class UserAutomationService {
           phone: payload.phone,
           roleId,
         };
-
+        console.log('employeeDto:', employeeDto);
         // create a new employee
         const res = await this.employeeService.create({
           newEmployeeDto: employeeDto,
           createdBy: 'system',
         });
         const newUser = res.data;
+
+        console.log('newUser:', newUser);
         if (!newUser) {
           throw new Error('Failed to create new employee');
         }

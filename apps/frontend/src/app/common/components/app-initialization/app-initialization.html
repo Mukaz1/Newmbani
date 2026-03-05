@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-100 to-blue-200 flex flex-col">
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col items-center justify-center px-5 py-15">
+    <!-- Logo with Cart -->
+    <div class="flex items-center gap-4 text-2xl font-semibold text-gray-800 mb-15">
+      <div class="relative w-15 h-11 cart-container">
+        <div class="cart">
+          <div class="cart-body"></div>
+          <div class="cart-handle"></div>
+          <div class="cart-basket"></div>
+          <div class="cart-wheels">
+            <div class="wheel wheel-1"></div>
+            <div class="wheel wheel-2"></div>
+          </div>
+        </div>
+        <div class="cart-items">
+          <div class="item item-1"></div>
+          <div class="item item-2"></div>
+          <div class="item item-3"></div>
+        </div>
+      </div>
+      newmbani
+    </div>
+
+    <!-- Loading Title -->
+    <h1 class="text-3xl font-semibold text-gray-800 mb-7 text-center">
+      Performing newmbani magic
+    </h1>
+
+    <!-- Progress Bar -->
+    <div class="w-75 h-1 bg-gray-300 rounded-full overflow-hidden mb-7">
+      <div
+        class="h-full bg-gradient-to-r from-gray-800 to-gray-600 rounded-full transition-all duration-100 ease-linear"
+        [style.width.%]="progressWidth">
+      </div>
+    </div>
+
+    <p class="text-gray-600 text-sm mb-10">This may take few minutes</p>
+
+    <!-- Data Collection Button -->
+    <button (click)="onDataCollectionClick()"
+      class="bg-lime-300 hover:bg-lime-400 text-gray-800 border-none px-6 py-3 rounded-3xl text-sm font-medium cursor-pointer flex items-center gap-2 mb-5 transition-colors duration-200">
+      See how we collect data
+      <span class="text-base">→</span>
+    </button>
+
+    <!-- Security Badge -->
+    <div class="flex items-center gap-2 text-gray-500 text-xs mb-15">
+      <div class="w-4 h-4 bg-gray-500 rounded-full relative">
+        <div class="absolute -top-0.5 left-0.5 text-xs">🔒</div>
+      </div>
+      <span>SECURED DATA PROCESSING</span>
+    </div>
+
+    <!-- Warning Note -->
+    <div
+      class="bg-yellow-50 border border-yellow-200 rounded-3xl px-6 py-3 text-gray-600 text-xs max-w-xl text-center mt-auto mb-5">
+      Note: Do not refresh, close or click back button in this page. Your data might lose.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="w-full flex items-center justify-end space-x-1 mt-5">
+  @if (totalPages>1) {
+  <!-- First page -->
+  <button
+    [disabled]="currentPage === 1"
+    (click)="onPageChange(1)"
+    class="text-gray-700"
+  >
+    <i class="bx bx-chevrons-left"></i>
+  </button>
+
+  <!-- Previous page -->
+  <button
+    [disabled]="currentPage === 1"
+    (click)="onPageChange(currentPage - 1)"
+    class="disabled:text-gray-300 disabled:cursor-not-allowed hover:bg-gray-100 text-gray-700"
+  >
+    <i class="bx bx-chevron-left"></i>
+  </button>
+
+  <!-- Page numbers -->
+  @for (page of visiblePages; track page) { @if (page !== '...') {
+  <button
+    [class.current]="page === currentPage"
+    (click)="onPageChange(page)"
+    class="hover:bg-gray-100 text-gray-700"
+  >
+    {{ page }}
+  </button>
+  } @if (page === '...') {
+  <button
+    [cdkMenuTriggerFor]="invisiblePagesMenu"
+  >
+    ...
+  </button>
+  <ng-template #invisiblePagesMenu>
+    <div class="grid grid-cols-5 gap-3 overflow-y-auto bg-white rounded-xl">
+      @for (page of invisiblePages; track page) {
+      <button
+        (click)="onPageChange(page)"
+        class="hover:bg-gray-100 text-gray-700"
+      >
+        {{ page }}
+      </button>
+      }
+    </div>
+  </ng-template>
+  } }
+
+  <!-- Next page -->
+  <button
+    [disabled]="currentPage === totalPages"
+    (click)="onPageChange(currentPage + 1)"
+    class="disabled:text-gray-300 disabled:cursor-not-allowed hover:bg-gray-100 text-gray-700"
+  >
+    <i class="bx bx-chevron-right"></i>
+  </button>
+
+  <!-- Last page -->
+  <button
+    [disabled]="currentPage === totalPages"
+    (click)="onPageChange(totalPages)"
+    class="disabled:text-gray-300 disabled:cursor-not-allowed hover:bg-gray-100 text-gray-700"
+  >
+    <i class="bx bx-chevrons-right"></i>
+  </button>
+  }
+  <div class="ml-5 h-11 flex flex-row gap-2 w-fit justify-end items-center">
+    <p class="text-muted !text-sm">Items per page</p>
+    <!-- Items per page dropdown -->
+    <select
+      [ngModel]="itemsPerPage"
+      (ngModelChange)="onItemsPerPageChange($event)"
+      class="px-4 py-3 !w-[70px] h-11 border text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-600"
+    >
+      @for (size of pageSizeArray; track size) {
+      <option [value]="size.pageSize">{{size.name}}</option>
+      }
+    </select>
+  </div>
+</div>

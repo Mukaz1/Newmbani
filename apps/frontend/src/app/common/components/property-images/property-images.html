@@ -1,0 +1,29 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="flex flex-col items-center">
+  <!-- Main Image Section -->
+  <div class="relative w-full">
+    <div class="w-full flex flex-col items-center bg-white dark:bg-slate-950 rounded-lg shadow-md">
+      <img [src]="images()[selectedIndex].link" [alt]="images()[selectedIndex].description"
+        class="h-[200px] md:h-[500px] w-auto rounded-lg" />
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-gray-200 hover:bg-gray-300 rounded-full p-2"
+      (click)="previousImage()">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <button class="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-gray-200 hover:bg-gray-300 rounded-full p-2"
+      (click)="nextImage()">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Thumbnail Section -->
+  <div class="flex mt-4 gap-2 overflow-x-auto">
+    @for (image of images(); track image; let i = $index) {
+    <img [src]="image.link" alt="Thumbnail" class="w-16 h-16 rounded-md cursor-pointer border-2"
+      [class.border-primary-500]="i === selectedIndex" (click)="selectImage(i)" />
+    }
+  </div>
+</div>

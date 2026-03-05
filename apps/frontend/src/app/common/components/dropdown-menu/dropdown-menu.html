@@ -1,0 +1,86 @@
+<div
+  class="dropdown-trigger-wrapper"
+  [class.open]="isOpen"
+  (click)="toggleDropdown()"
+  (keydown.enter)="toggleDropdown()"
+  (keydown.space)="toggleDropdown()"
+  aria-haspopup="true"
+  [attr.aria-expanded]="isOpen"
+  role="button"
+  tabindex="0"
+  >
+  <!-- Custom trigger -->
+  @if (hasCustomTrigger) {
+    <ng-content select="[dropdownTrigger]"></ng-content>
+  } @else {
+    <div class="dropdown-trigger flex items-center gap-2">
+      <span class="dropdown-title">{{ title }}</span>
+      <i
+        class="bi"
+        [ngClass]="isOpen ? 'bi-chevron-up' : 'bi-chevron-down'"
+      ></i>
+    </div>
+  }
+
+  <!-- Fallback trigger -->
+
+  <!-- Panel -->
+  @if (isOpen) {
+    <div
+      class="dropdown-panel mt-2"
+      [ngClass]="panelClass"
+      [@dropdownAnimation]
+      >
+      <ng-content select="[dropdownPanel]"></ng-content>
+      <!-- Fallback items -->
+      @if (!hasCustomPanel && items.length) {
+        <ul class="dropdown-list">
+          @for (item of items; track trackByLabel($index, item)) {
+            <li>
+              <!-- router link -->
+              @if (item.routerLink) {
+                <a
+                  [routerLink]="item.routerLink"
+                  class="dropdown-item block px-4 py-2"
+                  (click)="closeDropdown()"
+                  >
+                  @if (item.icon) {
+                    <i class="{{ item.icon }} mr-2"></i>
+                  }
+                  {{ item.label }}
+                </a>
+              }
+              <!-- external link -->
+              @if (!item.routerLink && item.link) {
+                <a
+                  [href]="item.link"
+                  class="dropdown-item block px-4 py-2"
+                  (click)="closeDropdown()"
+                  rel="noopener noreferrer"
+                  >
+                  @if (item.icon) {
+                    <i class="{{ item.icon }} mr-2"></i>
+                  }
+                  {{ item.label }}
+                </a>
+              }
+              <!-- action -->
+              @if (!item.routerLink && !item.link && item.action) {
+                <button
+                  type="button"
+                  class="dropdown-item w-full text-left px-4 py-2"
+                  (click)="onItemClick(item)"
+                  >
+                  @if (item.icon) {
+                    <i class="{{ item.icon }} mr-2"></i>
+                  }
+                  {{ item.label }}
+                </button>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  }
+</div>

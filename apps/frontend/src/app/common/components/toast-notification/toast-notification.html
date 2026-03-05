@@ -1,0 +1,16 @@
+@if (notification) {
+<div id="toast">
+  <div id="img" [ngClass]="notification.status">
+    <i class="bi bi-bell-fill" style="font-size: 25px; color: #fff; cursor: pointer"></i>
+  </div>
+  <div id="desc">
+    <div class="two-side">
+      <p class="title text-left text-md" style="text-align: left">{{ notification.title }}</p>
+      <button (click)="closeNotification($event)">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    <p class="message text-left font-medium text-sm">{{ notification.message }}</p>
+  </div>
+</div>
+}

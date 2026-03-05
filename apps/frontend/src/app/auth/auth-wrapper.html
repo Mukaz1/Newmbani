@@ -1,0 +1,40 @@
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
+  <div class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div class="flex flex-col lg:flex-row">
+      <!-- Left side - Image and branding -->
+      <div
+        class="lg:w-1/2 relative bg-cover bg-center bg-[url('https://plus.unsplash.com/premium_photo-1683129647652-fcb0429c0a6b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzYzfHxoYXBweSUyMGJsYWNrJTIwcGVyc29uJTIwYnV5aW5nJTIwYSUyMGhvdXNlfGVufDB8fDB8fHww')] p-8 lg:p-12 flex flex-col justify-end">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        <div class="relative z-10">
+          <p class="text-primary-400 text-sm mb-2">
+            We're here to make booking easy
+          </p>
+          <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+            Find your perfect stay
+          </h2>
+          <p class="text-primary-400 text-lg">
+            Book amazing accommodations in just a few clicks
+          </p>
+        </div>
+      </div>
+      <!-- Right side - Login form -->
+      <div class="lg:w-1/2 p-8 lg:p-12">
+        <div class="max-w-md mx-auto">
+          <!-- Logo and back button -->
+          <div class="flex items-center justify-between mb-8">
+            <div (click)="goHome()" (keyup.enter)="goHome()" (keyup.space)="goHome()" tabindex="0"
+              class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 hover:font-bold transition-colors ">
+              <i class="bx bxs-chevron-left"></i>
+              <span>Back to Home</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <img src="assets/images/logos/logo-teal.svg" alt="frontend" class="h-8 w-auto" />
+            </div>
+          </div>
+
+          <router-outlet />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

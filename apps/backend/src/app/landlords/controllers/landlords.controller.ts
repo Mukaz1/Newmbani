@@ -1,8 +1,11 @@
-import { Body, Controller, Patch, Param, Post, Get, Query, Req } from '@nestjs/common';
-import { ExpressQuery, HttpResponseInterface, UserRequest } from '@newmbani/types';
+import { Body, Controller, Patch, Param, Post, Get, Query, Req, UseGuards } from '@nestjs/common';
+import { ExpressQuery, HttpResponseInterface, PermissionEnum, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { CreateLandlordDto, UpdateLandlordDto } from '../dtos/lanlords.dto';
 import { LandlordsService } from '../services/landlords.service';
+import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
+import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
+import { AuthorizationGuard } from '../../auth/guards/authorization.guard';
 
 @Controller('landlords')
 export class LandlordsController {
@@ -11,20 +14,21 @@ export class LandlordsController {
 
     
     @Post()
-    // @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    // @RequiredPermissions([
-    //   PermissionEnum.CREATE_LANDLORD,
-    //   PermissionEnum.MANAGE_LANDLORDS,
-    // ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.CREATE_LANDLORD,
+      PermissionEnum.MANAGE_LANDLORDS,
+    ])
     async create(
       @Body() landlordDto: CreateLandlordDto,
-      // @Req() { user }: UserRequest,
+      @Req() { user }: UserRequest,
       @GenericResponse() res: GenericResponse
     ): Promise<HttpResponseInterface> {
-    //   const createdBy: string = user._id.toString();
+      const userId: string = user._id.toString();
       // create landlord
       const response = await this.landlordsService.createLandlord(
-        landlordDto
+        landlordDto,
+        userId
       );
       // set status code
       res.setStatus(response.statusCode);
@@ -39,8 +43,8 @@ export class LandlordsController {
    * @memberof LandlordsController
    */
   @Get()
-  // @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  // @RequiredPermissions([PermissionEnum.VIEW_LANDLORD, PermissionEnum.MANAGE_LANDLORDS])
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([PermissionEnum.VIEW_LANDLORD, PermissionEnum.MANAGE_LANDLORDS])
   async getAllLandlords(
     @Query() query: ExpressQuery,
     @GenericResponse() res: GenericResponse
@@ -61,8 +65,8 @@ export class LandlordsController {
    * @returns {Promise<HttpResponseInterface>} The response containing the requested landlord.
    */
   @Get(':id')
-    // @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    // @RequiredPermissions([PermissionEnum.VIEW_LANDLORD, PermissionEnum.MANAGE_LANDLORDS])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([PermissionEnum.VIEW_LANDLORD, PermissionEnum.MANAGE_LANDLORDS])
   async getLandlordById(
     @Param('id') id: string,
     @GenericResponse() res: GenericResponse
@@ -85,18 +89,18 @@ export class LandlordsController {
    * @returns {Promise<HttpResponseInterface>} The response from updating the landlord
    */
   @Patch(':id')
-  // @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  // @RequiredPermissions([
-  //   PermissionEnum.UPDATE_LANDLORD,
-  //   PermissionEnum.MANAGE_LANDLORDS,
-  // ])
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.UPDATE_LANDLORD,
+    PermissionEnum.MANAGE_LANDLORDS,
+  ])
   async updateLandlord(
     @Param('id') id: string,
     @Body() payload: UpdateLandlordDto,
-    // @Req() { user }: UserRequest,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
-    const userId = 'system' //user._id.toString();
+    const userId =  user._id.toString();
     // Update landlord
     const response = await this.landlordsService.updateLandlord(id, payload, userId);
     // set status code

@@ -1,0 +1,27 @@
+<div class="stars">
+  @for (checkedStar of checkedStars; track $index) {
+    <div class="rating-label checked">
+      <i class="rating-on ki-solid ki-star text-yellow-400 leading-none text-base">
+      </i>
+      <i class="rating-off ki-outline ki-star leading-none text-base">
+      </i>
+    </div>
+  }
+  @if (indeterminatePercentage > 0) {
+    <div class="rating-label indeterminate">
+      <i class="rating-on ki-solid ki-star text-yellow-400 leading-none text-base"
+        [style.width]="indeterminatePercentage +'%'">
+      </i>
+      <i class="rating-off ki-outline ki-star leading-none text-base">
+      </i>
+    </div>
+  }
+  @for (unCheckedStar of unCheckedStars; track $index) {
+    <div class="rating-label">
+      <i class="rating-on ki-solid ki-star leading-none text-base">
+      </i>
+      <i class="rating-off ki-outline ki-star leading-none text-base">
+      </i>
+    </div>
+  }
+</div>

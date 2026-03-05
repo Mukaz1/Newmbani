@@ -1,0 +1,289 @@
+<!-- Global Modal Wrapper -->
+<div class="modal-backdrop items-end justify-end">
+  <div class="modal-container md:w-2/3 lg:w-1/2 w-full min-w-96 h-full rounded-2xl">
+
+    <!-- Header -->
+    <div class="modal-header flex justify-between">
+      <div>
+        <div class="text-lg font-semibold text-white mb-1">
+          {{ country()?.name || 'Country Details' }}
+        </div>
+        <div class="text-sm text-white">Country information and settings</div>
+      </div>
+
+      <button (click)="closeModal()" class="modal-close-btn text-xl">
+        <i class="bi bi-x "></i>
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+    <div class="modal-loading">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <p class="mt-2 text-sm text-gray-500">Loading country details...</p>
+    </div>
+    }
+
+    <!-- Error State -->
+    @if (error() && !isLoading()) {
+    <div class="modal-error">
+      <div class="text-red-600 mb-2">
+        <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <p class="text-red-600 font-medium">{{ error() }}</p>
+      <button (click)="fetchCountryDetails()"
+        class="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+        Try Again
+      </button>
+    </div>
+    }
+
+    <!-- Country Details -->
+    @if (country() && !isLoading() && !error()) {
+    <div class="modal-body">
+
+      <!-- Basic Information -->
+      <!-- Basic Information -->
+      <div class="mb-8">
+        <div class="text-base font-semibold text-gray-900 mb-2">Basic Information</div>
+        <div class="grid grid-cols-2 space-y-0 gap-2">
+          <div class="flex flex-col justify-start items-start space-y-0">
+            <span class="text-sm text-gray-500">Country Name</span>
+            <span class="text-sm font-medium text-gray-900">{{ country()!.name }}</span>
+          </div>
+
+          <div class="flex flex-col justify-start items-start space-y-0">
+            <span class="text-sm text-gray-500">Country Code</span>
+            <span class="text-sm font-mono font-medium text-gray-900 bg-gray-100 px-2 py-1 rounded">{{ country()!.code
+              }}</span>
+          </div>
+
+          <div class="flex flex-col justify-start items-start space-y-0">
+            <span class="text-sm text-gray-500">Mobile Code</span>
+            <span class="text-sm font-mono font-medium text-gray-900 bg-gray-100 px-2 py-1 rounded">{{
+              country()!.mobileCode }}</span>
+          </div>
+
+          <!-- Editable Tax Rate -->
+          <div class="flex flex-col justify-start items-start space-y-0">
+            <span class="text-sm text-gray-500">Tax Rate</span>
+            @if (!editableFields().taxRate) {
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-medium text-gray-900">{{ country()!.taxRate }}%</span>
+              <button (click)="enableTaxRateEdit()" class="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                title="Edit tax rate">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            } @else {
+            <div class="flex items-center gap-2">
+              <input [(ngModel)]="tempTaxRate" type="number" step="0.01" min="0" max="100"
+                class="w-16 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                [disabled]="isUpdatingTaxRate()" />
+              <span class="text-sm text-gray-500">%</span>
+              <button (click)="saveTaxRate()" [disabled]="isUpdatingTaxRate()"
+                class="p-1 text-green-600 hover:text-green-700 transition-colors disabled:opacity-50" title="Save">
+                @if (isUpdatingTaxRate()) {
+                <div class="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600"></div>
+                } @else {
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                }
+              </button>
+              <button (click)="cancelTaxRateEdit()" [disabled]="isUpdatingTaxRate()"
+                class="p-1 text-red-600 hover:text-red-700 transition-colors disabled:opacity-50" title="Cancel">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Status with Toggles -->
+      <div class="mb-8 space-y-1">
+        <div class="text-base font-semibold text-gray-900 mb-2">Support Status</div>
+        <div class="grid gap-2">
+          <div class="flex justify-between items-center space-y-0">
+            <span class="text-sm text-gray-500">Overall Support</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2 py-1 rounded-full font-medium"
+                [ngClass]="getSupportStatusClass(country()!.supported)">
+                {{ getSupportStatusText(country()!.supported) }}
+              </span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" [checked]="country()!.supported"
+                  (change)="toggleOverallSupport(!country()!.supported)" [disabled]="isUpdatingSupport()"
+                  class="sr-only peer" />
+                <div
+                  class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center space-y-0">
+            <span class="text-sm text-gray-500">Host Support</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2 py-1 rounded-full font-medium"
+                [ngClass]="getHostSupportClass(country()!.supporting.host)">
+                {{ country()!.supporting.host ? 'Enabled' : 'Disabled' }}
+              </span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" [checked]="country()!.supporting.host"
+                  (change)="toggleHostSupport(!country()!.supporting.host)" [disabled]="isUpdatingSupport()"
+                  class="sr-only peer" />
+                <div
+                  class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center space-y-0">
+            <span class="text-sm text-gray-500">Customer Support</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2 py-1 rounded-full font-medium"
+                [ngClass]="getCustomerSupportClass(country()!.supporting.customer)">
+                {{ country()!.supporting.customer ? 'Enabled' : 'Disabled' }}
+              </span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" [checked]="country()!.supporting.customer"
+                  (change)="toggleCustomerSupport(!country()!.supporting.customer)" [disabled]="isUpdatingSupport()"
+                  class="sr-only peer" />
+                <div
+                  class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Commission Rates -->
+      <div class="mb-5">
+        <div class="text-base font-semibold text-gray-900 mb-2">Commission Rates</div>
+        <div class="space-y-2">
+          <!-- Service Rate -->
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="text-sm font-medium text-gray-900 mb-2">Service</div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">Rate</span>
+              @if (!editableFields().serviceRate) {
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-900">
+                  {{ country()!.commissionRates.service.rate }}{{
+                  country()!.commissionRates.service.isPercentage ? '%' : '' }}
+                </span>
+                <button (click)="enableServiceEdit()" class="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                  title="Edit service rate">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              } @else {
+              <div class="flex items-center gap-2">
+                <input [(ngModel)]="tempServiceRate" type="number" step="0.01" min="0"
+                  class="w-20 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  [disabled]="isUpdatingService()" />
+                @if (country()!.commissionRates.service.isPercentage) {
+                <span class="text-sm text-gray-500">%</span>
+                }
+                <button (click)="saveServiceRate()" [disabled]="isUpdatingService()"
+                  class="p-1 text-green-600 hover:text-green-700 transition-colors disabled:opacity-50" title="Save">
+                  @if (isUpdatingService()) {
+                  <div class="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600"></div>
+                  } @else {
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  }
+                </button>
+                <button (click)="cancelServiceEdit()" [disabled]="isUpdatingService()"
+                  class="p-1 text-red-600 hover:text-red-700 transition-colors disabled:opacity-50" title="Cancel">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              }
+            </div>
+          </div>
+
+          <!-- Property Rate -->
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="text-sm font-medium text-gray-900 mb-2">Property</div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">Rate</span>
+              @if (!editableFields().propertyRate) {
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-gray-900">
+                  {{ country()!.commissionRates.property.rate }}{{ country()!.commissionRates.property.isPercentage ?
+                  '%' : '' }}
+                </span>
+                <button (click)="enablePropertyEdit()" class="p-1 text-gray-400 hover:text-blue-600 transition-colors"
+                  title="Edit property rate">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              } @else {
+              <div class="flex items-center gap-2">
+                <input [(ngModel)]="tempPropertyRate" type="number" step="0.01" min="0"
+                  class="w-20 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  [disabled]="isUpdatingProperty()" />
+                @if (country()!.commissionRates.property.isPercentage) {
+                <span class="text-sm text-gray-500">%</span>
+                }
+                <button (click)="savePropertyRate()" [disabled]="isUpdatingProperty()"
+                  class="p-1 text-green-600 hover:text-green-700 transition-colors disabled:opacity-50" title="Save">
+                  @if (isUpdatingProperty()) {
+                  <div class="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600"></div>
+                  } @else {
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  }
+                </button>
+                <button (click)="cancelPropertyEdit()" [disabled]="isUpdatingProperty()"
+                  class="p-1 text-red-600 hover:text-red-700 transition-colors disabled:opacity-50" title="Cancel">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    }
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      &copy; {{ currentYear }} newmbani
+    </div>
+  </div>
+</div>

@@ -1,5 +1,9 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { HttpResponseInterface, HttpStatusCodeEnum } from '@newmbani/types';
+import {
+  HttpResponseInterface,
+  HttpStatusCodeEnum,
+  User,
+} from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { LandlordsService } from '../../landlords/services/landlords.service';
 import { SignInDto } from '../dto/auth/sign-in.dto';
@@ -37,8 +41,13 @@ export class RegisterController {
   async registerLandlord(
     @Body() landlordDto: CreateLandlordDto,
     @GenericResponse() res: GenericResponse,
+    @Req() user: User,
   ): Promise<HttpResponseInterface> {
-    const response = await this.landlordService.createLandlord(landlordDto);
+    const userId = user._id.toString();
+    const response = await this.landlordService.createLandlord(
+      landlordDto,
+      userId,
+    );
     res.setStatus(response.statusCode);
     return response;
   }

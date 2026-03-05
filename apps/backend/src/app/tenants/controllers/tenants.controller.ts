@@ -6,11 +6,16 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
-import { HttpResponseInterface, ExpressQuery } from '@newmbani/types';
+import { HttpResponseInterface, ExpressQuery, PermissionEnum, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { CreateTenantDto, UpdateTenantDto } from '../dtos/tenant.dto';
 import { TenantsService } from '../services/tenants.service';
+import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
+import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
+import { AuthorizationGuard } from '../../auth/guards/authorization.guard';
 
 @Controller('tenants')
 export class TenantsController {
@@ -30,17 +35,17 @@ export class TenantsController {
    * @returns {Promise<HttpResponseInterface>} The response from creating the tenant
    */
   @Post()
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.CREATE_TENANT,
-  //     PermissionEnum.MANAGE_TENANTS,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.CREATE_TENANT,
+      PermissionEnum.MANAGE_TENANTS,
+    ])
   async createTenant(
     @Body() payload: CreateTenantDto,
-    // @Req() { user }: UserRequest,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
-    const userId = 'system'; // user._id.toString();
+    const userId = user._id.toString();
     // Create tenant
     const response = await this.tenantService.createTenant(payload, userId);
     // set status code
@@ -56,11 +61,11 @@ export class TenantsController {
    * @returns {Promise<HttpResponseInterface>} The response containing the tenants list
    */
   @Get()
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.VIEW_TENANT,
-  //     PermissionEnum.MANAGE_TENANTS,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.VIEW_TENANT,
+      PermissionEnum.MANAGE_TENANTS,
+    ])
   async getAllTenants(
     @Query() query: ExpressQuery,
     @GenericResponse() res: GenericResponse,
@@ -80,11 +85,11 @@ export class TenantsController {
    * @returns {Promise<HttpResponseInterface>} The response containing the requested tenant.
    */
   @Get(':id')
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.VIEW_TENANT,
-  //     PermissionEnum.MANAGE_TENANTS,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.VIEW_TENANT,
+      PermissionEnum.MANAGE_TENANTS,
+    ])
   async getTenantById(
     @Param('id') id: string,
     @GenericResponse() res: GenericResponse,
@@ -106,18 +111,18 @@ export class TenantsController {
    * @returns {Promise<HttpResponseInterface>} The response from updating the tenant
    */
   @Patch(':id')
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.UPDATE_TENANT,
-  //     PermissionEnum.MANAGE_TENANTS,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.UPDATE_TENANT,
+      PermissionEnum.MANAGE_TENANTS,
+    ])
   async updateTenant(
     @Param('id') id: string,
     @Body() payload: UpdateTenantDto,
-    // @Req() { user }: UserRequest,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
-    const userId = 'system'; //user._id.toString();
+    const userId = user._id.toString();
     // Update tenant
     const response = await this.tenantService.updateTenant(id, payload, userId);
     // set status code

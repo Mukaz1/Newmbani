@@ -1,0 +1,25 @@
+<div class="">
+  <button [ngClass]="
+  'md:ml-4 text-primary-900 hover:text-primary-500 flex items-center gap-1 px-2  font-medium' +
+  ' ' +
+  styles 
+" [cdkMenuTriggerFor]="currencyMenu">
+    <div class="text-xs md:text-sm ">
+      {{ currency() ? currency()?.code : 'KES' }} <i class="bi bi-chevron-down"></i> <br>
+      <!-- <span class="hidden md:block">Currency</span> -->
+    </div>
+  </button>
+  <ng-template #currencyMenu>
+    <div class="w-48 bg-white rounded-2xl shadow-2xl p-2 overflow-hidden" cdkMenu>
+      @for (_currency of currencies(); track _currency; let i = $index) {
+      <button cdkMenuItem
+        class="flex flex-row justify-start items-center gap-4 w-full cursor-pointer hover:bg-primary-600 hover:text-white px-3 py-2 my-1 rounded-md transition-colors text-sm font-medium"
+        [ngClass]="currency()?.code === _currency.code ? 'bg-primary-600 text-white' : ''"
+        (click)="switchCurrency(_currency)" (keydown.enter)="switchCurrency(_currency)" tabindex="0" role="menuitem">
+        <span class="font-bold">{{ _currency.code }}</span>
+        <span class="truncate">{{ _currency.name }}</span>
+      </button>
+      }
+    </div>
+  </ng-template>
+</div>

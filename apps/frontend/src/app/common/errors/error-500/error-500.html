@@ -1,0 +1,12 @@
+<main class="min-h-[70vh] flex items-center justify-center bg-white px-6 py-20">
+  <div class="text-center max-w-xl">
+    <p class="text-5xl font-extrabold text-red-600">500</p>
+    <h1 class="mt-2 text-3xl sm:text-5xl font-bold tracking-tight text-gray-900">Something went wrong</h1>
+    <p class="mt-4 text-base leading-7 text-gray-600">An unexpected error occurred. Please try again or return to the homepage.</p>
+
+    <div class="mt-8 flex items-center justify-center gap-3">
+      <app-button [label]="'Try again'" [showIcon]="true" [icon]="'bi bi-arrow-repeat'" (buttonClicked)="goHome()" />
+      <app-button [label]="'Go home'" [showIcon]="true" [icon]="'bi bi-house'" (buttonClicked)="goHome()" />
+    </div>
+  </div>
+</main>

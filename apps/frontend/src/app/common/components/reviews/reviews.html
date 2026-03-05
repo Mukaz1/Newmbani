@@ -1,0 +1,46 @@
+<!-- reviews.component.html -->
+<div class="w-full space-y-4">
+
+    <!-- Average Rating Section -->
+    <div class="flex items-center space-x-4">
+        <h2 class="text-4xl font-bold">
+            {{ averageRating() }}
+        </h2>
+
+        <div class="text-yellow-500 text-xl">
+            @for(i of [1,2,3,4,5]; track i) {
+            <span>★</span>
+            }
+        </div>
+
+        <p class="text-gray-500">
+            {{ totalReviews() }} {{ totalReviews() === 1 ? 'rating' : 'ratings' }}
+        </p>
+    </div>
+
+    <!-- Star Distribution Bars -->
+    <div class="space-y-2">
+        @for(distribution of starDistribution(); track distribution.star) {
+        <div class="flex items-center space-x-3">
+
+            <!-- Star Label -->
+            <span class="text-sm font-medium w-8">
+                {{ distribution.star }}.0
+            </span>
+
+            <!-- Progress Bar -->
+            <div class="flex-1 h-3 rounded-full bg-gray-200 overflow-hidden">
+                <div class="h-full bg-purple-500 transition-all duration-500" [style.width.%]="distribution.percentage">
+                </div>
+            </div>
+
+            <!-- Review Count -->
+            <span class="text-sm text-gray-600 w-24 text-right">
+                {{ distribution.count }} {{ distribution.count === 1 ? 'review' : 'reviews' }}
+            </span>
+
+        </div>
+        }
+    </div>
+
+</div>

@@ -1,0 +1,22 @@
+<form [formGroup]="form" (ngSubmit)="searchButtonClicked()" class="w-full">
+  <div class="flex items-center w-full max-w-lg mx-auto border border-gray-400 rounded-full overflow-hidden bg-primary">
+    <!-- Input field -->
+    <input type="search" formControlName="keyword"
+      class="flex-1 px-3 py-2 bg-white outline-none text-gray-700 rounded-r rounded-full"
+      [placeholder]="placeholder || 'Search...'" />
+
+    <!-- Advanced search (if enabled) -->
+    @if (enableAdvancedSearch) {
+    <button type="button"
+      class="flex items-center justify-center px-3 py-2 text-gray-500 hover:text-blue-600 focus:outline-none"
+      (click)="advancedSearch()">
+      <i class="bi bi-sliders2 text-xl"></i>
+    </button>
+    }
+
+    <!-- Submit button (search icon on right) -->
+    <button type="submit" class="flex items-center justify-center px-5 py-2 bg-primary text-white">
+      <i class="bi bi-search text-xl"></i>
+    </button>
+  </div>
+</form>

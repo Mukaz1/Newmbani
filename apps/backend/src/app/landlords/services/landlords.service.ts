@@ -33,7 +33,7 @@ export class LandlordsService {
     //
   }
 
-  async createLandlord(landlordDto: CreateLandlordDto) {
+  async createLandlord(landlordDto: CreateLandlordDto, userId: string) {
     try {
       const {
         displayName,
@@ -82,7 +82,7 @@ export class LandlordsService {
         languages,
         acceptTerms,
         approvalStatus: LandlordApprovalStatus.UNDER_REVIEW,
-        createdBy: 'system',
+        createdBy: userId,
       };
 
       // Create landlord

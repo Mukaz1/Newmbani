@@ -1,0 +1,119 @@
+<div class="date-filter-container relative">
+    <!-- Main Input -->
+    <div class="relative">
+        <button type="button" (click)="toggleDatePicker()" [disabled]="config.disabled"
+            class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed hover:border-gray-400 transition-colors">
+
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-900"
+                    [class.text-gray-500]="!_dateRange().startDate && !_dateRange().endDate">
+                    {{ displayValue() }}
+                </span>
+                <div class="flex items-center gap-2">
+                    <!-- Clear button -->
+                    @if (config.clearable && (_dateRange().startDate || _dateRange().endDate)) {
+                    <button type="button" (click)="clearDateRange(); $event.stopPropagation()"
+                        class="text-gray-400 hover:text-gray-600 p-1">
+                        <i class="bi bi-x-circle text-sm"></i>
+                    </button>
+                    }
+
+                    <!-- Quick filters button -->
+                    @if (config.showQuickFilters !== false) {
+                    <button type="button" (click)="toggleQuickFilters(); $event.stopPropagation()"
+                        class="text-gray-400 hover:text-gray-600 p-1">
+                        <i class="bi bi-calendar-week text-sm"></i>
+                    </button>
+                    }
+
+                    <!-- Calendar icon -->
+                    <i class="bi bi-calendar3 text-gray-400"></i>
+                </div>
+            </div>
+        </button>
+    </div>
+
+    <!-- Date Picker Dropdown -->
+    @if (showDatePicker()) {
+    <div class="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[320px]">
+        <div class="p-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-sm font-medium text-gray-900">Select Date Range</h3>
+                <button type="button" (click)="showDatePicker.set(false)" class="text-gray-400 hover:text-gray-600">
+                    <i class="bi bi-x text-lg"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Start Date -->
+                <div>
+                    <label for="start-date" class="block text-xs font-medium text-gray-700 mb-1">Start Date</label>
+                    <input id="start-date" type="date" [value]="startDateValue()" (change)="onStartDateChange($event)"
+                        [min]="minDateValue()" [max]="maxDateValue()"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <!-- End Date -->
+                <div>
+                    <label for="end-date" class="block text-xs font-medium text-gray-700 mb-1">End Date</label>
+                    <input id="end-date" type="date" [value]="endDateValue()" (change)="onEndDateChange($event)"
+                        [min]="minDateValue()" [max]="maxDateValue()"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+            </div>
+
+            <!-- Time Picker (if enabled) -->
+            @if (config.showTimePicker) {
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                    <label for="start-time" class="block text-xs font-medium text-gray-700 mb-1">Start Time</label>
+                    <input id="start-time" type="time"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+                <div>
+                    <label for="end-time" class="block text-xs font-medium text-gray-700 mb-1">End Time</label>
+                    <input id="end-time" type="time"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+            </div>
+            }
+
+            <!-- Actions -->
+            <div class="flex justify-end gap-2 mt-4 pt-4 border-t border-gray-200">
+                <button type="button" (click)="clearDateRange()"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors">
+                    Clear
+                </button>
+                <button type="button" (click)="showDatePicker.set(false)"
+                    class="px-3 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-md transition-colors">
+                    Apply
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- Quick Filters Dropdown -->
+    @if (showQuickFilters()) {
+    <div class="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[200px]">
+        <div class="p-2">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-sm font-medium text-gray-900">Quick Filters</h3>
+                <button type="button" (click)="showQuickFilters.set(false)" class="text-gray-400 hover:text-gray-600">
+                    <i class="bi bi-x text-lg"></i>
+                </button>
+            </div>
+
+            <div class="space-y-1">
+                @for (filter of quickFilters; track filter.value) {
+                <button type="button" (click)="onQuickFilterSelect(filter)"
+                    [class.bg-primary-50]="selectedQuickFilter() === filter.value"
+                    class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors">
+                    {{ filter.label }}
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,48 @@
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  p {
+    margin-top: 20px;
+    text-align: center !important;
+  }
+}
+
+div.loader-class {
+  display: block;
+  height: calc(100vh - 250px);
+}
+
+.message {
+  padding-top: 30px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--primary);
+  border-bottom-color: var(--secondary);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+p {
+  margin-top: 20px;
+  text-align: center !important;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

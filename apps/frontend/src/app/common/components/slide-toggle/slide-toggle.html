@@ -1,0 +1,19 @@
+<label class="relative inline-flex items-center cursor-pointer select-none">
+    <input type="checkbox" [id]="id()" [checked]="isChecked()" (change)="toggle()" class="sr-only" />
+    <div [ngClass]="
+            'relative h-6 rounded-full peer-focus:outline-none transition-all duration-300 ' +
+            (styles() || 'w-11') +
+            ' ' +
+            (isChecked() ? 'bg-primary' : 'bg-gray-400')
+        ">
+        @if (label()) {
+        <span
+            class="absolute inset-0 flex items-center justify-center text-xs font-medium text-white pointer-events-none px-1">
+            {{ label() }}
+        </span>
+        }
+    </div>
+    <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full border border-gray-200 shadow-sm transition-all duration-300 pointer-events-none"
+        [class.translate-x-5]="!label() && isChecked()"
+        [class]="label() ? (isChecked() ? 'right-0.5 left-auto' : 'left-0.5') : ''"></div>
+</label>

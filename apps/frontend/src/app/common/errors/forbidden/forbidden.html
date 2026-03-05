@@ -1,0 +1,60 @@
+<div
+  id="forbidden-page"
+  class="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8"
+  >
+  <div class="w-full max-w-lg">
+    <div class="rounded-lg shadow bg-white px-6 py-10 md:px-12 flex flex-col items-center">
+      <!-- Icon -->
+      <div class="flex items-center justify-center w-16 h-16 rounded-full bg-red-50 mb-4 shadow-inner">
+        <svg
+          class="w-8 h-8 text-red-500"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          >
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9.172 9.172a4 4 0 015.656 5.656M9 15h6"
+            />
+        </svg>
+      </div>
+
+      <!-- Error Code -->
+      <h1 class="text-5xl font-extrabold text-red-500 mb-2 tracking-tight">403</h1>
+
+      <!-- Title -->
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">Access Forbidden</h2>
+
+      <!-- Description -->
+      <p class="text-base text-gray-600 mb-6 text-center max-w-md">
+        You don't have permission to access this page.<br />
+        If you think this is a mistake, please contact your administrator.
+      </p>
+
+      <!-- Actions -->
+      <div class="flex gap-3 w-full justify-center mt-3">
+        <app-button
+          label="Go Back"
+          (buttonClicked)="goBack()"
+          styles="w-full sm:w-auto rounded hover:bg-primary-600"
+          />
+
+      </div>
+
+      <!-- Additional Help -->
+      <p class="text-xs text-gray-400 mt-7 text-center">
+        Need access? Contact your administrator at
+          <a
+            [href]="'mailto:' + settings()?.general?.email"
+            class="text-blue-600 hover:underline transition"
+            >
+            {{ settings()?.general?.email }}
+          </a>
+       
+      </p>
+    </div>
+  </div>
+</div>

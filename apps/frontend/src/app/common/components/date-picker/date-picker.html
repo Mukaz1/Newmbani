@@ -1,0 +1,45 @@
+<div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+        <button type="button" class="p-2 rounded-full border hover:bg-gray-100" (click)="prevMonth()">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <span class="font-semibold text-lg">
+            {{ currentMonth() | date: 'MMMM yyyy' }}
+        </span>
+
+        <button type="button" class="p-2 rounded-full border hover:bg-gray-100" (click)="nextMonth()">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Weekday Headers -->
+    <div class="grid grid-cols-7 text-center text-sm font-medium text-gray-500 mb-2">
+        @for (day of weekDays; track $index) {
+        <div>{{ day }}</div>
+        }
+    </div>
+
+    <!-- Days Grid -->
+    <div class="grid grid-cols-7 gap-1 text-center text-sm">
+        @for (day of daysInMonth(); track $index) {
+        <button type="button" class="p-2 rounded-full w-8 h-8 md:w-12 md:h-12 transition-colors"
+            [class.bg-primary-400]="isSelected(day)" [class.text-white]="isSelected(day)"
+            [class.bg-primary-50]="isInRange(day) && !isSelected(day)" [class.text-gray-400]="isUnavailable(day)"
+            [class.line-through]="isUnavailable(day)" [disabled]="isUnavailable(day)"
+            (click)="!isUnavailable(day) && selectDate(day)">
+            {{ day.getDate() }}
+        </button>
+        }
+    </div>
+
+    <!-- Time Picker (only for appointment) -->
+    @if (activeField() === 'appointment') {
+    <div class="mt-4 border-t pt-4">
+        <label for="time" class="block text-sm font-medium text-gray-700 mb-2">Select Time</label>
+        <input type="time" class="w-full border rounded-2xl px-3 py-2 focus:ring-primary-400 focus:border-primary-400"
+            [value]="appointmentTime()" (change)="onTimeChange($event)" />
+    </div>
+    }
+</div>
