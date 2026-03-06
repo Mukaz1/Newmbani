@@ -151,7 +151,7 @@ export class AuthService {
           data: null,
         });
       }
-      const { tenantId, landlordId } = user;
+      const { customerId, landlordId } = user;
       const permissions: string[] = user.role.permissions ?? [];
 
       user.password = undefined;

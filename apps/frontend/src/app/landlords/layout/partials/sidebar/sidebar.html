@@ -1,0 +1,81 @@
+<div
+  class="h-full w-full overflow-y-auto bg-primary-900 text-white border-gray-700 transition-all rounded-xl duration-200 flex flex-col"
+  [ngClass]="isCollapsed ? 'w-16' : 'w-64'">
+  <div class="flex items-center justify-between" [ngClass]="isCollapsed ? 'flex-col' : 'flex-row'">
+    <div class="flex items-center space-x-3 py-5">
+      <a href="#" routerLink="/admin" class="cursor-pointer">
+        <img class="default-logo size-10 max-w-none cursor-pointer" src="/assets/images/logos/logo-orange.svg"
+          alt="Company Logo" />
+      </a>
+      @if(!isCollapsed){
+      <div class="text-secondary">
+        <p class="text-2xl font-black">Aluxe</p>
+        <p class="text-[9px] font-bold">Escape the odinary</p>
+      </div>
+      }
+    </div>
+    <div class="flex justify-end" [ngClass]="isCollapsed ? 'mr-2' : 'mr-0'">
+      <button (click)="toggleSidebar()" class="p-2 rounded hover:bg-primary-400 transition hidden md:block">
+        <i class="bi" [ngClass]="isCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Menu Section -->
+  <div class="px-4 py-6">
+    @if (!isCollapsed) {
+    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+      Main Menu
+    </p>
+    }
+    <nav class="space-y-2">
+      <a routerLink="/landlord" routerLinkActive="bg-primary-400 text-white" [routerLinkActiveOptions]="{ exact: true}"
+        [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
+        <i class="bi bi-grid-fill text-lg group-hover:text-primary" [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>
+        @if (!isCollapsed) {
+        <span class="whitespace-nowrap text-sm font-medium">Overview</span>
+        }
+      </a>
+      <a routerLink="/landlord/bookings" routerLinkActive="bg-primary-400 text-white"
+        [routerLinkActiveOptions]="{ exact: true}"
+        [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
+        <i class="bi bi-calendar-check-fill text-lg group-hover:text-primary"
+          [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>
+        @if (!isCollapsed) {
+        <span class="whitespace-nowrap text-sm font-medium">Bookings</span>
+        }
+      </a>
+
+
+      <a routerLink="/landlord/properties" routerLinkActive="bg-primary-400 text-white"
+        [routerLinkActiveOptions]="{ exact: true}"
+        [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
+        <i class="bi bi-houses-fill text-lg group-hover:text-primary" [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>
+        @if (!isCollapsed) {
+        <span class="whitespace-nowrap text-sm font-medium">Properties</span>
+        }
+      </a>
+    </nav>
+  </div>
+
+  <!-- Settings Section -->
+  <div class="px-4 py-6 border-t border-gray-700">
+    @if (!isCollapsed) {
+    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+      Settings
+    </p>
+    }
+    <nav class="space-y-2">
+
+      <a routerLink="/landlord/settings" routerLinkActive="bg-primary-400 text-white"
+        [routerLinkActiveOptions]="{ exact: true}"
+        [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
+        <i class="bi bi-gear text-lg group-hover:text-primary" [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>
+        @if (!isCollapsed) {
+        <span class="whitespace-nowrap text-sm font-medium">Settings</span>
+        }
+      </a>
+
+    </nav>
+  </div>
+</div>

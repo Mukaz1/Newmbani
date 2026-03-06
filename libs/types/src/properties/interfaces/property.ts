@@ -1,9 +1,10 @@
 import { Address } from '../../addresses';
 import { Country } from '../../countries';
 import { Landlord } from '../../landlords';
-import { PropertyCategory } from '../categories';
 import { PropertyApprovalStatus } from '../enums/property-approval-status.enum';
 import { PropertyType } from '../enums/property-type';
+import { PropertyCategory } from './property-category';
+import { PropertyImage } from './property-images';
 
 export interface CreateProperty {
   landlordId: string;
@@ -19,7 +20,7 @@ export interface CreateProperty {
 }
 
 export interface PostCreateProperty extends CreateProperty {
-  images?: string[];
+  images?: PropertyImage[];
   approvalStatus: PropertyApprovalStatus;
   slug: string;
 }

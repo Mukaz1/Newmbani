@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
-  Tenant,
+  Customer,
   HttpResponseInterface,
   PaginatedData,
   Property,
@@ -10,7 +10,7 @@ import {
 export interface ServerToClientEvents {
   headers: (payload: any) => void;
   newMessage: (payload: { title: string; message: any }) => void;
-  tenantSearchResults: (payload: { tenants: Tenant[] }) => void;
+  customerSearchResults: (payload: { customers: Customer[] }) => void;
   propertiesearchResults: (
     payload: HttpResponseInterface<PaginatedData<Property[] | null>>,
   ) => void;

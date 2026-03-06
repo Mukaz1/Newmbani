@@ -1,0 +1,99 @@
+@if (!employee) {
+<app-data-loading />
+} @if (employee) {
+<div class="main flex flex-col">
+  <div class="flex flex-col card">
+    <div class="p-3 lg:p-5">
+      <div>
+        <form class="w-full" (ngSubmit)="editEmployee()" [formGroup]="editEmployeeForm">
+          <div class="flex flex-row justify-between items-center">
+            <div>
+              <p class="title">Edit Employee Information</p>
+              <div class="text-muted">
+                If you need more info, please check out
+                <a href="#" class="link-primary font-bold">Help Page</a>.
+              </div>
+            </div>
+            <div>
+              <button (click)="goToEmployeeList()"
+                class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Employee List
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+            <div>
+              <label class="form-label required" for="">Employee Name</label>
+              <input type="text" name="name" placeholder="e.g John Smith" class="form-control placeholder:text-gray-400"
+                formControlName="name" />
+              @if ( editEmployeeForm.get('name')?.invalid &&
+              (editEmployeeForm.get('name')?.dirty ||
+              editEmployeeForm.get('name')?.touched) ) {
+              <div class="input-error">
+                @if (editEmployeeForm.get('name')?.errors?.['required']) {
+                <span> Employee Name is required. </span>
+                }
+              </div>
+              }
+            </div>
+            <div>
+              <label class="form-label required" for="">Email</label>
+              <input type="email" name="email" class="form-control placeholder:text-gray-400"
+                placeholder="Employee Email" formControlName="email" />
+              @if ( editEmployeeForm.get('email')?.invalid &&
+              (editEmployeeForm.get('email')?.dirty ||
+              editEmployeeForm.get('email')?.touched) ) {
+              <div class="input-error">
+                @if (editEmployeeForm.get('email')?.errors?.['required']) {
+                <span> Email is required. </span>
+                }
+              </div>
+              }
+            </div>
+            <div>
+              <label class="form-label required" for="">Phone</label>
+              <input type="tel" name="phone" class="form-control placeholder:text-gray-400" placeholder="Phone Number"
+                formControlName="phone" />
+              @if ( editEmployeeForm.get('phone')?.invalid &&
+              (editEmployeeForm.get('phone')?.dirty ||
+              editEmployeeForm.get('phone')?.touched) ) {
+              <div class="input-error">
+                @if (editEmployeeForm.get('phone')?.errors?.['required']) {
+                <span> Phone Number is required. </span>
+                }
+              </div>
+              }
+            </div>
+            <div>
+              <label class="form-label required" for="">Role</label>
+              <select name="roleId" id="roleId" formControlName="roleId">
+                <option value="">Select Employee Role</option>
+                @for (_role of roles; track _role) {
+                <option value="{{ _role._id }}">{{ _role.name }}</option>
+                }
+              </select>
+              @if ( editEmployeeForm.get('roleId')?.invalid &&
+              (editEmployeeForm.get('roleId')?.dirty ||
+              editEmployeeForm.get('roleId')?.touched) ) {
+              <div class="input-error">
+                @if (editEmployeeForm.get('roleId')?.errors?.['required']) {
+                <span> Employee Role is required. </span>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          <div class="pt-10 flex gap-5">
+            <app-button type="button" [styles]="'btn !bg-gray-200 !text-gray-700 me-3 rounded-full'"
+              (buttonClicked)="discard()" label="Discard" />
+
+            <app-button [label]="'Submit'" [isLoading]="isLoading" (buttonClicked)="editEmployee()" type="submit"
+              [styles]="'w-full rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,150 @@
+@if (!hosts()) {
+<app-data-loading />
+} @if (hosts()) {
+<div class="main flex-col">
+  <div class="flex flex-col">
+    <div class="mb-5">
+      <div class="flex flex-row justify-between">
+        <div>
+          <p class="title">Host List</p>
+          <p>There are {{ paginatedData()?.total }} Hosts for you</p>
+        </div>
+      </div>
+    </div>
+    <div class="card p-5">
+      <div>
+        <div class="flex flex-row justify-between mx-0 mx-full">
+          <div>
+            <app-search-input-widget [enableAdvancedSearch]="false" [keyword]="keyword()"
+              (keywordChangedEvent)="updateKeyword($event)" (searchButtonClickedEvent)="search()" />
+          </div>
+          <div style="width: max-content" class="flex flex-row gap-5 justify-end">
+            <div>
+              <div class="flex justify-end gap-2">
+                @if (selectedHosts().length > 0) {
+                <app-dropdown-menu title="Actions" [items]="[
+     { label: 'Print Statement', icon: 'bi bi-printer', action: printStatement }
+   ]" panelClass="bg-base-100 rounded-box w-100 p-3 shadow-sm" [context]="this"></app-dropdown-menu>
+                }
+              </div>
+            </div>
+            <div class="flex justify-end gap-2">
+              <app-dropdown-menu title="Export" [items]="[
+              { label: 'As PDF', icon: 'bi bi-file-earmark-pdf', routerLink: ['/export/pdf'] },
+              { label: 'As CSV', icon: 'bi bi-filetype-csv', action: exportTableToCSV }
+            ]" [context]="this"></app-dropdown-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <form [formGroup]="form">
+          <table class="table-md w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
+            <thead>
+              <tr class="text-start text-muted font-bold text-uppercase gs-0">
+                <th class="w-10px pe-2 border-b border-gray-200">
+                  <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                    <input class="form-check-input" type="checkbox" (change)="onSelectAll($event)" #selectAll />
+                  </div>
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Email
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Created
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            @if (hosts()) {
+            <tbody class="text-gray-600 font-semibold">
+              @if (isLoading()) {
+              <tr>
+                <td style="text-align: center" colspan="8">
+                  @if (isLoading()) {
+                  <app-data-loading [fullPage]="false" />
+                  }
+                </td>
+              </tr>
+              } @if (!isLoading() && hosts().length === 0) {
+              <tr>
+                <td style="text-align: center" colspan="8">
+                  No Hosts to display here
+                </td>
+              </tr>
+              } @if (!isLoading() && hosts().length > 0) { @for (_host of hosts();
+              track _host) {
+              <tr>
+                <td>
+                  <div class="form-check form-check-sm form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" [value]="_host._id" [checked]="isChecked(_host._id)"
+                      (change)="onCheckboxChange($event)" />
+                  </div>
+                </td>
+                <td class="flex items-center">
+                  <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                    <a href="#">
+                      <div class="symbol-label bg-light-danger text-danger font-normal">
+                        {{ _host.name.charAt(0) }}
+                      </div>
+                    </a>
+                  </div>
+                  <div class="flex flex-col">
+                    <!-- routerLink="/admin/hosts/{{hosts._id}}" -->
+                    <a href="#" class="text-gray-500 text-hover-primary font-normal"
+                      routerLink="/admin/hosts/{{ _host._id }}">{{ _host.name }}</a>
+                  </div>
+                </td>
+                <!-- <td
+                  class="px-6 py-2.5 whitespace-nowrap text-sm font-medium text-gray-900"
+                >
+                  {{ _host.name }}
+                </td> -->
+                <td class="px-6 py-2.5 whitespace-nowrap text-sm text-gray-700 font-normal">
+                  {{ _host.email }}
+                </td>
+                <td class="px-6 py-2.5 whitespace-nowrap">
+                  <span [class]="
+                      _host.verified
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    " class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                    {{ _host.verified ? 'verified' : ('not verified' |
+                    titlecase) }}
+                  </span>
+                </td>
+                <td class="px-6 py-2.5 whitespace-nowrap text-sm text-gray-500 font-normal">
+                  {{ _host.createdAt | date : 'medium' }}
+                </td>
+                <td class="px-6 py-2.5 whitespace-nowrap flex gap-2 text-right">
+                  <button class="space-x-2" (click)="viewHost(_host._id)">
+                    <i class="bi bi-eye text-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              } }
+            </tbody>
+            }
+          </table>
+        </form>
+        <!-- Pagination Section -->
+        @if (paginatedData()) {
+        <ng-container class="mb-5">
+          <app-pagination [paginatedData]="paginatedData()" (pageChange)="pageChange($event)"
+            (itemsPerPageChange)="changePageSize($event)" />
+        </ng-container>
+        }
+        <!-- End Pagination Section -->
+      </div>
+    </div>
+  </div>
+</div>
+}

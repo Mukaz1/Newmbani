@@ -6,7 +6,7 @@ import { HttpResponseInterceptor } from '../../common/interceptors/http-response
 import {
   HttpResponseInterface,
   RegisterCustomer,
-  RegisterHost,
+  RegisterLandlord,
 } from '@newmbani/types';
 
 @Injectable({
@@ -16,14 +16,14 @@ export class OnboardingService {
   private httpClient = inject(HttpClient);
 
   /**
-   * Register a host with the API.
+   * Register a landlord with the API.
    *
-   * @param payload The payload required by the API to register a host.
+   * @param payload The payload required by the API to register a landlord.
    * @returns The response from the API or an error if the request fails.
    */
-  registerHost(payload: RegisterHost): Observable<HttpResponseInterceptor> {
+  registerLandlord(payload: RegisterLandlord): Observable<HttpResponseInterceptor> {
     return this.httpClient.post<HttpResponseInterceptor>(
-      API_ENDPOINTS.HOST_ONBOARDING,
+      API_ENDPOINTS.LANDLORD_ONBOARDING,
       payload
     );
   }

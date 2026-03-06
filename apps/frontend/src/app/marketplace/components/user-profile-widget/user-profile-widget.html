@@ -1,0 +1,99 @@
+@if (user()) {
+<button [cdkMenuTriggerFor]="accountMenu" class="flex items-center px-2 md:space-x-2 duration-200 cursor-pointer ">
+  <img src="assets/avatars/avatar.png" alt="Profile" class="w-10 h-10 rounded-full" />
+</button>
+} @else {
+<button
+  class="md:ml-4 text-primary-900 hover:text-primary-500 inline-flex items-start gap-1 md:pt-1 text-[13px] md:py-0 font-medium px-2"
+  [cdkMenuTriggerFor]="accountMenu">
+  <div class="flex space-x-1">
+    <i class="bi bi-person-circle text-3xl"></i>
+    <div class="items-start flex flex-col justify-start">
+      <span class="hidden md:block">My Account</span>
+      <span class="hidden md:block">Login to access</span>
+    </div>
+  </div>
+</button>
+}
+<ng-template #accountMenu>
+  <div cdkMenu class="w-64 md:w-64 bg-white rounded-2xl shadow-2xl p-2 overflow-hidden">
+    @if (!user()) {
+    <a routerLink="/auth/login"
+      class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2"><i
+        class="bi bi-box-arrow-in-right"></i> Login</a>
+
+    <a routerLink="/auth/register/customer"
+      class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+      <i class="bi bi-person-plus"></i>
+      Register as Customer
+    </a>
+    <a routerLink="/auth/register/host"
+      class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+      <i class="bi bi-shop"></i>
+      Register as Host
+    </a>
+    } @if (user()) {
+    <div class="flex flex-col">
+      <div class="flex items-center gap-2 bg-primary-50 p-2 rounded-md mb-2">
+        <div class="flex items-center gap-2">
+          <img src="assets/avatars/avatar.png" alt="Profile" class="w-10 h-10 rounded-full" />
+          <div class="right flex flex-col">
+            <span class="text-sm font-bold">{{ user()!.name }}</span>
+            <span class="text-xs text-gray-500">{{ user()!.email }}</span>
+            <span class="text-xs text-gray-500 font-bold">
+              @if (user()!.employeeId) { Employee } @if (user()!.hostId &&
+              !user()!.employeeId) { Host } @if (user()!.customerId &&
+              !user()!.employeeId) { Customer }
+            </span>
+          </div>
+        </div>
+      </div>
+      @if (user()!.hostId) {
+      <a routerLink="/host/dashboard"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-speedometer2"></i>Host Dashboard
+      </a>
+      <a routerLink="/host/settings/profile"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-gear"></i> Profile
+      </a>
+      } @if (user()!.employeeId) {
+      <a routerLink="/admin/dashboard"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+      <a routerLink="/admin/profile"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-gear"></i> Settings
+      </a>
+      } @if (user()!.customerId) {
+      <a routerLink="/customer/dashboard"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-house-door"></i> My Dashboard
+      </a>
+      <a routerLink="/customer/settings/profile"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-person"></i> Profile
+      </a>
+      <a routerLink="/customer/bookings"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-bag"></i> Bookings
+      </a>
+      <!-- <a routerLink="/customer/favorites"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-heart"></i> Wishlist
+      </a> -->
+      <a routerLink="/customer/payments"
+        class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
+        <i class="bi bi-credit-card"></i> Payments
+      </a>
+      }
+      <button (click)="logout()"
+        class="px-3 py-2 rounded-full text-gray-700 hover:bg-red-500 hover:text-white text-sm font-medium border border-gray-200 mt-2 flex items-center justify-center gap-2">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </div>
+    }
+  </div>
+</ng-template>

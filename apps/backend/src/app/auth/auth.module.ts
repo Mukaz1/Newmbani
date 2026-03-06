@@ -28,7 +28,8 @@ import { UserAutomationService } from './services/user-automation.service';
 import { UsersService } from './services/users.service';
 import { AccountController } from './controllers/account.controller';
 import { UsersController } from './controllers/users.controller';
-import { TenantsModule } from '../tenants/tenants.module';
+import { CustomersModule } from '../customers/customers.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Global()
 @Module({
@@ -47,7 +48,7 @@ import { TenantsModule } from '../tenants/tenants.module';
   ],
   imports: [
     LandlordsModule,
-    TenantsModule,
+    CustomersModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -59,6 +60,7 @@ import { TenantsModule } from '../tenants/tenants.module';
       }),
       inject: [ConfigService],
     }),
+    BookingsModule,
   ],
   providers: [
     ...authProviders,

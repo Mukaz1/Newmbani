@@ -1,0 +1,80 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<div class="group relative cursor-pointer min-w-72 rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden h-[370px] bg-cover bg-center flex flex-col"
+    [style.background-image]="'url(' + cardImageUrl() + ')'" tabindex="0" role="button"
+    [attr.aria-label]="'View details for ' + (listing().property.name || '')">
+
+
+    <!-- Property Type Badge -->
+    @if (listing().property.category) {
+    <div
+        class="flex items-center justify-between absolute top-3 left-3 p-2 bg-white/90 bg-opacity-60 hover:bg-opacity-100 rounded-full text-primary">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium  ">
+            {{ listing().property.category.name }}
+        </span>
+    </div>
+    }
+    <!-- Favorite Button -->
+    <button type="button" (click)="onFavoriteToggle()" class="hidden absolute top-3 right-3 w-10 h-10 items-center justify-center rounded-full 
+         bg-white bg-opacity-90 hover:bg-opacity-100 shadow-md transition">
+        <i class="bi bi-heart-fill text-lg transition-colors"
+            [ngClass]="listing().isFavorite ? 'text-red-500' : 'text-gray-500'"></i>
+    </button>
+
+
+
+    <div class="flex-1" (click)="onCardClick()" (keydown.enter)="onCardClick()"
+        (keydown.space)="onCardClick(); $event.preventDefault()"></div>
+    <!-- Content Section -->
+    <div class="z-10 m-2 py-1 px-3 bg-white backdrop-blur-sm rounded-2xl space-y-1 bottom-0 justify-end"
+        (click)="onCardClick()" (keydown.enter)="onCardClick()"
+        (keydown.space)="onCardClick(); $event.preventDefault()">
+        <div class="space-y-1">
+            <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-gray-900 text-lg truncate group-hover:text-primary transition-colors line-clamp-1 max-w-[280px] sm:max-w-full lg:max-w-[240px]"
+                    style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{ listing().property.name }}
+                </h3>
+            </div>
+            <p class="text-sm text-gray-600 truncate">
+                <i class="bi bi-geo-alt text-xs mr-1"></i>
+                {{ listing().property.address.city }}, {{ listing().property.address.country.name}}
+            </p>
+        </div>
+
+        <!-- Property Features -->
+        <div class="flex items-center gap-4 text-sm  text-gray-600 ">
+            @if (listing().property.features.bedrooms) {
+            <div class="flex items-center gap-1">
+                <!-- <i class="bx bx-bed"></i> -->
+                <i class="bx bx-bed"></i>
+                <span>{{ listing().property.features.bedrooms }} bed{{
+                    listing().property.features.bedrooms !== 1 ? 's' : ''
+                    }}</span>
+            </div>
+            } @if (listing().property.features.bathrooms) {
+            <div class="flex items-center gap-1">
+                <i class="bx bx-bath"></i>
+                <span>{{ listing().property.features.bathrooms }} bath{{
+                    listing().property.features.bathrooms !== 1 ? 's' : ''
+                    }}</span>
+            </div>
+            } @if (listing().property.features.size) {
+            <div class="flex items-center gap-1">
+                <i class="bi bi-bounding-box"></i>
+                <span>{{ listing().property.features.size }} sq ft</span>
+            </div>
+            }
+        </div>
+
+
+        <!-- Pricing -->
+        <div class="flex items-center">
+            <span class="text-xl font-bold text-gray-900">
+                {{ listing().pricing.price | price:listing().pricing.currencyId }}
+            </span>
+            @if (listing().type === PropertyListingTypeEnum.BNB){
+            <span class="text-sm text-gray-600 ml-2"> /perNight </span>
+            }
+        </div>
+    </div>
+</div>

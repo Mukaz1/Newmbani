@@ -2,7 +2,7 @@ import { SettingsService } from '../../settings/services/settings.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import {
-  Tenant,
+  Customer,
   ExpressQuery,
   FileUploadData,
   Landlord,
@@ -35,10 +35,10 @@ import { EmployeeService } from '../../employees/services/employee.service';
 import { NotificationsService } from '../../notifications/services/notifications.service';
 import { OtpService } from '../../otp/services/otp.service';
 import { AccountCreatedLandlordEmailTemplate } from '../../landlords/emails/account-created.template';
-import { AccountCreatedTenantEmailTemplate } from '../../tenants/emails/account-created.template';
+import { AccountCreatedCustomerEmailTemplate } from '../../customers/emails/account-created.template';
 import { SyncSuperAdminDto } from '../../setup/dto/sync-db.dto';
 import { UserModel } from '../schemas/user.schema';
-import { TenantModel } from '../../tenants/schemas/tenant.schema';
+import { CustomerModel } from '../../customers/schemas/customer.schema';
 import { LandlordModel } from '../../landlords/schemas/landlord.schema';
 
 @Injectable()
@@ -79,18 +79,18 @@ export class UserAutomationService {
     user: User;
   }) {
     const { user, settings } = payload;
-    const { landlordId, tenantId } = user;
+    const { landlordId, customerId } = user;
 
     const accountType = landlordId
       ? 'Landlord Account'
-      : tenantId
-        ? 'Tenant Account'
+      : customerId
+        ? 'Customer Account'
         : 'Employee Account';
     // prepare the payload
     const mail: SendEmail = {
       html: landlordId
         ? AccountCreatedLandlordEmailTemplate(settings, user)
-        : AccountCreatedTenantEmailTemplate(settings, user),
+        : AccountCreatedCustomerEmailTemplate(settings, user),
       recipient: user.email,
       textAlignment: 'left',
       hasHero: false,
@@ -109,10 +109,9 @@ export class UserAutomationService {
   async attachPasswordResetCode(authLog: CreateAuthLogDto): Promise<void> {
     const { userId } = authLog;
     if (userId) {
-      // const passwordResetCode: string = generatePasswordResetCode(userId);
-      // await this.user
-      //   .findOneAndUpdate({ _id: userId }, { passwordResetCode })
-      //   .exec();
+      const passwordResetCode: string = generatePasswordResetCode(userId);
+      await UserModel.findOneAndUpdate({ _id: userId }, { passwordResetCode })
+        .exec();
     }
   }
 
@@ -187,7 +186,7 @@ export class UserAutomationService {
         defaultAddress: address,
         updatedAt: new Date(),
       });
-      await TenantModel.findByIdAndUpdate(user.tenantId, {
+      await CustomerModel.findByIdAndUpdate(user.customerId, {
         billingAddress: address,
         address: address,
         updatedAt: new Date(),
@@ -226,9 +225,9 @@ export class UserAutomationService {
 
         this.logger.log(`Default address cleared for user ${userId}`);
       }
-      const tenant = await TenantModel.findById(user.tenantId);
-      if (tenant && tenant.address === address) {
-        await TenantModel.findByIdAndUpdate(user.tenantId, {
+      const customer = await CustomerModel.findById(user.customerId);
+      if (customer && customer.address === address) {
+        await CustomerModel.findByIdAndUpdate(user.customerId, {
           billingAddress: null,
           address: null,
           updatedAt: new Date(),
@@ -247,39 +246,39 @@ export class UserAutomationService {
   }
 
   /**
-   * Update user details when tenant is updated
-   * @param {Tenant} tenant
+   * Update user details when customer is updated
+   * @param {Customer} customer
    * @memberof UserAutomationService
    */
-  @OnEvent(SystemEventsEnum.TenantUpdated, { async: true })
-  async syncUserOnTenantUpdate(tenant: Tenant) {
+  @OnEvent(SystemEventsEnum.CustomerUpdated, { async: true })
+  async syncUserOnCustomerUpdate(customer: Customer) {
     try {
-      if (!tenant._id) return;
+      if (!customer._id) return;
 
-      // Find user by tenantId
+      // Find user by customerId
       const userResponse = await this.usersService.findOne({
-        tenantId: tenant._id.toString(),
+        customerId: customer._id.toString(),
       });
 
       if (!userResponse.data) {
-        this.logger.warn(`No user found for tenant ${tenant._id}`);
+        this.logger.warn(`No user found for customer ${customer._id}`);
         return;
       }
 
       const user = userResponse.data;
 
-      // Update user with tenant data
+      // Update user with customer data
       const updatePayload: Partial<User> = {
-        name: tenant.name,
-        phone: tenant.phone,
+        name: customer.name,
+        phone: customer.phone,
         updatedAt: new Date(),
       };
 
       await UserModel.findByIdAndUpdate(user._id, updatePayload);
 
-      this.logger.log(`User ${user._id} synced with tenant ${tenant._id}`);
+      this.logger.log(`User ${user._id} synced with customer ${customer._id}`);
     } catch (error) {
-      this.logger.error('Error syncing user on tenant update:', error);
+      this.logger.error('Error syncing user on customer update:', error);
     }
   }
 

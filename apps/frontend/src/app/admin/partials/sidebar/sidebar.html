@@ -1,0 +1,108 @@
+<aside class="flex flex-col h-screen overflow-y-auto bg-gradient-to-b from-primary via-primary-500 to-primary-950">
+  <!-- Logo -->
+  <div class="px-6 pt-5">
+    <div class="flex items-center space-x-3 py-5">
+      <a href="#" routerLink="/admin" class="cursor-pointer">
+        <img class="default-logo size-10 max-w-none cursor-pointer" src="/assets/images/logos/logo-orange.svg"
+          alt="Company Logo" />
+      </a>
+      <div class="text-secondary">
+        <p class="text-2xl font-black">Aluxe</p>
+        <p class="text-[9px] font-bold">Escape the odinary</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="px-4 py-1">
+    <div class="mb-6">
+      <div class="pb-3">
+        <span class="group-title">General</span>
+      </div>
+      <div class="">
+        <a class="link" routerLink="/admin" routerLinkActive="link-active" [routerLinkActiveOptions]="{ exact: true }">
+          <span class="w-5 text-gray-50"><i class="bi bi-speedometer text-lg"></i></span>
+          <span>Overview</span>
+        </a>
+        <a class="link" routerLink="/admin/properties" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-building text-lg"></i></span>
+          <span>Properties</span>
+        </a>
+        <a class="link" routerLink="/admin/property-listings" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-house-add text-lg"></i></span>
+          <span>Listings</span>
+        </a>
+        <a class="link" routerLink="/admin/bookings" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-bag text-lg"></i></span>
+          <span>Bookings</span>
+        </a>
+        <a class="link" routerLink="/admin/payments" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-wallet2 text-lg"></i></span>
+          <span>Payments</span>
+        </a>
+        <a class="link" routerLink="/admin/contacts" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-person-badge text-lg"></i></span>
+          <span>Messages</span>
+        </a>
+
+        <div class="pb-3">
+          <span class="uppercase pl-3 pr-3 text-xs font-semibold text-gray-50 tracking-wider">Management</span>
+        </div>
+
+        <a routerLink="/admin/amenity-categories" routerLinkActive="link-active" class="link">
+          <span class="w-5 text-gray-50"><i class="bi bi-buildings text-lg"></i></span>
+          <span>Amenity Categories</span>
+        </a>
+        <a class="link" routerLink="/admin/property-categories/categories" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-box-seam text-lg"></i></span>
+          <span>Property Categories</span>
+        </a>
+        <a class="link" routerLink="/admin/employees" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-people-fill text-lg"></i></span>
+          <span>Employees</span>
+        </a>
+        <a class="link" routerLink="/admin/customers" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-person-badge text-lg"></i></span>
+          <span>Customers</span>
+        </a>
+        <a class="link" routerLink="/admin/hosts" routerLinkActive="link-active">
+          <span class="w-5 text-gray-50"><i class="bi bi-shop text-lg"></i></span>
+          <span>Hosts</span>
+        </a>
+
+        <!-- <a class="link"
+          routerLink="/admin/reports" routerLinkActive="link-active"
+          >
+          <span class="w-5 text-gray-50"><i class="bi bi-bar-chart-line text-lg"></i></span>
+          <span>Reports</span>
+        </a> -->
+      </div>
+    </div>
+
+    <div>
+      <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        HELP & SETTINGS
+      </p>
+      <ul class="">
+        <li>
+          <a href="#" class="link" routerLink="#" routerLinkActive="link-active">
+            <i class="bi bi-headset w-5 h-5"></i>
+            <span>Customer support</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="link" routerLink="/admin/settings" routerLinkActive="link-active">
+            <i class="bi bi-gear-fill w-5 h-5"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+        <li>
+          <a class="link" routerLink="/admin/help-center/topics" routerLinkActive="link-active">
+            <span class="w-5"><i class="bi bi-question-circle text-lg"></i></span>
+            <span>Topics & FAQs</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</aside>

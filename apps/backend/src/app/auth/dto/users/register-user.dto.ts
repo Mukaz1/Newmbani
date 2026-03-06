@@ -15,7 +15,7 @@ export class RegisterUserDto {
 
   @IsString()
   @IsOptional()
-  tenantId?: string | null;
+  customerId?: string | null;
 
   @IsString()
   @IsOptional()
@@ -88,7 +88,7 @@ export class UserDto extends RegisterUserDto {
 export class SaveUserDto extends PostUserDto {
   @IsOptional()
   @IsString()
-  tenantId?: string | null;
+  customerId?: string | null;
 
   @IsOptional()
   @IsString()
@@ -106,7 +106,4 @@ export class SaveUserDto extends PostUserDto {
   @IsString()
   profileImageUrl?: string | null;
 
-  @IsOptional()
-  @IsString()
-  defaultAdressId?: string | null;
 }

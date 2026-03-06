@@ -1,0 +1,151 @@
+<div class="flex flex-col">
+  <div class="py-3 py-lg-5">
+    <div class="w-full mx-auto">
+      <div class="card p-3 lg:p-5">
+        <div class="flex flex-row justify-between items-center">
+          <div>
+            <p class="title">Register A New Customer</p>
+            <div class="text-muted">
+              If you need more info, please check out
+              <a href="#" class="link-primary font-bold">Help Page</a>.
+            </div>
+          </div>
+          <div>
+            <button (click)="goToCustomerList()"
+              class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+              <i class="bi bi-arrow-left me-2"></i>
+              Back to Customer List
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="flex flex-col">
+            <div class="mt-4">
+              <form [formGroup]="registerNewCustomer" (ngSubmit)="createNewCustomer()" class="space-y-4">
+                <div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <div>
+                        <label class="form-label required" for="name">Customer Name</label>
+                        <input type="text" formControlName="name" name="name"
+                          class="form-control placeholder:text-gray-400" placeholder="e.g John Smith" />
+                        @if (
+                        registerNewCustomer.controls['name'].invalid &&
+                        (registerNewCustomer.controls['name'].dirty ||
+                        registerNewCustomer.controls['name'].touched) )
+                        {
+                        <div class="input-error">
+                          @if (
+                          registerNewCustomer.controls['name'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Customer Name is required.
+                            </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+
+                    <div>
+                      <div>
+                        <label class="form-label required" for="email">Email</label>
+                        <input type="email" formControlName="email" name="email"
+                          class="form-control placeholder:text-gray-400" placeholder="e.g email@example.com"
+                          autocomplete="new-email" />
+                        @if ( registerNewCustomer.controls['email'].invalid &&
+                        (registerNewCustomer.controls['email'].dirty ||
+                        registerNewCustomer.controls['email'].touched) ) {
+                        <div class="input-error">
+                          @if ( registerNewCustomer.controls['email'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Email is required.
+                            </span>
+                          </div>
+                          } @if (
+                          registerNewCustomer.controls['email'].errors?.[
+                          'email' ] ) {
+                          <div>
+                            <span class="text-danger"> Email is invalid. </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <div>
+                        <label class="form-label required" for="password">Password</label>
+                        <input type="password" formControlName="password" class="form-control placeholder:text-gray-400"
+                          name="password" placeholder="AB@12345" autocomplete="new-password" />
+                        @if ( registerNewCustomer.controls['password'].invalid
+                        && (registerNewCustomer.controls['password'].dirty ||
+                        registerNewCustomer.controls['password'].touched) ) {
+                        <div class="input-error">
+                          @if (
+                          registerNewCustomer.controls['password'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Password is required.
+                            </span>
+                          </div>
+                          } @if (
+                          registerNewCustomer.controls['password'].errors?.[
+                          'invalidPassword' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Password should be at least 8 characters long and
+                              contain at least 1 number, 1 uppercase letter, 1
+                              lowercase letter, and 1 special character.
+                            </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <label class="form-label required" for="phone">Phone Number</label>
+                        <input type="tel" formControlName="phone" class="form-control placeholder:text-gray-400"
+                          name="phone" placeholder="0712345678" />
+                        @if ( registerNewCustomer.controls['phone'].invalid &&
+                        (registerNewCustomer.controls['phone'].dirty ||
+                        registerNewCustomer.controls['phone'].touched) ) {
+                        <div class="input-error">
+                          @if ( registerNewCustomer.controls['phone'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Phone is required.
+                            </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-5 flex flex-row gap-5">
+                  <app-button type="button" [styles]="'btn !bg-gray-200 !text-gray-700 me-3 rounded-full'"
+                    (buttonClicked)="discard()" label="Discard" />
+                  <app-button [label]="'Submit'" [isLoading]="isLoading" type="submit"
+                    [styles]="'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

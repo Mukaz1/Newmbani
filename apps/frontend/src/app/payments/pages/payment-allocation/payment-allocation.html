@@ -1,0 +1,491 @@
+<div class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
+      <div class="w-full px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-3">
+              <button
+                (click)="navigateToPayments()"
+                class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                  />
+                </svg>
+              </button>
+              <div>
+                <h1 class="text-2xl font-bold text-gray-900">Allocate Payment</h1>
+                <p class="text-sm text-gray-500 mt-0.5">
+                  Payment Reference:
+                  <span class="font-medium text-gray-700">{{ payment()?.serial }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  
+    <div class="w-full  px-6 py-6">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
+        <!-- Payment Details Card (Static) -->
+        <div class="lg:col-span-1 ">
+          <div
+            class="bg-white rounded-xl border border-gray-200 overflow-hidden sticky top-24"
+          >
+            <div class="bg-gradient-to-r  from-primary-600 to-primary-700 px-6 py-4">
+              <h2 class="text-lg font-semibold text-white">Payment Details</h2>
+            </div>
+  
+            <div class="p-6 space-y-5">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                    Reference
+                  </p>
+                  <p class="text-base font-semibold text-gray-900">
+                    {{ payment()?.serial }}
+                  </p>
+                </div>
+                <span
+                  class="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full"
+                  >Received</span
+                >
+              </div>
+  
+              <div class="border-t border-gray-100"></div>
+  
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                  Customer
+                </p>
+                <p class="text-base font-semibold text-gray-900">
+                  {{payment()?.customer?.name }}
+                </p>
+                <p class="text-sm text-gray-600 mt-0.5">{{payment()?.customer?.email }}</p>
+              </div>
+  
+              <div class="border-t border-gray-100"></div>
+  
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                    Date Received
+                  </p>
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ payment()?.paymentDate |date:'short' }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                    Method
+                  </p>
+                  <p class="text-sm font-medium text-gray-900">
+                    <img [src]="getPaymentChannelIcon()" alt="Payment method" class="h-8">
+                  </p>
+                </div>
+              </div>
+  
+              <div class="border-t border-gray-100"></div>
+  
+              <div class="bg-primary-50 rounded-lg p-4">
+                <p class="text-xs text-primary-700 uppercase tracking-wide mb-1">
+                  Total Payment Received
+                </p>
+                <p class="text-3xl font-bold text-primary-900">
+                  {{payment()?.currency?.code}} {{payment()?.amountPaid ?? 0 }}
+                </p>
+              </div>
+  
+              <div class="border-t border-gray-100"></div>
+  
+              <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-gray-700">Allocated</span>
+                  <span class="text-base font-bold text-primary-600"
+                    >{{payment()?.currency?.code}} {{ totalAllocated() }}</span
+                  >
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-gray-700"
+                    >Unallocated</span
+                  >
+                  <span [ngClass]="remainingClass()" class="text-base font-bold"
+                    >{{payment()?.currency?.code}} {{ remainingAmount() }}</span
+                  >
+                </div>
+  
+                <div>
+                  <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-xs text-gray-500">Allocation Progress</span>
+                    <span class="text-xs font-medium text-gray-700"
+                      >{{ progressPercent() }}%</span
+                    >
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      class="bg-gradient-to-r from-primary-500 to-primary-600 h-2.5 rounded-full transition-all duration-300"
+                      [style.width.%]="progressPercent()"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="border-t border-gray-100"></div>
+  
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">
+                  Payment Notes
+                </p>
+                <div
+                  class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700 leading-relaxed"
+                >
+                  Wire transfer received from customer's Bank of America account.
+                  Transaction ID: TXN-88829384.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="form" class="lg:col-span-3">
+          <!-- Invoice Allocation Section -->
+          <div class="lg:col-span-2 space-y-4">
+            <!-- Allocation Tools Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg"
+                  >
+                    <svg
+                      class="w-4 h-4 text-gray-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                    <input
+                      type="text"
+                      formControlName="search"
+                      placeholder="Search invoices..."
+                      class="bg-transparent border-none focus:outline-none text-sm w-64 lg:w-72"
+                    />
+                  </div>
+                  <select
+                    class="px-3 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
+                    (change)="filterMode = $any($event.target).value"
+                  >
+                    <option value="all">All Invoices</option>
+                    <option value="overdue">Overdue Only</option>
+                    <option value="high">High Value First</option>
+                  </select>
+                </div>
+                <div class="flex gap-2">
+                  <button
+                    (click)="allocateAll()"
+                    class="px-4 py-2 bg-primary-600 text-white text-sm rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                    Auto-Allocate
+                  </button>
+                  <button
+                    (click)="clearAll()"
+                    class="px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    Clear All
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Outstanding Invoices Card -->
+            <div
+              class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+            >
+              <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-lg font-semibold text-gray-900">
+                    Outstanding Invoices
+                  </h2>
+                  <span class="text-sm text-gray-600"
+                    >{{ filteredInvoices().length }} invoices • {{payment()?.currency?.code}} {{
+                    totalOutstanding()}} total</span
+                  >
+                </div>
+              </div>
+  
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                      >
+                        Invoice
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                      >
+                        Date / Due
+                      </th>
+                      <th
+                        class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                      >
+                        Amount Due
+                      </th>
+                      <th
+                        class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                      >
+                        Allocate Amount
+                      </th>
+                      <th
+                        class="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    @for (ctrl of invoicesArray.controls; track trackByInvoice(i, ctrl); let i = $index) { @if (showInvoice(i)) {
+                    <tr class="hover:bg-gray-50 transition-colors" [formGroup]="$any(ctrl)">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <input
+                            type="checkbox"
+                            [checked]="ctrl.get('allocated')!.value > 0"
+                            class="w-4 h-4 text-primary-600 rounded"
+                            (change)="onCheckboxToggle($event, i)"
+                          />
+                          <div>
+                            <p class="text-sm font-semibold text-gray-900">
+                              {{ ctrl.get('serial')!.value }}
+                            </p>
+                            @switch (statusBadge(ctrl)) { @case ('fully') {
+                            <span
+                              class="px-2.5 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full"
+                              >Fully Paid</span
+                            >
+                            } @case ('partial') {
+                            <span
+                              class="px-2.5 py-1 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full"
+                              >Partial</span
+                            >
+                            } @default {
+                            <span
+                              class="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full"
+                              >Unpaid</span
+                            >
+                            } }
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4">
+                        <p class="text-sm text-gray-900">
+                          {{ formatDate(ctrl.get('date')!.value) }}
+                        </p>
+                        <p
+                          class="text-xs"
+                          [ngClass]="{'text-red-600': isOverdue(ctrl.get('dueDate')!.value), 'text-gray-600': !isOverdue(ctrl.get('dueDate')!.value)}"
+                        >
+                          Due: {{ formatDate(ctrl.get('dueDate')!.value) }} @if
+                          (isOverdue(ctrl.get('dueDate')!.value)) {
+                          <span class="text-xs text-red-600 font-medium"
+                            >OVERDUE</span
+                          >
+                          }
+                        </p>
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <p class="text-sm font-semibold text-gray-900">
+                          {{payment()?.currency?.code}} {{ ctrl.get('amountDue')!.value}}
+                        </p>
+                        @if (ctrl.get('allocated')!.value > 0) {
+                        <p class="text-xs text-gray-500">
+                          Remaining: {{payment()?.currency?.code}} {{
+                          (ctrl.get('amountDue')!.value -
+                          ctrl.get('allocated')!.value)  }}
+                        </p>
+                        }
+                      </td>
+                      <td class="px-6 py-4">
+                        <div class="flex items-center justify-end gap-2">
+                          <div class="relative">
+                            <span
+                              class="absolute left-3 top-2.5 text-gray-500 text-sm"
+                              >{{payment()?.currency?.code}}</span
+                            >
+                            <input
+                              type="number"
+                              [id]="'alloc-'+i"
+                              formControlName="allocated"
+                              step="0.01"
+                              min="0"
+                              [max]="ctrl.get('amountDue')!.value"
+                              class="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-lg text-right text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            />
+                          </div>
+                        </div>
+                        @if (ctrl.get('allocated')!.value > 0) {
+                        <div
+                          class="w-32 ml-auto mt-1.5 bg-gray-200 rounded-full h-1"
+                        >
+                          <div
+                            class="bg-primary-600 h-1 rounded-full"
+                            [style.width.%]="(ctrl.get('allocated')!.value / ctrl.get('amountDue')!.value) * 100"
+                          ></div>
+                        </div>
+                        }
+                      </td>
+                      <td class="px-6 py-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                          <button
+                            (click)="allocateFull(i)"
+                            class="px-3 py-1.5 text-xs bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+                          >
+                            Pay Full
+                          </button>
+                          @if (ctrl.get('allocated')!.value > 0) {
+                          <button
+                            (click)="clearInvoice(i)"
+                            class="p-1.5 text-gray-400 hover:text-red-600 transition-colors"
+                          >
+                            <svg
+                              class="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                    } }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+  
+            <!-- Allocation Summary Card -->
+            <div
+              class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+            >
+              <div class="bg-gradient-to-r from-primary-50 to-indigo-50 px-6 py-5">
+                <div class="grid grid-cols-4 gap-6">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-600 uppercase tracking-wide mb-1">
+                      Invoices Selected
+                    </p>
+                    <p
+                      id="totalSelected"
+                      class="text-2xl font-bold text-gray-900"
+                    >
+                      {{ selectedCount() }}
+                    </p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-600 uppercase tracking-wide mb-1">
+                      Amount Allocated
+                    </p>
+                    <p
+                      id="totalAllocatedDisplay"
+                      class="text-2xl font-bold text-primary-600"
+                    >
+                      {{payment()?.currency?.code}} {{ totalAllocated() }}
+                    </p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-600 uppercase tracking-wide mb-1">
+                      Remaining Balance
+                    </p>
+                    <p
+                      id="remainingDisplay"
+                      [ngClass]="remainingClass()"
+                      class="text-2xl font-bold"
+                    >
+                    {{payment()?.currency?.code}} {{ remainingAmount() }}
+                    </p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-600 uppercase tracking-wide mb-1">
+                      Completion
+                    </p>
+                    <p
+                      id="completionPercent"
+                      class="text-2xl font-bold text-gray-900"
+                    >
+                      {{ progressPercent() }}%
+                    </p>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="px-6 py-4 flex gap-3">
+                <button
+                  (click)="saveAllocation()"
+                  class="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold text-sm flex items-center justify-center gap-2"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  Confirm & Save Allocation
+                </button>
+                <button
+                  (click)="navigateToPayments()"
+                  class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

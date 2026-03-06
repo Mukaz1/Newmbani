@@ -1,7 +1,7 @@
 export const SOCKET_NAMESPACES = {
   PAYMENTS: '/payments',
   INVOICES: '/invoices',
-  TENANTS: '/tenants',
+  CUSTOMERS: '/customers',
   USERS: '/users',
   PROPERTIES: '/properties',
   DASHBOARD: '/dashboard',

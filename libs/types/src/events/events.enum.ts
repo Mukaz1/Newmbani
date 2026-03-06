@@ -2,7 +2,7 @@ import { AuthEventEnums } from '../auth';
 import { LandlordEvents } from '../landlords/enums/landlord-events';
 import { OTPEventEnums } from '../otp';
 import { PropertyEventEnums } from '../properties/enums/events.enums';
-import { TenantEventEnums } from '../tenants/enums/events.enums';
+import { CustomerEventEnums } from '../customers/enums/events.enums';
 
 enum GeneralEventEnums {
   // System
@@ -48,7 +48,7 @@ export const SystemEventsEnum = {
   ...GeneralEventEnums,
   ...LandlordEvents,
   ...PropertyEventEnums,
-  ...TenantEventEnums,
+  ...CustomerEventEnums,
   ...OTPEventEnums,
   ...AuthEventEnums,
 };

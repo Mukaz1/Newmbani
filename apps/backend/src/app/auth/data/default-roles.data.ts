@@ -28,14 +28,14 @@ export const RolePermissions = {
     PermissionEnum.VIEW_CONTACT,
     PermissionEnum.VIEW_CONTACTS,
   ],
-  // permissions a tenant can have in the system by default
-  tenant: [
+  // permissions a customer can have in the system by default
+  customer: [
     PermissionEnum.VIEW_BOOKINGS,
     PermissionEnum.VIEW_BOOKING,
     PermissionEnum.CREATE_BOOKING,
 
-    PermissionEnum.VIEW_TENANT,
-    PermissionEnum.UPDATE_TENANT,
+    PermissionEnum.VIEW_CUSTOMER,
+    PermissionEnum.UPDATE_CUSTOMER,
 
     PermissionEnum.VIEW_INVOICE,
     PermissionEnum.VIEW_INVOICES,
@@ -55,8 +55,8 @@ export const RolePermissions = {
     PermissionEnum.VIEW_BOOKING,
     PermissionEnum.VIEW_BOOKINGS,
 
-    PermissionEnum.VIEW_TENANT,
-    PermissionEnum.VIEW_TENANTS,
+    PermissionEnum.VIEW_CUSTOMER,
+    PermissionEnum.VIEW_CUSTOMERS,
 
     PermissionEnum.VIEW_USER,
     PermissionEnum.UPDATE_USER,
@@ -81,8 +81,8 @@ export const DefaultRolesData: CreateRole[] = [
     permissions: RolePermissions.landlord,
   },
   {
-    name: RolesEnum.TenantRole,
-    permissions: RolePermissions.tenant,
+    name: RolesEnum.CustomerRole,
+    permissions: RolePermissions.customer,
   },
   {
     name: RolesEnum.Employee,

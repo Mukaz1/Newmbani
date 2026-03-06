@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { PropertyCategoriesService } from '../services/property-categories.service';
 import {
   CreatePropertyCategoryDto,
   UpdatePropertyCategoryDto,
 } from '../dtos/property-category.dto';
-import { ExpressQuery, HttpResponseInterface } from '@newmbani/types';
+import { ExpressQuery, HttpResponseInterface, PermissionEnum, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
+import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
+import { AuthorizationGuard } from '../../auth/guards/authorization.guard';
+import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
 
 @Controller('property-categories')
   export class PropertyCategoriesController {
@@ -23,14 +26,20 @@ import { GenericResponse } from '../../common/decorators/generic-response.decora
    * @param res
    */
   @Post()
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.CREATE_PROPERTY_CATEGORY,
+    PermissionEnum.MANAGE_PROPERTY_CATEGORIES,
+  ])
   async create(
     @Body() createPropertyCategoryDto: CreatePropertyCategoryDto,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
-    // TODO: wire userId from auth later
+    const userId = user._id.toString();
     const response = await this.categoriesService.create(
       createPropertyCategoryDto,
-      'system'
+      userId
     );
     // set status code
     res.setStatus(response.statusCode);
@@ -45,6 +54,11 @@ import { GenericResponse } from '../../common/decorators/generic-response.decora
      * @memberof PropertyCategoriesController
      */
     @Get()
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.VIEW_PROPERTY_CATEGORY,
+      PermissionEnum.VIEW_PROPERTY_CATEGORIES,
+    ])
     async findAll(
       @Query() query: ExpressQuery,
       @GenericResponse() res: GenericResponse
@@ -64,6 +78,11 @@ import { GenericResponse } from '../../common/decorators/generic-response.decora
      * @param res
      */
     @Get(':id')
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.VIEW_PROPERTY_CATEGORY,
+      PermissionEnum.VIEW_PROPERTY_CATEGORIES,
+    ])
     async findOne(
       @Param('id') id: string,
       @GenericResponse() res: GenericResponse
@@ -82,16 +101,22 @@ import { GenericResponse } from '../../common/decorators/generic-response.decora
      * @memberof PropertyCategoriesController
      */
   @Patch(':id')
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.UPDATE_PROPERTY_CATEGORY,
+    PermissionEnum.MANAGE_PROPERTY_CATEGORIES,
+  ])
   async update(
     @Param('id') id: string,
     @Body() updatePropertyCategoryDto: UpdatePropertyCategoryDto,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
-    // TODO: wire userId from auth later
+      const userId = user._id.toString();
     const response = await this.categoriesService.update(
       id,
       updatePropertyCategoryDto,
-      'system'
+      userId
     );
     // set status code
     res.setStatus(response.statusCode);
@@ -107,11 +132,11 @@ import { GenericResponse } from '../../common/decorators/generic-response.decora
      * @memberof PropertyCategoriesController
      */
     @Delete(':id')
-    // @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    // @RequiredPermissions([
-    //   PermissionEnum.DELETE_PROPERTY,
-    //   PermissionEnum.MANAGE_PROPERTY_CATEGORIES,
-    // ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.DELETE_PROPERTY_CATEGORY,
+      PermissionEnum.MANAGE_PROPERTY_CATEGORIES,
+    ])
     remove(@Param('id') id: string) {
       return this.categoriesService.remove(id);
     }

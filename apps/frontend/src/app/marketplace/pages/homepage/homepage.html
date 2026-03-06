@@ -1,0 +1,220 @@
+<section class="bg-white mx-auto">
+  <!-- Hero -->
+  <app-hero-section />
+
+  <!-- Featured Properties -->
+  <section class="mt-6 mb-6 px-4">
+    <div class="container w-full mx-auto">
+      <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight mt-10 mb-5 md:mt-20 md:mb-6">
+        Featured Categories
+      </h2>
+      @for (category of categoryListingsMap(); track category._id) {
+      <div class="mb-10">
+        <p class="text-sm text-primary-600 uppercase font-medium mb-6">
+          ● {{ category.name }}
+        </p>
+
+        <div class="flex gap-4 w-full overflow-auto">
+          @for (listing of category.listings; track listing._id) {
+          <app-property-card [listing]="listing" (cardClick)="onPropertyCardClick(listing)"
+            (favoriteToggle)="onFavoriteToggle(listing)" />
+          }
+        </div>
+      </div>
+      }
+
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="bg-gray-50 mt-10 px-6 lg:px-10 py-8">
+    <div class="container w-full mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Left Content -->
+        <div class="space-y-8">
+          <div class="space-y-6">
+            <p class="text-sm text-primary-600 uppercase font-medium mb-6">
+              ● Reasons to choose us
+            </p>
+            <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight mb-10 md:mb-30">
+              Discover the value <br />behind smart property <br />choices
+            </h2>
+            <p class="text-gray-600 text-lg leading-relaxed mt-4 md:mt-15 mb-10">
+              Experience the perfect blend of comfort and convenience
+              <br />through verified bnbs in breathtaking location,<br />
+              unplug, unwind and reconnect <br />with what matters most
+            </p>
+            <button routerLink="/listings" class="btn-md">
+              Find Your Perfect Stay
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Content -->
+        <div class="space-y-8">
+          <!-- Features Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Curated Listings -->
+            <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-blue-50 rounded-2xl flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                    </path>
+                  </svg>
+                </div>
+                <h3 class="font-semibold text-lg text-gray-800">
+                  Curated Listings
+                </h3>
+              </div>
+              <p class="text-gray-600 text-sm">
+                Only the best properties with verified amenities, prime
+                locations, and luxury appeal.
+              </p>
+            </div>
+
+            <!-- End-to-End Service -->
+            <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-green-50 rounded-2xl flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h3 class="font-semibold text-lg text-gray-800">
+                  End-to-End Service
+                </h3>
+              </div>
+              <p class="text-gray-600 text-sm">
+                From booking to concierge, our platform handles everything with
+                elegance.
+              </p>
+            </div>
+          </div>
+
+          <!-- Investment Feature -->
+
+          <div
+            class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100 relative max-w-6xl mx-auto min-h-96 overflow-x-hidden"
+            style="overflow-x: visible; overflow-y: visible; min-height: 24rem;">
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center md:gap-16 gap-8">
+              <!-- Left Content -->
+              <div class="max-w-sm flex flex-col md:pt-12 md:pb-12 md:pl-2 flex-1 relative">
+                <h3 class="font-semibold text-lg text-gray-800 mb-2">
+                  Invest Where it Matters
+                </h3>
+                <p class="text-gray-600 text-sm mb-7 md:mb-12">
+                  Turn your property into profits. List with Aluxe and enjoy effortless profits, beautifully managed.
+                </p>
+                <!-- Icon + Arrow -->
+                <div class="hidden md:relative md:flex md:justify-end md:items-center md:h-12 md:pr-10 md:pb-8">
+                  <!-- Icon bubble -->
+                  <div
+                    class="inline-flex items-center bg-secondary text-white px-4 py-1.5 rounded-2xl text-sm font-medium">
+                    <span class="text-lg">💰</span>
+                  </div>
+
+                  <!-- Arrow -->
+                  <svg class="absolute left-auto right-[-40px] top-2 w-24 h-16 text-secondary" viewBox="0 0 120 80"
+                    fill="none">
+                    <path d="M10 10 Q60 40 100 20 L95 15 M100 20 L95 25" stroke="currentColor" stroke-width="2"
+                      fill="none" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Right: Property Cards Stack, separated from the left column -->
+              <div
+                class="relative w-full max-w-xs h-64 flex-shrink-0 flex flex-col items-center justify-center mx-auto min-h-64">
+                @if (listings().length > 0) {
+                @for (listing of listings().slice(0, 2); track listing._id; let i = $index) {
+                <div
+                  class="absolute ml-16 md:ml-12 rounded-xl shadow-lg overflow-hidden bg-white cursor-pointer hover:shadow-2xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
+                  [ngClass]="{
+      'w-40 h-56 z-30': i === 0,
+      'w-40 h-56 z-20': i === 1,
+      'w-40 h-56 z-10': i === 2
+    }" [ngStyle]="{
+      'left': i === 0 ? '15%' : i === 1 ? '40%' : '65%',
+      'top': i === 0 ? '10px' : i === 1 ? '30px' : '50px',
+      'transform': i === 0 ? 'translateX(-55%) rotate(-12deg)' :
+                   i === 1 ? 'translateX(-35%) rotate(-3deg)' :
+                   'translateX(-15%) rotate(12deg)',
+      'transform-origin': 'bottom center',
+      'transition': 'all 0.3s cubic-bezier(.4,2,.55,.43)'
+    }" (click)="viewListing(listing._id)" (keyup.enter)="viewListing(listing._id)"
+                  (keydown.space)="viewListing(listing._id)" tabindex="0">
+                  <img
+                    [src]="listing.property.images && listing.property.images.length >0 ?  listing.property.images[0]?.link : '/assets/images/placeholder-house.jpg'"
+                    [alt]="listing.property.name" class="w-full h-32 object-cover object-top block"
+                    style="padding:0; margin:0; border-radius:0; border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;" />
+                  <div class="p-3">
+                    <h4 class="font-semibold text-gray-900 text-sm truncate" [title]="listing.property.name">
+                      {{ listing.property.name || 'Untitled Property' }}
+                    </h4>
+                    <p class="text-gray-600 text-xs truncate" [title]="listing.property.address.city">
+                      {{ listing.property.address.city }}, {{ listing.property.address.country.name }}
+                    </p>
+                    @if (listing.pricing.discountedPrice) {
+                    <p class="text-primary-600 font-bold text-sm mt-2">
+                      {{ listing.pricing.discountedPrice | price: listing.pricing.currencyId }}
+                      @if (listing.type === PropertyListingTypeEnum.BNB) {
+                      <span class="text-gray-500 text-xs font-normal">/ night</span>
+                      }
+                    </p>
+                    }
+                  </div>
+                </div>
+                }
+                } @else {
+                <!-- Placeholder if no real data is available -->
+                <div
+                  class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-gray-100 rounded-xl">
+                  <span class="text-gray-400 text-sm">No featured properties</span>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add padding to the bottom to ensure no overlap with next section -->
+    <div class="block pt-10"></div>
+  </section>
+
+
+
+  <!-- Testimonials -->
+  <!-- <app-testimonials /> -->
+
+  <app-partners />
+  <div class="bg-gray-50 p-6 flex flex-col items-center justify-center text-center">
+    <!-- Centered SVG Icon with Primary Background -->
+    <div class="flex items-center justify-center bg-primary text-white rounded-2xl p-3 size-14 mb-4">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+        stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <!-- Center person -->
+        <circle cx="12" cy="7" r="3" />
+        <path d="M5.5 21v-1.5a6.5 6.5 0 0113 0V21" />
+        <!-- Left person -->
+        <circle cx="5" cy="9" r="2.5" />
+        <path d="M2 21v-1.5a4 4 0 014-4h.5" />
+        <!-- Right person -->
+        <circle cx="19" cy="9" r="2.5" />
+        <path d="M22 21v-1.5a4 4 0 00-4-4h-.5" />
+      </svg>
+    </div>
+
+    <!-- Text Content -->
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Join Our Community</h2>
+    <p class="text-gray-600 mb-6">
+      Be part of a growing community of satisfied property owners and guests.
+    </p>
+
+    <!-- Button -->
+    <button class="btn-md" routerLink="/contact-us">Contact Us</button>
+  </div>
+</section>

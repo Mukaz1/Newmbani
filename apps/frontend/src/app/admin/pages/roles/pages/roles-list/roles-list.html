@@ -1,0 +1,209 @@
+<div class="flex-col px-4 sm:px-6 lg:px-8">
+  <div class="flex flex-col">
+    @if (breadcrumb) {
+    <div class="pb-4 sm:pb-6 border-b border-gray-200">
+      <div class="flex flex-col gap-3">
+        <!-- Top row: title + button -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-900">System Roles</h1>
+            <p class="text-sm text-gray-600 mt-1">
+              Manage roles and permissions in the system
+            </p>
+          </div>
+          <a routerLink="/admin/settings/roles/create" 
+             class="btn-md inline-flex items-center justify-center px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-200 font-medium text-sm shadow-sm whitespace-nowrap">
+            <i class="bi bi-plus-circle mr-2"></i>
+            Add New Role
+          </a>
+        </div>
+      </div>
+    </div>
+    }
+    
+    <div class="mt-6">
+      <!-- Search and Actions Bar -->
+      <div class="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+        <div class="w-full sm:w-auto sm:flex-1 sm:max-w-md">
+          <app-search-input-widget 
+            [enableAdvancedSearch]="false" 
+            [keyword]="keyword()"
+            (keywordChangedEvent)="updateKeyword($event)" 
+            (searchButtonClickedEvent)="search()" />
+        </div>
+        
+        <div class="flex flex-row gap-3 justify-end">
+          @if (hasSelectedRoles()) {
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-600 hidden sm:inline">{{ selectedCount() }} selected</span>
+            <app-dropdown-menu 
+              title="Actions" 
+              [items]="[
+                { label: 'Print Statement', icon: 'bi bi-printer', action: printStatement }
+              ]" 
+              panelClass="bg-base-100 rounded-box w-100 p-3 shadow-sm" 
+              [context]="this">
+            </app-dropdown-menu>
+          </div>
+          }
+          <app-dropdown-menu 
+            title="Export" 
+            [items]="[
+              { label: 'As PDF', icon: 'bi bi-file-earmark-pdf', routerLink: ['/export/pdf'] },
+              { label: 'As CSV', icon: 'bi bi-filetype-csv', action: exportTableToCSV }
+            ]" 
+            [context]="this">
+          </app-dropdown-menu>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <form [formGroup]="form">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <!-- Checkbox - Hidden on mobile -->
+                  <th scope="col" class="w-12 px-4 py-3.5 hidden md:table-cell">
+                    <div class="flex items-center">
+                      <input 
+                        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" 
+                        type="checkbox" 
+                        [checked]="hasRoles() && selectedCount() === roles().length"
+                        [indeterminate]="hasSelectedRoles() && selectedCount() < roles().length"
+                        (change)="onSelectAll($event)" 
+                        #selectAll />
+                    </div>
+                  </th>
+                  
+                  <!-- Role Name -->
+                  <th scope="col" class="px-4 py-3.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Role Name
+                  </th>
+                  
+                  <!-- Description - Hidden on mobile -->
+                  <th scope="col" class="px-4 py-3.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider hidden md:table-cell">
+                    Description
+                  </th>
+                  
+                  <!-- Permissions -->
+                  <th scope="col" class="px-4 py-3.5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Permissions
+                  </th>
+                  
+                  <!-- Actions -->
+                  <th scope="col" class="px-4 py-3.5 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              
+              <tbody class="bg-white divide-y divide-gray-200">
+                @if (isLoading()) {
+                <tr>
+                  <td colspan="5" class="px-4 py-12 text-center">
+                    <app-data-loading [fullPage]="false" />
+                  </td>
+                </tr>
+                } 
+                
+                @if (!isLoading() && !hasRoles()) {
+                <tr>
+                  <td colspan="5" class="px-4 py-12 text-center">
+                    <div class="flex flex-col items-center justify-center">
+                      <i class="bi bi-folder2-open text-4xl text-gray-300 mb-3"></i>
+                      <p class="text-gray-500 text-sm font-medium">No roles to display</p>
+                      <p class="text-gray-400 text-xs mt-1">Create a new role to get started</p>
+                    </div>
+                  </td>
+                </tr>
+                } 
+                
+                @if (!isLoading() && hasRoles()) { 
+                  @for (role of roles(); track role._id) {
+                  <tr class="hover:bg-gray-50 transition-colors duration-150">
+                    <!-- Checkbox - Hidden on mobile -->
+                    <td class="px-4 py-4 hidden md:table-cell">
+                      <div class="flex items-center">
+                        <input 
+                          class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" 
+                          type="checkbox" 
+                          [value]="role._id" 
+                          [checked]="isChecked(role._id)"
+                          (change)="onCheckboxChange($event)" />
+                      </div>
+                    </td>
+                    
+                    <!-- Role Name -->
+                    <td class="px-4 py-4">
+                      <div class="flex flex-col">
+                        <a 
+                          routerLink="/admin/settings/roles/{{ role._id }}" 
+                          class="text-sm font-semibold text-gray-900 hover:text-primary transition-colors duration-150">
+                          {{ role.name }}
+                        </a>
+                        <!-- Show description on mobile only -->
+                        <span class="text-xs text-gray-500 mt-1 md:hidden line-clamp-1">
+                          {{ role?.description || 'No description provided' }}
+                        </span>
+                      </div>
+                    </td>
+                    
+                    <!-- Description - Hidden on mobile -->
+                    <td class="px-4 py-4 hidden md:table-cell">
+                      <p class="text-sm text-gray-600 line-clamp-1 max-w-xs">
+                        {{ role?.description || 'No description provided' }}
+                      </p>
+                    </td>
+                    
+                    <!-- Permissions -->
+                    <td class="px-4 py-4 whitespace-nowrap">
+                      <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <i class="bi bi-shield-check mr-1.5"></i>
+                        {{ role?.permissions?.length || 0 }}
+                      </div>
+                    </td>
+                    
+                    <!-- Actions -->
+                    <td class="px-4 py-4 whitespace-nowrap text-right">
+                      <div class="inline-flex gap-1">
+                        <button 
+                          type="button"
+                          (click)="viewRole(role._id)" 
+                          class="p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-lg transition-all duration-150"
+                          title="View role"
+                          aria-label="View role {{ role.name }}">
+                          <i class="bi bi-eye text-base"></i>
+                        </button>
+                        <button 
+                          type="button"
+                          (click)="editRole(role._id)" 
+                          class="p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-lg transition-all duration-150"
+                          title="Edit role"
+                          aria-label="Edit role {{ role.name }}">
+                          <i class="bi bi-pencil-square text-base"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+
+      <!-- Pagination Section -->
+      @if (paginatedData()) {
+      <div class="mt-6">
+        <app-pagination 
+          [paginatedData]="paginatedData()!" 
+          (pageChange)="pageChange($event)"
+          (itemsPerPageChange)="changePageSize($event)" />
+      </div>
+      }
+    </div>
+  </div>
+</div>

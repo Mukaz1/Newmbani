@@ -1,0 +1,83 @@
+<nav class="fixed top-0 w-full bg-white z-20 py-1 shadow-sm">
+  <div class="px-3 pr-1 md:container md:mx-auto md:pr-4">
+    <div class="flex items-center justify-between h-12 ">
+      <!-- Left: Logo -->
+      <div class="flex items-center flex-shrink-0">
+        <button (click)="toggleMobileMenu()" class="pl-0 pr-3 md:hidden">
+          <i class="bi bi-list text-2xl"></i>
+        </button>
+        <a routerLink="/">
+          <img src="assets/images/logos/logo-teal.svg" alt="Logo" class="h-8 w-auto" />
+        </a>
+      </div>
+
+      <!-- Center: Navigation (Desktop only) -->
+      <div class="hidden md:flex flex-1 justify-center items-center pl-10 space-x-6">
+        <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+          class="text-gray-600 hover:text-secondary-400 transition-colors"
+          routerLinkActive="font-bold text-secondary-500">Home</a>
+        <a routerLink="/listings" class="text-gray-600 hover:text-secondary-400 transition-colors"
+          routerLinkActive="font-bold text-secondary-500">Listings</a>
+        <a routerLink="/aluxe" class="text-gray-600 hover:text-secondary-400 transition-colors"
+          routerLinkActive="font-bold text-secondary-500">Aluxe</a>
+        <a routerLink="/design-build" class="text-gray-600 hover:text-secondary-400 transition-colors"
+          routerLinkActive="font-bold text-secondary-500">Design & Build</a>
+        <a routerLink="/contact-us" class="text-gray-600 hover:text-secondary-400 transition-colors"
+          routerLinkActive="font-bold text-secondary-500">Contact Us</a>
+
+      </div>
+
+      <!-- Desktop: Become a Host button -->
+      @if (!isLoggedIn()) {
+      <div class="hidden md:block">
+        <app-button (buttonClicked)="onBecomeHost()" label="Become a Host" styles=""></app-button>
+      </div>
+      }
+
+
+      <!-- Desktop: person icon dropdown (only if logged in) -->
+      <div class="hidden md:flex items-center">
+        <app-currency-widget/>
+        <app-user-profile-widget theme="light" [forBackend]="false" />
+
+      </div>
+
+      <!-- Mobile area: person icon (direct dashboard) + hamburger dropdown -->
+      <div class="md:hidden flex justify-end items-center">
+        <!-- Person icon (mobile) -> dashboard (only if logged in) -->
+        <app-currency-widget/>
+        <app-user-profile-widget theme="light" [forBackend]="false" />
+        <!-- Mobile menu: dropdown component, hamburger is the trigger -->
+
+        @if (mobileMenuOpen()) {
+        <div class="w-screen absolute left-0 top-0 h-screen overflow-hidden z-2 bg-white py-5">
+          <div class="flex justify-end">
+            <button (click)="toggleMobileMenu()">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <div class="flex lg:hidden flex-col flex-1 px-4 justify-center space-y-6">
+            <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+              class="text-gray-600 hover:text-secondary-400 transition-colors"
+              routerLinkActive="font-bold text-secondary-500">Home</a>
+            <a routerLink="/listings" class="text-gray-600 hover:text-secondary-400 transition-colors"
+              routerLinkActive="font-bold text-secondary-500">Listings</a>
+            <a routerLink="/aluxe" class="text-gray-600 hover:text-secondary-400 transition-colors"
+              routerLinkActive="font-bold text-secondary-500">Aluxe</a>
+            <a routerLink="/design-build" class="text-gray-600 hover:text-secondary-400 transition-colors"
+              routerLinkActive="font-bold text-secondary-500">Design & Build</a>
+            <a routerLink="/contact-us" class="text-gray-600 hover:text-secondary-400 transition-colors"
+              routerLinkActive="font-bold text-secondary-500">Contact Us</a>
+            @if (!isLoggedIn()) {
+            <div class="md:hidden ">
+              <app-button (buttonClicked)="onBecomeHost()" label="Become a Host" styles=""></app-button>
+            </div>
+            }
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</nav>

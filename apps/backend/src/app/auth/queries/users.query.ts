@@ -23,8 +23,8 @@ export function UserAggregation(data: UserQueryData) {
         employeeId: {
           $toObjectId: '$employeeId',
         },
-        tenantId: {
-          $toObjectId: '$tenantId',
+        customerId: {
+          $toObjectId: '$customerId',
         },
       },
     },
@@ -72,15 +72,15 @@ export function UserAggregation(data: UserQueryData) {
     },
     {
       $lookup: {
-        from: DatabaseModelEnums.TENANT,
-        localField: 'tenantId',
+        from: DatabaseModelEnums.CUSTOMER,
+        localField: 'customerId',
         foreignField: '_id',
-        as: 'tenant',
+        as: 'customer',
       },
     },
     {
       $unwind: {
-        path: '$tenant',
+        path: '$customer',
         preserveNullAndEmptyArrays: true,
       },
     },
@@ -144,8 +144,8 @@ export function UserAggregation(data: UserQueryData) {
         employeeId: {
           $toString: '$employeeId',
         },
-        tenantId: {
-          $toString: '$tenantId',
+        customerId: {
+          $toString: '$customerId',
         },
       },
     },

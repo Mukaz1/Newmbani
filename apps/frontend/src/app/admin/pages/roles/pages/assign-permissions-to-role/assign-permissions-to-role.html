@@ -1,0 +1,45 @@
+@if (isLoading) {
+<app-data-loading />
+} @if (!isLoading) {
+<div class="shadow-2xl rounded-lg p-10">
+  <div class="mx-auto">
+    <div>
+      <div class="w-full mx-auto">
+        <div class="pb-10 pb-lg-15">
+          <div class="page-title flex flex-col justify-center flex-wrap">
+            <p class="title">
+              Select Permissions to Assign to the Role {{ _role?.name || '' }}
+            </p>
+          </div>
+        </div>
+        <div class="">
+          <div class="">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+              @if (!form.valid) {
+              <p style="font-weight: 900; font-size: 16px !important">
+                At least one permission must be selected
+              </p>
+              }
+              <div class="grid grid-cols-3 gap-5">
+                @for ( permission of permissionsFormArray.controls; track
+                permission; let i = $index) {
+                <label for="" formArrayName="permissions" style="margin-bottom: 2px">
+                  <input class="form-check-input" type="checkbox" [formControlName]="i" />
+                  {{ permissionsData[i].permission | permissionDisplay }}
+                </label>
+                }
+              </div>
+              <br />
+              <div>
+                <app-button [label]="'Assign Permissions to the Role'" [isLoading]="isLoading" type="submit" [styles]="
+                    'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'
+                  " />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

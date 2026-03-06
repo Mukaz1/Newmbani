@@ -1,0 +1,21 @@
+<div
+  class="w-full flex bg-white rounded-2xl shadow overflow-hidden border border-gray-200 px-1 py-1"
+>
+  <input
+    (focus)="onFocus()"
+    (input)="onInput($event)"
+    (keyup.enter)="onSearch()"
+    [placeholder]="placeholder"
+    [value]="value"
+    class="flex-1 px-4 py-2 mr-1 text-gray-500 text-sm bg-transparent outline-none border-none"
+    type="search"
+  />
+  <button
+    (click)="onSearch()"
+    aria-label="Search"
+    class="bg-primary-900 rounded-2xl hover:bg-primary-800 px-4 py-2 font-bold text-white flex items-center justify-center text-sm"
+    type="button"
+  >
+    <i class="bi bi-search"></i>
+  </button>
+</div>

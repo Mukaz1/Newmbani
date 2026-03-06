@@ -53,14 +53,15 @@ export enum PermissionEnum {
   UPDATE_LANDLORD = 'update-landlord',
   DELETE_LANDLORD = 'delete-landlord',
   MANAGE_LANDLORDS = 'manage-landlords',
+  APPROVE_LANDLORD = 'approve-landlord',
 
-  // Tenants
-  CREATE_TENANT = 'create-tenant',
-  VIEW_TENANT = 'view-tenant',
-  VIEW_TENANTS = 'view-tenants',
-  UPDATE_TENANT = 'update-tenant',
-  DELETE_TENANT = 'delete-tenant',
-  MANAGE_TENANTS = 'manage-tenants',
+  // Customers
+  CREATE_CUSTOMER = 'create-customer',
+  VIEW_CUSTOMER = 'view-customer',
+  VIEW_CUSTOMERS = 'view-customers',
+  UPDATE_CUSTOMER = 'update-customer',
+  DELETE_CUSTOMER = 'delete-customer',
+  MANAGE_CUSTOMERS = 'manage-customers',
 
   // Bank Accounts
   CREATE_BANK_ACCOUNT = 'create-bank-account',
@@ -256,16 +257,17 @@ export const ModulePermissions = {
     PermissionEnum.UPDATE_LANDLORD,
     PermissionEnum.DELETE_LANDLORD,
     PermissionEnum.MANAGE_LANDLORDS,
+    PermissionEnum.APPROVE_LANDLORD,
   ],
 
-  // TENANTS
-  tenant: [
-    PermissionEnum.CREATE_TENANT,
-    PermissionEnum.VIEW_TENANT,
-    PermissionEnum.VIEW_TENANTS,
-    PermissionEnum.UPDATE_TENANT,
-    PermissionEnum.DELETE_TENANT,
-    PermissionEnum.MANAGE_TENANTS,
+  // CUSTOMERS
+  customer: [
+    PermissionEnum.CREATE_CUSTOMER,
+    PermissionEnum.VIEW_CUSTOMER,
+    PermissionEnum.VIEW_CUSTOMERS,
+    PermissionEnum.UPDATE_CUSTOMER,
+    PermissionEnum.DELETE_CUSTOMER,
+    PermissionEnum.MANAGE_CUSTOMERS,
   ],
 
   // BANK ACCOUNTS

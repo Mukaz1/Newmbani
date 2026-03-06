@@ -19,9 +19,9 @@ export async function getCountriesParams(data: {
     query && query.supported
       ? (JSON.parse(query.supported as string) ?? undefined)
       : undefined;
-  const supportingTenant: boolean | undefined =
-    query && query.supportingTenant
-      ? (JSON.parse(query.supportingTenant as string) ?? undefined)
+  const supportingCustomer: boolean | undefined =
+    query && query.supportingCustomer
+      ? (JSON.parse(query.supportingCustomer as string) ?? undefined)
       : undefined;
   const supportingLandlord: boolean | undefined =
     query && query.supportingLandlord
@@ -42,7 +42,7 @@ export async function getCountriesParams(data: {
     skip,
     // Support
     supported,
-    supportingTenant,
+    supportingCustomer,
     supportingLandlord,
   };
 }

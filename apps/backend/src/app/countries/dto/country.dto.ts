@@ -44,7 +44,7 @@ export class SupportingDto {
 
   @IsOptional()
   @IsBoolean()
-  tenant?: boolean;
+  customer?: boolean;
 }
 
 // Create DTO - all fields required

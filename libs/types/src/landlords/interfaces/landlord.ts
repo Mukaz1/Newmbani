@@ -16,8 +16,12 @@ export interface CreateLandlord {
 
 export interface PostCreateLandlord extends CreateLandlord {
   approvalStatus: LandlordApprovalStatus;
+  approvedBy: string;
+  approvedAt: Date;
+  approvalComment: string;
 }
 
 export interface Landlord extends PostCreateLandlord, AuditData {
   country: Country;
+
 }

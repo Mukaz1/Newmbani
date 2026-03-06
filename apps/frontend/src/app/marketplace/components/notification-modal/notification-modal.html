@@ -1,0 +1,38 @@
+@if (show) {
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-primary bg-opacity-50"
+>
+  <div class="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full">
+    <!-- Header -->
+    <div class="flex items-center mb-4">
+      <i [ngClass]="iconClass" class="text-2xl mr-3"></i>
+      <!-- <h2 class="text-xl font-semibold text-gray-800 flex-1">
+        {{ title }}
+      </h2> -->
+    </div>
+
+    <!-- Message -->
+    <p class="text-gray-600 mb-6 py-3">
+      {{ message }}
+    </p>
+
+    <!-- Buttons -->
+    <div class="flex justify-end space-x-3 py-4 w-full">
+      <button
+        (click)="ok.emit()"
+        class="px-4 py-2 rounded bg-primary text-white hover:bg-primary-600 font-semibold"
+      >
+        {{ okText }}
+      </button>
+      @if (cancelText) {
+      <button
+        (click)="cancel.emit()"
+        class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold"
+      >
+        {{ cancelText }}
+      </button>
+      }
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,38 @@
+<div class="relative w-full grid grid-cols-1">
+
+
+  <!-- Selected field -->
+  <button [cdkMenuTriggerFor]="menu" type="button" class="w-full flex flex-row items-center form-select text-left "
+    (click)="toggleDropdown()" [class.opacity-50]="disabled">
+    <span class="truncate">
+      {{ displayValue()|| 'Select an option' }}
+    </span>
+
+  </button>
+
+  <!-- Dropdown -->
+  <ng-template #menu>
+    <div cdkMenu class="!min-w-[100%]  mt-1 p-2 bg-white  border border-gray-200 rounded-lg shadow-lg">
+      <!-- Search input -->
+      <input type="text" class=" w-full px-3 py-1.5 text-sm form-control" placeholder="{{ placeholder }}"
+        [value]="search()" (input)="search.set(($any($event.target).value))" />
+
+
+      <!-- Options -->
+      <ul class="max-h-48 overflow-y-auto">
+        @for (opt of filtered(); track opt) {
+        <li cdkMenuItem (click)="select(opt.value)" (keydown.enter)="select(opt.value)"
+          (keydown.space)="select(opt.value)" [tabindex]="0"
+          class="px-3 py-2 text-sm cursor-pointer hover:bg-blue-50 focus:outline-none focus:bg-blue-50"
+          [class.bg-blue-100]="value() === opt.value">
+          {{ opt.label }}
+        </li>
+        }
+
+        @if (filtered().length === 0) {
+        <li class="px-3 py-2 text-gray-500 text-sm">No results found</li>
+        }
+      </ul>
+    </div>
+  </ng-template>
+</div>

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PropertiesModule } from './properties/properties.module';
 import { LandlordsModule } from './landlords/landlords.module';
-import { TenantsModule } from './tenants/tenants.module';
+import { CustomersModule } from './customers/customers.module';
 import { DatabaseModule } from './database/database.module';
 import { DefaultModules } from './modules';
 import { AuthModule } from './auth/auth.module';
@@ -19,6 +19,9 @@ import { RedisModule } from './redis/redis.module';
 import { OtpModule } from './otp/otp.module';
 import { CountriesModule } from './countries/countries.module';
 import { SharedModule } from './common/shared.module';
+import { BookingsModule } from './bookings/bookings.module';
+import { FilesModule } from './files/files.module';
+import { CloudinaryModule } from './files/providers/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -26,7 +29,7 @@ import { SharedModule } from './common/shared.module';
     AuthModule,
     PropertiesModule,
     LandlordsModule,
-    TenantsModule,
+    CustomersModule,
     DatabaseModule,
     SettingsModule,
     LoggerModule,
@@ -39,6 +42,10 @@ import { SharedModule } from './common/shared.module';
     OtpModule,
     CountriesModule,
     SharedModule,
+    BookingsModule,
+    FilesModule,
+    CloudinaryModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

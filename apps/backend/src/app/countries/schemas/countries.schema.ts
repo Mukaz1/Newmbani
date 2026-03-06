@@ -48,7 +48,7 @@ export const CountrySchema = new Schema<Country>(
     },
     supporting: {
       landlord: { type: Boolean, required: true, default: false },
-      tenant: { type: Boolean, required: true, default: false },
+      customer: { type: Boolean, required: true, default: false },
     },
     // Extend Base Schema
     ...PlainBaseSchema.obj,

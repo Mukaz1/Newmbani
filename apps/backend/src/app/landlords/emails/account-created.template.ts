@@ -18,7 +18,7 @@ export const AccountCreatedLandlordEmailTemplate = (
   <p>Dear ${user.name},</p>
   <p>We are thrilled to welcome you to ${settings.general.company}, your trusted partner for all your petroleum needs. Thank you for choosing us!</p>
   <p>Your account has been successfully created, and you are now a valued member of our petroleum family. With ${settings.general.company}, you'll have access to a wide range of petroleum properties and services designed to provide you with peace of mind and financial security.</p>
-  <p>If you have any questions, need assistance, or want to explore our petroleum offerings, feel free to reach out to our dedicated tenant support team. We're here to help you every step of the way.</p>
+  <p>If you have any questions, need assistance, or want to explore our petroleum offerings, feel free to reach out to our dedicated customer support team. We're here to help you every step of the way.</p>
   <p> Use the following password to access your account ${user.password} for the first time. </p>
   <p>Once again, welcome to ${settings.general.company}. We look forward to serving you and ensuring your protection in the years to come.</p>
   <p>Best regards,

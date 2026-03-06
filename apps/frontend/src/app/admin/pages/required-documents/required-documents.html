@@ -1,0 +1,128 @@
+<div class="py-5">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h1 class="text-xl font-semibold text-gray-900">
+        Required Documents List
+      </h1>
+      <p class="text-sm text-gray-500 mt-1">
+        Manage all Required Documents for hosts in one place
+      </p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="relative">
+        <app-button
+          [label]="'Add a Document'"
+          [icon]="'bi bi-plus'"
+          [showIcon]="true"
+          (buttonClicked)="addDocument()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="py-5">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+        <th
+          class="px-6 w-20 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          <input type="checkbox">
+        </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              <div class="flex items-center gap-2">
+                Name
+                <svg
+                  class="w-4 h-4 text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3z"
+                  ></path>
+                </svg>
+              </div>
+            </th>
+
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Country
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Mandatory
+            </th>
+
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              CreatedAt
+            </th>
+            <th
+              class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          @if(documents()){
+            @for (document of documents(); track document._id) {
+              <tr class="hover:bg-gray-50">
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                >
+                  <input type="checkbox">
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">
+                    {{ document.name }}
+                  </div>
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                >
+                  {{ document.country.name }}
+                </td>
+
+
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                >
+                  {{ document.isMandatory ? 'Mandatory':'Not Mandatory' }}
+                </td>
+
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                >
+                  {{ document.createdAt| date:'medium' }}
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right flex justify-end items-center"
+                >
+                  <div class="flex items-center gap-3">
+                    <button
+                      (click)="opendocumentDetails(document)"
+                      class="text-primary-600 hover:text-primary-800 font-medium"
+                    >
+                      Details
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          } @else {
+            <div>
+              No Documents at the moment!
+            </div>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+@if(loading()){
+<app-data-loading [fullPage]="false" />
+}@else {
+@if (profileForm) {
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900">My Profile</h3>
+            <p class="text-sm text-gray-600">
+                Update your name, phone number, and profile image
+            </p>
+        </div>
+
+        <div>
+            @if (!editMode()) {
+            <button (click)="enableEdit()" class="btn-md">
+                Edit
+            </button>
+            }
+        </div>
+    </div>
+
+    <!-- Profile Image Section -->
+    <div class="flex items-center gap-6">
+        <div class="relative">
+            <img [src]="user()?.profileImageUrl || '/assets/avatars/avatar.png'" alt="Profile Image"
+                class="w-24 h-24 rounded-full object-cover border border-gray-300" />
+            <label for="" for="profileImage"
+                class="absolute bottom-0 right-0 size-10 items-center justify-center text-center bg-primary-600  p-2 rounded-full cursor-pointer hover:bg-primary-700 transition-all">
+                <i class="bi bi-camera-fill text-lg text-white "></i>
+                <input id="profileImage" type="file" accept="image/*" (change)="onImageSelected($event)"
+                    class="hidden" />
+            </label>
+
+        </div>
+
+        <div>
+            <h4 class="text-lg font-medium text-gray-900">
+                {{ profileForm.get('name')?.value || 'Your Name' }}
+            </h4>
+            <p class="text-sm text-gray-500">{{ customer()?.email }}</p>
+        </div>
+    </div>
+
+    <!-- Editable Form -->
+    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="space-y-6 max-w-lg">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Name -->
+            <div>
+                <label for="" for="" class="block text-sm font-medium text-gray-900 mb-2">Full
+                    Name</label>
+                <input type="text" formControlName="name" placeholder="Enter Full Name" [readonly]="!editMode()"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100" />
+            </div>
+
+            <!-- Phone -->
+            <div>
+                <label for="" for="" class="block text-sm font-medium text-gray-900 mb-2">Phone</label>
+                <input type="text" formControlName="phone" placeholder="Enter Phone Number" [readonly]="!editMode()"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100" />
+            </div>
+        </div>
+        <div class="flex flex-col gap-6 mt-4">
+            <div class="relative mt-2 mb-2">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <span class="block text-base font-semibold text-gray-900 mb-1">Address Information</span>
+                        <span class="block text-sm text-gray-500">
+                            Your default correspondence and billing address
+                        </span>
+                    </div>
+                    @if (customer()?.address) {
+                    <app-button type="button" label="Edit" (buttonClicked)="editAddress(customer()!.address)"
+                        [showIcon]="true" icon="bi bi-pencil-square" iconPosition="left" styles="ml-4" />
+                    }
+                </div>
+                <div class="mt-4">
+                    @if (customer()?.address) {
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700">
+                        <div>
+                            <p class="mb-1">
+                                <span class="font-medium">Name:</span>
+                                <span class="ml-1">{{ customer()?.address?.name || '—' }}</span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="font-medium">Email:</span>
+                                <span class="ml-1">{{ customer()?.address?.email || '—' }}</span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="font-medium">Phone:</span>
+                                <span class="ml-1">{{ customer()?.address?.phone || customer()?.phone || '—'
+                                    }}</span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="font-medium">Street:</span>
+                                <span class="ml-1">
+                                    {{ customer()?.address?.street || customer()?.address?.boxAddress || '—' }},
+                                    {{ customer()?.address?.town || '—' }}
+                                </span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="mb-1">
+                                <span class="font-medium">City:</span>
+                                <span class="ml-1">{{ customer()?.address?.city || '—' }}</span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="font-medium">Postal Code:</span>
+                                <span class="ml-1">{{ customer()?.address?.postalCode || '—' }}</span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="font-medium">Box Address:</span>
+                                <span class="ml-1">{{ customer()?.address?.boxAddress || '—' }}</span>
+                            </p>
+                            <p class="mb-1">
+                                <span class="font-medium">Country:</span>
+                                <span class="ml-1">{{ customer()?.address?.country?.name || '—' }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    }@else {
+                    <div class="py-4 flex flex-col gap-3 items-start justify-center">
+                        <span class="text-gray-400 text-base">No address information to display.</span>
+                        <div class="flex flex-wrap gap-3">
+                            <app-button label="Add New Address" styles="inline-flex gap-2 items-center"
+                                icon="bi bi-plus-circle" [showIcon]="true" iconPosition="left"
+                                (buttonClicked)="addAddress()" />
+                            <app-button label="Manage Addresses" styles="inline-flex gap-2 items-center"
+                                icon="bi bi-geo-alt" [showIcon]="true" iconPosition="left"
+                                (buttonClicked)="manageAddresses()" type="button" />
+                        </div>
+                        <span class="text-xs text-gray-400 font-normal">
+                            You can add a new address or select an existing address and set it as your default.
+                        </span>
+                    </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        @if (editMode()) {
+        <div class="flex justify-end gap-3 pt-4">
+            <button (click)="cancelEdit()" class="btn-reset">
+                Cancel
+            </button>
+            <button type="submit" class="btn-md" [disabled]="profileForm.invalid || loading()">
+                Save Changes
+            </button>
+        </div>
+        }
+    </form>
+</div>
+} @else {
+<div class="animate-pulse text-gray-400 italic">Loading profile...</div>
+}
+}

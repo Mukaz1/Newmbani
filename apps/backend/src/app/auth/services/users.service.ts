@@ -103,7 +103,7 @@ export class UsersService {
         email,
         name,
         phone,
-        tenantId,
+        customerId,
         landlordId,
         employeeId,
         roleId,
@@ -137,7 +137,7 @@ export class UsersService {
         email: email.toLowerCase(),
         phone: phone,
         name: name,
-        tenantId,
+        customerId,
         employeeId,
         roleId,
         landlordId,
@@ -222,7 +222,7 @@ export class UsersService {
     roleId?: string;
     email?: string;
     phone?: string;
-    tenantId?: string;
+    customerId?: string;
     landlordId?: string;
     includePassword?: boolean;
   }): Promise<HttpResponseInterface<User | null>> {

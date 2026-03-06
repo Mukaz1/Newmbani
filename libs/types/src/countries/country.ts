@@ -18,7 +18,7 @@ export interface CreateCountry {
   };
   supporting: {
     landlord: boolean;
-    tenant: boolean;
+    customer: boolean;
   };
 }
 
@@ -34,7 +34,7 @@ export interface UpdateCountry {
   taxRate?: number;
   supporting?: {
     landlord?: boolean;
-    tenant?: boolean;
+    customer?: boolean;
   };
   commissionRates?: {
     service?: {

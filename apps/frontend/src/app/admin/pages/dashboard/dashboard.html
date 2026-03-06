@@ -1,0 +1,26 @@
+<div class="relative overflow-hidden bg-white mx-auto">
+  <div class="flex gap-5 flex-wrap md:flex-nowrap">
+    <div class="flex-none w-[100%] md:w-[70%]">
+      <div>
+        <app-welcome-card />
+        <div class="my-5">
+          <app-top-stats [totalClients]="totalClients()" [totalBookings]="totalBookings()" />
+        </div>
+      </div>
+      <div class="mt-5">
+        <app-top-hosts (totalHosts)="setTotalClients($event)" />
+        <app-latest-bookings (totalBookings)="setTotalBookings($event)" />
+      </div>
+      <div class="mt-5">
+      </div>
+    </div>
+    <div class="flex-initial w-[100%] md:w-[30%] flex flex-col">
+      <div class="">
+        <app-top-categories />
+      </div>
+      <div class="mt-5">
+        <app-top-selling-properties />
+      </div>
+    </div>
+  </div>
+</div>

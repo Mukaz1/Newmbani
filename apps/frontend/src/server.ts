@@ -39,8 +39,10 @@ app.use(
 
 /**
  * Handle all other requests by rendering the Angular application.
+ * Express v5 + path-to-regexp can be picky about wildcard strings,
+ * so we register this middleware with no path to match all routes.
  */
-app.use('/**', (req, res, next) => {
+app.use((req, res, next) => {
   angularApp
     .handle(req)
     .then((response) =>

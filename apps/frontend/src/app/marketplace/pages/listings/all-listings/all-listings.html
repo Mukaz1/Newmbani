@@ -1,0 +1,72 @@
+<div class="container w-full mx-auto min-h-screen sm: px-4">
+  <!-- Search Bar and Filter Toggle -->
+  <div class="pt-4 px-0">
+    <div class="flex items-center justify-between gap-3">
+      <!-- Filter Toggle Button -->
+      <button (click)="toggleFilters()" class="flex items-center justify-start btn-md !py-2 !rounded-full">
+        <i class="bi bi-funnel text-white"></i><span class="hidden md:block">Filters</span>
+      </button>
+      <!-- Centered Search Box -->
+      <div class="flex-1 flex justify-center">
+        <app-search-input-widget [enableAdvancedSearch]="false" [keyword]="keyword()"
+          (searchButtonClickedEvent)="onSearchTermChange($event)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="py-4">
+    <div class="flex h-[calc(100vh-120px)] gap-6">
+      <!-- 🖥️ Desktop Filter Sidebar -->
+      @if (showFilters()) {
+      <div class=" hidden lg:block sticky top-[100px] h-[calc(100vh-120px)] overflow-y-auto">
+        <app-filter-sidebar (filtersChanged)="onFiltersChanged($event)" [showFilters]="showFilters()"
+          (closeFiltersEvent)="closeFilters()">
+        </app-filter-sidebar>
+      </div>
+      }
+
+      <!-- Main Content -->
+      <div [ngClass]="{ 'w-full': !showFilters(), 'flex-1': showFilters() }" class="overflow-y-auto">
+        <!-- Mobile Filters -->
+        @if (showFilters()) {
+        <div class="lg:hidden fixed top-0 left-0 w-full rounded-b-2xl z-40 flex justify-center items-start shadow-md"
+          style="max-height: 70vh; overflow-y: auto;">
+          <app-filter-sidebar (filtersChanged)="onFiltersChanged($event)" [showFilters]="showFilters()"
+            (closeFiltersEvent)="closeFilters()">
+          </app-filter-sidebar>
+        </div>
+        <div class="lg:hidden fixed inset-0 z-30 bg-black bg-opacity-60"></div>
+        }
+
+        <!-- Loading Spinner -->
+        @if (isLoading()) {
+        <app-data-loading [fullPage]="true" />
+        } @else {
+        <div [ngClass]="{
+  'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4': !showFilters(),
+  'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3': showFilters()
+}" class="grid gap-4">
+          @for (listing of listings(); track listing._id) {
+          <app-property-card [listing]="listing" [isFavorited]="isPropertyFavorited(listing.property)"
+            (cardClick)="onPropertyCardClick($event)" (favoriteToggle)="onFavoriteToggle($event)" />
+          } @empty {
+          <div class="text-center py-12 w-full lg:col-span-3 xl:col-span-4">
+            <div class="text-gray-400">
+              <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              <p class="text-lg font-medium text-gray-500">
+                No properties found
+              </p>
+              <p class="text-gray-400 mt-1">Try adjusting your filters</p>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

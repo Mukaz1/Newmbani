@@ -6,7 +6,7 @@ export interface UserQueryData {
   page: number;
   skip: number;
   userId?: string;
-  tenantId?: string;
+  customerId?: string;
   landlordId?: string;
   sort: any;
   email?: string;
@@ -26,8 +26,8 @@ export function getUserQueryParams(payload: {
   const page = query && query.page ? +query.page : 1;
   const phone: string | undefined =
     query && query.phone ? (query.phone as string) : undefined;
-  const tenantId: string | undefined =
-    query && query.tenantId ? (query.tenantId as string) : undefined;
+  const customerId: string | undefined =
+    query && query.customerId ? (query.customerId as string) : undefined;
   const includePassword: boolean =
     query && query.includePassword
       ? ((query.includePassword as unknown as boolean) ?? false)
@@ -51,7 +51,7 @@ export function getUserQueryParams(payload: {
     limit,
     page,
     email,
-    tenantId,
+    customerId,
     includePassword,
     userId,
     phone,

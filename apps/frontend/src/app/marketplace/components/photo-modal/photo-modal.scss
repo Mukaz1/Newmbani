@@ -1,0 +1,4 @@
+/* No background, all handled by Tailwind. */
+:host {
+    z-index: 9999;
+}

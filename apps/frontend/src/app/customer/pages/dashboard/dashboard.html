@@ -1,0 +1,201 @@
+<div class="container mx-auto lg:px-8 ">
+  <!-- Welcome Section -->
+  <div class="rounded-2xl p-6 mb-8 text-white relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-primary-500/80
+    shadow-lg">
+    <!-- Background Accent -->
+    <div
+      class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/diagonal-noise.png')]">
+    </div>
+
+    <!-- Greeting -->
+    <div class="relative z-10 mb-6">
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight mb-3 ">
+        Welcome back, <span class="text-secondary-400">{{ userName() }}</span> 👋
+      </h1>
+      <p class="text-base sm:text-lg text-gray-100 max-w-2xl">
+        Stay in control and up to date—see the latest on your bookings, payments, and activity all in one place.
+      </p>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1  lg:grid-cols-3 gap-6 relative my-6">
+    <!-- Completed Bookings -->
+    <div
+      class="rounded-xl p-6 bg-green-50 backdrop-blur-md text-gray-800 shadow-sm border border-green-200 transition transform">
+      <div class="flex items-center space-x-4">
+        <div class="w-14 h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-check-circle text-3xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-500">
+            Completed Bookings
+          </p>
+          <p class="text-3xl font-extrabold text-gray-900">
+            {{ completedBookings.length || 0 }}
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            Smoothly wrapped up and rated ⭐
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Bookings -->
+    <div
+      class="rounded-xl p-6 bg-yellow-50 border-yellow-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
+      <div class="flex items-center space-x-4">
+        <div class="w-14 h-14 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-hourglass-split text-3xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Pending Bookings</p>
+          <p class="text-3xl font-extrabold text-gray-900">
+            {{ activeOrScheduledBookings.length || 0 }}
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            Awaiting confirmation or upcoming 🕒
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Favorites -->
+    <div
+      class="hidden rounded-xl p-6 bg-pink-50 border-pink-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
+      <div class="flex items-center space-x-4">
+        <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-heart-fill text-3xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Favorites</p>
+          <p class="text-3xl font-extrabold text-gray-900">0</p>
+          <p class="text-xs text-gray-400 mt-1">
+            Saved gems you love ❤️
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions -->
+    <div
+      class="rounded-xl p-6 bg-blue-50 border-blue-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
+      <div class="flex items-center space-x-4">
+        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
+          <i class="bi bi-credit-card-2-front text-3xl"></i>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-500">Transactions</p>
+          <p class="text-3xl font-extrabold text-gray-900">0</p>
+          <p class="text-xs text-gray-400 mt-1">
+            Safe, secure, and trackable 💳
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Recent Bookings (Unified Section) -->
+  <div class="lg:col-span-2 hidden md:block  bg-white rounded-xl shadow-sm border border-gray-200 hover-scale-105">
+    <!-- Header -->
+    <div class="px-4 sm:px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <h2 class="text-base sm:text-lg font-semibold text-gray-900">
+        Recent Bookings
+      </h2>
+      <a routerLink="/customer/bookings"
+        class="text-primary-600 hover:text-primary-700 font-medium text-xs sm:text-sm">View All</a>
+    </div>
+
+    <!-- Table Wrapper with Horizontal Scroll -->
+    <div class="">
+      <div class="inline-block w-full align-middle">
+        <table class="w-full divide-y divide-gray-200 ">
+          <thead class="bg-gray-50">
+            <tr class="text-gray-700 uppercase font-semibold text-xs tracking-wide">
+              <th scope="col" class="px-4 py-3 text-left whitespace-nowrap">Property</th>
+              <th scope="col" class="px-2 py-3 text-center whitespace-nowrap">Dates</th>
+              <th scope="col" class="px-2 py-3 text-center whitespace-nowrap">Guests</th>
+              <th scope="col" class="px-2 py-3 text-center whitespace-nowrap">Price</th>
+              <th scope="col" class="px-2 py-3 text-center whitespace-nowrap">Status</th>
+              <th scope="col" class="px-3 py-3 text-center whitespace-nowrap">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            @for (booking of bookings() | slice:0:5; track booking?._id) {
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-4 py-3 align-middle cursor-pointer" (click)="viewBooking(booking!._id)">
+                <div class="flex gap-3 items-center min-w-[200px]">
+                  <div class="h-12 w-12 flex-shrink-0">
+                    <img [src]="booking?.propertyListing?.property?.images?.[0]?.link"
+                      alt="{{ booking?.propertyListing?.property?.name }}"
+                      class="object-cover rounded-md border border-gray-200 w-12 h-12" />
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-base leading-tight mb-0.5 truncate">
+                      {{ booking?.propertyListing?.property?.name || '--' }}
+                    </div>
+                    <div class="text-xs flex gap-3 text-gray-500">
+                      @if(booking?.propertyListing?.property?.address){
+
+                      <span class="truncate">
+                        <i class="bx bx-map text-base"></i>
+                        {{ booking?.propertyListing?.property?.address?.town || '--' }},
+                        {{ booking?.propertyListing?.property?.address?.city || '--' }}
+                      </span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
+                <span class="inline-block font-mono text-xs">
+                  {{ booking?.items?.[0]?.metadata?.checkIn ? (booking.items[0].metadata.checkIn | date:'dd MMM') : '--'
+                  }}
+                  —
+                  {{ booking?.items?.[0]?.metadata?.checkOut ? (booking.items[0].metadata.checkOut | date:'dd MMM') :
+                  '--' }}
+                </span>
+              </td>
+              <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
+                <span class="inline-block text-xs">
+                  {{ booking?.items?.[0]?.metadata?.guests?.adults ?? 0 }}
+                  {{ booking?.items?.[0]?.metadata?.guests?.adults === 1 ? 'Adult' : 'Adults' }},
+                  {{ booking?.items?.[0]?.metadata?.guests?.children ?? 0 }}
+                  {{ booking?.items?.[0]?.metadata?.guests?.children === 1 ? 'Child' : 'Children' }}
+                </span>
+              </td>
+              <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
+                <span class="font-regular text-gray-800">
+                  {{ booking?.invoice?.totalAmount || 0 | price:booking?.currencyId }}
+                </span>
+              </td>
+              <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
+                <span class="py-2 px-3 rounded-full text-center text-xs font-semibold inline-block" [ngClass]="{
+                'bg-primary-100 text-primary-700': getBookingStatus(booking) === 'Scheduled',
+                'bg-primary-500 text-white': getBookingStatus(booking) === 'Active',
+                'bg-secondary-100 text-secondary-700': getBookingStatus(booking) === 'Completed'
+              }">
+                  {{ getBookingStatus(booking) | titlecase }}
+                </span>
+              </td>
+              <td class="px-3 py-3 align-middle text-center whitespace-nowrap">
+                <div class="flex gap-2 justify-center">
+                  <button class="p-1 rounded hover:bg-gray-100 transition" (click)="viewBooking(booking!._id)">
+                    <i title="View" class="bx bx-show text-xl text-primary-600"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            }
+            @empty{
+            <tr>
+              <td class="px-4 py-8 text-center text-gray-500" colspan="6">No recent bookings to display</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

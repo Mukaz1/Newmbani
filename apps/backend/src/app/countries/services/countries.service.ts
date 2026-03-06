@@ -191,9 +191,9 @@ export class CountriesService {
         )
         .exec();
       const landlord = updatedCountry.supporting.landlord ?? false;
-      const tenant = updatedCountry.supporting.tenant ?? false;
+      const customer = updatedCountry.supporting.customer ?? false;
       // recalc supported
-      const supported = landlord || tenant;
+      const supported = landlord || customer;
       // update the data
       updatedCountry = await this.countries
         .findByIdAndUpdate(

@@ -1,0 +1,212 @@
+@if (isLoading()) {
+<app-data-loading [fullPage]="true"></app-data-loading>
+} @else if (landlord()) {
+<div class="mx-auto">
+  <form [formGroup]="profileForm" class="space-y-8">
+
+    <!-- ================= PROFILE CARD ================= -->
+    <div class="bg-white rounded-2xl shadow overflow-hidden mb-4 ">
+      <div class=" relative h-48 w-full bg-primary">
+        @if (landlord()?.profileImage){
+        <img [src]="landlord()?.profileImage" alt="Cover" class="object-cover w-full h-full" />
+        } @else {
+        <div class="w-full h-full bg-primary"></div>
+        }
+
+        @if (!isEditProfile()) {
+        <app-button type="button" (buttonClicked)="enterEditProfile()"
+          styles="absolute top-4 right-4 flex items-center gap-1 px-4 py-1 !text-gray-600 !bg-white hover:bg-gray-100 transition text-sm z-20"
+          label="Edit" [showIcon]="true" iconPosition="left" icon="bi bi-pencil-square" />
+        }
+      </div>
+
+      <div class="flex items-center gap-8 px-8 pt-0 pb-8 relative" style="min-height: 5.5rem">
+        <div class="relative -mt-16 z-10 flex items-center">
+          <button type="button" (click)="viewImage()" (keyup.enter)="viewImage()"
+            class="w-24 h-24 md:size-32 rounded-full object-cover border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            style="padding:0;background:none;border:none" [attr.aria-label]="'View profile image'">
+            <img [src]="landlord()?.profileImage || 'https://ui-avatars.com/api/?name=' + landlord()?.name"
+              alt="Profile Image" class="w-24 h-24 md:size-32 rounded-full object-cover border-none" tabindex="-1"
+              draggable="false" />
+          </button>
+
+          <label for="profileImage"
+            class="absolute bottom-0 right-0 size-10 flex items-center justify-center text-center bg-primary-600 p-2 rounded-full cursor-pointer hover:bg-primary-700 transition-all"
+            tabindex="0">
+            <i class="bi bi-camera-fill text-lg text-white"></i>
+            <input id="profileImage" type="file" accept="image/*" (change)="onImageSelected($event)" class="hidden" />
+          </label>
+          @if (showModal()) {
+          <app-view-image-modal [images]="[landlord()!.profileImage]"></app-view-image-modal>
+          }
+        </div>
+
+        <div class="flex-1 flex flex-col items-start justify-center mt-4">
+          @if (!isEditProfile()) {
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            {{ landlord()?.displayName }}
+            @if (landlord()?.verified) {
+            <span
+              class="inline-block px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-md font-semibold align-middle">
+              <i class="bi bi-patch-check-fill mr-1"></i> Verified
+            </span>
+            } @else {
+            <span
+              class="inline-block px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-md font-semibold align-middle">
+              <i class="bi bi-patch-exclamation-fill mr-1"></i> Pending Verification
+            </span>
+            }
+          </h2>
+          } @else {
+          <input type="text" formControlName="name" class="form-control text-2xl font-bold text-gray-900 w-full mb-2" />
+          }
+
+          <div class="text-gray-500 mb-2">{{ landlord()?.landlordType?.name }}</div>
+        </div>
+      </div>
+      <!-- ================= PERSONAL INFO ================= -->
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold">Business Information</h3>
+        </div>
+
+        <!-- ================= CONTACT ROW ================= -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 mb-6">
+          <!-- Email -->
+          <div>
+            <div class="text-xs text-gray-500 mb-1">Email address</div>
+            @if (isEditProfile()) {
+            <input formControlName="email" type="email" class="form-control" />
+            } @else {
+            <div class="font-medium text-gray-900">{{ landlord()?.email }}</div>
+            }
+          </div>
+
+          <!-- Phone -->
+          <div>
+            <div class="text-xs text-gray-500 mb-1">Phone</div>
+            @if (isEditProfile()) {
+            <input formControlName="phone" type="text" class="form-control" />
+            } @else {
+            <div class="font-medium text-gray-900">{{ landlord()?.phone }}</div>
+            }
+          </div>
+
+          <!-- Languages -->
+          <div>
+            <div class="text-xs text-gray-500 mb-1">Languages</div>
+            @if (isEditProfile()) {
+            <app-chip-input [values]="profileForm.controls.languages.value || []"
+              (chipsChange)="profileForm.controls.languages.setValue($event)"></app-chip-input>
+            } @else {
+            <div class="flex flex-wrap gap-2">
+              @for (lang of landlord()?.languages || []; track lang) {
+              <span
+                class="inline-block bg-gray-100 text-gray-800 px-2 py-0.5 rounded text-xs shadow-sm border border-gray-200">
+                {{ lang }}
+              </span>
+              }
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- ================= BIO SECTION ================= -->
+        <div>
+          <div class="text-xs text-gray-500 mb-1">Bio</div>
+          @if (isEditProfile()) {
+          <textarea formControlName="bio" rows="4" class="form-control"></textarea>
+          } @else {
+          <div class="font-medium text-gray-900 whitespace-pre-line">{{ landlord()?.bio }}</div>
+          }
+        </div>
+
+        <div class="mt-4">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold">Contact Person Information</h3>
+          </div>
+
+          <!-- ================= CONTACT PERSON ROW ================= -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 mb-6">
+            <!-- Contact Person Name -->
+            <div>
+              <div class="text-xs text-gray-500 mb-1">Name</div>
+              <div class="font-medium text-gray-900">{{ landlord()?.name || '—' }}</div>
+            </div>
+
+            <!-- Contact Person Email -->
+            <div>
+              <div class="text-xs text-gray-500 mb-1">Email address</div>
+              <div class="font-medium text-gray-900">{{ landlord()?.email || '—' }}</div>
+            </div>
+
+            <!-- Contact Person Phone -->
+            <div>
+              <div class="text-xs text-gray-500 mb-1">Phone</div>
+              <div class="font-medium text-gray-900">{{ landlord()?.phone || '—' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= ACTION BUTTONS ================= -->
+        @if (isEditProfile()) {
+        <div class="flex gap-4 mt-6">
+          <app-button type="button" (buttonClicked)="saveEditProfile()" label="Save" />
+
+          <app-button type="button" (buttonClicked)="cancelEditProfile()" styles="!bg-gray-300 !text-gray-700"
+            label="Cancel" />
+
+
+        </div>
+        }
+      </div>
+
+    </div>
+
+
+
+    <!-- ================= ADDRESS INFO ================= -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold">Address</h3>
+
+        <button type="button" (click)="  manageAddresses()"
+          class="flex items-center gap-1 px-4 py-1 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 transition text-sm">
+          <i class="bi bi-geo-alt"></i> Manage
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+        <div>
+          <div class="text-xs text-gray-500 mb-1">Country</div>
+          <div class="font-medium text-gray-900">
+            {{ landlord()?.address?.country?.name || 'Not specified' }}
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs text-gray-500 mb-1">City / State</div>
+          <div class="font-medium text-gray-900">
+            {{ landlord()?.address?.city || '—' }}
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs text-gray-500 mb-1">Street</div>
+          <div class="font-medium text-gray-900">
+            {{ landlord()?.address?.street || '—' }}
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs text-gray-500 mb-1">Postal Code</div>
+          <div class="font-medium text-gray-900">
+            {{ landlord()?.address?.postalCode || '—' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+}

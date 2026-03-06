@@ -1,0 +1,50 @@
+<div class="modal-backdrop h-screen justify-end">
+  <div class="modal-container min-w-96 w-full md:w-2/3 lg:w-1/2 h-full">
+    <div class="modal-header flex flex-row justify-between">
+      <p class="modal-title">{{requiredDocument ? 'Edit':'Add'}} Document</p>
+      <div class="w-max flex gap-4">
+        <app-button [showIcon]="true" label="" icon="bi bi-x font-bold" (buttonClicked)="closeModal()" />
+      </div>
+    </div>
+    <div class="modal-body flex flex-col justify-between">
+      <form (ngSubmit)="submit()" [formGroup]="documentForm" class="grid grid-cols-2 gap-5">
+        <!-- Document Name -->
+        <div>
+          <label for="" class="font-semibold block mb-1">Document Name</label>
+          <input type="text" formControlName="name" placeholder="Enter Document Name"
+            class="form-input form-control placeholder:text-gray-400" />
+        </div>
+
+        <!-- Country -->
+        <div>
+          <label for="country" class="font-semibold block mb-1">Country</label>
+          <app-searchable-select formControlName="countryId" [options]="countryOptions()" placeholder="Enter country" />
+
+        </div>
+
+        <div>
+          <label class="font-semibold block mb-1">
+            <input type="checkbox" formControlName="isMandatory" class="mr-2 accent-blue-500" />
+            Document Mandatory?
+          </label>
+        </div>
+        <div>
+          <label class="font-semibold block mb-1">
+            <input type="checkbox" formControlName="isPropertyHost" class="mr-2 accent-blue-500" />
+            Needed for Hosts?
+          </label>
+        </div>
+        <div>
+          <label class="font-semibold block mb-1">
+            <input type="checkbox" formControlName="isServiceProvider" class="mr-2 accent-blue-500" />
+            Needed for Service Providers?
+          </label>
+        </div>
+
+        <div class="py-5">
+          <app-button [isLoading]="isLoading()" label="Submit" type="submit" [disabled]="documentForm.invalid" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

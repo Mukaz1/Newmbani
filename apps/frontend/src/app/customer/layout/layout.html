@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-white flex flex-col">
+  <!-- Sticky Header -->
+  <div class="sticky top-0 z-50 bg-white">
+    <app-customer-header (sidebarOpen)="openSidebar()"></app-customer-header>
+  </div>
+
+  <div class="flex flex-1 relative">
+    <!-- Sidebar (desktop & mobile) -->
+    @if (isSidebarOpen) {
+    <div class="fixed inset-0 z-20 bg-black bg-opacity-40 transition-opacity md:hidden" tabindex="0"
+      (click)="closeSidebar()" (keydown.enter)="closeSidebar()" (keydown.space)="closeSidebar()" role="button"
+      aria-label="Close sidebar overlay"></div>
+    }
+    <aside
+      class="fixed z-40 top-0 left-0 bottom-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col overflow-y-auto transition-transform duration-300 md:static"
+      [ngClass]="{ '-translate-x-full': !isSidebarOpen, 'translate-x-0': isSidebarOpen, 'md:translate-x-0': true }">
+      <app-customer-sidebar (sidebarClose)="closeSidebar()"></app-customer-sidebar>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 bg-white">
+      <!-- Dashboard Content -->
+      <main class="p-4 overflow-auto">
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+</div>

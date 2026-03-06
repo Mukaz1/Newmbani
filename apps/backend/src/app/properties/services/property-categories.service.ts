@@ -169,6 +169,15 @@ export class PropertyCategoriesService {
   ): Promise<HttpResponseInterface> {
     try {
       const filter = { _id: id };
+
+      const category = await PropertyCategoryModel.findById(id);
+      if (!category) {
+        return new CustomHttpResponse({
+          statusCode: HttpStatusCodeEnum.NOT_FOUND,
+          message: `The property Category with id ${id} not found`,
+          data: null,
+        });
+      }
       const payload: PostPropertyCategoryUpdateDto =
         updatePropertyCategoryDto as unknown as PostPropertyCategoryUpdateDto;
       payload.updatedBy = userId;

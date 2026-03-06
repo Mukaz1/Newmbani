@@ -1,0 +1,19 @@
+const PROPERTIES = '/api/properties';
+const PROPERTY_CATEGORIES = '/api/property-categories';
+
+export const PROPERTIES_ENDPOINTS = {
+  CREATE_PROPERTY: PROPERTIES,
+  GET_PROPERTIES: PROPERTIES,
+  GET_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
+  UPDATE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
+  DELETE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
+} as const;
+
+export const PROPERTY_CATEGORIES_ENDPOINTS = {
+  CREATE_PROPERTY_CATEGORY: PROPERTY_CATEGORIES,
+  GET_PROPERTY_CATEGORIES: PROPERTY_CATEGORIES,
+  GET_PROPERTY_CATEGORY: (id: string) => `${PROPERTY_CATEGORIES}/${id}`,
+  UPDATE_PROPERTY_CATEGORY: (id: string) => `${PROPERTY_CATEGORIES}/${id}`,
+  DELETE_PROPERTY_CATEGORY: (id: string) => `${PROPERTY_CATEGORIES}/${id}`,
+} as const;
+

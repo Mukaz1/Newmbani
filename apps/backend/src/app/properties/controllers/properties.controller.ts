@@ -7,12 +7,17 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
-import { HttpResponseInterface } from '@newmbani/types';
+import { HttpResponseInterface, PermissionEnum, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { ExpressQuery } from '@newmbani/types';
 import { CreatePropertyDto, UpdatePropertyDto } from '../dtos/properties.dto';
 import { PropertiesService } from '../services/properties.service';
+import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
+import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
+import { AuthorizationGuard } from '../../auth/guards/authorization.guard';
 
 @Controller('properties')
 export class PropertiesController {
@@ -22,19 +27,19 @@ export class PropertiesController {
    * Register a new property
    */
   @Post()
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.CREATE_PROPERTY,
-  //     PermissionEnum.MANAGE_PROPERTIES,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.CREATE_PROPERTY,
+      PermissionEnum.MANAGE_PROPERTIES,
+    ])
   async create(
     @Body() propertyDto: CreatePropertyDto,
-    // @Req() { user }: UserRequest,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
     const response = await this.propertiesService.create({
       propertyDto,
-      userId: 'system', //_id.toString(),
+      userId: user._id.toString(),
     });
 
     res.setStatus(response.statusCode);
@@ -71,18 +76,18 @@ export class PropertiesController {
    * Update property
    */
   @Patch(':id')
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.UPDATE_PROPERTY,
-  //     PermissionEnum.MANAGE_PROPERTIES,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.UPDATE_PROPERTY,
+      PermissionEnum.MANAGE_PROPERTIES,
+    ])
   async update(
     @Param('id') id: string,
     @Body() updatePropertyDto: UpdatePropertyDto,
-    // @Req() { user }: UserRequest,
+    @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
-    const userId = 'system'; //user._id.toString();
+    const userId = user._id.toString();
 
     const response = await this.propertiesService.update(
       id,
@@ -98,11 +103,11 @@ export class PropertiesController {
    * Remove property
    */
   @Delete(':id')
-  //   @UseGuards(AuthenticationGuard, AuthorizationGuard)
-  //   @RequiredPermissions([
-  //     PermissionEnum.DELETE_PROPERTY,
-  //     PermissionEnum.MANAGE_PROPERTIES,
-  //   ])
+    @UseGuards(AuthenticationGuard, AuthorizationGuard)
+    @RequiredPermissions([
+      PermissionEnum.DELETE_PROPERTY,
+      PermissionEnum.MANAGE_PROPERTIES,
+    ])
   async remove(
     @Param('id') id: string,
     @GenericResponse() res: GenericResponse,

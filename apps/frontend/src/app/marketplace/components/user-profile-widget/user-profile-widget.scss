@@ -1,0 +1,78 @@
+/* Profile menu button styles */
+.profile-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-menu-btn:focus {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+}
+
+/* Dropdown styles */
+.profile-menu-dropdown {
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.profile-menu-dropdown a[cdkMenuItem] {
+  padding: 0.5rem 1rem;
+  color: #374151;
+  text-decoration: none;
+  font-size: 1rem;
+  border: none;
+  background: none;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  border-radius: 0.25rem;
+}
+
+.profile-menu-dropdown a[cdkMenuItem]:hover, .profile-menu-dropdown a[cdkMenuItem]:focus {
+  background: #dcfce7;
+  color: #22c55e;
+  outline: none;
+}
+
+.logout-confirm-overlay-panel {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: none;
+  box-shadow: none;
+  pointer-events: none; /* Only the dialog itself is interactive */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+
+.logout-confirm-dialog {
+  pointer-events: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logout-confirm-overlay-panel .logout-confirm-dialog {
+  opacity: 1;
+  transform: scale(1);
+}

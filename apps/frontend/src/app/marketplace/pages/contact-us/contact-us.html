@@ -1,0 +1,276 @@
+<section
+  class="container grid sm:grid-cols-2 items-start gap-16 p-4 mx-auto w-full bg-white font-[sans-serif] mt-10 mb-10"
+>
+  <div class="border border-gray-200 rounded-xl hadow-sm p-6 space-y-8">
+    <div>
+      <h1 class="text-2xl font-bold mb-2 text-primary">
+        Let's Start a Conversation
+      </h1>
+      <p class="text-sm text-gray-600 mb-6">
+        We'd love to hear from you — reach out and let's make something great
+        together.
+      </p>
+    </div>
+
+    <form
+      [formGroup]="contactForm"
+      (ngSubmit)="submit()"
+      class="ml-auto space-y-4"
+    >
+      <div class="grid gap-6 mb-6 lg:grid-cols-2">
+        <div>
+          <label for="firstName" class="form-label required">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            class="form-control"
+            placeholder="Enter your first name"
+            formControlName="firstName"
+          />
+          @if(contactForm.get('firstName')?.invalid &&
+          contactForm.get('firstName')?.touched){
+          <small class="text-red-500"> First name is required </small>
+          }
+        </div>
+        <div>
+          <label for="lastName" class="form-label required">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            class="form-control"
+            placeholder="Enter your last name"
+            formControlName="lastName"
+          />
+          @if( contactForm.get('lastName')?.invalid &&
+          contactForm.get('lastName')?.touched) {
+          <small class="text-red-500"> Last name is required </small>
+          }
+        </div>
+        <div>
+          <label for="phone" class="form-label required">Phone number</label>
+          <input
+            type="tel"
+            id="phone"
+            class="form-control"
+            placeholder="Enter your phone number"
+            formControlName="phone"
+          />
+          @if(contactForm.get('phone')?.invalid &&
+          contactForm.get('phone')?.touched) {
+          <small class="text-red-500"> Phone number is required </small>
+          }
+        </div>
+
+        <div>
+          <label for="purpose" class="form-label">Purpose of Contact</label>
+          <input
+            type="text"
+            id="purpose"
+            class="form-control"
+            placeholder="Enter your purpose of contact"
+            formControlName="purpose"
+          />
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="email" class="form-label required">Email address</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter your email address"
+          formControlName="email"
+        />
+        @if(contactForm.get('email')?.invalid &&
+        contactForm.get('email')?.touched){
+        <small class="text-red-500"> Valid email is required </small>
+        }
+      </div>
+
+      <div class="mb-6 relative grid grid-cols-1 gap-[5px] col-span-2">
+        <label for="message" class="capitalize form-label required"
+          >Subject</label
+        >
+        <textarea
+          placeholder="Enter your message"
+          rows="6"
+          class="form-control"
+          formControlName="message"
+        ></textarea>
+        @if(contactForm.get('message')?.invalid &&
+        contactForm.get('message')?.touched) {
+        <small class="text-red-500"> Message is required </small>
+        }
+      </div>
+      <!-- <div class="flex items-start mb-6">
+        <div class="flex items-center h-5">
+          <input
+            id="remember"
+            type="checkbox"
+            class="form-control"
+            formControlName="remember"
+          />
+        </div>
+        <label
+          for="remember"
+          class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        >
+          I agree with the
+          <a
+            href="#"
+            class="text-primary-950 hover:underline dark:text-primary-500"
+            >terms and conditions</a
+          >.
+        </label>
+        @if(contactForm.get('remember')?.invalid &&
+        contactForm.get('remember')?.touched) { }
+        <small class="text-red-500 ml-2"> You must agree to the terms </small>
+      </div> -->
+    </form>
+    <div
+      class="flex mt-3 flex-col justify-start gap-2 md:flex-row md:justify-between"
+    >
+      <button
+        type="button"
+        (click)="discard()"
+        class="btn bg-gray-500 text-white me-3 rounded-full px-5"
+      >
+        Discard
+      </button>
+      <div class="flex flex-row justify-start md:justify-end gap-2">
+        <app-button
+          (buttonClicked)="submit()"
+          [label]="'Send Message'"
+          [isLoading]="isLoading()"
+          type="submit"
+          [styles]="
+            'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'
+          "
+        />
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="space-y-6">
+      <!-- Image -->
+      <img
+        src="https://plus.unsplash.com/premium_photo-1661692556698-31ff1ef908cb?w=800&auto=format&fit=crop&q=60"
+        alt="Happy client"
+        class="rounded-xl w-full h-96 object-cover"
+      />
+
+      <!-- Contact Info Card -->
+      <div class="border border-gray-200 rounded-xl shadow-sm p-6 space-y-8">
+        <!-- Email -->
+        <div class="flex items-start gap-4">
+          <div class="text-primary-600 mt-1">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-gray-800">Email</p>
+            <p class="text-sm text-gray-600">
+              {{ settings()?.general?.email }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="flex items-start gap-4">
+          <div class="text-primary-600 mt-1">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.684l1.5 4.493a1 1 0 01-.502 1.21l-2.26 1.13a11.042 11.042 0 005.516 5.516l1.13-2.26a1 1 0 011.21-.5l4.49 1.5a1 1 0 01.69.95V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-gray-800">Phone</p>
+            <p class="text-sm text-gray-600">
+              {{ settings()?.general?.phone }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Office -->
+        <div class="flex items-start gap-4">
+          <div class="text-primary-600 mt-1">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-gray-800">Office</p>
+            <p class="text-sm text-gray-600">
+              {{ settings()?.general?.address?.building }},
+              {{ settings()?.general?.address?.street }}<br />{{
+                settings()?.general?.address?.town
+              }},
+              {{ settings()?.general?.address?.country }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-gradient-to-r from-gray-50 via-primary-50 to-white">
+  <div class="container mx-auto px-4 py-10">
+    <div class="pb-5">
+      <p class="text-2xl font-semibold text-green-800">Locate Us</p>
+      <p class="text-sm text-gray-700">
+        Use the map below to find directions to our office.
+      </p>
+    </div>
+
+    <div class="flex justify-center">
+      <div class="w-full shadow-lg rounded-lg overflow-hidden bg-white">
+        <iframe class="w-full h-76 md:h-84 rounded-lg"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d249.35354514382095!2d35.27828587029853!3d0.5156803503112138!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17810184f815f1e9%3A0xdf6c6f7308347674!2sALUXE%20LTD!5e0!3m2!1sen!2ske!4v1762942485130!5m2!1sen!2ske"
+          width="600"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

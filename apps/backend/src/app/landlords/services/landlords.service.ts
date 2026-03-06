@@ -6,7 +6,7 @@ import {
   CreateLandlordDto,
   PostLandlordDto,
   UpdateLandlordDto,
-} from '../dtos/lanlords.dto';
+} from '../dtos/landlords.dto';
 import { CustomHttpResponse } from '../../common';
 import {
   ExpressQuery,
@@ -22,6 +22,9 @@ import { LandlordAggregation } from '../queries/landlord.query';
 import { getLandlordParams } from '../utils/getLandlordParams';
 import { LandlordApprovalStatus } from '@newmbani/types';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ApproveLandlordDto } from '../dtos/approve-landlord.dto';
+import { PostUserDto } from '../../auth/dto/users/register-user.dto';
+import { UserModel } from '../../auth/schemas/user.schema';
 
 @Injectable()
 export class LandlordsService {
@@ -33,7 +36,7 @@ export class LandlordsService {
     //
   }
 
-  async createLandlord(landlordDto: CreateLandlordDto, userId: string) {
+  async createLandlord(landlordDto: CreateLandlordDto) {
     try {
       const {
         displayName,
@@ -43,6 +46,7 @@ export class LandlordsService {
         address,
         acceptTerms,
         languages,
+        password,
       } = landlordDto;
 
       if (acceptTerms !== true) {
@@ -53,19 +57,19 @@ export class LandlordsService {
         });
       }
 
-      const existingLandlord = await LandlordModel.findOne({
+      const existingUser = await UserModel.findOne({
         $or: [{ email }, { phone }],
       });
 
-      if (existingLandlord) {
-        if (existingLandlord.email === email) {
+      if (existingUser) {
+        if (existingUser.email === email) {
           return new CustomHttpResponse({
             statusCode: HttpStatusCodeEnum.BAD_REQUEST,
             message: 'The email you have provided already exists',
             data: null,
           });
         }
-        if (existingLandlord.phone === phone) {
+        if (existingUser.phone === phone) {
           return new CustomHttpResponse({
             statusCode: HttpStatusCodeEnum.BAD_REQUEST,
             message: 'The phone number you have provided already exists',
@@ -82,33 +86,33 @@ export class LandlordsService {
         languages,
         acceptTerms,
         approvalStatus: LandlordApprovalStatus.UNDER_REVIEW,
-        createdBy: userId,
+        createdBy: 'system',
       };
 
       // Create landlord
       const landlord: Landlord = await LandlordModel.create(landlordData);
       // get role id
-      // const roleId: string = (
-      //   await this.rolesService.getLandlordRole()
-      // )._id.toString();
+      const roleId: string = (
+        await this.rolesService.getLandlordRole()
+      )._id.toString();
 
-      // Prepare user account for employee
-      //   const userData: PostUserDto = {
-      //     landlordId: landlord._id.toString(),
-      //     name,
-      //     email,
-      //     password,
-      //     phone,
-      //     createdBy: 'system',
-      //     roleId,
-      //   };
+      // Prepare user account for landlord
+      const userData: PostUserDto = {
+        landlordId: landlord._id.toString(),
+        name,
+        email,
+        password,
+        phone,
+        createdBy: 'system',
+        roleId,
+      };
 
-      //   const user: User = (await this.usersService.create(userData))
-      //     .data as User;
+        const user: User = (await this.usersService.create(userData))
+          .data as User;
 
       // Emit events
       this.eventEmitter.emit(SystemEventsEnum.LandlordCreated, landlord);
-      //   this.eventEmitter.emit(SystemEventsEnum.UserCreated, user);
+      this.eventEmitter.emit(SystemEventsEnum.UserCreated, user);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.CREATED,
@@ -236,6 +240,43 @@ export class LandlordsService {
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: 'Landlord updated successfully!',
+        data: landlord,
+      });
+    } catch (error) {
+      return new CustomHttpResponse({
+        statusCode: HttpStatusCodeEnum.BAD_REQUEST,
+        message: error.message,
+        data: error,
+      });
+    }
+  }
+
+  async approveLandlord(
+    landlordId: string,
+    data: ApproveLandlordDto,
+    userId: string,
+  ): Promise<HttpResponseInterface> {
+    try {
+      const landlord = await LandlordModel.findById(landlordId);
+      if (!landlord) {
+        return new CustomHttpResponse({
+          statusCode: HttpStatusCodeEnum.NOT_FOUND,
+          message: 'Landlord not found',
+          data: null,
+        });
+      }
+      landlord.approvalStatus = data.approvalStatus;
+      landlord.approvedBy = userId;
+      landlord.approvalComment = data.approvalComment;
+      landlord.approvedAt = new Date();
+
+      await LandlordModel.findByIdAndUpdate(landlordId, landlord, { new: true }).exec();  
+      // Emit the event that the landlord has been approved
+      this.eventEmitter.emit(SystemEventsEnum.LandlordApproved, landlord);
+
+      return new CustomHttpResponse({
+        statusCode: HttpStatusCodeEnum.OK,
+        message: 'Landlord approved successfully!',
         data: landlord,
       });
     } catch (error) {

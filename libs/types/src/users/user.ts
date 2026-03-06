@@ -2,7 +2,7 @@ import { Address } from '../addresses';
 import { Role } from '../authorization';
 import { FileInterface } from '../files';
 import { Landlord } from '../landlords';
-import { Tenant } from '../tenants';
+import { Customer } from '../customers';
 import { Employee } from './employee';
 
 export interface User {
@@ -17,7 +17,7 @@ export interface User {
   password: string;
   isPasswordDefault: boolean;
   landlordId?: string;
-  tenantId: string | null;
+  customerId: string | null;
   employeeId?: string;
   twoFactorEnabled: boolean;
   roleId?: string | null;
@@ -35,7 +35,7 @@ export interface User {
   employee: Employee | null;
   defaultAddress: Address;
   landlord: Landlord;
-  tenant: Tenant;
+  customer: Customer;
   role: Role | null;
   profileImage?: FileInterface;
 }

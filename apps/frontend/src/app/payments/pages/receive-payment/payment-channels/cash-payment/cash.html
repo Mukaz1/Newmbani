@@ -1,0 +1,54 @@
+<form [formGroup]="paymentForm">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="space-y-2">
+      <label for="amountPaid" class="required"
+        >Amount Paid </label
+      >
+      <input
+        type="number"
+        formControlName="amountPaid"
+        name="amountPaid"
+        id="amountPaid"
+        placeholder="Amount Paid"
+      />
+      @if (paymentForm.get('amountPaid')?.invalid &&
+      (paymentForm.get('amountPaid')?.dirty ||
+      paymentForm.get('amountPaid')?.touched) ) {
+      <p class="mt-1 text-sm text-red-600">
+        @if (paymentForm.get('amountPaid')?.errors?.['required']) {
+        <span> Amount paid is required </span>
+        }
+      </p>
+      }
+    </div>
+    <div class="space-y-2">
+      <label for="paymentDate" class="required"
+        >Payment Date </label
+      >
+      <input
+        type="date"
+        formControlName="paymentDate"
+        name="paymentDate"
+        id="paymentDate"
+        placeholder="Payment Date"
+      />
+      @if (paymentForm.get('paymentDate')?.invalid &&
+      (paymentForm.get('paymentDate')?.dirty ||
+      paymentForm.get('paymentDate')?.touched) ) {
+      <p class="mt-1 text-sm text-red-600">
+        @if (paymentForm.get('paymentDate')?.errors?.['required']) {
+        <span> Payment date is required </span>
+        }
+      </p>
+      }
+    </div>
+  </div>
+  <div class="mt-4">
+    <app-button
+      label="Receive Payment"
+      [showIcon]="false"
+      [disabled]="paymentForm.invalid"
+      (buttonClicked)="submitPayment()"
+    />
+  </div>
+</form>

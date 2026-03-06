@@ -1,0 +1,79 @@
+@if (!role) {
+<app-data-loading />
+} @if (role) {
+<div class="card p-5">
+  <div class="mb-5">
+    <p class="title">Edit Role</p>
+    <div class="text-muted">
+      Update the role name and description. If you need more info, please check
+      out
+      <a
+        href="#"
+        routerLink="/support-center"
+        class="link-primary font-bold hover:underline"
+        >Help Page</a
+      >.
+    </div>
+  </div>
+  <div>
+    <form [formGroup]="editRoleForm" (ngSubmit)="updateRole()">
+      <div class="grid grid-cols-1">
+        <div>
+          <div>
+            <label for="name" class="required">Role Name</label>
+            <input
+              type="text"
+              name="name"
+              class="form-control"
+              placeholder="Role Name"
+              formControlName="name"
+            />
+            @if ( editRoleForm.get('name')?.invalid &&
+            (editRoleForm.get('name')?.dirty ||
+            editRoleForm.get('name')?.touched) ) {
+            <div class="input-error">
+              @if (editRoleForm.get('name')?.errors?.['required']) {
+              <span> Role Name is required. </span>
+              }
+            </div>
+            }
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <label for="description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            cols="30"
+            rows="10"
+            formControlName="description"
+            placeholder="Description"
+            class="form-control"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="pt-5 gap-5 flex flex-row">
+        <button
+          type="button"
+          (click)="discard()"
+          class="btn bg-gray-500 text-white me-3 rounded-full px-5"
+        >
+          Discard
+        </button>
+
+        <div>
+          <app-button
+            [label]="'Update Role'"
+            [isLoading]="isLoading"
+            type="submit"
+            [styles]="
+              'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'
+            "
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+}

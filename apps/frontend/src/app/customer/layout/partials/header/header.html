@@ -1,0 +1,15 @@
+<nav class="flex items-center justify-between pl-4 pr-2 py-2 bg-white border-b border-gray-200">
+    <div class="flex items-center">
+        <button type="button "
+            class="text-gray-600 hover:text-gray-900 px-0 text-start items-start focus:outline-none md:hidden"
+            (click)="openSidebar()" aria-label="Open sidebar">
+            <i class="bi bi-list text-2xl"></i>
+        </button>
+        <img src="assets/images/logos/logo-orange.svg" alt="Logo" class="h-8 w-8 object-contain ml-2 " routerLink="/" />
+        <span class="ml-3 text-xl font-bold text-secondary-500 tracking-wide hidden md:flex" routerLink="/">Aluxe</span>
+    </div>
+    <div class="flex items-center md:space-x-4">
+        <app-currency-widget styles="!text-gray-700" />
+        <app-user-profile-widget theme="light" [forBackend]="true" />
+    </div>
+</nav>

@@ -1,9 +1,10 @@
 import { AuthorizationDatabaseModelEnums } from '../../authorization';
+import { BookingDatabaseModelEnums } from '../../bookings/enums/database-models.enum';
 import { CountriesDatabaseModelEnums } from '../../countries';
 import { EmployeeDatabaseModelEnums } from '../../employees';
 import { LandlordEnums } from '../../landlords/enums/database-model.enum';
 import { PropertyEnums } from '../../properties/enums/database-model.enum';
-import { TenantEnums } from '../../tenants/enums/database-models.enum';
+import { CustomerEnums } from '../../customers/enums/database-models.enum';
 
 export enum DatabaseEnums {
   DATABASE_CONNECTION = 'DATABASE_CONNECTION',
@@ -21,7 +22,7 @@ export enum DatabaseEnums {
   USER = 'users',
   AUTH_LOG = 'auth_logs',
   HOST = 'hosts',
-  TENANT = 'tenants',
+  CUSTOMER = 'customers',
   SEQUENCE = 'sequence',
   TERMS_AND_CONDITIONS = 'terms_and_conditions',
 
@@ -40,7 +41,8 @@ export const DatabaseModelEnums = {
   ...PropertyEnums,
   ...LandlordEnums,
   ...CountriesDatabaseModelEnums,
-  ...TenantEnums,
+  ...CustomerEnums,
   ...AuthorizationDatabaseModelEnums,
   ...EmployeeDatabaseModelEnums,
+  ...BookingDatabaseModelEnums
 };

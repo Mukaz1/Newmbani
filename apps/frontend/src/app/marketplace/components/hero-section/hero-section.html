@@ -1,0 +1,39 @@
+<section
+  class="relative h-[100vh] md:h-[90vh] bg-[url(https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-center bg-cover md:bg-no-repeat text-primary flex flex-col">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-white via-transparent to-black"></div>
+
+  <!-- Centered Text Content -->
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center flex-1 flex flex-col">
+    <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-4 text-primary drop-shadow-md pt-16 md:pt-10">
+      Escape the Ordinary
+    </h1>
+    <p class="text-lg md:text-2xl text- mb-16 drop-shadow-sm">
+      Discover handpicked stays with comfort, class, and a sea breeze.
+    </p>
+  </div>
+  <div class="mb-40 sm:mb-6 z-10">
+    <app-search-bar (searchChanged)="onSearch($event)" />
+  </div>
+  <!-- Stats at Bottom -->
+  <div class="relative z-5 max-w-6xl mx-auto px-6 w-full">
+    <div class="grid grid-cols-4 gap-6 pb-2 md:pb-6 text-white text-center">
+      <div>
+        <h2 class="text-xl md:text-3xl font-semibold">200+</h2>
+        <p class="text-sm text-gray-300">Verified Listings</p>
+      </div>
+      <div>
+        <h2 class="text-xl md:text-3xl font-semibold">98%</h2>
+        <p class="text-sm text-gray-300">Guest Satisfaction</p>
+      </div>
+      <div>
+        <h2 class="text-xl md:text-3xl font-semibold">5-Star</h2>
+        <p class="text-sm text-gray-300">Luxury Experience</p>
+      </div>
+      <div>
+        <h2 class="text-xl md:text-3xl font-semibold">24/7</h2>
+        <p class="text-sm text-gray-300">Support Available</p>
+      </div>
+    </div>
+  </div>
+</section>

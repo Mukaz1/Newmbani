@@ -1,0 +1,31 @@
+<div class="bg-white rounded-md p-5 w-full md:w-full shadow">
+  <div class="flex justify-between items-center">
+    <p class="text-xl text-black font-bold">Top Categories</p>
+    <button>
+      <i class="bi bi-three-dots"></i>
+    </button>
+  </div>
+  <canvas class="max-h-[150px] md:max-h-[200px]" #myChart id="myChart"></canvas>
+  <div class="donut-inner flex  justify-center items-center mt-[-80px] md:mt-[-100px]">
+    <div>
+      <p class="text-center uppercase">Total Sales</p>
+      <p class="text-black font-bold text-[35px] text-center">28,789.0</p>
+    </div>
+  </div>
+  <div>
+    @for (category of categories; track category; let i = $index) {
+    <div class="flex items-center justify-between mt-[5px]">
+      <div class="flex flex-1 justify-start items-center gap-3  ">
+        <div class="bg-primary-400 h-5 w-5 rounded-full" [ngStyle]="{ 'background-color': chartData[i].color }"></div>
+        <p class="font-bold text-[14px]">
+          {{ category | titlecase}}
+        </p>
+      </div>
+      <p class="font-bold text-[14px]">60%</p>
+    </div>
+    }
+    <!-- <div class="mt-5">
+      <app-button label="View Details" styles="w-full" [showIcon]="true" [icon]="'bi bi-arrow-up-right-square'" />
+    </div> -->
+  </div>
+</div>

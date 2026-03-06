@@ -1,0 +1,44 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+    <div
+        class="relative w-screen h-screen flex items-center justify-center"
+        (click)="$event.stopPropagation()"
+        (touchstart)="onTouchStart($event)"
+        (touchend)="onTouchEnd($event)"
+        tabindex="0"
+        (keydown.space)="$event.stopPropagation()"
+        (keydown.enter)="$event.stopPropagation()"
+        aria-modal="true"
+        role="dialog"
+    >
+        <div
+            class="absolute top-6 left-1/2 -translate-x-1/2 text-primary text-lg font-semibold bg-white/80 rounded px-4 py-1 shadow z-20">
+            {{currentIndex + 1}} / {{images.length}}
+        </div>
+        <button
+            class="absolute top-6 right-8 text-primary text-4xl bg-white/80 hover:bg-white rounded-2xl w-12 h-12 flex items-center justify-center shadow-lg transition z-20"
+            (click)="onClose()"
+            (keyup.enter)="onClose()"
+            (keyup.space)="onClose()"
+            tabindex="0"
+            aria-label="Close photo modal"
+        >&times;</button>
+        <button
+            class="absolute left-4 top-1/2 -translate-y-1/2 text-primary text-4xl bg-white/80 hover:bg-white rounded-2xl w-12 h-12 flex items-center justify-center shadow-lg transition z-20"
+            (click)="prev()"
+            (keyup.enter)="prev()"
+            (keyup.space)="prev()"
+            tabindex="0"
+            aria-label="Previous photo"
+        >&#8249;</button>
+        <button
+            class="absolute right-4 top-1/2 -translate-y-1/2 text-primary text-4xl bg-white/80 hover:bg-white rounded-2xl w-12 h-12 flex items-center justify-center shadow-lg transition z-20"
+            (click)="next()"
+            (keyup.enter)="next()"
+            (keyup.space)="next()"
+            tabindex="0"
+            aria-label="Next photo"
+        >&#8250;</button>
+        <img [src]="imageLinks()[currentIndex]" alt="Photo"
+            class="rounded-lg shadow-2xl object-contain select-none max-h-[80vh] max-w-5xl mx-auto" draggable="false" />
+    </div>
+</div>

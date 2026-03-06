@@ -1,0 +1,14 @@
+<nav class="flex items-center justify-between px-4 py-3 bg-primary-900">
+  <div class="flex items-center">
+    <button type="button"
+      class="text-gray-600 hover:text-primary-600 text-start items-start focus:outline-none md:hidden"
+      (click)="openSidebar()" aria-label="Open sidebar">
+      <i class="bi bi-list text-2xl "></i>
+    </button>
+
+  </div>
+  <div class="flex items-center space-x-4 text-orange-500">
+    <app-currency-widget styles="!text-white" />
+    <app-user-profile-widget theme="dark" [forBackend]="true" />
+  </div>
+</nav>

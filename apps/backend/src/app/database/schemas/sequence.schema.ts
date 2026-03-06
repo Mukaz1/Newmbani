@@ -5,7 +5,7 @@ export const SequenceSchema = new Schema<Sequence>(
   {
     landlords: { type: Number, required: true, default: 0, trim: true },
     invoices: { type: Number, required: true, default: 0, trim: true },
-    tenants: { type: Number, required: true, default: 0, trim: true },
+    customers: { type: Number, required: true, default: 0, trim: true },
     properties: { type: Number, required: true, default: 0, trim: true },
     bookings: { type: Number, required: true, default: 0, trim: true },
     payments: { type: Number, required: true, default: 0, trim: true },

@@ -189,22 +189,31 @@ export class PropertiesService {
     try {
       const filter = { _id: id };
 
+      const property = await PropertyModel.findById(id);
+      if (!property) {
+        return new CustomHttpResponse({
+          statusCode: HttpStatusCodeEnum.NOT_FOUND,
+          message: `Property not found`,
+          data: null,
+        });
+      }
+
       const payload: PostUpdatePropertyDto = {
         ...updatePropertyDto,
         updatedBy: userId,
         updatedAt: new Date(),
       };
 
-      const property = await PropertyModel.findOneAndUpdate(filter, payload, {
+      const updatedProperty = await PropertyModel.findOneAndUpdate(filter, payload, {
         new: true,
       });
 
-      this.eventEmitter.emit(SystemEventsEnum.PropertyUpdated, property);
+      this.eventEmitter.emit(SystemEventsEnum.PropertyUpdated, updatedProperty);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: `Property ${updatePropertyDto.title} updated successfully!`,
-        data: property,
+        data: updatedProperty,
       });
     } catch (error) {
       return new CustomHttpResponse({

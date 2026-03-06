@@ -1,0 +1,44 @@
+<div class="w-full bg-white rounded-2xl shadow-lg p-4 space-y-4">
+    @for (type of guestTypes; track $index) {
+    <div class="flex items-center justify-between">
+        <!-- Labels -->
+        <div>
+            <p class="font-medium capitalize">{{ type }}</p>
+
+            @if (type === GuestTypeEnum.ADULTS) {
+            <p class="text-sm text-gray-500">Ages 13 or above</p>
+            }
+            @if (type === GuestTypeEnum.CHILDREN) {
+            <p class="text-sm text-gray-500">Ages 2–12</p>
+            }
+            @if (type === GuestTypeEnum.INFANTS) {
+            <p class="text-sm text-gray-500">Under 2</p>
+            }
+            @if (type === GuestTypeEnum.PETS) {
+            <p class="text-sm text-gray-500">Service animals allowed</p>
+            }
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center space-x-3">
+            <!-- Decrement -->
+            <button type="button"
+                class="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center text-gray-600 disabled:opacity-30"
+                (click)="decrement(type)" [disabled]="getGuestCount(type) === 0" [attr.aria-label]="'Decrease ' + type">
+                <i class="bi bi-dash-lg"></i>
+            </button>
+
+            <!-- Value -->
+            <span class="w-6 text-center font-medium">{{ getGuestCount(type) }}</span>
+
+            <!-- Increment -->
+            <button type="button"
+                class="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center text-gray-600 disabled:opacity-30"
+                (click)="increment(type)" [disabled]="getGuestCount(type) >= getMaxForType(type)"
+                [attr.aria-label]="'Increase ' + type">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+    </div>
+    }
+</div>

@@ -1,5 +1,5 @@
 export enum DashboardsEnum {
   ADMIN = 'admin',
-  TENANT = 'tenant',
+  CUSTOMER = 'customer',
   LANDLORD = 'landlord',
 }

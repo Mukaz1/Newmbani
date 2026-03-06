@@ -6,7 +6,7 @@ import { ExpressQuery, User } from '@newmbani/types';
  * @constructor
  */
 export function getUserIdsUtil(payload: { user: User; query: ExpressQuery }): {
-  tenantId?: string;
+  customerId?: string;
   landlordId?: string;
 } {
   const { user, query } = payload;
@@ -18,14 +18,14 @@ export function getUserIdsUtil(payload: { user: User; query: ExpressQuery }): {
         : (query.landlordId as string)
       : undefined;
 
-  const queryTenantId: string | undefined =
-    query && query.tenantId
-      ? (query.tenantId as string).includes('undefined')
+  const queryCustomerId: string | undefined =
+    query && query.customerId
+      ? (query.customerId as string).includes('undefined')
         ? undefined
-        : (query.tenantId as string)
+        : (query.customerId as string)
       : undefined;
 
-  const tenantId: string | undefined = user.tenantId || queryTenantId;
+  const customerId: string | undefined = user.customerId || queryCustomerId;
   const landlordId: string | undefined = user.landlordId || queryLandlordId;
-  return { tenantId, landlordId };
+  return { customerId, landlordId };
 }

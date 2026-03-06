@@ -1,7 +1,7 @@
 export enum SocketIoEnums {
-  tenantReports = 'tenantReports',
+  customerReports = 'customerReports',
   bookingReports = 'bookingReports',
-  tenantSearch = 'tenantSearch',
+  customerSearch = 'customerSearch',
   invoiceSearch = 'invoiceSearch',
   paymentsSearch = 'paymentsSearch',
   propertieSearch = 'propertieSearch',

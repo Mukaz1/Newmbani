@@ -1,0 +1,167 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<form class="w-full mx-auto bg-white rounded-2xl shadow-lg border p-6 space-y-6" [formGroup]="bookingItemsForm">
+
+    <!-- Price -->
+    <div class="flex flex-col items-baseline justify-between">
+        <div>
+            <input type="hidden" formControlName="price" />
+
+            <span class="text-2xl font-bold text-gray-900">
+                {{ (
+                currentListing()?.type === PropertyListingTypeEnum.BNB
+                ? (totalDays > 0
+                ? totalPrice
+                : currentListing()?.pricing?.discountedPrice ?? 0)
+                : currentListing()?.pricing?.discountedPrice ?? 0)
+                | price: currentListing()?.pricing?.currencyId
+                }}
+            </span>
+
+            @if (
+            currentListing()?.pricing?.price &&
+            currentListing()?.pricing?.price !== currentListing()?.pricing?.discountedPrice
+            ) {
+            <span class="text-sm text-gray-500 line-through ml-2">
+                {{(
+                currentListing()?.type === PropertyListingTypeEnum.BNB && totalDays > 0
+                ? (currentListing()?.pricing?.price ?? 0) * totalDays
+                : currentListing()?.pricing?.price ?? 0)
+                | price: currentListing()?.pricing?.currencyId
+                }}
+            </span>
+            }
+
+            @if (currentListing()?.type === PropertyListingTypeEnum.BNB) {
+            <span class="text-gray-600 ml-1">
+                / {{ totalDays > 0 ? totalDays + ' nights' : 'night' }}
+            </span>
+            }
+        </div>
+
+    </div>
+
+    <div class="space-y-4">
+
+        <!-- Dates -->
+        <div formGroupName="metadata">
+            <!-- Hidden form controls to maintain form structure -->
+            <input type="hidden" formControlName="checkIn" />
+            <input type="hidden" formControlName="checkOut" />
+            <input type="hidden" formControlName="appointment" />
+
+            <label for="dates" class="text-sm font-medium text-gray-700 mb-2">Dates</label>
+
+            @if (currentListing()?.type === PropertyListingTypeEnum.BNB) {
+            <div
+                class="flex items-center border rounded-2xl cursor-pointer hover:border-gray-400 transition overflow-hidden">
+                <!-- Check-in -->
+                <div class="flex-1 px-4 py-3 flex justify-between items-center"
+                    (click)="activeDateField.set('checkIn'); showDatePicker = true"
+                    [class.ring-2]="activeDateField() === 'checkIn'">
+                    <span class="text-gray-900 font-medium">
+                        {{ metadata?.checkIn ? (metadata?.checkIn | date:'MMM d') : 'Check-in' }}
+                    </span>
+                </div>
+
+                <div class="w-px h-6 bg-gray-300"></div>
+
+                <!-- Check-out -->
+                <div class="flex-1 px-4 py-3 flex justify-between items-center"
+                    (click)="activeDateField.set('checkOut'); showDatePicker = true"
+                    [class.ring-2]="activeDateField() === 'checkOut'">
+                    <span class="text-gray-900 font-medium">
+                        {{ metadata?.checkOut ? (metadata?.checkOut | date:'MMM d') : 'Check-out' }}
+                    </span>
+                </div>
+
+                <div class="px-3 text-gray-500">
+                    <i class="bi bi-calendar3" (click)="toggleDatePicker()"></i>
+                </div>
+            </div>
+            <!-- Automatically focus checkout after checkin, and close datepicker after checkout -->
+            @if (showDatePicker && activeDateField() === 'checkIn') {
+            <app-date-picker [checkIn]="metadata?.checkIn ?? null" [checkOut]="metadata?.checkOut ?? null"
+                [activeField]="activeDateField()" [unavailableDates]="unavailableDates()"
+                (checkInChange)="onCheckInChange($event)" (checkOutChange)="onCheckOutChange($event)"
+                (close)="showDatePicker = false">
+            </app-date-picker>
+            }
+            @if (showDatePicker && activeDateField() === 'checkOut') {
+            <app-date-picker [checkIn]="metadata?.checkIn ?? null" [checkOut]="metadata?.checkOut ?? null"
+                [activeField]="activeDateField()" [unavailableDates]="unavailableDates()"
+                (checkInChange)="onCheckInChange($event)" (checkOutChange)="onCheckOutChange($event)"
+                (close)="showDatePicker = false">
+            </app-date-picker>
+            }
+            } @else {
+            <!-- Appointment -->
+            <div class="w-full flex items-center justify-between border rounded-2xl px-4 mb-2 py-2 cursor-pointer hover:border-gray-400 transition"
+                (click)="activeDateField.set('appointment'); showDatePicker = true"
+                [class.ring-2]="activeDateField() === 'appointment'">
+                <span class="text-gray-900 font-medium">
+                    {{ metadata?.appointment
+                    ? (metadata?.appointment | date: 'MMM d, h:mm a')
+                    : 'Viewing date' }}
+                </span>
+                <div class="px-3 text-gray-500">
+                    <i class="bi bi-calendar3" (click)="toggleDatePicker()"></i>
+                </div>
+            </div>
+
+            @if (showDatePicker && activeDateField() === 'appointment') {
+            <app-date-picker [activeField]="activeDateField()" [unavailableDates]="unavailableDates()"
+                (appointmentChange)="onAppointmentChange($event)" (close)="showDatePicker = false">
+            </app-date-picker>
+
+            }
+            }
+        </div>
+
+        <!-- Guests -->
+        @if(currentListing()?.type === PropertyListingTypeEnum.BNB){
+        <div>
+            <label for="guests" class="text-sm font-medium text-gray-700">Guests</label>
+            <div class="w-full !flex !justify-between items-center form-control cursor-pointer px-2 text-md hover:border-gray-400 transition"
+                (click)="showGuestPicker = !showGuestPicker">
+                <span class="text-gray-900 font-medium">
+                    {{ guests().adults }} Adult{{ guests().adults === 1 ? '' : 's' }},
+                    {{ guests().children }} Child{{ guests().children === 1 ? '' : 'ren' }},
+                    {{ guests().infants }} Infant{{ guests().infants === 1 ? '' : 's' }},
+                    @if(guests().pets === 0){
+                    <span>No pets Allowed</span>
+                    } @else{
+                    {{ guests().pets }} pet{{ guests().pets === 1 ? '' : 's' }}
+                    }
+                </span>
+                <i class="bi bi-people text-gray-500"></i>
+            </div>
+
+            <!-- Guest Picker dropdown -->
+            @if(showGuestPicker){
+            <div class="mt-3">
+                <app-guest-picker [guestsValue]="guests()" (guestsChange)="onGuestsChange($event)"
+                    [listing]="currentListing()">
+                </app-guest-picker>
+            </div>}
+        </div>
+        }
+        <!-- Book button -->
+        <!-- Booking Button -->
+        @if (isLoggedIn) {
+        @if(userType().customer){
+
+        <app-button type="button" (buttonClicked)="bookProperty()" styles="w-full p-2 mt-2 py-4" label="Book Now" />
+        }@else {
+        <div class="border border-dashed border-red-300 px-4 py-2 rounded-md text-red-500">
+            <span class="text-red-500">
+                You need customer account to book
+            </span>
+        </div>
+        }
+        } @else {
+        <app-button type="button" (buttonClicked)="redirectToLogin()" styles="w-full p-2 mt-2 py-4"
+            label="Sign In to Book" />
+        }
+    </div>
+</form>

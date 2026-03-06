@@ -1,0 +1,145 @@
+.terms-conditions {
+  max-width: 1200px;
+
+  .terms-header {
+    h1 {
+      color: #1a202c;
+      line-height: 1.2;
+    }
+  }
+
+  .terms-section {
+    scroll-margin-top: 2rem;
+
+    h2 {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      color: #2d3748;
+    }
+
+    h3 {
+      color: #2d3748;
+    }
+
+    // Definitions grid
+    .grid {
+      > div {
+        background-color: #f7fafc;
+        
+        dt {
+          color: #2d3748;
+        }
+        
+        &:hover {
+          background-color: #edf2f7;
+        }
+      }
+    }
+
+    // Lists
+    ul {
+      li {
+        line-height: 1.7;
+      }
+    }
+
+    // Highlight boxes
+    .bg-blue-50 {
+      border-radius: 0.375rem;
+      
+      p {
+        line-height: 1.6;
+      }
+    }
+
+    // Responsibility cards
+    .border.rounded-lg {
+      background-color: #ffffff;
+      
+      &:hover {
+        border-color: #3182ce;
+      }
+    }
+
+    // Role icons
+    .w-10.h-10 {
+      font-size: 1.25rem;
+    }
+  }
+
+  // Acceptable Use section (red warnings)
+  .text-red-600 {
+    font-weight: 500;
+  }
+
+  .bg-red-50 {
+    margin-top: 1rem;
+  }
+
+  footer {
+    background-color: #f7fafc;
+    border-radius: 0.5rem;
+    margin-top: 3rem;
+    padding: 2rem;
+
+    .contact-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .bg-gray-50 {
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .terms-conditions {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .border.rounded-lg {
+      page-break-inside: avoid;
+    }
+
+    footer {
+      page-break-before: avoid;
+    }
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .terms-conditions {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .terms-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .terms-section h2 {
+      font-size: 1.125rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .w-10.h-10 {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Tablet responsive
+@media (min-width: 769px) and (max-width: 1024px) {
+  .terms-conditions {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

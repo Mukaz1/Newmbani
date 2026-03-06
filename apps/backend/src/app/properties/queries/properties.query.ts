@@ -73,6 +73,39 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
 
     {
       $lookup: {
+        from: DatabaseModelEnums.PROPERTY_IMAGE,
+        localField: 'propertyId',
+        foreignField: 'propertyId',
+        as: 'images',
+        pipeline: [
+          {
+            $addFields: {
+              propertyImageCategoryId: {
+                $toObjectId: '$propertyImageCategoryId',
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: DatabaseModelEnums.PROPERTY_IMAGE_CATEGORY,
+              localField: 'propertyImageCategoryId',
+              foreignField: '_id',
+              as: 'propertyImageCategory',
+            },
+          },
+          {
+            $unwind: {
+              path: '$propertyImageCategory',
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+        ],
+      },
+    },
+
+    
+    {
+      $lookup: {
         from: DatabaseModelEnums.LANDLORD,
         localField: 'landlordId',
         foreignField: '_id',

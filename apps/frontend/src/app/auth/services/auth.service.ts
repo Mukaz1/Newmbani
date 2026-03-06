@@ -83,7 +83,7 @@ export class AuthService {
     const user = this.getStoredUser();
     return {
       admin: !!user?.employeeId,
-      host: !!user?.hostId,
+      landlord: !!user?.landlordId,
       customer: !!user?.customerId,
     };
   }

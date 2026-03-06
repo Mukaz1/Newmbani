@@ -1,0 +1,28 @@
+<div class="flex items-center mb-4">
+    <span class="text-gray-500 mr-2">Amount to Pay:</span>
+    <span class="text-lg font-semibold text-primary-700">${{ totalAmount | price
+        }}</span>
+</div>
+<div class="flex flex-col items-center gap-4">
+    <div class="flex items-center gap-3">
+        <span>
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="#0070ba"
+                    d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.543-.68c-.603-.63-1.653-.99-2.976-.99h-4.975c-.524 0-.968.382-1.05.9L8.83 19.777h4.693c.524 0 .968-.382 1.05-.9l1.12-7.106h2.19c3.278 0 5.93-1.958 6.797-5.05.23-.89.3-1.69.2-2.38z" />
+            </svg>
+        </span>
+        <p class="text-gray-700 text-sm">
+            Pay securely with your PayPal account. You'll be redirected
+            to PayPal to complete your payment.
+        </p>
+    </div>
+    <button
+        class="flex items-center gap-2 px-6 py-2 bg-[#0070ba] text-white rounded-md font-semibold hover:bg-[#005ea6] transition disabled:opacity-60 disabled:cursor-not-allowed"
+        (click)="initiatePayPalPayment()" [disabled]="isProcessing">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+            <path fill="white"
+                d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.543-.68c-.603-.63-1.653-.99-2.976-.99h-4.975c-.524 0-.968.382-1.05.9L8.83 19.777h4.693c.524 0 .968-.382 1.05-.9l1.12-7.106h2.19c3.278 0 5.93-1.958 6.797-5.05.23-.89.3-1.69.2-2.38z" />
+        </svg>
+        Pay with PayPal
+    </button>
+</div>

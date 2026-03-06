@@ -2,6 +2,7 @@ import {
   CreateProperty,
   PostCreateProperty,
   PropertyApprovalStatus,
+  PropertyImage,
   PropertyType,
 } from '@newmbani/types';
 import {
@@ -66,7 +67,7 @@ export class PostCreatePropertyDto
 {
   @IsOptional()
   @IsArray()
-  images?: string[];
+  images?: PropertyImage[];
 
   @IsEnum(PropertyApprovalStatus)
   @IsNotEmpty()

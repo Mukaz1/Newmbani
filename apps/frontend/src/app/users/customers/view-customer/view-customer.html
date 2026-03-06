@@ -1,0 +1,80 @@
+@if (!customer) {
+<app-data-loading />
+} @if (customer) {
+<div class="flex flex-row justify-between items-center">
+  <div class="mb-6">
+    <p class="title">Customer Details</p>
+    <div class="text-muted">
+      If you need more info, please check out
+      <a href="#" class="link-primary font-bold">Help Page</a>.
+    </div>
+  </div>
+  <div class="flex gap-3">
+    <button href="#"
+      class="btn btn-primary p-2 px-4 text-sm font-semibold border border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white"
+      routerLink="/admin/customers/{{ customer._id }}/edit">
+      Update Customer Profile
+    </button>
+    <button (click)="goToCustomerList()"
+      class="btn btn-primary p-2 px-4 text-sm font-semibold border border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+      <i class="bi bi-arrow-left me-2"></i>
+      Back to Customer List
+    </button>
+  </div>
+</div>
+<div class="card mx-auto w-full p-5 bg-gray-50 rounded-xl">
+  <div>
+    <div class="flex gap-3 items-center">
+      <div
+        class="w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center text-3xl font-bold mb-4 text-white uppercase">
+        {{ customer.name ? (customer.name | initials) : "N/A" }}
+      </div>
+      <div>
+        <div class="text-xl font-bold text-primary-800">
+          {{ customer.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-2">
+    <div class="my-2">
+      <div class="font-bold mb-1">Email</div>
+      <div class="text-gray-600">
+        <p class="text-gray-600 text-hover-primary">
+          <span><i class="bi bi-envelope me-1 pr-2"></i></span> {{
+          customer.email || 'N/A' }}
+        </p>
+      </div>
+    </div>
+    <div class="my-2">
+      <div class="font-bold mb-1">Phone Number</div>
+      <div class="text-gray-600">
+        <span><i class="bi bi-telephone me-1 pr-2"></i></span>{{ customer.phone
+        || 'N/A' }}
+      </div>
+    </div>
+
+    <div class="my-2">
+      <div class="font-bold mb-1">Created At</div>
+      <div class="text-gray-600">
+        <span><i class="bi bi-clock-history me-1 pr-2"></i></span>
+        {{ customer.createdAt | date : 'mediumDate' }}
+      </div>
+    </div>
+    <div class="my-2">
+      <div class="font-bold mb-1">Status</div>
+      <div>
+        <span><i class="bi bi-info-circle me-1 pr-2"></i></span>
+        @if (customer.isActive) {
+        <span class="badge">Active</span>
+        } @if (!customer.isActive) {
+        <span class="badge badge-light-error">In-Active</span>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="card p-5">
+      <router-outlet />
+    </div> -->
+}

@@ -25,13 +25,13 @@ export class RolesService {
   }
 
   /**
-   * Finds the role for tenants
+   * Finds the role for customers
    *
-   * @returns the role object for tenants if found, undefined otherwise
+   * @returns the role object for customers if found, undefined otherwise
    */
-  async getTenantRole(): Promise<Role | undefined> {
+  async getCustomerRole(): Promise<Role | undefined> {
     try {
-      return await this.roles.findOne({ name: RolesEnum.TenantRole }).exec();
+      return await this.roles.findOne({ name: RolesEnum.CustomerRole }).exec();
     } catch (error) {
       return undefined;
     }

@@ -1,0 +1,178 @@
+<div class="flex flex-col">
+  <div class="py-3 py-lg-5">
+    <div class="w-full mx-auto">
+      <div class="card p-3 lg:p-5">
+        <div class="flex flex-row justify-between items-center">
+          <div>
+            <p class="title">Register A New Employee</p>
+            <div class="text-muted">
+              If you need more info, please check out
+              <a href="#" class="link-primary font-bold">Help Page</a>.
+            </div>
+          </div>
+          <div>
+            <button (click)="goToEmployeeList()"
+              class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+              <i class="bi bi-arrow-left me-2"></i>
+              Back to Employee List
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="flex flex-col">
+            <div class="mt-4">
+              <form [formGroup]="registerNewEmployee" (ngSubmit)="submit()" class="space-y-4">
+                <div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <div>
+                        <label class="form-label required" for="">Name</label>
+                        <input type="text" formControlName="name" name="name" placeholder="e.g James Smith"
+                          class="form-control placeholder:text-gray-400" />
+                        @if ( registerNewEmployee.controls['name'].invalid &&
+                        (registerNewEmployee.controls['name'].dirty ||
+                        registerNewEmployee.controls['name'].touched) ) {
+                        <div class="input-error">
+                          @if ( registerNewEmployee.controls['name'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger"> Name is required. </span>
+                          </div>
+                          } @if ( registerNewEmployee.controls['name'].errors?.[
+                          'invalidName' ] ) {
+                          <div>
+                            <span class="text-danger"> Name is invalid. </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <label class="form-label required" for="">Email</label>
+                        <input type="email" formControlName="email" name="email" placeholder="Email"
+                          autocomplete="new-email" class="form-control placeholder:text-gray-400" />
+                        @if ( registerNewEmployee.controls['email'].invalid &&
+                        (registerNewEmployee.controls['email'].dirty ||
+                        registerNewEmployee.controls['email'].touched) ) {
+                        <div class="input-error">
+                          @if ( registerNewEmployee.controls['email'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Email is required.
+                            </span>
+                          </div>
+                          } @if (
+                          registerNewEmployee.controls['email'].errors?.[
+                          'invalidEmail' ] ) {
+                          <div>
+                            <span class="text-danger"> Email is invalid. </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <div>
+                        <label class="form-label required" for="">Password</label>
+                        <input type="text" formControlName="password" name="password" placeholder="AB@12345"
+                          autocomplete="new-password" class="form-control placeholder:text-gray-400" />
+                        @if ( registerNewEmployee.controls['password'].invalid
+                        && (registerNewEmployee.controls['password'].dirty ||
+                        registerNewEmployee.controls['password'].touched) ) {
+                        <div class="input-error">
+                          @if (
+                          registerNewEmployee.controls['password'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Password is required.
+                            </span>
+                          </div>
+                          } @if (
+                          registerNewEmployee.controls['password'].errors?.[
+                          'invalidPassword' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Password should be at least 8 characters long and
+                              contain at least 1 number, 1 uppercase letter, 1
+                              lowercase letter, and 1 special character.
+                            </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <label class="form-label required" for="">Phone Number</label>
+                        <input type="tel" formControlName="phone" name="phone" placeholder="Phone Number"
+                          class="form-control placeholder:text-gray-400" />
+                        @if ( registerNewEmployee.controls['phone'].invalid &&
+                        (registerNewEmployee.controls['phone'].dirty ||
+                        registerNewEmployee.controls['phone'].touched) ) {
+                        <div class="input-error">
+                          @if ( registerNewEmployee.controls['phone'].errors?.[
+                          'required' ] ) {
+                          <div>
+                            <span class="text-danger">
+                              Phone is required.
+                            </span>
+                          </div>
+                          } @if (
+                          registerNewEmployee.controls['phone'].errors?.[
+                          'invalidPhone' ] ) {
+                          <div>
+                            <span class="text-danger"> Phone is invalid. </span>
+                          </div>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <label class="form-label required" for="">Role</label>
+                        <select name="roleId" id="roleId" formControlName="roleId">
+                          <option value="">Select an Option</option>
+                          @for (_role of roles; track _role) {
+                          <option value="{{ _role._id }}">
+                            {{ _role.name }}
+                          </option>
+                          }
+                        </select>
+                        @if (registerNewEmployee.get('roleId')?.dirty) {
+                        <div class="input-error">
+                          @if ( registerNewEmployee.get('roleId')?.errors &&
+                          registerNewEmployee .get('roleId')
+                          ?.hasError('required') ) {
+                          <span class="text-danger">The Input is required</span>
+                          }
+                        </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-5 flex flex-row gap-5">
+                  <app-button type="button" [styles]="'btn !bg-gray-200 !text-gray-700 me-3 rounded-full'"
+                    (buttonClicked)="discard()" label="Discard" />
+
+                  <app-button [label]="'Submit'" [isLoading]="isLoading" type="submit"
+                    [styles]="'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

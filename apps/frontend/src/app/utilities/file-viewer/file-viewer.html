@@ -1,0 +1,51 @@
+<div
+  [style.width]="isModal ? innerWidth + 'px' : '100%'"
+  class="renderer bg-white dark:bg-gray-100"
+  >
+  <div class="container-fluid">
+    <div class="left h-[50px]">
+      <img
+        class="client-logo"
+        src='assets/logos/logo.webp'
+
+        alt="Logo"
+        class="h-10 w-fit"
+        />
+      @if (!isModal) {
+        <img
+          src="assets/logos/logo.webp"
+          alt="BimaTrust Logo"
+          class="ml-10 h-10"
+          />
+      }
+    </div>
+    <div class="right">
+      <select
+        name="view-mode"
+        class="form-select"
+        [(ngModel)]="mode"
+        (ngModelChange)="modeChanged($event)"
+        name="mode"
+        >
+        <option value="#toolbar=0&view=FitH">FullScreen</option>
+        <option value="#view=Fit">Fit View</option>
+        <option value="#toolbar=0">Hide Toolbar</option>
+      </select>
+      @if (isModal) {
+        <button (click)="closeModal($event)">
+          <i class="bi bi-x-circle"></i>
+        </button>
+      }
+    </div>
+  </div>
+  @if (src) {
+    <iframe
+      [src]="src"
+      [width]="innerWidth"
+      [height]="innerHeight"
+    ></iframe>
+  }
+  @if (!src) {
+    <app-data-loading [fullPage]="true" [message]="loaderMessage" />
+  }
+</div>
