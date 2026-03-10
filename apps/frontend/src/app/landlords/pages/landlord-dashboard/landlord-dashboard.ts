@@ -95,7 +95,8 @@ export class LandlordDashboard implements OnInit {
         ],
       },
       title: 'Landlord Dashboard',
-      description: 'Overview of your listings, bookings, and landlord activity.',
+      description:
+        'Overview of your listings, bookings, and landlord activity.',
     });
   }
 
@@ -136,14 +137,13 @@ export class LandlordDashboard implements OnInit {
       });
   }
 
-
   fetchBookings() {
     const endpoint = this.router.url;
     const dashboard = endpoint.includes('customer')
       ? DashboardsEnum.CUSTOMER
       : endpoint.includes('landlord')
-      ? DashboardsEnum.LANDLORD
-      : DashboardsEnum.ADMIN;
+        ? DashboardsEnum.LANDLORD
+        : DashboardsEnum.ADMIN;
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
@@ -178,10 +178,10 @@ export class LandlordDashboard implements OnInit {
   }
 
   getBookingStatus(booking: Booking): 'Booked' | 'Active' | 'Closed' {
-    if (!booking?.items?.length) return 'Closed';
+    if (!booking?.invoice?.items?.length) return 'Closed';
 
-    const checkIn = booking.items[0].metadata?.checkIn;
-    const checkOut = booking.items[0].metadata?.checkOut;
+    const checkIn = booking.invoice?.items?.[0]?.metadata?.checkIn;
+    const checkOut = booking.invoice?.items?.[0]?.metadata?.checkOut;
 
     if (!checkIn || !checkOut) return 'Closed';
 

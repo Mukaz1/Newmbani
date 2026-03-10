@@ -1,7 +1,9 @@
 import {
+  Coordinates,
   CreateProperty,
   PostCreateProperty,
   PropertyApprovalStatus,
+  PropertyFeatures,
   PropertyImage,
   PropertyType,
 } from '@newmbani/types';
@@ -11,6 +13,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   ValidateNested,
@@ -27,6 +30,10 @@ export class CreatePropertyDto implements CreateProperty {
   @IsNotEmpty()
   @IsString()
   categoryId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  subcategoryId: string;
 
   @IsNotEmpty()
   @IsString()
@@ -52,13 +59,18 @@ export class CreatePropertyDto implements CreateProperty {
   @IsNumber()
   availableUnits: number;
 
-  @IsNotEmpty()
-  @IsEnum(PropertyType)
-  propertyType: PropertyType;
-
   @Type(() => AddressDto)
   @ValidateNested()
   address: AddressDto;
+
+  @IsObject()
+  @IsNotEmpty()
+  features: PropertyFeatures;
+
+
+  @IsObject()
+  @IsNotEmpty()
+  map: Coordinates;
 }
 
 export class PostCreatePropertyDto

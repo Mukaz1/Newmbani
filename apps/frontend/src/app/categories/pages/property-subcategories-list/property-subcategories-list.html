@@ -1,0 +1,145 @@
+@if (!propertiesubCategories()) {
+<app-data-loading />
+} @else {
+<div class="main flex-col">
+  <div class="flex flex-col">
+    <div class="mb-5">
+      <div class="flex flex-row justify-between">
+        <div>
+          <p class="title">Property Subcategories</p>
+          <p>
+            There are {{ paginatedData()?.total || 0 }} Property Subcategories
+            for you
+          </p>
+        </div>
+        <div>
+          <button type="button" (click)="addPropertiesSubCategoryModal()"
+            class="btn btn-primary p-2 px-4 text-sm font-semibold border border-gray-400 hover:text-white rounded-full hover:bg-primary-700">
+            Add New Subcategory
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card p-5">
+      <div>
+        <div class="flex flex-row justify-between mx-0 mx-full">
+          <div>
+            <app-search-input-widget [enableAdvancedSearch]="false" [keyword]="keyword()"
+              (keywordChangedEvent)="updateKeyword($event)" (searchButtonClickedEvent)="search()" />
+          </div>
+          <div>
+            <div style="width: max-content" class="flex flex-row gap-5 justify-end">
+              <div>
+                <div class="flex justify-end gap-2">
+                  @if (selectedPropertiesubCategories.length > 0) {
+                  <app-dropdown-menu title="Actions" [items]="[
+     { label: 'Print Statement', icon: 'bi bi-printer', action: printStatement }
+   ]" panelClass="bg-base-100 rounded-box w-100 p-3 shadow-sm" [context]="this"></app-dropdown-menu>
+                  }
+                </div>
+              </div>
+              <div class="flex justify-end gap-2">
+                <app-dropdown-menu title="Export" [items]="[
+              { label: 'As PDF', icon: 'bi bi-file-earmark-pdf', routerLink: ['/export/pdf'] },
+              { label: 'As CSV', icon: 'bi bi-filetype-csv', action: exportTableToCSV }
+            ]" [context]="this"></app-dropdown-menu>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <form [formGroup]="form">
+          <table class="table-md w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
+            <thead>
+              <tr class="text-start text-muted font-bold text-uppercase gs-0">
+                <th class="w-10px pe-2 border-b border-gray-200">
+                  <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                    <input class="form-check-input" type="checkbox" (change)="onSelectAll($event)" #selectAll />
+                  </div>
+                </th>
+                <th class=" py-2 text-left text-xs font-semibold text-gray-600 uppercase">
+                  Name
+                </th>
+                <th class=" py-2 text-left text-xs font-semibold text-gray-600 uppercase">
+                  Description
+                </th>
+                <th class=" py-2 text-left text-xs font-semibold text-gray-600 uppercase">
+                  Category Name
+                </th>
+                <th class=" py-2 text-left text-xs font-semibold text-gray-600 uppercase">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-600 font-semibold">
+              @if (loading()) {
+              <tr>
+                <td style="text-align: center" colspan="8">
+                  <app-data-loading [fullPage]="false" />
+                </td>
+              </tr>
+              } @else if (propertiesubCategories().length === 0) {
+              <tr>
+                <td style="text-align: center" colspan="8">
+                  No Property Subcategories to display here
+                </td>
+              </tr>
+              } @else { @for (_propertiesubcategory of propertiesubCategories();
+              track _propertiesubcategory._id) {
+              <tr>
+                <td>
+                  <div class="form-check form-check-sm form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" [value]="_propertiesubcategory._id"
+                      [checked]="isChecked(_propertiesubcategory._id)" (change)="onCheckboxChange($event)" />
+                  </div>
+                </td>
+                <td class="flex items-center">
+                  <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                    <a href="#">
+                      <div class="symbol-label bg-light-danger text-danger">
+                        {{ _propertiesubcategory.name.charAt(0) }}
+                      </div>
+                    </a>
+                  </div>
+                  <div class="flex flex-col">
+                    <a href="#" class="text-hover-primary font-normal"
+                      [routerLink]="['/admin/propertiesubCategories', _propertiesubcategory.slug ? _propertiesubcategory.slug : _propertiesubcategory._id]">{{
+                      _propertiesubcategory.name }}</a>
+                  </div>
+                </td>
+                <td>
+                  <div class="line-clamp-1 font-light">
+                    {{ _propertiesubcategory.description || 'N/A' }}
+                  </div>
+                </td>
+                <td class="font-light">
+                  {{ getCategoryNameById(_propertiesubcategory.categoryId) }}
+                </td>
+                <td class="px-6 py-2.5 whitespace-nowrap flex gap-2 text-right">
+                  <button class="space-x-2"
+                    [routerLink]="['/admin/property-categories/subcategories', _propertiesubcategory._id]">
+                    <i class="bi bi-eye text-lg"></i>
+                  </button>
+                  <button class="space-x-2" (click)="editPropertiesSubCategoryModal(_propertiesubcategory)">
+                    <i class="bi bi-pencil-square text-lg"></i>
+                  </button>
+                </td>
+              </tr>
+              } }
+            </tbody>
+          </table>
+        </form>
+        <!-- Pagination Section -->
+        @if (paginatedData()) {
+        <ng-container class="mb-5">
+          <app-pagination [paginatedData]="paginatedData()!" (pageChange)="pageChange($event)"
+            (itemsPerPageChange)="changePageSize($event)" />
+        </ng-container>
+        }
+        <!-- End Pagination Section -->
+      </div>
+    </div>
+  </div>
+</div>
+}

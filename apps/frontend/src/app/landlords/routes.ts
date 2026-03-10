@@ -40,59 +40,8 @@ export const routes: Routes = [
       // },
       {
         path: 'properties',
-        loadComponent: () =>
-          import('../properties/pages/all-properties/all-properties').then(
-            (m) => m.AllProperties
-          ),
-        canMatch: [AuthGuard, LandlordGuard],
-      },
-      {
-        path: 'properties/:id',
-        loadComponent: () =>
-          import('../properties/pages/view-property/view-property').then(
-            (m) => m.ViewProperty
-          ),
-        canMatch: [AuthGuard, LandlordGuard],
-      },
-      {
-        path: 'property-listings',
-        loadComponent: () =>
-          import(
-            '../property-listing/pages/all-property-listing/all-property-listing'
-          ).then((m) => m.AllPropertyListing),
-        canMatch: [AuthGuard, LandlordGuard],
-      },
-      {
-        path: 'property-listings/:id',
-        loadComponent: () =>
-          import(
-            '../property-listing/pages/view-property-listing/view-property-listing'
-          ).then((m) => m.ViewPropertyListing),
-        canMatch: [AuthGuard, LandlordGuard],
-      },
-      {
-        path: 'listings/:id/edit',
-        loadComponent: () =>
-          import(
-            '../property-listing/pages/manage-property-listing/manage-property-listing'
-          ).then((m) => m.ManagePropertyListing),
-        canMatch: [AuthGuard, LandlordGuard],
-      },
-      {
-        path: 'addresses',
-        loadComponent: () =>
-          import('../customer/components/addresses/addresses').then(
-            (m) => m.Addresses
-          ),
-        canMatch: [AuthGuard, LandlordGuard],
-      },
-      {
-        path: 'analytics',
-        loadComponent: () =>
-          import('./pages/analytics/analytics').then(
-            (m) => m.Analytics
-          ),
-        canMatch: [AuthGuard, LandlordGuard],
+        loadChildren: () =>
+          import('../properties/routes').then((m) => m.routes),
       },
       {
         path: 'messages',

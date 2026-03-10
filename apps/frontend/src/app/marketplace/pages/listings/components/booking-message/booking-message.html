@@ -22,9 +22,9 @@
                         <span class="text-gray-600">Stay dates:</span>
                         <span class="font-medium text-gray-900">
                             {{
-                            booking()?.items?.[0]?.metadata?.checkIn | date:'EEE, d MMM y'
+                            booking()?.invoice?.items?.[0]?.metadata?.checkIn | date:'EEE, d MMM y'
                             }} – {{
-                            booking()?.items?.[0]?.metadata?.checkOut | date:'EEE, d MMM y'
+                            booking()?.invoice?.items?.[0]?.metadata?.checkOut | date:'EEE, d MMM y'
                             }}
                         </span>
                     </span>
@@ -48,7 +48,7 @@
                     <div class="flex items-center gap-3 py-2">
                         <span class="text-sm text-gray-600">
                             Payment will be made on {{
-                            booking()?.items?.[0]?.metadata?.checkIn | date:'EEE, d MMM y'
+                            booking()?.invoice?.items?.[0]?.metadata?.checkIn | date:'EEE, d MMM y'
                             }} at check-in.
                         </span>
                     </div>

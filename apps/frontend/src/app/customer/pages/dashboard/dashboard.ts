@@ -83,8 +83,8 @@ export class CustomerDashboard implements OnInit {
     const dashboard = endpoint.includes('customer')
       ? DashboardsEnum.CUSTOMER
       : endpoint.includes('host')
-      ? DashboardsEnum.HOST
-      : DashboardsEnum.ADMIN;
+        ? DashboardsEnum.HOST
+        : DashboardsEnum.ADMIN;
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
@@ -118,10 +118,10 @@ export class CustomerDashboard implements OnInit {
   }
 
   getBookingStatus(booking: Booking): 'Scheduled' | 'Active' | 'Completed' {
-    if (!booking?.items?.length) return 'Completed';
+    if (!booking?.invoice?.items?.length) return 'Completed';
 
-    const checkIn = booking.items[0].metadata?.checkIn;
-    const checkOut = booking.items[0].metadata?.checkOut;
+    const checkIn = booking.invoice?.items?.[0]?.metadata?.checkIn;
+    const checkOut = booking.invoice?.items?.[0]?.metadata?.checkOut;
 
     if (!checkIn || !checkOut) return 'Completed';
 

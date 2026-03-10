@@ -1,0 +1,43 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"); */
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+* {
+  /* font-family: "Quicksand", sans-serif; */
+  /* font-family: "Montserrat", sans-serif; */
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.title {
+  @apply text-xl text-gray-800 mb-4 font-semibold;
+}
+
+.text-muted {
+  @apply text-sm text-gray-500;
+}
+
+.text-gradient-general {
+  @apply font-bold bg-gradient-to-r from-red-600 via-primary-500 to-secondary-400 bg-clip-text inline-block text-transparent py-2;
+}
+
+.text-gradient-red {
+  @apply font-bold bg-gradient-to-r from-red-600 via-orange-500 to-red-500 bg-clip-text inline-block text-transparent py-2;
+}
+
+.text-gradient-primary {
+  @apply font-bold bg-gradient-to-r from-primary via-primary-600 to-secondary-500 bg-clip-text inline-block text-transparent py-2;
+}
+
+.text-gradient-green {
+  @apply font-bold bg-gradient-to-r from-green-600 via-green-400 to-green-600 bg-clip-text inline-block text-transparent py-2;
+}
+
+.text-gradient-orange {
+  @apply font-bold bg-gradient-to-r from-orange-600 via-orange-400 to-orange-600 bg-clip-text inline-block text-transparent py-2;
+}
+
+.text-gradient-purple {
+  @apply font-bold bg-gradient-to-r from-purple-600 via-purple-400 to-purple-600 bg-clip-text inline-block text-transparent py-2;
+}

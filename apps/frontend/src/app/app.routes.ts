@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { CustomerGuard } from './auth/guards/customer.guard';
 import { Error404 } from './common/errors/error-404/error-404';
 import { Error500 } from './common/errors/error-500/error-500';
+import { LandlordGuard } from './auth/guards/landlord.guard';
 
 export const routes: Routes = [
   {
@@ -27,11 +28,11 @@ export const routes: Routes = [
     canMatch: [AuthGuard, CustomerGuard],
     loadChildren: () => import('./customer/routes').then((m) => m.routes),
   },
-  // {
-  //   path: 'host',
-  //   canMatch: [AuthGuard, HostGuard],
-  //   loadChildren: () => import('./host/routes').then((m) => m.routes),
-  // },
+  {
+    path: 'landlord',
+    canMatch: [AuthGuard, LandlordGuard],
+    loadChildren: () => import('.//landlords/routes').then((m) => m.routes),
+  },
   {
     path: 'admin',
     canMatch: [AuthGuard, AdminGuard],

@@ -184,7 +184,7 @@ export class CustomersService {
    * @return {*}  {Promise<any>}
    * @memberof CustomerService
    */
-  async update(id: string, payload: Partial<Customer>): Promise<Customer> {
+  async update(id: string, payload: UpdateCustomerDto): Promise<Customer> {
     const filter = { _id: id };
     const update = payload;
     const updatedCustomer = await CustomerModel.findOneAndUpdate(filter, update, {

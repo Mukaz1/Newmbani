@@ -21,3 +21,5 @@ export * from './queues';
 export * from './employees';
 export * from './socket';
 export * from './bookings';
+export * from './invoices';
+export * from './help-center';

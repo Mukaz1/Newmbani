@@ -39,9 +39,7 @@ export class PropertiesService {
     keyword?: string;
     categoryId?: string;
     approvalStatus?: PropertyApprovalStatus;
-    subcategoryId?: string;
     landlordId?: string;
-    listingTypeId?: string;
     countryId?: string;
   }): Observable<HttpResponseInterface<PaginatedData<Property[]>>> {
     const options = data
@@ -94,4 +92,35 @@ export class PropertiesService {
       `${API_ENDPOINTS.PROPERTIES}/${propertyId}`
     );
   }
+
+
+    /**
+   * Remove a property image
+   */
+    removePropertyImage(
+      propertyId: string
+    ): Observable<HttpResponseInterface<void>> {
+      return this.http.delete<HttpResponseInterface<void>>(
+        `${API_ENDPOINTS.PROPERTY_IMAGES}/${propertyId}`
+      );
+    }
+  
+    /**
+     * Review property (approve or reject)
+     * @param propertyId The id of the property to review
+     * @param reviewDto The review payload (status, reason, etc)
+     */
+    reviewProperty(data: {
+      propertyId: string;
+      status: string;
+      comment: string;
+    }): Observable<HttpResponseInterface<any>> {
+      const { propertyId, status, comment } = data;
+      const endpoint = `${API_ENDPOINTS.REVIEW_PROPERTY}/${propertyId}/review`;
+      const payload = {
+        status,
+        comment,
+      };
+      return this.http.patch<HttpResponseInterface<any>>(endpoint, payload);
+    }
 }

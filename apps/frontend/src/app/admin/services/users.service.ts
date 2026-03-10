@@ -9,7 +9,7 @@ import {
   UpdateUser,
   User,
   UpdateCustomer,
-  RegisterCustomer,
+  CreateCustomer,
 } from '@newmbani/types';
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,7 @@ export class UsersService {
     );
   }
 
-  addNewCustomer(payload: RegisterCustomer): Observable<HttpResponseInterface> {
+  addNewCustomer(payload: CreateCustomer): Observable<HttpResponseInterface> {
     const endpoint = `${API_ENDPOINTS.CREATE_CUSTOMER}`;
     return this.httpClient.post<HttpResponseInterface>(endpoint, payload);
   }

@@ -1,0 +1,48 @@
+@if (!subcategory) {
+<app-data-loading />
+} @if (subcategory) {
+<div class="flex-col">
+  <div class="flex flex-col">
+    <div class="py-3 py-lg-6">
+      <div class="flex flex-row justify-between">
+        <div class="page-title flex flex-col justify-center flex-wrap me-3">
+          <p class="title">Subcategory Details</p>
+        </div>
+      </div>
+    </div>
+    <div class="card mx-auto w-full p-5">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+        <div class="my-2">
+          <div class="font-bold mb-1">Subcategory Name</div>
+          <div class="text-gray-600">{{ subcategory.name }}</div>
+        </div>
+        <div class="my-2">
+          <div class="font-bold mb-1">Category</div>
+          <div class="text-gray-600">{{ getCategoryName() }}</div>
+        </div>
+
+        <div class="my-2">
+          <div class="font-bold mb-1">Created At</div>
+          <div class="text-gray-600">
+            {{ subcategory.createdAt | date : 'mediumDate' }}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="font-bold mb-1">Status</div>
+          <div>
+            @if (subcategory.isActive) {
+            <span class="badge">Active</span>
+            } @if (!subcategory.isActive) {
+            <span class="badge badge-light-error">In-Active</span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="font-bold mb-1">Description</div>
+        <div class="text-gray-600">{{ subcategory.description || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+}

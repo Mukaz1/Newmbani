@@ -227,10 +227,10 @@
                     {{ booking.customer.name }}
                   </td>
                   <td class="py-4 px-3 text-gray-500 whitespace-nowrap">
-                    {{ booking.items[0].metadata.checkIn | date:'dd MMM'}}
+                    {{ booking?.invoice?.items?.[0]?.metadata?.checkIn | date:'dd MMM'}}
                   </td>
                   <td class="py-4 px-3 text-gray-500 whitespace-nowrap">
-                    {{ booking.items[0].metadata.checkOut | date:'dd MMM'}}
+                    {{ booking?.invoice?.items?.[0]?.metadata?.checkOut | date:'dd MMM'}}
                   </td>
                   <td class="py-4 px-3 whitespace-nowrap">
                     <span class="px-3 py-2 rounded-full border items-center text-center text-xs font-semibold"

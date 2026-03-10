@@ -1,4 +1,4 @@
-import { CreateCustomer } from '@newmbani/types';
+import { CreateCustomer, UpdateCustomer } from '@newmbani/types';
 import {
   IsString,
   IsNotEmpty,
@@ -36,23 +36,29 @@ export class CreateCustomerDto implements CreateCustomer {
   acceptTerms: boolean;
 }
 
-export class PostCustomerDto extends CreateCustomerDto {
+
+export class UpdateCustomerDto implements UpdateCustomer {
   @IsString()
   @IsOptional()
-  createdBy?: string;
-}
-
-export class UpdateCustomerDto {
-  @IsString()
-  @IsNotEmpty()
   name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   phone: string;
+
+  @IsString()
+  @IsOptional()
+  password: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => AddressDto)
   address: AddressDto;
+}
+
+
+export class PostCustomerDto extends CreateCustomerDto {
+  @IsString()
+  @IsOptional()
+  createdBy?: string;
 }

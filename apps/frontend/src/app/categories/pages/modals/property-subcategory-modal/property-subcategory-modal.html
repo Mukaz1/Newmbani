@@ -1,0 +1,98 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+>
+  <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto">
+    <h2 class="text-xl font-semibold mb-4">
+      {{ title || 'Add Property Subcategory' }}
+    </h2>
+
+    <form
+      [formGroup]="propertiesubcategoryForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-4"
+    >
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-2"
+          >Subcategory Name</label
+        >
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+          placeholder="Enter subcategory name"
+        />
+        @if (propertiesubcategoryForm.get('name')?.invalid &&
+        (propertiesubcategoryForm.get('name')?.dirty ||
+        propertiesubcategoryForm.get('name')?.touched)) {
+        <p class="text-red-500 text-xs mt-1">
+          @if
+          (propertiesubcategoryForm.get('name')?.errors?.['required'])
+          { Subcategory Name is required. }
+        </p>
+        }
+      </div>
+
+      <div>
+        <label
+          for="categoryId"
+          class="block text-sm font-medium text-gray-700 mb-2"
+          >Property Category</label
+        >
+        <select
+          id="categoryId"
+          formControlName="categoryId"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+        >
+          <option value="">Select Property Category</option>
+          @if (propertyCategories().length >0) { @for (propertyCategory of
+          propertyCategories(); track propertyCategory._id) {
+          <option [value]="propertyCategory._id">
+            {{propertyCategory.name}}
+          </option>
+          } }
+        </select>
+        @if (propertiesubcategoryForm.get('categoryId')?.invalid &&
+        (propertiesubcategoryForm.get('categoryId')?.dirty ||
+        propertiesubcategoryForm.get('categoryId')?.touched)) {
+        <p class="text-red-500 text-xs mt-1">
+          @if (propertiesubcategoryForm.get('categoryId')?.errors?.['required']) {
+          Property Category is required. }
+        </p>
+        }
+      </div>
+
+      <div>
+        <label
+          for="description"
+          class="block text-sm font-medium text-gray-700 mb-2"
+          >Description</label
+        >
+        <textarea
+          id="description"
+          formControlName="description"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+          placeholder="Enter description (optional)"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="flex justify-end space-x-3 mt-6">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="propertiesubcategoryForm.invalid"
+          class="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ isEditing ? 'Update' : 'Add' }} Property Subcategory
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

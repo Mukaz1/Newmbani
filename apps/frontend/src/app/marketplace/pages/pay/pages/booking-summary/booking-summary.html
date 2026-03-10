@@ -28,7 +28,7 @@
               <i class="bi bi-clock"></i> Check-in
             </div>
             <div class="text-sm font-medium text-gray-900">
-              {{ booking?.items?.[0]?.metadata?.checkIn | date:'mediumDate' }}
+              {{ booking?.invoice?.items?.[0]?.metadata?.checkIn | date:'mediumDate' }}
             </div>
           </div>
           <div>
@@ -36,7 +36,7 @@
               <i class="bi bi-clock"></i> Check-out
             </div>
             <div class="text-sm font-medium text-gray-900">
-              {{ booking?.items?.[0]?.metadata?.checkOut | date:'mediumDate' }}
+              {{ booking?.invoice?.items?.[0]?.metadata?.checkOut | date:'mediumDate' }}
             </div>
           </div>
         </div>
@@ -45,34 +45,34 @@
         <div class="border-t border-gray-100 py-2">
           <label for="guests" class="block text-sm text-gray-600 mb-1"><i class="bi bi-people"></i> Guests</label>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @if(booking?.items?.[0]?.metadata?.guests?.adults ?? 0) {
+            @if(booking?.invoice?.items?.[0]?.metadata?.guests?.adults ?? 0) {
             <div class="flex items-center">
               <span class="text-sm">
-                {{ booking?.items?.[0]?.metadata?.guests?.adults }} Adult{{
-                booking?.items?.[0]?.metadata?.guests?.adults ?? 1 ? 's' : '' }}
+                {{ booking?.invoice?.items?.[0]?.metadata?.guests?.adults }} Adult{{
+                booking?.invoice?.items?.[0]?.metadata?.guests?.adults ?? 1 ? 's' : '' }}
               </span>
             </div>
-            } @if(booking?.items?.[0]?.metadata?.guests?.children ?? 0) {
+            } @if(booking?.invoice?.items?.[0]?.metadata?.guests?.children ?? 0) {
             <div class="flex items-center">
               <span class="ml-1 text-sm">
-                {{ booking?.items?.[0]?.metadata?.guests?.children }} Child{{
-                booking?.items?.[0]?.metadata?.guests?.children ?? 1 ? 'ren' :
+                {{ booking?.invoice?.items?.[0]?.metadata?.guests?.children }} Child{{
+                booking?.invoice?.items?.[0]?.metadata?.guests?.children ?? 1 ? 'ren' :
                 '' }}
               </span>
             </div>
-            } @if(booking?.items?.[0]?.metadata?.guests?.infants ?? 0) {
+            } @if(booking?.invoice?.items?.[0]?.metadata?.guests?.infants ?? 0) {
             <div class="flex items-center">
               <span class="ml-1 text-sm">
-                {{ booking?.items?.[0]?.metadata?.guests?.infants }} Infant{{
-                booking?.items?.[0]?.metadata?.guests?.infants ?? 1 ? 's' : ''
+                {{ booking?.invoice?.items?.[0]?.metadata?.guests?.infants }} Infant{{
+                booking?.invoice?.items?.[0]?.metadata?.guests?.infants ?? 1 ? 's' : ''
                 }}
               </span>
             </div>
-            } @if(booking?.items?.[0]?.metadata?.guests?.pets ?? 0) {
+            } @if(booking?.invoice?.items?.[0]?.metadata?.guests?.pets ?? 0) {
             <div class="flex items-center">
               <span class="ml-1 text-sm">
-                {{ booking?.items?.[0]?.metadata?.guests?.pets }} Pet{{
-                booking?.items?.[0]?.metadata?.guests?.pets ?? 1 ? 's' : '' }}
+                {{ booking?.invoice?.items?.[0]?.metadata?.guests?.pets }} Pet{{
+                booking?.invoice?.items?.[0]?.metadata?.guests?.pets ?? 1 ? 's' : '' }}
               </span>
             </div>
             }
@@ -85,7 +85,7 @@
 
           <!-- Individual Booking Items -->
           <div class="space-y-3 py-2">
-            @for (item of booking?.items; track item.name) {
+            @for (item of booking?.invoice?.items; track item.name) {
             <div class="flex items-center justify-between border-b border-gray-100 pb-2 last:border-none last:pb-0">
               <div class="flex flex-col">
                 <span class="font-medium text-gray-800">{{ item.name }}</span>

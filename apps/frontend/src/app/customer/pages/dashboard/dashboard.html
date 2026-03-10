@@ -149,19 +149,21 @@
               </td>
               <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
                 <span class="inline-block font-mono text-xs">
-                  {{ booking?.items?.[0]?.metadata?.checkIn ? (booking.items[0].metadata.checkIn | date:'dd MMM') : '--'
+                  {{ booking?.invoice?.items?.[0]?.metadata?.checkIn ? (booking.invoice.items[0].metadata.checkIn |
+                  date:'dd MMM') : '--'
                   }}
                   —
-                  {{ booking?.items?.[0]?.metadata?.checkOut ? (booking.items[0].metadata.checkOut | date:'dd MMM') :
+                  {{ booking?.invoice?.items?.[0]?.metadata?.checkOut ? (booking.invoice.items[0].metadata.checkOut |
+                  date:'dd MMM') :
                   '--' }}
                 </span>
               </td>
               <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
                 <span class="inline-block text-xs">
-                  {{ booking?.items?.[0]?.metadata?.guests?.adults ?? 0 }}
-                  {{ booking?.items?.[0]?.metadata?.guests?.adults === 1 ? 'Adult' : 'Adults' }},
-                  {{ booking?.items?.[0]?.metadata?.guests?.children ?? 0 }}
-                  {{ booking?.items?.[0]?.metadata?.guests?.children === 1 ? 'Child' : 'Children' }}
+                  {{ booking?.invoice?.items?.[0]?.metadata?.guests?.adults ?? 0 }}
+                  {{ booking?.invoice?.items?.[0]?.metadata?.guests?.adults === 1 ? 'Adult' : 'Adults' }},
+                  {{ booking?.invoice?.items?.[0]?.metadata?.guests?.children ?? 0 }}
+                  {{ booking?.invoice?.items?.[0]?.metadata?.guests?.children === 1 ? 'Child' : 'Children' }}
                 </span>
               </td>
               <td class="px-2 py-3 align-middle text-center whitespace-nowrap">

@@ -1,0 +1,79 @@
+@if (!propertyCategory) {
+<app-data-loading />
+} @if (propertyCategory) {
+<div class="card p-5">
+  <div class="mb-5">
+    <p class="title">Edit Property Category</p>
+    <div class="text-muted">
+      Update the property category name and description. If you need more info,
+      please check out
+      <a href="#" class="link-primary font-bold">Help Page</a>.
+    </div>
+  </div>
+  <div>
+    <form
+      [formGroup]="editPropertyCategoryForm"
+      (ngSubmit)="updatePropertyCategory()"
+    >
+      <div class="grid grid-cols-1">
+        <div>
+          <div>
+            <label for="name" class="required">Category Name</label>
+            <input
+              type="text"
+              name="name"
+              class="form-control"
+              placeholder="Category Name"
+              formControlName="name"
+            />
+            @if ( editPropertyCategoryForm.get('name')?.invalid &&
+            (editPropertyCategoryForm.get('name')?.dirty ||
+            editPropertyCategoryForm.get('name')?.touched) ) {
+            <div class="input-error">
+              @if
+              (editPropertyCategoryForm.get('name')?.errors?.['required'])
+              {
+              <span> Category Name is required. </span>
+              }
+            </div>
+            }
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <label for="description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            cols="30"
+            rows="10"
+            formControlName="description"
+            placeholder="Description"
+            class="form-control"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="pt-5 gap-5 flex flex-row">
+        <button
+          type="button"
+          (click)="discard()"
+          class="btn bg-gray-500 text-white me-3 rounded-full px-5"
+        >
+          Discard
+        </button>
+
+        <div>
+          <app-button
+            [label]="'Update Property Category'"
+            [isLoading]="isLoading"
+            type="submit"
+            [styles]="
+              'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'
+            "
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+}

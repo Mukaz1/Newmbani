@@ -1,0 +1,48 @@
+<div class="modal-backdrop flex items-center justify-center">
+    <div class="modal-container w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 shadow-xl relative"
+        style="min-width: 24rem;">
+        <!-- Header -->
+        <div class="modal-header flex justify-between items-center border-b border-gray-200 dark:border-gray-700 p-4">
+            <h2 class="modal-title text-lg font-bold text-white">Change image Category </h2>
+            <button class="modal-close" (click)="closeModal()" aria-label="Close modal">
+                <i class="bi bi-x-lg text-gray-800 dark:text-white text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+            <form [formGroup]="propertyImageForm" (submit)="onSubmit()" class="space-y-6">
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <p>{{propertyName()}}</p>
+                    </div>
+                    <img [src]="propertyImage()?.link" [alt]="propertyName()"
+                        class="w-full h-64 object-cover rounded-xl">
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+
+                    <div>
+                        <label for="propertyImageCategoryId"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Image Category
+                        </label>
+                        <select id="propertyImageCategoryId" formControlName="propertyImageCategoryId"
+                            class="form-control mt-1" required>
+                            @for (image of imageCategories(); track image) {
+                            <option value="{{image._id}}"> {{image.name }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer flex justify-end gap-3 border-t border-gray-200 dark:border-gray-700 p-4">
+            <app-button (buttonClicked)="closeModal()" [label]="'Cancel'"
+                styles="!bg-gray-200 !hover:bg-gray-400 !text-gray-700 "></app-button>
+            <app-button [label]="'Submit'" (click)="onSubmit()" [disabled]="isLoading() || propertyImageForm.invalid"
+                [isLoading]="isLoading()"></app-button>
+        </div>
+    </div>
+</div>

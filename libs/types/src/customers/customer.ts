@@ -10,4 +10,11 @@ export interface CreateCustomer {
   acceptTerms: boolean;
 }
 
+export interface UpdateCustomer {
+  name: string;
+  phone: string;
+  password: string;
+  address: Address;
+}
+
 export interface Customer extends CreateCustomer, AuditData {}

@@ -1,0 +1,86 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  
+  <!-- Stars/Sparkles -->
+  <circle cx="100" cy="80" r="2" fill="#ffd700" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="650" cy="120" r="2" fill="#ffd700" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="450" r="2" fill="#ffd700" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Astronaut -->
+  <g id="astronaut">
+    <!-- Helmet -->
+    <ellipse cx="400" cy="280" rx="45" ry="50" fill="#ffffff" stroke="#2c3e50" stroke-width="3"/>
+    <ellipse cx="400" cy="280" rx="35" ry="40" fill="#e3f2fd" opacity="0.5"/>
+    
+    <!-- Visor reflection -->
+    <ellipse cx="395" cy="275" rx="15" ry="20" fill="#ffffff" opacity="0.7"/>
+    
+    <!-- Body -->
+    <ellipse cx="400" cy="360" rx="50" ry="60" fill="#ffffff" stroke="#2c3e50" stroke-width="3"/>
+    
+    <!-- Red stripes on suit -->
+    <rect x="365" y="340" width="70" height="8" fill="#e74c3c" rx="4"/>
+    <rect x="365" y="360" width="70" height="8" fill="#e74c3c" rx="4"/>
+    
+    <!-- Arms -->
+    <ellipse cx="340" cy="350" rx="18" ry="45" fill="#ffffff" stroke="#2c3e50" stroke-width="3" transform="rotate(-20 340 350)"/>
+    <ellipse cx="460" cy="350" rx="18" ry="45" fill="#ffffff" stroke="#2c3e50" stroke-width="3" transform="rotate(20 460 350)"/>
+    
+    <!-- Legs -->
+    <ellipse cx="380" cy="440" rx="18" ry="50" fill="#ffffff" stroke="#2c3e50" stroke-width="3"/>
+    <ellipse cx="420" cy="440" rx="18" ry="50" fill="#ffffff" stroke="#2c3e50" stroke-width="3"/>
+    
+    <!-- Boots -->
+    <ellipse cx="380" cy="485" rx="22" ry="15" fill="#34495e" stroke="#2c3e50" stroke-width="2"/>
+    <ellipse cx="420" cy="485" rx="22" ry="15" fill="#34495e" stroke="#2c3e50" stroke-width="2"/>
+    
+    <!-- Backpack -->
+    <rect x="395" y="315" width="40" height="50" fill="#e74c3c" stroke="#2c3e50" stroke-width="3" rx="5"/>
+    <circle cx="410" cy="330" r="6" fill="#3498db"/>
+    <circle cx="420" cy="345" r="6" fill="#2ecc71"/>
+    
+    <!-- Float animation -->
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="0,0; 0,-15; 0,0"
+      dur="3s"
+      repeatCount="indefinite"/>
+  </g>
+  
+  <!-- 404 Text -->
+  <g id="text-404">
+    <text x="400" y="150" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#2c3e50" text-anchor="middle">404</text>
+    <text x="400" y="150" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="none" stroke="#3498db" stroke-width="2" text-anchor="middle">404</text>
+  </g>
+  
+  <!-- Planet -->
+  <circle cx="620" cy="480" r="80" fill="#8e44ad" opacity="0.3"/>
+  <ellipse cx="620" cy="480" rx="100" ry="15" fill="none" stroke="#8e44ad" stroke-width="3" opacity="0.4"/>
+  
+  <!-- Small satellite -->
+  <g id="satellite">
+    <rect x="150" y="200" width="30" height="20" fill="#95a5a6" stroke="#2c3e50" stroke-width="2" rx="3"/>
+    <rect x="140" y="208" width="10" height="4" fill="#7f8c8d"/>
+    <rect x="180" y="208" width="10" height="4" fill="#7f8c8d"/>
+    
+    <!-- Orbit animation -->
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 400 300"
+      to="360 400 300"
+      dur="20s"
+      repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Message -->
+  <text x="400" y="540" font-family="Arial, sans-serif" font-size="24" fill="#7f8c8d" text-anchor="middle">Oops! This page is lost in space</text>
+</svg>

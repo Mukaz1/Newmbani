@@ -1,6 +1,26 @@
 import { model, Schema } from 'mongoose';
-import { DatabaseModelEnums, Property } from '@newmbani/types';
+import { Coordinates, DatabaseModelEnums, Property, PropertyElectricityEnum, PropertyFeatures, PropertyWaterEnum } from '@newmbani/types';
 import { BaseSchema } from '../../database/schemas/base.schema';
+
+
+const CoordinatesSchema = new Schema<Coordinates>(
+  {
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true },
+  },
+  { _id: false }
+);
+
+const propertyFeaturesSchema = new Schema<PropertyFeatures>(
+  {
+    water: { type: String, enum:PropertyWaterEnum, required: true },
+    electricity: { type: String, enum:PropertyElectricityEnum, required: true },
+    security: { type: String,  required: true },
+  },
+  { _id: false }
+);
+
+
 
 export const PropertySchema = new Schema<Property>({
   landlordId: { type: String, required: true, trim: true },
@@ -22,6 +42,10 @@ export const PropertySchema = new Schema<Property>({
   images: { type: [String], required: false, trim: true },
   approvalStatus: { type: String, required: true, trim: true },
 
+    // Location
+    map: CoordinatesSchema,
+    // features
+    features: propertyFeaturesSchema,
   // extend the base schema
   ...BaseSchema.obj,
 });

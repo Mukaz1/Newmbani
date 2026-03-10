@@ -1,0 +1,29 @@
+<div class="modal-backdrop items-end justify-end">
+  <div class="modal-container md:w-2/3 w-full min-w-96 h-full rounded-t-2xl">
+    <!-- Header -->
+    <div class="modal-header flex items-center justify-between">
+      <h2 class="modal-title">Upload {{imageCategory()?.name }} Images</h2>
+      <button class="modal-close" (click)="closeModal()">
+        <i class="bi bi-x-lg text-white text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body space-y-6">
+      <div>
+        <app-file-uploader [multiple]="true" (filesSelected)="onFilesSelected($event)"
+          [fileTypes]="[fileMimeGroups.Images]" />
+      </div>
+
+      <div class="pt-5 flex justify-end">
+        <app-button label="Upload" [disabled]="selectedFiles.length === 0" [isLoading]="isLoading()"
+          (buttonClicked)="upload()" [showIcon]="true" icon="bi bi-cloud-arrow-up" />
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer ">
+      &copy; {{ currentYear }} Aluxe
+    </div>
+  </div>
+</div>

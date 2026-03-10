@@ -1,0 +1,61 @@
+<div class="modal-backdrop flex items-center justify-center">
+    <div class="modal-container w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 shadow-xl relative"
+        style="min-width: 24rem;">
+        <!-- Header -->
+        <div class="modal-header flex justify-between items-center border-b border-gray-200 dark:border-gray-700 p-4">
+            <h2 class="modal-title text-lg font-bold text-white">Property Verification</h2>
+            <button class="modal-close" (click)="closeModal()" aria-label="Close modal">
+                <i class="bi bi-x-lg text-gray-800 dark:text-white text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body p-6">
+            <form [formGroup]="propertyVerificationForm" (submit)="onSubmit()" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                            Property Name
+                        </h3>
+                        <p class="text-md text-gray-700">{{ property()?.name }} </p>
+                    </div>
+                    <div>
+                        <h3 class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                            Address
+                        </h3>
+                        <p class="text-md text-gray-700">{{ property()?.address?.town }} - {{ property()?.address?.city
+                            }},{{
+                            property()?.address?.country?.name }} </p>
+                    </div>
+                </div>
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Restrication Status
+                    </label>
+                    <select id="status" formControlName="status" class="form-control mt-1" required>
+                        <option [ngValue]="PropertyApprovalStatusEnum.PENDING_REVIEW">Pending Review</option>
+                        <option [ngValue]="PropertyApprovalStatusEnum.APPROVED">Approved</option>
+                        <option [ngValue]="PropertyApprovalStatusEnum.REJECTED">Rejected</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="comments" class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Comments
+                    </label>
+                    <textarea id="comments" formControlName="comments" rows="4"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                        placeholder="Enter any comments or notes"></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer flex justify-end gap-3 border-t border-gray-200 dark:border-gray-700 p-4">
+            <app-button (buttonClicked)="closeModal()" [label]="'Cancel'"
+                styles="!bg-gray-200 !hover:bg-gray-400 !text-gray-700 "></app-button>
+            <app-button [label]="'Verify Property'" (click)="onSubmit()"
+                [disabled]="isLoading() || propertyVerificationForm.invalid" [isLoading]="isLoading()"></app-button>
+        </div>
+    </div>
+</div>

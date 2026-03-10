@@ -24,11 +24,11 @@ export class PortalIndex {
     if (!user) {
       this.router.navigateByUrl('/auth');
     } else {
-      const { employeeId, hostId, customerId } = user;
+      const { employeeId, landlordId, customerId } = user;
       if (employeeId) {
         this.router.navigateByUrl('/admin/dashboard');
-      } else if (hostId) {
-        this.router.navigateByUrl('/host/dashboard');
+      } else if (landlordId) {
+        this.router.navigateByUrl('/landlord/dashboard');
       } else if (customerId) {
         this.router.navigateByUrl('/');
       } else {
