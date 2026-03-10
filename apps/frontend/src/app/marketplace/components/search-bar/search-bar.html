@@ -3,112 +3,17 @@
 <form [formGroup]="searchForm" (ngSubmit)="submitSearch()"
   class="relative bg-white backdrop-blur-sm rounded-xl p-4 shadow-lg mx-5 md:container md:mx-auto md:w-full border border-gray-100 z-11">
 
-  <!-- Toggle Tabs -->
-  <div class="absolute -top-4 left-4">
-    <div class="flex bg-white rounded-xl p-1 gap-1 transition-all duration-300">
-      <app-button [styles]="
-          activeTab === PropertyListingTypeEnum.BNB
-            ? 'px-6 py-2 !bg-primary-600 !text-white !text-sm font-semibold rounded-xl transition-all'
-            : 'px-6 py-2 !bg-transparent !text-gray-700 !text-sm font-semibold rounded-xl'
-        " (buttonClicked)="activeTab = PropertyListingTypeEnum.BNB" label='BNB' />
-
-      <app-button [styles]="
-          activeTab === PropertyListingTypeEnum.SALE
-            ? 'px-6 py-2 !bg-primary-600 !text-white !text-sm font-semibold rounded-xl transition-all'
-            : 'px-6 py-2 !bg-transparent !text-gray-700 !text-sm font-semibold rounded-xl'
-        " (buttonClicked)="activeTab = PropertyListingTypeEnum.SALE" label='Sale' />
-    </div>
-  </div>
 
   <!-- Title -->
   <div class="text-center mb-4 mt-4">
     <h2 class="text-xl font-bold text-gray-800">
-      {{ activeTab === PropertyListingTypeEnum.BNB ? 'Find Your Perfect Stay' : 'Find Your Next Home' }}
+      Find Your Next Home
     </h2>
   </div>
 
-  <!--  BNB Layout -->
-  @if (activeTab === PropertyListingTypeEnum.BNB) {
-  <div class="grid grid-cols-6 gap-3 items-end">
 
-    <!-- Location -->
-    <div class="col-span-6 md:col-span-2 ">
-      <label for="" class="text-xs font-medium !text-primary mb-1">Location</label>
-      <input type="text" formControlName="location" placeholder="Where to?" class="form-control" />
-    </div>
-
-    <!-- Guests -->
-    <div class="col-span-6 md:col-span-1 relative">
-      <label for="" class="text-xs font-medium !text-primary mb-1">Guests</label>
-      <!-- <button type="button" (click)="showGuestPicker = !showGuestPicker" class="form-control">
-        {{ getGuestsLabel(searchForm.get('guestsType')?.value) }}
-      </button> -->
-      <div class="" (click)="showGuestPicker = !showGuestPicker">
-        <input type="text" readonly class="form-control" [ngClass]="{
-            'text-gray-900': !!searchForm.get('guestsType')?.value && getGuestsLabel(searchForm.get('guestsType')?.value) !== 'Guests',
-            'text-gray-500': !searchForm.get('guestsType')?.value || getGuestsLabel(searchForm.get('guestsType')?.value) === 'Guests'
-          }" [value]="getGuestsLabel(searchForm.get('guestsType')?.value)" placeholder="Guests" />
-      </div>
-
-      @if (showGuestPicker) {
-      <div class="absolute mt-2 z-30 w-max bg-white rounded-xl shadow-lg border border-gray-200">
-        <app-guest-picker (guestsChange)="onGuestsChange($event)" (close)="showGuestPicker = false"></app-guest-picker>
-      </div>
-      }
-    </div>
-    <!-- Combined Check-in/Check-out using a single date picker -->
-    <div class="col-span-6 md:col-span-2 relative">
-      <div class="grid grid-cols-2 gap-2">
-        <!-- Check-in clickable field -->
-        <div (click)="showDatePicker = true; activeDateField = 'checkIn'" class="cursor-pointer">
-          <label for="" class="text-xs font-medium !text-primary mb-1">Check-In</label>
-          <input type="text" readonly class="form-control" [ngClass]="{
-              'ring-1 ring-primary': activeDateField === 'checkIn'
-            }" [value]="searchForm.get('checkIn')?.value ? (searchForm.get('checkIn')?.value | date:'mediumDate') : ''"
-            placeholder="Check in" />
-        </div>
-        <!-- Check-out clickable field -->
-        <div (click)="showDatePicker = true; activeDateField = 'checkOut'" class="cursor-pointer">
-          <label for="" class="text-xs font-medium !text-primary mb-1">Check-out</label>
-          <input type="text" readonly class="form-control" [ngClass]="{
-              'ring-1 ring-primary': activeDateField === 'checkOut'
-            }"
-            [value]="searchForm.get('checkOut')?.value ? (searchForm.get('checkOut')?.value | date:'mediumDate') : ''"
-            placeholder="Check out" />
-        </div>
-      </div>
-      @if (showDatePicker) {
-      <div class="absolute mt-2 z-50 w-max">
-        <app-date-picker [checkIn]="searchForm.get('checkIn')?.value" [checkOut]="searchForm.get('checkOut')?.value"
-          [activeField]="activeDateField" (checkInChange)="
-            searchForm.get('checkIn')?.setValue($event);
-            activeDateField = 'checkOut'
-          " (checkOutChange)="
-            searchForm.get('checkOut')?.setValue($event);
-            showDatePicker = false;
-            activeDateField = null
-          " (close)="showDatePicker = false; activeDateField = null" />
-      </div>
-      }
-    </div>
-
-
-
-    <!-- Search -->
-    <div class="col-span-6 md:col-span-1">
-      <div class="flex">
-        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg transition
-        text-sm font-medium flex items-center justify-center">
-          <i class=" bi bi-search text-sm mr-2"></i>
-          <span>Search</span>
-        </button>
-      </div>
-    </div>
-  </div>
-  }
 
   <!--  SALE Layout -->
-  @if (activeTab === PropertyListingTypeEnum.SALE) {
   <div class="grid grid-cols-6 gap-3 items-end">
 
     <!-- Location -->
@@ -162,5 +67,4 @@
       </button>
     </div>
   </div>
-  }
 </form>

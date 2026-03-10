@@ -1,11 +1,7 @@
 import {
-  Guests,
-  GuestTypeEnum,
   HttpResponseInterface,
   PropertyCategory,
   PaginatedData,
-  NotificationStatusEnum,
-  PropertyListingTypeEnum,
 } from '@newmbani/types';
 
 import {
@@ -24,9 +20,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { GuestPicker } from '../../pages/listings/components/guest-picker/guest-picker';
-import { DatePicker } from '../../../common/components/date-picker/date-picker';
-import { DatePipe } from '@angular/common';
 import { Button } from '../../../common/components/button/button';
 import { CategoriesService } from '../../../categories/services/categories.service';
 import { NotificationService } from '../../../common/services/notification.service';
@@ -35,9 +28,6 @@ import { NotificationService } from '../../../common/services/notification.servi
   selector: 'app-filter-sidebar',
   imports: [
     FormsModule,
-    GuestPicker,
-    DatePicker,
-    DatePipe,
     Button,
     ReactiveFormsModule,
   ],
@@ -50,29 +40,17 @@ export class FilterSidebar implements OnInit {
 
   filtersForm = new FormGroup({
     location: new FormControl<string>(''),
-    type: new FormControl<PropertyListingTypeEnum | ''>(''),
     categoryId: new FormControl<string>(''),
     minPrice: new FormControl<number | null>(null),
     maxPrice: new FormControl<number | null>(null),
-    bedrooms: new FormControl<number | null>(null),
-    bathrooms: new FormControl<number | null>(null),
-    guestsType: new FormGroup({
-      [GuestTypeEnum.ADULTS]: new FormControl<number>(0),
-      [GuestTypeEnum.CHILDREN]: new FormControl<number>(0),
-      [GuestTypeEnum.INFANTS]: new FormControl<number>(0),
-      [GuestTypeEnum.PETS]: new FormControl<number>(0),
-    }),
-    checkInDate: new FormControl<string | null>(null),
-    checkOutDate: new FormControl<string | null>(null),
+   
   });
 
   // UI state
-  showDatePicker = false;
-  showGuestPicker = false;
+
   showFilters = input<boolean>(false);
   closeFiltersEvent = output<void>();
   filtersChanged = output<any>();
-  activeDateField = signal<'checkIn' | 'checkOut' | null>(null);
 
   // Data
   propertyCategoryOptions: PropertyCategory[] = [];
@@ -81,18 +59,6 @@ export class FilterSidebar implements OnInit {
   // Signals for dates & guests
   checkIn = signal<Date | null>(null);
   checkOut = signal<Date | null>(null);
-
-  guests = signal<Guests>({
-    [GuestTypeEnum.ADULTS]: 0,
-    [GuestTypeEnum.CHILDREN]: 0,
-    [GuestTypeEnum.INFANTS]: 0,
-    [GuestTypeEnum.PETS]: 0,
-  });
-
-  // Enums exposed for template
-  PropertyListingTypeEnum = PropertyListingTypeEnum;
-  types = Object.values(PropertyListingTypeEnum);
-  guestType = Object.values(GuestTypeEnum);
 
   ngOnInit() {
     this.fetchCategories();
@@ -175,54 +141,15 @@ export class FilterSidebar implements OnInit {
   resetFilters() {
     this.filtersForm.reset({
       location: '',
-      type: '',
       categoryId: '',
       minPrice: null,
       maxPrice: null,
-      bedrooms: null,
-      bathrooms: null,
-      guestsType: {
-        [GuestTypeEnum.ADULTS]: 0,
-        [GuestTypeEnum.CHILDREN]: 0,
-        [GuestTypeEnum.INFANTS]: 0,
-        [GuestTypeEnum.PETS]: 0,
-      },
-      checkInDate: null,
-      checkOutDate: null,
+      
     });
     // Emit an empty object to signal clearing all filter params
     this.filtersChanged.emit({});
   }
 
-  onDatesChange(dates: { checkIn: Date | null; checkOut: Date | null }) {
-    this.checkIn.set(dates.checkIn);
-    this.checkOut.set(dates.checkOut);
-
-    this.filtersForm.patchValue({
-      checkInDate: dates.checkIn ? dates.checkIn.toISOString() : null,
-      checkOutDate: dates.checkOut ? dates.checkOut.toISOString() : null,
-    });
-
-    this.updateFilters();
-  }
-
-  onGuestsChange(updatedGuests: Guests) {
-    this.guests.set(updatedGuests);
-    this.filtersForm.patchValue({ guestsType: updatedGuests });
-    this.updateFilters();
-  }
-
-  toggleDateField(field: 'checkIn' | 'checkOut') {
-    this.activeDateField.set(this.activeDateField() === field ? null : field);
-  }
-
-  toggleGuestPicker() {
-    this.showGuestPicker = !this.showGuestPicker;
-  }
-
-  toggleDatePicker() {
-    this.showDatePicker = !this.showDatePicker;
-  }
 
   closeFilters() {
     this.closeFiltersEvent.emit();

@@ -7,7 +7,7 @@ import { Invoice } from '../invoices/invoice';
 export interface CreateBooking {
   customerId: string;
   propertyId: string;
-  viewingDate: string;
+  viewingDate: string |Date;
 }
 
 export interface PostCreateBooking extends CreateBooking {

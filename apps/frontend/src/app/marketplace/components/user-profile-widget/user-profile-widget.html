@@ -27,10 +27,10 @@
       <i class="bi bi-person-plus"></i>
       Register as Customer
     </a>
-    <a routerLink="/auth/register/host"
+    <a routerLink="/auth/register/landlord"
       class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
       <i class="bi bi-shop"></i>
-      Register as Host
+      Register as Landlord
     </a>
     } @if (user()) {
     <div class="flex flex-col">
@@ -41,19 +41,19 @@
             <span class="text-sm font-bold">{{ user()!.name }}</span>
             <span class="text-xs text-gray-500">{{ user()!.email }}</span>
             <span class="text-xs text-gray-500 font-bold">
-              @if (user()!.employeeId) { Employee } @if (user()!.hostId &&
-              !user()!.employeeId) { Host } @if (user()!.customerId &&
+              @if (user()!.employeeId) { Employee } @if (user()!.landlordId &&
+              !user()!.employeeId) { Landlord } @if (user()!.customerId &&
               !user()!.employeeId) { Customer }
             </span>
           </div>
         </div>
       </div>
-      @if (user()!.hostId) {
-      <a routerLink="/host/dashboard"
+      @if (user()!.landlordId) {
+      <a routerLink="/landlord/dashboard"
         class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
-        <i class="bi bi-speedometer2"></i>Host Dashboard
+        <i class="bi bi-speedometer2"></i>Landlord Dashboard
       </a>
-      <a routerLink="/host/settings/profile"
+      <a routerLink="/landlord/settings/profile"
         class="px-3 py-2 rounded-md text-gray-700 hover:bg-primary-50 hover:text-primary-600 text-sm font-medium flex items-center gap-2">
         <i class="bi bi-gear"></i> Profile
       </a>

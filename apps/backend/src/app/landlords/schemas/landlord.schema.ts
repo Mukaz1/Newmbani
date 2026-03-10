@@ -7,9 +7,11 @@ export const LandlordSchema = new Schema<Landlord>({
   displayName: { type: String, required: true, unique: true },
   email: { type: String, required: true, trim: true },
   phone: { type: String, required: true, trim: true },
+  idNumber: { type: String, required: false, trim: true },
   approvalStatus: { type: String, required: true, trim: true },
   acceptTerms: { type: Boolean, required: true, trim: true },
   languages: { type: [String], required: false, trim: true },
+  bio: { type: String, required: false, trim: true },
   address: {
     countryId: { type: String, required: true, trim: true },
     county: { type: String, required: true, trim: true },

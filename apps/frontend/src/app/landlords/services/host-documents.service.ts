@@ -3,20 +3,20 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
   HttpResponseInterface,
-  HostDocument,
+  LandlordDocument,
   FileTypesEnum,
-  HostDocumentStatus,
+  LandlordDocumentStatus,
 } from '@newmbani/types';
 import { API_ENDPOINTS } from '../../common/routes.constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HostDocumentsService {
+export class LandlordDocumentsService {
   private httpClient = inject(HttpClient);
 
   /**
-   * Get all host documents
+   * Get all landlord documents
    *
    * @param {{
    *     limit?: number;
@@ -25,14 +25,14 @@ export class HostDocumentsService {
    *     // Add more if needed
    *   }} [query]
    * @return {*}
-   * @memberof HostDocumentsService
+   * @memberof LandlordDocumentsService
    */
-  getAllHostDocuments(query?: {
+  getAllLandlordDocuments(query?: {
     limit?: number;
     page?: number;
     keyword?: string;
-    hostId?: string;
-  }): Observable<HttpResponseInterface<HostDocument[] | null>> {
+    landlordId?: string;
+  }): Observable<HttpResponseInterface<LandlordDocument[] | null>> {
     let params = new HttpParams();
     if (query) {
       if (typeof query.page === 'number')
@@ -40,78 +40,78 @@ export class HostDocumentsService {
       if (typeof query.limit === 'number')
         params = params.set('limit', String(query.limit));
       if (query.keyword) params = params.set('keyword', query.keyword);
-      if (query.hostId) params = params.set('hostId', query.hostId);
+      if (query.landlordId) params = params.set('landlordId', query.landlordId);
     }
 
-    return this.httpClient.get<HttpResponseInterface<HostDocument[] | null>>(
-      API_ENDPOINTS.GET_HOST_DOCUMENTS,
+    return this.httpClient.get<HttpResponseInterface<LandlordDocument[] | null>>(
+      API_ENDPOINTS.GET_LANDLORD_DOCUMENTS,
       { params }
     );
   }
 
   /**
-   * Create/Upload a host document
+   * Create/Upload a landlord document
    *
    * @param {{
-   *   hostId?: string;
+   *   landlordId?: string;
    *   documentId: string;
    *   expiryDate: string;
    *   file: File;
    * }} data
    * @return {*}
-   * @memberof HostDocumentsService
+   * @memberof LandlordDocumentsService
    */
-  createHostDocument(data: {
-    hostId?: string;
+  createLandlordDocument(data: {
+    landlordId?: string;
     documentId: string;
     file: File;
-  }): Observable<HttpResponseInterface<HostDocument | null>> {
+  }): Observable<HttpResponseInterface<LandlordDocument | null>> {
     const formData = new FormData();
-    if (data.hostId) {
-      formData.append('hostId', data.hostId);
+    if (data.landlordId) {
+      formData.append('landlordId', data.landlordId);
     }
     formData.append('documentId', data.documentId);
     formData.append('expiryDate', new Date().toISOString());
     formData.append('file', data.file);
 
-    return this.httpClient.post<HttpResponseInterface<HostDocument | null>>(
-      API_ENDPOINTS.CREATE_HOST_DOCUMENT,
+    return this.httpClient.post<HttpResponseInterface<LandlordDocument | null>>(
+      API_ENDPOINTS.CREATE_LANDLORD_DOCUMENT,
       formData
     );
   }
 
-  uploadHostDocument(payload: { file: File; reference: string }) {
+  uploadLandlordDocument(payload: { file: File; reference: string }) {
     const { reference, file } = payload;
     const data = new FormData();
     data.append('file', file);
     data.append('reference', reference);
-    data.append('type', FileTypesEnum.HOST_DOCUMENT);
+    data.append('type', FileTypesEnum.LANDLORD_DOCUMENT);
 
-    return this.httpClient.post<HttpResponseInterface<HostDocument>>(
+    return this.httpClient.post<HttpResponseInterface<LandlordDocument>>(
       API_ENDPOINTS.UPLOAD_FILE,
       data
     );
   }
 
-  reviewHostDocument(data: {
+  reviewLandlordDocument(data: {
     documentId: string;
     comment: string;
-    status: HostDocumentStatus;
-  }): Observable<HttpResponseInterface<HostDocument>> {
+    status: LandlordDocumentStatus;
+  }): Observable<HttpResponseInterface<LandlordDocument>> {
     const { documentId, comment, status } = data;
-    const endpoint = `${API_ENDPOINTS.GET_HOST_DOCUMENTS}/${documentId}/review`;
+    const endpoint = `${API_ENDPOINTS.GET_LANDLORD_DOCUMENTS}/${documentId}/review`;
     const payload = {
       comment,
       status,
     };
-    return this.httpClient.post<HttpResponseInterface<HostDocument>>(
+    return this.httpClient.post<HttpResponseInterface<LandlordDocument>>(
       endpoint,
       payload
     );
   }
 
   /**
-   * Resubmit a host document (for rejected/pending)
+   * Resubmit a landlord document (for rejected/pending)
    *
    * @param {{
    *   documentId: string;
@@ -119,19 +119,19 @@ export class HostDocumentsService {
    *   file: File;
    * }} data
    * @return {*}
-   * @memberof HostDocumentsService
+   * @memberof LandlordDocumentsService
    */
-  resubmitHostDocument(data: {
+  resubmitLandlordDocument(data: {
     documentId: string;
     expiryDate: string;
     file: File;
-  }): Observable<HttpResponseInterface<HostDocument>> {
+  }): Observable<HttpResponseInterface<LandlordDocument>> {
     const { documentId, expiryDate, file } = data;
-    const endpoint = `${API_ENDPOINTS.RESUBMIT_HOST_DOCUMENT}/${documentId}/resubmit`;
+    const endpoint = `${API_ENDPOINTS.RESUBMIT_LANDLORD_DOCUMENT}/${documentId}/resubmit`;
     const formData = new FormData();
     formData.append('expiryDate', expiryDate);
     formData.append('file', file);
-    return this.httpClient.post<HttpResponseInterface<HostDocument>>(
+    return this.httpClient.post<HttpResponseInterface<LandlordDocument>>(
       endpoint,
       formData
     );

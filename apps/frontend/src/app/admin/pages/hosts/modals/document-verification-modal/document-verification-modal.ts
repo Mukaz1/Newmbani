@@ -9,10 +9,10 @@ import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 import { Button } from '../../../../../common/components/button/button';
 import {
   NotificationStatusEnum,
-  HostDocument,
-  HostDocumentStatus,
+  LandlordDocument,
+  LandlordDocumentStatus,
 } from '@newmbani/types';
-import { HostDocumentsService } from '../../../../../landlords/services/host-documents.service';
+import { LandlordDocumentsService } from '../../../../../landlords/services/host-documents.service';
 import { NotificationService } from '../../../../../common/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -24,14 +24,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class DocumentVerificationModal implements OnInit {
   isLoading = signal<boolean>(false);
-  document = signal<HostDocument | null>(null);
+  document = signal<LandlordDocument | null>(null);
 
   private dialogRef = inject(DialogRef);
-  private data = inject(DIALOG_DATA) as { document: HostDocument };
-  private documentsService = inject(HostDocumentsService);
+  private data = inject(DIALOG_DATA) as { document: LandlordDocument };
+  private documentsService = inject(LandlordDocumentsService);
   private notificationService = inject(NotificationService);
 
-  HostDocumentStatus = HostDocumentStatus;
+  LandlordDocumentStatus = LandlordDocumentStatus;
 
   documentVerificationForm = new FormGroup({
     name: new FormControl(''),
@@ -45,17 +45,17 @@ export class DocumentVerificationModal implements OnInit {
     // Set initial status if provided
     this.documentVerificationForm.patchValue({
       name: this.document()?.document.name || '',
-      status: this.document()?.status || HostDocumentStatus.UNSUBMITTED,
+      status: this.document()?.status || LandlordDocumentStatus.UNSUBMITTED,
     });
   }
 
-  handleDocumentReview(status: HostDocumentStatus) {
+  handleDocumentReview(status: LandlordDocumentStatus) {
     this.isLoading.set(true);
     const document = this.document();
     if (!document || !document._id) return;
 
     this.documentsService
-      .reviewHostDocument({
+      .reviewLandlordDocument({
         documentId: document._id,
         status,
         comment: this.documentVerificationForm.value.comments || '',
@@ -63,7 +63,7 @@ export class DocumentVerificationModal implements OnInit {
       .subscribe({
         next: (res) => {
           this.isLoading.set(false);
-          const isApproved = status === HostDocumentStatus.APPROVED;
+          const isApproved = status === LandlordDocumentStatus.APPROVED;
           this.dialogRef.close({ approved: isApproved, document: res.data });
           this.notificationService.notify({
             title: isApproved ? 'Document Approved' : 'Document Rejected',
@@ -80,7 +80,7 @@ export class DocumentVerificationModal implements OnInit {
             status: NotificationStatusEnum.ERROR,
             message:
               error.error?.message ||
-              (status === HostDocumentStatus.APPROVED
+              (status === LandlordDocumentStatus.APPROVED
                 ? 'Failed to approve document.'
                 : 'Failed to reject document.'),
           });
@@ -96,8 +96,8 @@ export class DocumentVerificationModal implements OnInit {
     if (this.documentVerificationForm.valid) {
       const formData = this.documentVerificationForm.value;
       if (
-        formData.status === HostDocumentStatus.APPROVED ||
-        formData.status === HostDocumentStatus.REJECTED
+        formData.status === LandlordDocumentStatus.APPROVED ||
+        formData.status === LandlordDocumentStatus.REJECTED
       ) {
         this.handleDocumentReview(formData.status);
       } else {

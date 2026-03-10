@@ -13,10 +13,10 @@ import { Button } from '../../../common/components/button/button';
 import { NotificationService } from '../../../common/services/notification.service';
 import {
   FileMimeGroups,
-  HostDocument,
+  LandlordDocument,
   NotificationStatusEnum,
 } from '@newmbani/types';
-import { HostDocumentsService } from '../../services/host-documents.service';
+import { LandlordDocumentsService } from '../../services/host-documents.service';
 
 @Component({
   selector: 'app-upload-document-modal',
@@ -26,14 +26,14 @@ import { HostDocumentsService } from '../../services/host-documents.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UploadDocumentModal implements OnInit {
-  document: HostDocument | undefined = undefined;
+  document: LandlordDocument | undefined = undefined;
   dialogRef = inject(DialogRef);
   selectedFile: File | undefined = undefined;
   isFileUploading = signal(false);
-  data = inject<{ document: HostDocument | undefined }>(DIALOG_DATA);
+  data = inject<{ document: LandlordDocument | undefined }>(DIALOG_DATA);
   fileMimeGroups = FileMimeGroups;
 
-  private hostDocumentService = inject(HostDocumentsService);
+  private landlordDocumentService = inject(LandlordDocumentsService);
   private notificationService = inject(NotificationService);
 
   ngOnInit() {
@@ -51,8 +51,8 @@ export class UploadDocumentModal implements OnInit {
   uploadFile() {
     if (this.selectedFile && this.document) {
       this.isFileUploading.set(true);
-      this.hostDocumentService
-        .createHostDocument({
+      this.landlordDocumentService
+        .createLandlordDocument({
           hostId: this.document.hostId,
           documentId: this.document.documentId,
           file: this.selectedFile,
@@ -85,8 +85,8 @@ export class UploadDocumentModal implements OnInit {
   resubmitDocument(expiryDate: string) {
     if (this.selectedFile && this.document) {
       this.isFileUploading.set(true);
-      this.hostDocumentService
-        .resubmitHostDocument({
+      this.landlordDocumentService
+        .resubmitLandlordDocument({
           documentId: this.document._id,
           expiryDate: expiryDate,
           file: this.selectedFile,

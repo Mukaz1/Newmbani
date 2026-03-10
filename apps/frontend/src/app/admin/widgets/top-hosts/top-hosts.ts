@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HostsService } from '../../../landlords/services/hosts.service';
+import { HostsService } from '../../../landlords/services/landlords.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 

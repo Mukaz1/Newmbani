@@ -54,7 +54,7 @@
 
                         <ng-template #menu>
                             <ul class=" bg-white p-2 shadow-md border border-gray-100 justify-start" cdkMenu>
-                                @if (document.status === HostDocumentStatus.UNSUBMITTED) {
+                                @if (document.status === LandlordDocumentStatus.UNSUBMITTED) {
                                 <li class="p-1 cursor-pointer hover:bg-gray-200 px-3 text-sm rounded-md min-w-32"
                                     cdkMenuItem>
                                     <button (click)="uploadModal(document)">
@@ -63,7 +63,7 @@
                                     </button>
                                 </li>
                                 }
-                                @if (document.status !== HostDocumentStatus.UNSUBMITTED) {
+                                @if (document.status !== LandlordDocumentStatus.UNSUBMITTED) {
                                 <li class="p-1 cursor-pointer hover:bg-gray-200 px-3 text-sm rounded-md min-w-32"
                                     cdkMenuItem>
                                     <button (click)="viewFile(document)">
@@ -72,8 +72,8 @@
                                     </button>
                                 </li>
                                 }
-                                @if (document.status === HostDocumentStatus.SUBMITTED || document.status ===
-                                HostDocumentStatus.REJECTED) { @if (!document.verified) {
+                                @if (document.status === LandlordDocumentStatus.SUBMITTED || document.status ===
+                                LandlordDocumentStatus.REJECTED) { @if (!document.verified) {
                                 <li class="p-1 cursor-pointer hover:bg-gray-200 px-3 text-sm rounded-md min-w-32"
                                     cdkMenuItem>
                                     <button (click)="uploadModal(document)">

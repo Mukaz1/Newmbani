@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+div {
+  //height: 100%;
+  overflow-x: hidden; // Prevent double scroll bars
+}
+
+aside {
+  //height: 100%;
+
+  .bg-gray-100 {
+    background-color: #f3f4f6;
+    color: #111827;
+    font-weight: 500;
+
+    i {
+      color: #111827;
+    }
+  }
+
+  nav {
+    a {
+      color: #4b5563;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: #111827;
+
+        i {
+          color: #111827;
+        }
+      }
+    }
+  }
+}
+
+// Custom scrollbar for the sidebar
+aside {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #e5e7eb;
+    border-radius: 3px;
+  }
+}
+
+// Search input styles
+input[type="text"] {
+  &:focus {
+    outline: 2px solid #e5e7eb;
+    outline-offset: -2px;
+  }
+}
+
+ul {
+  li {
+    a {
+      @apply px-5 py-2 rounded-full border border-gray-300 font-bold text-gray-700;
+      &.active-link {
+        @apply bg-green-50 border-primary-600 text-green-900;
+      }
+    }
+  }
+}
+i {
+  @apply text-xl;
+}

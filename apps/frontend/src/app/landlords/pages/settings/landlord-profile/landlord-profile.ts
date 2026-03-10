@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import {
   Property,
@@ -10,7 +10,6 @@ import {
   FileTypesEnum,
 } from '@newmbani/types';
 import { AuthService } from '../../../../auth/services/auth.service';
-import { AddressesService } from '../../../../addresses/services/addresses.service';
 import { take } from 'rxjs';
 import { Dialog } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,8 +19,7 @@ import { Button } from '../../../../common/components/button/button';
 import { ChipInput } from '../../../../common/components/chip-input/chip-input';
 import { DataLoading } from '../../../../common/components/data-loading/data-loading';
 import { NotificationService } from '../../../../common/services/notification.service';
-import { ManageAddress } from '../../../../customer/components/addresses/modals/manage-address/manage-address';
-import { MediaService } from '../../../../files/services/media.service';
+import { MediaService } from 'apps/frontend/src/app/common/services/media.service';
 import { LandlordsService } from '../../../services/landlords.service';
 
 @Component({
@@ -41,7 +39,6 @@ import { LandlordsService } from '../../../services/landlords.service';
 export class LandlordProfile implements OnInit {
   /** ------------------- SIGNALS & STATES ------------------- */
   landlord = signal<Landlord | null>(null);
-  addresses = signal<Address[]>([]);
   landlordProperties: Property[] = [];
   isLoading = signal<boolean>(true);
   isEditProfile = signal(true);
@@ -53,15 +50,19 @@ export class LandlordProfile implements OnInit {
     email: new FormControl<string>(''),
     phone: new FormControl<string>(''),
     idNumber: new FormControl<string>(''),
-    addressId: new FormControl<string>(''),
-    countryId: new FormControl<string>(''),
+    address: new FormGroup({
+      countryId: new FormControl('', [Validators.required]),
+      county: new FormControl('', [Validators.required]),
+      town: new FormControl(''),
+      street: new FormControl(''),
+      building: new FormControl(''),
+    }),
     languages: new FormControl<string[]>([]),
     bio: new FormControl<string>(''),
   });
 
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
-  private addressesService = inject(AddressesService);
   private notificationsService = inject(NotificationService);
   private mediaService = inject(MediaService);
   private landlordsService = inject(LandlordsService);
@@ -81,7 +82,6 @@ export class LandlordProfile implements OnInit {
     }
 
     this.fetchLandlord();
-    this.fetchAddresses();
   }
 
   fetchLandlord() {
@@ -101,8 +101,13 @@ export class LandlordProfile implements OnInit {
             email: landlord.email ?? '',
             phone: landlord.phone ?? '',
             idNumber: landlord.idNumber ?? '',
-            addressId: landlord.addressId ?? '',
-            languages: landlord.languages ?? [],
+            address: {
+              countryId: landlord.address.countryId || undefined,
+              county: landlord.address.county || '',
+              town: landlord.address.town ?? '',
+              street: landlord.address.town ?? '',
+              building: landlord.address.town ?? '',
+            },            languages: landlord.languages ?? [],
             bio: landlord.bio ?? '',
           });
 
@@ -115,17 +120,7 @@ export class LandlordProfile implements OnInit {
       });
   }
 
-  fetchAddresses() {
-    this.isEditProfile.set(false);
 
-    this.addressesService
-      .all()
-      .pipe(take(1))
-      .subscribe({
-        next: (res) => this.addresses.set(res.data.data),
-        error: (error) => console.error('Failed to fetch addresses:', error),
-      });
-  }
 
   enterEditProfile() {
     this.isEditProfile.set(true);
@@ -157,7 +152,13 @@ export class LandlordProfile implements OnInit {
         phone: formValue.phone ?? currentLandlord.phone ?? '',
         bio: formValue.bio ?? currentLandlord.bio ?? '',
         languages: formValue.languages ?? currentLandlord.languages ?? [],
-        addressId: formValue.addressId ?? currentLandlord.addressId ?? '',
+        address: {
+          countryId:  formValue.address?.countryId || '',
+          county:  formValue.address?.county || '',
+          town:  formValue.address?.town || '',
+          street:  formValue.address?.street || '',
+          building :  formValue.address?.building || ''
+        },        
         idNumber: formValue.idNumber ?? currentLandlord.idNumber ?? '',
       };
 
@@ -206,30 +207,6 @@ export class LandlordProfile implements OnInit {
     }
   }
 
-  /** ------------------- ADDRESS MANAGEMENT ------------------- */
-  manageAddresses() {
-    this.router.navigate(['/landlord/addresses']);
-  }
-  openManageAddress() {
-    const dialogRef = this.dialog.open(ManageAddress, {
-      data: { address: this.landlord()?.address },
-    });
-
-    dialogRef.closed.subscribe((result) => {
-      if (result && typeof result === 'object') {
-        this.landlord.update((prev) =>
-          prev
-            ? {
-                ...prev,
-                address: { ...prev.address, ...result },
-                addressId: (result as any)._id ?? prev.addressId,
-                countryId: (result as any).countryId ?? prev.countryId,
-              }
-            : prev
-        );
-      }
-    });
-  }
 
   onImageSelected(event: Event) {
     const input = event.target as HTMLInputElement;

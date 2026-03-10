@@ -2,6 +2,7 @@ import { LandlordApprovalStatus } from '../enums/landlord-approval-status.enum';
 import { AuditData } from '../../audit';
 import { Country } from '../../countries';
 import { Address } from '../../addresses';
+import { LandlordDocument } from '../documents';
 
 export interface CreateLandlord {
   name: string;
@@ -11,6 +12,7 @@ export interface CreateLandlord {
   address: Address;
   acceptTerms: boolean;
   languages?: string[];
+  idNumber: string;
   password: string;
 }
 
@@ -23,5 +25,9 @@ export interface PostCreateLandlord extends CreateLandlord {
 
 export interface Landlord extends PostCreateLandlord, AuditData {
   country: Country;
+  profileImage: string;
+  documents: LandlordDocument[];
+  bio?: string;
+  verified: string;
 
 }

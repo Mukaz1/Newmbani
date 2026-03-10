@@ -17,14 +17,14 @@ export class SettingsComponent {
       breadcrumb: {
         links: [
           {
-            linkTitle: 'Host Settings',
+            linkTitle: 'Landlord Settings',
             isClickable: false,
           },
         ],
       },
-      title: 'Host Settings',
+      title: 'Landlord Settings',
       description:
-        'Manage your host profile, password, and notification preferences.',
+        'Manage your landlord profile, password, and notification preferences.',
     });
   }
 }

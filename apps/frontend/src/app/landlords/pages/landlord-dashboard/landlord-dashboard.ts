@@ -12,7 +12,6 @@ import {
   PaginatedData,
   NotificationStatusEnum,
   Property,
-  PropertyListing,
   DashboardsEnum,
   Booking,
 } from '@newmbani/types';
@@ -66,7 +65,6 @@ export class LandlordDashboard implements OnInit {
   form: FormGroup = new FormGroup({});
   expressMode = signal<boolean | undefined>(undefined);
   categoryId = signal<string | undefined>(undefined);
-  listings = signal<PropertyListing[]>([]);
   bookings = signal<Booking[]>([]);
   totalRevenue = signal(0);
   totalBookings = signal(0);
@@ -105,7 +103,6 @@ export class LandlordDashboard implements OnInit {
       this.greeting.set(this.getGreeting());
     }, 60000); // update every 60 seconds
     this.fetchProperties();
-    this.getPropertyListings();
     this.fetchBookings();
   }
 
@@ -157,7 +154,6 @@ export class LandlordDashboard implements OnInit {
         next: (res) => {
           this.bookings.set(res.data.data);
           this.isLoading.set(false);
-          this.calculateMonthlyTotals();
         },
         error: (error: HttpErrorResponse) => {
           this.isLoading.set(false);
@@ -235,53 +231,5 @@ export class LandlordDashboard implements OnInit {
     }
   }
 
-  private calculateMonthlyTotals() {
-    const bookings = this.bookings() ?? [];
-    if (!bookings.length) return;
 
-    const grouped: Record<string, { revenue: number; count: number }> = {};
-
-    for (const b of bookings) {
-      const date = new Date(b.createdAt);
-      const key = `${date.getFullYear()}-${date.getMonth() + 1}`;
-
-      if (!grouped[key]) grouped[key] = { revenue: 0, count: 0 };
-      grouped[key].revenue += b.total ?? 0;
-      grouped[key].count += 1;
-    }
-
-    const result = Object.entries(grouped).map(([key, stats]) => {
-      const [year, month] = key.split('-');
-      const monthName = new Date(+year, +month - 1).toLocaleString('en-US', {
-        month: 'short',
-      });
-
-      return {
-        month: `${monthName} ${year}`,
-        revenue: stats.revenue,
-        count: stats.count,
-      };
-    });
-
-    this.monthlyBookingTotals.set(result);
-    this.totalRevenue.set(result.reduce((sum, m) => sum + m.revenue, 0));
-    this.totalBookings.set(result.reduce((sum, m) => sum + m.count, 0));
-  }
-
-  private calculateListingPieData() {
-    const listings = this.listings() ?? [];
-    if (!listings.length) return;
-
-    const result = listings.map((l) => ({
-      title: l.property?.name ?? 'Unknown',
-      count: l.bookings?.length ?? 0,
-    }));
-
-    this.listingBookingStats.set(result);
-
-    // Push to chart
-    setTimeout(() => {
-      this.listingChart?.setChartData(result);
-    });
-  }
 }

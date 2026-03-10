@@ -27,7 +27,7 @@ import { CsvExportService } from '../../../../../common/services/csv-export.serv
 import { MetaService } from '../../../../../common/services/meta.service';
 import saveAs from 'file-saver';
 import { DropdownMenu } from '../../../../../common/components/dropdown-menu/dropdown-menu';
-import { HostsService } from '../../../../../landlords/services/hosts.service';
+import { HostsService } from '../../../../../landlords/services/landlords.service';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 
 @Component({

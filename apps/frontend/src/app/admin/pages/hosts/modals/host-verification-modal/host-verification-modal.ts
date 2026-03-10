@@ -9,7 +9,7 @@ import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 import { NgClass } from '@angular/common';
 import { Button } from '../../../../../common/components/button/button';
 import { Host, NotificationStatusEnum } from '@newmbani/types';
-import { HostsService } from '../../../../../landlords/services/hosts.service';
+import { HostsService } from '../../../../../landlords/services/landlords.service';
 import { NotificationService } from '../../../../../common/services/notification.service';
 import { error } from 'node:console';
 import { HttpErrorResponse } from '@angular/common/http';

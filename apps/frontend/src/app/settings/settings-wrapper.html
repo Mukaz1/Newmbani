@@ -1,0 +1,108 @@
+<div class="h-full flex flex-col relative">
+  <header
+    class="flex justify-end items-center mt-20 px-4 py-2 md:hidden z-20 fixed top-0 left-0 right-0 bg-white border-b border-gray-200">
+    <!-- CDK Menu Trigger -->
+    <div class="relative inline-block" [cdkMenuTriggerFor]="mobileMenu">
+      <button class="p-2 rounded-lg hover:bg-gray-200 border border-gray-200 ">
+        <i class="bi bi-text-indent-left text-2xl text-gray-700"></i>
+      </button>
+
+      <ng-template #mobileMenu>
+        <div class="absolute right-0 top-[120%] w-56 bg-white rounded-xl shadow-lg border border-gray-100 p-2 z-40"
+          cdkMenu style="min-width: 14rem;">
+
+          <a cdkMenuItem routerLink="/admin/settings" routerLinkActive="bg-gray-100"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+            <i class="bi bi-gear-fill text-gray-400 mr-3"></i>
+            <span>General Settings</span>
+          </a>
+          <a cdkMenuItem routerLink="/admin/settings/landlord/required-documents" routerLinkActive="bg-gray-100"
+            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+            <i class="bi bi-file-earmark-lock2 text-lg text-gray-400 mr-3"></i>
+            <span>Landlord Documents</span>
+          </a>
+          <a cdkMenuItem routerLink="/admin/settings/countries" routerLinkActive="bg-gray-100"
+            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+            <i class="bi bi-credit-card-fill text-gray-400 mr-3"></i>
+            <span>Countries</span>
+          </a>
+          <!-- <a cdkMenuItem routerLink="/admin/settings/notifications" routerLinkActive="bg-gray-100"
+            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+            <i class="bi bi-bell-fill text-gray-400 mr-3"></i>
+            <span>Notifications</span>
+          </a> -->
+          <!-- <a cdkMenuItem routerLink="/admin/settings/integrations" routerLinkActive="bg-gray-100"
+            class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+            <i class="bi bi-puzzle-fill text-gray-400 mr-3"></i>
+            <span>Integrations</span>
+          </a> -->
+          <a cdkMenuItem routerLink="/admin/settings/roles" routerLinkActive="bg-primary-100 text-primary-700"
+            class="flex items-center gap-3 pl-3 pr-3 py-2 rounded-lg hover:bg-primary-50 transition-colors text-gray-700 font-semibold text-sm">
+            <span class="w-5 text-gray-500"><i class="bi bi-person-lines-fill text-lg"></i></span>
+            <span>Roles</span>
+          </a>
+          <!--
+          <a cdkMenuItem
+            routerLink="/admin/settings/terms"
+            routerLinkActive="bg-primary-100 text-primary-700"
+            class="flex items-center gap-3 pl-3 pr-3 py-2 rounded-lg hover:bg-primary-50 transition-colors text-gray-700 font-semibold text-sm">
+            <span class="w-5 text-gray-500"><i class="bi bi-list-check text-lg"></i></span>
+            <span>Terms And Conditions</span>
+          </a>
+          -->
+        </div>
+      </ng-template>
+    </div>
+  </header>
+
+  <!-- Sidebar (Hidden on Mobile) -->
+  <aside class="w-56 h-full fixed border-r border-gray-200 hidden md:block ">
+    <div class="py-2 px-2">
+      <nav class="space-y-1">
+        <a href="#" routerLink="/admin/settings" routerLinkActive="bg-gray-100"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+          <i class="bi bi-gear-fill text-gray-400 mr-3"></i>
+          <span>General Settings</span>
+        </a>
+        <a href="#" routerLink="/admin/settings/landlord/required-documents" routerLinkActive="bg-gray-100"
+          class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+          <i class="bi bi-file-earmark-lock2 text-lg text-gray-400 mr-3"></i>
+          <span>Landlord Documents</span>
+        </a>
+        <a href="#" routerLink="/admin/settings/countries" routerLinkActive="bg-gray-100"
+          class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+          <i class="bi bi-credit-card-fill text-gray-400 mr-3"></i>
+          <span>Countries</span>
+        </a>
+        <!-- <a href="#" routerLink="/admin/settings/notifications" routerLinkActive="bg-gray-100"
+          class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+          <i class="bi bi-bell-fill text-gray-400 mr-3"></i>
+          <span>Notifications</span>
+        </a> -->
+        <a href="#" routerLink="/admin/settings/integrations" routerLinkActive="bg-gray-100"
+          class="flex items-center px-3 py-2 text-sm font-medium rounded-lg hover:bg-gray-50">
+          <i class="bi bi-puzzle-fill text-gray-400 mr-3"></i>
+          <span>Integrations</span>
+        </a>
+        <a class="flex items-center gap-3 pl-3 pr-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-semibold text-sm"
+          routerLink="/admin/settings/roles" routerLinkActive="bg-gray-100 text-primary-700">
+          <span class="w-5 text-gray-500"><i class="bi bi-person-lines-fill text-lg"></i></span>
+          <span>Roles</span>
+        </a>
+        <!-- <a class="flex items-center gap-3 pl-3 pr-3 py-2 rounded-lg hover:bg-primary-50 transition-colors text-gray-700 font-semibold text-sm"
+          routerLink="/admin/settings/terms" routerLinkActive="bg-primary-100 text-primary-700"
+         >
+          <span class="w-5 text-gray-500"><i class="bi bi-list-check text-lg"></i></span>
+          <span>Terms And Conditions</span>
+        </a> -->
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 md:ml-56 h-full md:p-3 mt-20 md:mt-0">
+    <router-outlet />
+  </div>
+</div>

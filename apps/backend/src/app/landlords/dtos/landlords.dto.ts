@@ -33,6 +33,10 @@ export class CreateLandlordDto {
   @IsNotEmpty()
   password: string;
 
+  @IsString()
+  @IsNotEmpty()
+  idNumber: string;
+
   @IsOptional()
   @ValidateNested()
   @Type(() => AddressDto)
@@ -83,7 +87,11 @@ export class LandlordDto extends PostLandlordDto {
   deletedBy: string | null;
 }
 
-export class UpdateLandlordDto extends PartialType(PostLandlordDto) {}
+export class UpdateLandlordDto extends PartialType(PostLandlordDto) {
+  @IsString()
+  @IsOptional()
+  bio?: string ;
+}
 
 export class PostUpdatedLandlordDto extends UpdateLandlordDto {
   @IsDate()

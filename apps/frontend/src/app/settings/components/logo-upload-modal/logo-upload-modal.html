@@ -1,0 +1,78 @@
+<!-- === Backdrop === -->
+<div class="modal-backdrop"></div>
+
+<!-- === Modal Container === -->
+<div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
+  <div class="modal-container sm:max-w-lg sm:my-8 ">
+
+    <!-- === Header === -->
+    <header class="modal-header relative">
+      <h3 class="modal-title">Upload Company Logo</h3>
+      <p class="modal-subtitle">
+        Choose a logo to upload. The file should be in PNG, JPG, or JPEG format and less than 5MB.
+      </p>
+
+      <!-- Close Button -->
+      <button type="button" class="modal-close" (click)="closeModal()" title="Close">
+        <i class="bi bi-x-lg text-white text-lg"></i>
+      </button>
+    </header>
+
+    <!-- === Body === -->
+    <div class="modal-body h-max">
+
+      <!-- File Upload Area -->
+      <div
+        class="flex justify-center rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 px-6 py-10 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+        <div class="text-center">
+          <i class="bi bi-cloud-upload text-5xl text-gray-400 dark:text-gray-500"></i>
+
+          <div class="mt-4 flex text-sm leading-6 text-gray-600 dark:text-gray-300 justify-center items-center">
+            <label [for]="'file-upload-' + uniqueId"
+              class="relative cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 hover:text-primary-500">
+              <span>Upload a file</span>
+              <input [id]="'file-upload-' + uniqueId" name="file-upload" type="file" class="sr-only"
+                accept="image/png,image/jpeg,image/jpg" (change)="onFileSelected($event)" />
+            </label>
+            <p class="pl-1">or drag and drop</p>
+          </div>
+
+          <p class="text-xs leading-5 text-gray-500 dark:text-gray-400 mt-1">
+            PNG, JPG, JPEG up to 5MB
+          </p>
+        </div>
+      </div>
+
+      <!-- File Preview -->
+      @if (selectedFile()) {
+      <div class="mt-6">
+        <div class="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm">
+          <div class="space-y-3">
+            <img [src]="blobUrl()" alt="" class="w-3/4">
+            <p>{{selectedFile()?.name}}</p>
+          </div>
+          <button type="button" class="text-gray-400 hover:text-red-500 transition-colors" (click)="removeFile()"
+            title="Remove file">
+            <i class="bi bi-trash text-red-500 text-2xl"></i>
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- === Footer === -->
+    <footer class="modal-footer flex justify-end gap-3">
+      <button type="button" class="btn-reset" (click)="closeModal()">
+        Cancel
+      </button>
+
+      <button type="button" class="btn-md" [disabled]="!selectedFile() || isUploading()" (click)="uploadFile()">
+        @if (isUploading()) {
+        <i class="bi bi-arrow-repeat animate-spin"></i>
+        }
+        {{ isUploading() ? 'Uploading...' : 'Upload' }}
+      </button>
+    </footer>
+  </div>
+</div>

@@ -21,7 +21,7 @@ import { Partners } from '../../components/partners/partners';
 import { PropertyListingService } from '../../../property-listing/services/property-listing.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
-import { PropertyCard } from '../listings/components/property-card/property-card';
+import { PropertyCard } from '../properties/components/property-card/property-card';
 import { CategoriesService } from '../../../categories/services/categories.service';
 import { MetaService } from '../../../common/services/meta.service';
 import { PricePipe } from '../../../common/pipes/price.pipe';

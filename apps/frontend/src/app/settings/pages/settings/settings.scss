@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+// Form input focus styles
+input:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+// Hover effects for buttons and interactive elements
+button {
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// Card hover effects
+.bg-white {
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+// Logo upload hover effect
+.logo-upload {
+  &:hover {
+    .upload-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+.upload-overlay {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+label{
+  @apply font-medium text-gray-600;
+}

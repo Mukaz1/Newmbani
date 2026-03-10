@@ -1,0 +1,189 @@
+@if (isLoading()) {
+<app-data-loading />
+}@else {
+<!-- Page Header -->
+<div class="border-b border-gray-200">
+  <h1 class="text-2xl font-semibold text-gray-900">Business Profile</h1>
+  <p class="mt-1 text-sm text-gray-500">
+    Update your company details and business information
+  </p>
+</div>
+
+<div class="py-8">
+  <!-- Company Logo -->
+  <div class="mb-8">
+    <div class="flex items-center space-x-6">
+      <div class="flex justify-center">
+        <div class="relative w-full max-w-sm md:max-w-md lg:max-w-lg">
+          @if (logoUrl()) {
+          <img [src]="logoUrl()" alt="Logo" class="h-32 w-full rounded-xl object-contain   bg-white  " />
+          }@else {
+          <div
+            class="h-32 w-full rounded-xl bg-gray-50 flex flex-col items-center justify-center border border-dashed border-gray-300 text-gray-400 px-2">
+            <i class="bi bi-image text-5xl mb-2"></i>
+            <p class="text-sm font-medium text-gray-500">No Logo Uploaded</p>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-lg font-semibold text-gray-900">Company Logo</h3>
+        <p class="text-sm text-gray-500 mb-3">Upload your company logo</p>
+        <button
+          class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          (click)="openLogoModal()">
+          <i class="bi bi-upload mr-2"></i>
+          Upload New Logo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Form -->
+  <form [formGroup]="generalSettingsForm" class="space-y-6">
+    <!-- General Details Section -->
+    <div class="bg-white rounded-lg border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900">General Information</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Update your company's basic information
+        </p>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
+          <div class="md:col-span-2 ">
+            <label class="form-label required" for="company">
+              Company Name
+
+            </label>
+            <input formControlName="company" id="company" name="company" type="text" placeholder="Enter company name"
+              class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="email">
+              Email Address
+
+            </label>
+            <input formControlName="email" type="email" id="email" name="email" placeholder="Enter company email"
+              class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="phone">
+              Phone Number
+
+            </label>
+            <input formControlName="phone" type="text" name="phone" id="phone" placeholder="Enter phone number"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Section -->
+    <div class="bg-white rounded-lg border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900">Business Address</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Update your company's address information
+        </p>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" [formGroup]="addressFormGroup">
+          <div>
+            <label class="form-label required" for="boxAddress">
+              P.O. Box
+
+            </label>
+            <input formControlName="boxAddress" type="text" id="boxAddress" name="boxAddress"
+              placeholder="Enter P.O. Box" class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="town">
+              Town/City
+
+            </label>
+            <input formControlName="town" name="town" id="town" type="text" placeholder="Enter town/city"
+              class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="building">
+              Building
+            </label>
+            <input formControlName="building" name="building" id="building" type="text"
+              placeholder="Enter building name" class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="street">
+              Street
+            </label>
+            <input formControlName="street" name="street" id="street" type="text" placeholder="Enter street name"
+              class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="postalCode">
+              Postal Code
+
+            </label>
+            <input formControlName="postalCode" name="postalCode" id="postalCode" type="text"
+              placeholder="Enter postal code" class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="country">
+              Country
+
+            </label>
+            <input formControlName="country" name="country" id="country" type="text" placeholder="Enter country"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Settings Section -->
+    <div class="bg-white rounded-lg border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900">
+          Additional Information
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Other important company details
+        </p>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class=" form-label required" for="KRA">
+              KRA PIN
+
+            </label>
+            <input formControlName="KRA" name="KRA" id="KRA" type="text" placeholder="Enter KRA PIN"
+              class="form-control" />
+          </div>
+          <div>
+            <label class="form-label required" for="app">
+              Application Name
+            </label>
+            <input formControlName="app" name="app" id="app" type="text" placeholder="Enter application Name"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex items-center justify-end space-x-4 pt-4">
+      <button type="button" (click)="patchForm()" class="btn-reset">
+        <i class="bi bi-arrow-counterclockwise mr-2"></i>
+        Reset Changes
+      </button>
+      <button type="button" (click)="onSubmit()" [disabled]="isLoading() || generalSettingsForm.invalid"
+        class=" btn-md">
+        <i class="bi bi-check2 mr-2"></i>
+        {{ isLoading() ? "Saving..." : "Save Changes" }}
+      </button>
+    </div>
+  </form>
+</div>
+}
+<!-- || !generalSettingsForm.invalid -->

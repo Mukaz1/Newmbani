@@ -1,12 +1,11 @@
 import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import {
-  HostDocument,
+  LandlordDocument,
   RequiredDocument,
-  Host,
-  HostDocumentStatus,
+  Landlord,
+  LandlordDocumentStatus,
 } from '@newmbani/types';
 import { take } from 'rxjs';
-import { HostDocumentsService } from '../../../services/host-documents.service';
 import { AuthService } from '../../../../auth/services/auth.service';
 import { NotificationService } from '../../../../common/services/notification.service';
 import { DataLoading } from '../../../../common/components/data-loading/data-loading';
@@ -14,9 +13,10 @@ import { UploadDocumentModal } from '../../../modals/upload-document-modal/uploa
 import { Dialog } from '@angular/cdk/dialog';
 import { ViewFileViaModal } from '../../../../utilities/view-file-via-modal/view-file-via-modal';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { HostsService } from '../../../services/hosts.service';
 import { CdkMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { TitleCasePipe } from '@angular/common';
+import { LandlordDocumentsService } from '../../../services/host-documents.service';
+import { LandlordsService } from '../../../services/landlords.service';
 
 @Component({
   selector: 'app-documents',
@@ -27,36 +27,36 @@ import { TitleCasePipe } from '@angular/common';
 })
 export class Documents implements OnInit {
   private authService = inject(AuthService);
-  private hostsService = inject(HostsService);
+  private landlordsService = inject(LandlordsService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly hostDocumentsService = inject(HostDocumentsService);
+  private readonly landlordDocumentsService = inject(LandlordDocumentsService);
   private readonly notificationService = inject(NotificationService);
 
-  HostDocumentStatus = HostDocumentStatus;
+  LandlordDocumentStatus = LandlordDocumentStatus;
   requiredDocuments = signal<RequiredDocument[]>([]);
-  hostDocuments = signal<HostDocument[]>([]);
-  host = signal<Host | null>(null);
+  landlordDocuments = signal<LandlordDocument[]>([]);
+  landlord = signal<Landlord | null>(null);
   isLoading = signal<boolean>(true);
 
   currentUser = this.authService.user;
-  hostId = this.currentUser()?.hostId;
-  documentStatus = HostDocumentStatus;
+  landlordId = this.currentUser()?.landlordId;
+  documentStatus = LandlordDocumentStatus;
 
   ngOnInit(): void {
-    this.fetchHost();
+    this.fetchLandlord();
   }
 
-  fetchHost() {
-    if (!this.hostId) return;
+  fetchLandlord() {
+    if (!this.landlordId) return;
     this.isLoading.set(true);
-    this.hostsService
-      .getHostProfileById(this.hostId)
+    this.landlordsService
+      .getLandlordProfileById(this.landlordId)
       .pipe(take(1))
       .subscribe({
         next: (res) => {
           this.isLoading.set(false);
-          this.host.set(res.data);
+          this.landlord.set(res.data);
         },
         error: (error) => {
           this.isLoading.set(false);
@@ -65,7 +65,7 @@ export class Documents implements OnInit {
       });
   }
 
-  uploadModal(document: HostDocument) {
+  uploadModal(document: LandlordDocument) {
     const modalRef = this.dialog.open(UploadDocumentModal, {
       disableClose: true,
       data: {
@@ -73,11 +73,11 @@ export class Documents implements OnInit {
       },
     });
     modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.fetchHost();
+      this.fetchLandlord();
     });
   }
 
-  viewFile(document: HostDocument) {
+  viewFile(document: LandlordDocument) {
     if (!document.fileId) return;
     this.dialog.open(ViewFileViaModal, {
       data: { fileId: document.fileId },

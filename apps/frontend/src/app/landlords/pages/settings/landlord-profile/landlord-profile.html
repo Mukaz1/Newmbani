@@ -61,7 +61,7 @@
           <input type="text" formControlName="name" class="form-control text-2xl font-bold text-gray-900 w-full mb-2" />
           }
 
-          <div class="text-gray-500 mb-2">{{ landlord()?.landlordType?.name }}</div>
+          <div class="text-gray-500 mb-2">{{ landlord()?.name }}</div>
         </div>
       </div>
       <!-- ================= PERSONAL INFO ================= -->
@@ -170,24 +170,27 @@
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-semibold">Address</h3>
 
-        <button type="button" (click)="  manageAddresses()"
-          class="flex items-center gap-1 px-4 py-1 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 transition text-sm">
-          <i class="bi bi-geo-alt"></i> Manage
-        </button>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
         <div>
           <div class="text-xs text-gray-500 mb-1">Country</div>
           <div class="font-medium text-gray-900">
-            {{ landlord()?.address?.country?.name || 'Not specified' }}
+            {{ landlord()?.country?.name || 'Not specified' }}
           </div>
         </div>
 
         <div>
-          <div class="text-xs text-gray-500 mb-1">City / State</div>
+          <div class="text-xs text-gray-500 mb-1">City / County</div>
           <div class="font-medium text-gray-900">
-            {{ landlord()?.address?.city || '—' }}
+            {{ landlord()?.address?.county || '—' }}
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs text-gray-500 mb-1">Town</div>
+          <div class="font-medium text-gray-900">
+            {{ landlord()?.address?.town || '—' }}
           </div>
         </div>
 
@@ -199,9 +202,9 @@
         </div>
 
         <div>
-          <div class="text-xs text-gray-500 mb-1">Postal Code</div>
+          <div class="text-xs text-gray-500 mb-1">Building</div>
           <div class="font-medium text-gray-900">
-            {{ landlord()?.address?.postalCode || '—' }}
+            {{ landlord()?.address?.building || '—' }}
           </div>
         </div>
       </div>

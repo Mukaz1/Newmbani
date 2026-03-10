@@ -19,7 +19,7 @@ export class Testimonials {
     },
     {
       name: 'Brian O.',
-      title: 'Frequent Host',
+      title: 'Frequent Landlord',
       image: 'https://randomuser.me/api/portraits/men/32.jpg',
       quote:
         'Listing with Aluxe was a turning point. I started getting bookings within a week. Their insights were sharp, and the support was top-notch!',

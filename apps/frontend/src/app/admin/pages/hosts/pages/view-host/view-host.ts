@@ -2,8 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Host,
-  HostDocument,
-  HostDocumentStatus,
+  LandlordDocument,
+  LandlordDocumentStatus,
   NotificationStatusEnum,
 } from '@newmbani/types';
 import { DataLoading } from '../../../../../common/components/data-loading/data-loading';
@@ -15,7 +15,7 @@ import { HostVerificationModal } from '../../modals/host-verification-modal/host
 import { MetaService } from '../../../../../common/services/meta.service';
 import { take } from 'rxjs';
 import { InitialsPipe } from '../../../../../common/pipes/initials.pipe';
-import { HostsService } from '../../../../../landlords/services/hosts.service';
+import { HostsService } from '../../../../../landlords/services/landlords.service';
 import { ViewFileViaModal } from '../../../../../utilities/view-file-via-modal/view-file-via-modal';
 import { NotificationService } from '../../../../../common/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -51,7 +51,7 @@ export class ViewHost implements OnInit {
   private readonly dialog = inject(Dialog);
   private metaService = inject(MetaService);
 
-  HostDocumentStatus = HostDocumentStatus;
+  LandlordDocumentStatus = LandlordDocumentStatus;
 
   constructor() {
     this.metaService.setMeta({
@@ -73,7 +73,7 @@ export class ViewHost implements OnInit {
     if (this.hostId) {
       this.fetchHost();
     }
-    this.allHostDocumentsApproved();
+    this.allLandlordDocumentsApproved();
   }
 
   fetchHost() {
@@ -129,14 +129,14 @@ export class ViewHost implements OnInit {
     });
   }
 
-  viewDocument(document: HostDocument) {
+  viewDocument(document: LandlordDocument) {
     this.dialog.open(ViewFileViaModal, {
       data: { fileId: document.fileId },
       disableClose: true,
     });
   }
 
-  approveDocument(document: HostDocument) {
+  approveDocument(document: LandlordDocument) {
     const dialogRef = this.dialog.open(DocumentVerificationModal, {
       data: { document },
       disableClose: true,
@@ -147,11 +147,11 @@ export class ViewHost implements OnInit {
     });
   }
 
-  allHostDocumentsApproved(): boolean {
+  allLandlordDocumentsApproved(): boolean {
     const documents = this.host()?.documents ?? [];
     const result =
       documents.length > 0 &&
-      documents.every((doc) => doc.status === HostDocumentStatus.APPROVED);
+      documents.every((doc) => doc.status === LandlordDocumentStatus.APPROVED);
     return result;
   }
 

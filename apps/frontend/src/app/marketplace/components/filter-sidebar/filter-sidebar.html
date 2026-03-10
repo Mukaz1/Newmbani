@@ -19,16 +19,7 @@
     <input id="location" formControlName="location" class="form-control" placeholder="e.g. Nairobi, Mombasa..." />
   </div>
 
-  <!-- Property Type -->
-  <div class="flex flex-col">
-    <label for="propertyType" class="text-sm text-gray-700 mb-1 font-medium">Property Type</label>
-    <select id="propertyType" formControlName="type" class="form-select">
-      <option value="">Any</option>
-      @for (type of types; track type) {
-      <option [value]="type">{{ type }}</option>
-      }
-    </select>
-  </div>
+
 
   <div class="flex flex-col z-10">
     <label for="categoryId" class="text-sm text-gray-700 mb-1 font-medium">Property category</label>
@@ -52,76 +43,9 @@
     </div>
   </div>
 
-  <!-- Bedrooms & Bathrooms -->
-  <div class="grid grid-cols-2 gap-4">
-    <div class="flex flex-col">
-      <label for="bedrooms" class="text-sm text-gray-700 mb-1 font-medium">Bedrooms</label>
-      <input id="bedrooms" type="number" formControlName="bedrooms" class="form-control" placeholder="Min bedrooms" />
-    </div>
-    <div class="flex flex-col">
-      <label for="bathrooms" class="text-sm text-gray-700 mb-1 font-medium">Bathrooms</label>
-      <input id="bathrooms" type="number" formControlName="bathrooms" class="form-control"
-        placeholder="Min bathrooms" />
-    </div>
-  </div>
 
-  <!-- BNB Specific Fields -->
-  @if (filtersForm.value.type === PropertyListingTypeEnum.BNB) {
-  <!-- Dates trigger -->
-  <div class="flex flex-col w-full">
-    <label class="text-sm text-gray-700 mb-1 font-medium" for="dateRange">Dates</label>
-    <div id="dateRange"
-      class="flex items-center border rounded-2xl cursor-pointer hover:border-gray-400 transition overflow-hidden">
-      <!-- Check-in -->
-      <div class="flex-1 px-4 py-3 flex justify-between items-center"
-        (click)="toggleDateField('checkIn'); toggleDatePicker()" [class.ring-2]="activeDateField() === 'checkIn'">
-        <span class="text-gray-900 font-medium">
-          {{ checkIn() ? (checkIn() | date: 'MMM d') : 'Check-in' }}
-        </span>
-      </div>
-      <div class="w-px h-6 bg-gray-300"></div>
-      <!-- Check-out -->
-      <div class="flex-1 px-4 py-3 flex justify-between items-center"
-        (click)="toggleDateField('checkOut'); toggleDatePicker()" [class.ring-2]="activeDateField() === 'checkOut'">
-        <span class="text-gray-900 font-medium">
-          {{ checkOut() ? (checkOut() | date: 'MMM d') : 'Check-out' }}
-        </span>
-      </div>
-      <div class="px-3 text-gray-500">
-        <i class="bi bi-calendar3" (click)="toggleDatePicker()"></i>
-      </div>
-    </div>
-  </div>
-  <!-- Date Picker -->
-  @if (showDatePicker) {
-  <app-date-picker [checkIn]="checkIn()" [checkOut]="checkOut()" [activeField]="activeDateField()"
-    (checkInChange)="onDatesChange({ checkIn: $event, checkOut: checkOut() })"
-    (checkOutChange)="onDatesChange({ checkIn: checkIn(), checkOut: $event })" (close)="showDatePicker = false">
-  </app-date-picker>
-  }
-  <!-- Guests trigger -->
-  <div>
-    <label for="guests" class="text-sm font-medium text-gray-700">Guests</label>
-    <div
-      class="w-full !flex !justify-between items-center form-control cursor-pointer px-2 text-md hover:border-gray-400 transition"
-      (click)="toggleGuestPicker()">
-      <span class="text-gray-900 font-medium">
-        {{ guests().adults }} Adult{{ guests().adults === 1 ? '' : 's' }},
-        {{ guests().children }} Child{{ guests().children === 1 ? '' : 'ren' }},
-        {{ guests().infants }} Infant{{ guests().infants === 1 ? '' : 's' }},
-        {{ guests().pets }} pet{{ guests().pets === 1 ? '' : 's' }}
-      </span>
-      <i class="bi bi-people text-gray-500"></i>
-    </div>
-    <!-- Guest Picker dropdown -->
-    @if (showGuestPicker) {
-    <div class="mt-3">
-      <app-guest-picker [guestsValue]="guests()" (guestsChange)="onGuestsChange($event)">
-      </app-guest-picker>
-    </div>
-    }
-  </div>
-  }
+
+
 
   <!-- Apply and Clear Buttons Row -->
   <div class="flex flex-row gap-3 justify-between mt-4">
