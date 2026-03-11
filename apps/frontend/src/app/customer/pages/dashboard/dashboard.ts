@@ -5,11 +5,11 @@ import { signal, computed } from '@angular/core';
 import {
   Booking,
   DashboardsEnum,
+  HttpResponseInterface,
   NotificationStatusEnum,
   PaginatedData,
   User,
 } from '@newmbani/types';
-import { UserAddress } from '@newmbani/types';
 import { AuthService } from '../../../auth/services/auth.service';
 import { BookingsService } from '../../../bookings/services/bookings.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -33,9 +33,7 @@ export class CustomerDashboard implements OnInit {
   currentPage = signal(1);
   pageSize = signal(10);
   isLoading = signal(false);
-  addresses = signal<UserAddress[]>([]);
   isLoadingAddresses = signal(false);
-  showEmptyState = computed(() => this.addresses().length === 0);
   user = signal<User | null>(null);
   userName = computed(() => {
     const user = this.user();
@@ -82,20 +80,19 @@ export class CustomerDashboard implements OnInit {
     const endpoint = this.router.url;
     const dashboard = endpoint.includes('customer')
       ? DashboardsEnum.CUSTOMER
-      : endpoint.includes('host')
-        ? DashboardsEnum.HOST
+      : endpoint.includes('landlord')
+        ? DashboardsEnum.LANDLORD
         : DashboardsEnum.ADMIN;
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
-        dashboard,
         limit: this.pageSize(),
         keyword: this.keyword(),
         page: this.currentPage(),
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res) => {
+        next: (res: HttpResponseInterface<PaginatedData<Booking[]>>) => {
           this.bookings.set(res.data.data);
           this.isLoading.set(false);
         },

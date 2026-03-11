@@ -15,6 +15,7 @@ export interface InvoiceItem {
 
 export interface Invoice {
   _id?: string;
+  invoiceLink: string
   currencyId?: string;
   subTotal?: number;
   taxAmount?: number;

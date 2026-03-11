@@ -22,8 +22,8 @@ export const routes: Routes = [
       {
         path: 'bookings',
         loadComponent: () =>
-          import('../bookings/pages/bookings/bookings').then(
-            (m) => m.Bookings
+          import('../bookings/pages/all-bookings/all-bookings').then(
+            (m) => m.AllBookings
           ),
         canActivate: [AuthGuard, AdminGuard],
       },
@@ -31,7 +31,7 @@ export const routes: Routes = [
       {
         path: 'bookings/:id',
         loadComponent: () =>
-          import('../bookings/pages/view-bookings/view-bookings').then(
+          import('../bookings/pages/view-booking/view-booking').then(
             (m) => m.ViewBooking
           ),
         canActivate: [AuthGuard, AdminGuard],
@@ -98,7 +98,7 @@ export const routes: Routes = [
       {
         path: 'analytics',
         loadComponent: () =>
-          import('./pages/hosts/pages/host-analytics/host-analytics').then(
+          import('./pages/landlords/pages/host-analytics/host-analytics').then(
             (m) => m.HostAnalytics
           ),
         canActivate: [AuthGuard, AdminGuard],
@@ -106,7 +106,7 @@ export const routes: Routes = [
       {
         path: 'messages',
         loadComponent: () =>
-          import('./pages/hosts/pages/host-messages/host-messages').then(
+          import('./pages/landlords/pages/host-messages/host-messages').then(
             (m) => m.HostMessages
           ),
         canActivate: [AuthGuard, AdminGuard],
@@ -119,7 +119,7 @@ export const routes: Routes = [
       {
         path: 'hosts',
         loadChildren: () =>
-          import('./pages/hosts/host.routes').then((r) => r.routes),
+          import('./pages/landlords/host.routes').then((r) => r.routes),
         canActivate: [AuthGuard, AdminGuard],
       },
       {

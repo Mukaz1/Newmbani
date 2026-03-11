@@ -6,5 +6,5 @@ export const BOOKINGS_ENDPOINTS = {
   GET_BOOKING: (id: string) => `${BOOKINGS}/${id}`,
   UPDATE_BOOKING: (id: string) => `${BOOKINGS}/${id}`,
   DELETE_BOOKING: (id: string) => `${BOOKINGS}/${id}`,
-} as const;
+};
 

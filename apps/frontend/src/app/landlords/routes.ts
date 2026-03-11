@@ -22,22 +22,22 @@ export const routes: Routes = [
           ),
         canMatch: [AuthGuard, LandlordGuard],
       },
-      // {
-      //   path: 'bookings',
-      //   loadComponent: () =>
-      //     import('../bookings/pages/all-bookings/all-bookings').then(
-      //       (m) => m.Bookings
-      //     ),
-      //   canMatch: [AuthGuard, LandlordGuard],
-      // },
-      // {
-      //   path: 'bookings/:id',
-      //   loadComponent: () =>
-      //     import('../bookings/pages/view-bookings/view-bookings').then(
-      //       (m) => m.ViewBooking
-      //     ),
-      //   canMatch: [AuthGuard, LandlordGuard],
-      // },
+      {
+        path: 'bookings',
+        loadComponent: () =>
+          import('../bookings/pages/all-bookings/all-bookings').then(
+            (m) => m.AllBookings
+          ),
+        canMatch: [AuthGuard, LandlordGuard],
+      },
+      {
+        path: 'bookings/:id',
+        loadComponent: () =>
+          import('../bookings/pages/view-booking/view-booking').then(
+            (m) => m.ViewBooking
+          ),
+        canMatch: [AuthGuard, LandlordGuard],
+      },
       {
         path: 'properties',
         loadChildren: () =>

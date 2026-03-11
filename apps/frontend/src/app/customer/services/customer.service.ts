@@ -4,7 +4,7 @@ import {
   Customer,
   HttpResponseInterface,
   PaginatedData,
-  RegisterCustomer,
+  CreateCustomer,
   SOCKET_NAMESPACES,
   UpdateCustomer,
 } from '@newmbani/types';
@@ -26,7 +26,7 @@ export class CustomersService extends SocketService {
    * Create a new customer
    */
   createCustomer(
-    payload: RegisterCustomer
+    payload: CreateCustomer
   ): Observable<HttpResponseInterface<Customer>> {
     const endpoint = `${API_ENDPOINTS.CREATE_CUSTOMER}`;
     return this.httpClient.post<HttpResponseInterface<Customer>>(

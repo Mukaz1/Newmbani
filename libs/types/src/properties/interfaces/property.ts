@@ -1,5 +1,6 @@
 import { Address } from '../../addresses';
 import { AuditData } from '../../audit';
+import { Booking } from '../../bookings';
 import { Country } from '../../countries';
 import { Landlord } from '../../landlords';
 import { PropertyApprovalStatus } from '../enums/property-approval-status.enum';
@@ -32,6 +33,7 @@ export interface Property extends PostCreateProperty, AuditData {
   category: PropertyCategory;
   landlord: Landlord;
   country: Country;
+  bookings: Booking[]
 }
 
 export interface Coordinates {

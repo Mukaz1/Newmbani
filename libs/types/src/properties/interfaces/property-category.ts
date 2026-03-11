@@ -9,6 +9,7 @@ export interface CreatePropertyCategory{
     subCategories?: Omit<CreatePropertiesSubCategory, 'categoryId'>[];
 
 }
+export type UpdatePropertyCategory = Partial<CreatePropertyCategory>
 
 export interface PostPropertyCategory extends CreatePropertyCategory {
     slug: string;

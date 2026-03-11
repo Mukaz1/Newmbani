@@ -39,7 +39,7 @@ export const routes: Routes = [
       {
         path: 'bookings/:id',
         loadComponent: () =>
-          import('../bookings/pages/view-bookings/view-bookings').then(
+          import('../bookings/pages/view-booking/view-booking').then(
             (m) => m.ViewBooking
           ),
         canMatch: [AuthGuard],

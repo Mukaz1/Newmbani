@@ -28,6 +28,6 @@ export interface Landlord extends PostCreateLandlord, AuditData {
   profileImage: string;
   documents: LandlordDocument[];
   bio?: string;
-  verified: string;
+  verified: boolean;
 
 }

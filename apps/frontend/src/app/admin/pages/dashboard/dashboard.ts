@@ -4,7 +4,7 @@ import { WelcomeCard } from '../../widgets/welcome-card/welcome-card';
 import { TopStats } from '../../widgets/top-stats/top-stats';
 import { TopSellingProperties } from '../../widgets/top-selling-properties/top-selling-properties';
 import { LatestBookings } from '../../../bookings/components/latest-bookings/latest-bookings';
-import { TopHosts } from '../../widgets/top-hosts/top-hosts';
+import { TopLandlords } from '../../widgets/top-landlords/top-landlords';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,9 +12,8 @@ import { TopHosts } from '../../widgets/top-hosts/top-hosts';
     TopCategories,
     TopSellingProperties,
     WelcomeCard,
-    TopHosts,
+    TopLandlords,
     TopStats,
-    LatestBookings,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',

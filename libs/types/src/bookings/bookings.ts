@@ -13,6 +13,7 @@ export interface CreateBooking {
 export interface PostCreateBooking extends CreateBooking {
   status: BookingStatusEnum;
   createdBy: string;
+  createdAt: Date;
 }
 
 export interface Booking extends PostCreateBooking, AuditData {

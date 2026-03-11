@@ -1,5 +1,6 @@
 import { Address } from '../addresses';
 import { AuditData } from '../audit';
+import { Country } from '../countries';
 
 export interface CreateCustomer {
   name: string;
@@ -17,4 +18,6 @@ export interface UpdateCustomer {
   address: Address;
 }
 
-export interface Customer extends CreateCustomer, AuditData {}
+export interface Customer extends CreateCustomer, AuditData {
+  country: Country
+}

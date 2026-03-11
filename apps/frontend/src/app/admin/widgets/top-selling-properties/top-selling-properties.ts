@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { PaginatedData, PropertyListing } from '@newmbani/types';
-import { PropertyListingService } from '../../../property-listing/services/property-listing.service';
+import { PaginatedData,Property } from '@newmbani/types';
 import { take } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { PricePipe } from '../../../common/pipes/price.pipe';
+import { PropertiesService } from '../../../properties/services/properties.service';
 
 @Component({
   selector: 'app-top-selling-properties',
@@ -13,14 +13,14 @@ import { PricePipe } from '../../../common/pipes/price.pipe';
   styleUrl: './top-selling-properties.scss',
 })
 export class TopSellingProperties implements OnInit {
-  propertyListings = signal<PropertyListing[] | []>([]);
+ properties = signal<Property[] | []>([]);
   isLoading = signal(true);
   paginatedData = signal<PaginatedData<any> | undefined>(undefined);
   keyword = signal('');
   currentPage = signal(1);
   pageSize = signal(5);
 
-  private readonly propertyListingService = inject(PropertyListingService);
+  private readonly propertieservice = inject(PropertiesService);
   private readonly notificationService = inject(NotificationService);
   private readonly authService = inject(AuthService);
 
@@ -30,8 +30,8 @@ export class TopSellingProperties implements OnInit {
 
   getPropertyListings() {
     this.isLoading.set(true);
-    this.propertyListingService
-      .getAllPropertyListings({
+    this.propertieservice
+      .getAllProperties({
         keyword: this.keyword(),
         limit: this.pageSize(),
         page: this.currentPage(),
@@ -40,7 +40,7 @@ export class TopSellingProperties implements OnInit {
       .subscribe({
         next: (res) => {
           this.paginatedData.set(res.data);
-          this.propertyListings.set(res.data.data);
+          this.properties.set(res.data.data);
           this.isLoading.set(false);
         },
         error: (error) => {

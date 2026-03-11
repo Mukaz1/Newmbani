@@ -4,20 +4,19 @@
   </div>
 
   <div class="space-y-4">
-    @for (propertyListing of propertyListings(); track propertyListing._id) {
+    @for (property of properties(); track property._id) {
     <div class="flex items-center justify-between bg-white p-3 transition-all">
       <!-- Left section: image + info -->
       <div class="flex items-center gap-3 min-w-0">
-        <img [src]="propertyListing.property.images[0]?.link" alt="{{ propertyListing.property.name }}"
+        <img [src]="property.images[0]?.link" alt="{{ property.title }}"
           class="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
         <div class="min-w-0">
-          <h3 class="font-semibold text-gray-800 text-sm truncate max-w-[10rem]"
-            title="{{ propertyListing.property.name }}">
-            {{ propertyListing.property.name }}
+          <h3 class="font-semibold text-gray-800 text-sm truncate max-w-[10rem]" title="{{ property.title }}">
+            {{ property.title }}
           </h3>
 
           <p class="text-gray-500 text-xs">
-            {{ propertyListing.pricing.price | price:propertyListing.pricing.currencyId }}
+            {{ property.rentPrice | price:property.currencyId }}
           </p>
         </div>
       </div>
@@ -25,8 +24,8 @@
       <!-- Right section: booking count -->
       <div class="flex-shrink-0 text-right">
         <span class="bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full">
-          {{ propertyListing.bookings.length || 0 }}
-          {{ propertyListing.bookings.length === 1 ? 'booking' : 'bookings' }}
+          {{ property.bookings.length || 0 }}
+          {{ property.bookings.length === 1 ? 'booking' : 'bookings' }}
         </span>
       </div>
     </div>

@@ -7,8 +7,9 @@ import {
   Patch,
   Post,
   Query,
+  Req,
 } from '@nestjs/common';
-import { HttpResponseInterface, ExpressQuery } from '@newmbani/types';
+import { HttpResponseInterface, ExpressQuery, User, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { CreateBookingDto } from '../dto/bookings.dto';
 import { BookingsService } from '../services/bookings.service';
@@ -24,8 +25,10 @@ export class BookingsController {
   async create(
     @Body() createBookingDto: CreateBookingDto,
     @GenericResponse() res: GenericResponse,
+    @Req() { user }: UserRequest,
   ): Promise<HttpResponseInterface> {
-    const response = await this.bookingsService.create(createBookingDto);
+    const userId = user._id.toString()
+    const response = await this.bookingsService.create(createBookingDto, userId);
 
     res.setStatus(response.statusCode);
     return response;

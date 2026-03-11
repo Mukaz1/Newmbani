@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpResponseInterface, HttpStatusCodeEnum, ExpressQuery, BookingStatusEnum } from '@newmbani/types';
 import { CustomHttpResponse } from '../../common';
 import { BookingModel } from '../schemas/booking.schema';
-import { CreateBookingDto, PostCreateBooking } from '../dto/bookings.dto';
+import { CreateBookingDto, PostCreateBookingDto } from '../dto/bookings.dto';
 import { getBookingParams } from '../utils/getBookingsParams';
 import { BookingAggregation } from '../queries/bookings.query';
 import { PipelineStage } from 'mongoose';
@@ -15,13 +15,14 @@ export class BookingsService {
   /**
    * Create a new booking.
    */
-  async create(bookingDto: CreateBookingDto): Promise<HttpResponseInterface> {
+  async create(bookingDto: CreateBookingDto, userId:string): Promise<HttpResponseInterface> {
     try {
       // Enforce PostCreateBooking fields
-      const payload: any = {
+      const payload: PostCreateBookingDto = {
         ...bookingDto,
         status: BookingStatusEnum.PENDING,
         createdAt: new Date(),
+        createdBy: userId
       };
 
       const booking = await BookingModel.create(payload);
@@ -120,7 +121,7 @@ export class BookingsService {
   /**
    * Update a booking.
    */
-  async update(id: string, updateDto: Partial<CreateBookingDto | PostCreateBooking>): Promise<HttpResponseInterface> {
+  async update(id: string, updateDto: Partial<CreateBookingDto>): Promise<HttpResponseInterface> {
     try {
       const updatePayload = {
         ...updateDto,

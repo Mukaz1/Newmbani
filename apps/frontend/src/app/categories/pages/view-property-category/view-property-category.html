@@ -54,16 +54,7 @@
         {{ propertyCategory.createdAt | date : 'mediumDate' }}
       </div>
     </div>
-    <div class="my-2">
-      <div class="font-bold mb-1">Status</div>
-      <div>
-        @if (propertyCategory.isActive) {
-        <span class="badge">Active</span>
-        } @if (!propertyCategory.isActive) {
-        <span class="badge badge-light-error font-semibold text-md">In-Active</span>
-        }
-      </div>
-    </div>
+
   </div>
   <div class="grid grid-cols-1 my-2">
     <div class="font-bold mb-1">Description</div>
@@ -123,9 +114,7 @@
         <span class="text-gray-500">
           {{ subcategory.createdAt | date : 'shortDate' }}
         </span>
-        <span class="badge" [class]="subcategory.isActive ? 'badge-success' : 'badge-light-error'">
-          {{ subcategory.isActive ? 'Active' : 'Inactive' }}
-        </span>
+
       </div>
     </div>
     }

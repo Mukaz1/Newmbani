@@ -18,18 +18,16 @@ import {
   computed,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../../auth/services/auth.service';
 import { NotificationService } from '../../../../../common/services/notification.service';
-import { MediaService } from '../../../../../files/services/media.service';
-import { Validators } from 'ngx-editor';
 import { CustomersService } from '../../../../services/customer.service';
 import { DataLoading } from '../../../../../common/components/data-loading/data-loading';
-import { ManageAddress } from '../../../../components/addresses/modals/manage-address/manage-address';
 import { Dialog } from '@angular/cdk/dialog';
 import { Button } from '../../../../../common/components/button/button';
 import { Router } from '@angular/router';
 import { SearchableSelectOption } from '../../../../../marketplace/components/searchable-select/searchable-select';
+import { MediaService } from '../../../../../common/services/media.service';
 
 @Component({
   selector: 'app-profile',
@@ -83,7 +81,6 @@ export class Profile implements OnInit {
           this.loading.set(false);
           const customer = res.data;
           this.customer.set(customer);
-          this.address.set(this.customer()?.address ?? null);
           this.initializeForm(customer);
           this.profileForm.disable();
         },
@@ -217,35 +214,5 @@ export class Profile implements OnInit {
       });
   }
 
-  addAddress() {
-    const modalRef = this.dialog.open(ManageAddress);
-    modalRef.closed
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result) => {
-        if (result) {
-          const address = result as Address;
-          this.address.set(address);
-        }
-      });
-  }
-
-  editAddress(address: Address) {
-    const modalRef = this.dialog.open(ManageAddress, {
-      disableClose: true,
-      data: {
-        address,
-      },
-    });
-    modalRef.closed
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((result: any) => {
-        const address = result as Address;
-        if (!address) return;
-        this.address.set(address);
-      });
-  }
-
-  manageAddresses() {
-    this.router.navigate(['/customer/addresses']);
-  }
+  
 }
