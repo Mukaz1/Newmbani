@@ -357,7 +357,7 @@ export class ViewProperty implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmDialog, {
       data: {
         title: 'Confirm Delete',
-        message: `Are you sure you want to delete "${property.name}"?`,
+        message: `Are you sure you want to delete "${property.title}"?`,
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
         confirmButtonStyle:

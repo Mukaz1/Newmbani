@@ -11,14 +11,11 @@ import {
   PaginatedData,
   Property,
   PropertyCategory,
-  PropertyListing,
-  PropertyListingTypeEnum,
 } from '@newmbani/types';
 import { HeroSection } from '../../components/hero-section/hero-section';
 import { Router, RouterLink } from '@angular/router';
 // import { Testimonials } from '../../components/testimonials/testimonials';
 import { Partners } from '../../components/partners/partners';
-import { PropertyListingService } from '../../../property-listing/services/property-listing.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
 import { PropertyCard } from '../properties/components/property-card/property-card';
@@ -26,6 +23,7 @@ import { CategoriesService } from '../../../categories/services/categories.servi
 import { MetaService } from '../../../common/services/meta.service';
 import { PricePipe } from '../../../common/pipes/price.pipe';
 import { NgClass, NgStyle } from '@angular/common';
+import { PropertiesService } from '../../../common/services/properties.service';
 
 @Component({
   selector: 'app-homepage',
@@ -43,7 +41,7 @@ import { NgClass, NgStyle } from '@angular/common';
   styleUrl: './homepage.scss',
 })
 export class Homepage implements OnInit {
-  listings = signal<PropertyListing[]>([]);
+  properties = signal<Property[]>([]);
   isLoading = signal(true);
   paginatedData = signal<PaginatedData<any> | null>(null);
   favorites = signal<Property[]>([]);
@@ -52,9 +50,8 @@ export class Homepage implements OnInit {
   pageSize = signal(7);
   currentPage = signal(1);
   keyword = signal<string | undefined>(undefined);
-  PropertyListingTypeEnum = PropertyListingTypeEnum;
 
-  propertyListingService = inject(PropertyListingService);
+  propertyService = inject(PropertiesService);
   notificationService = inject(NotificationService);
   changeDetectorRef = inject(ChangeDetectorRef);
   categoriesService = inject(CategoriesService);
@@ -81,7 +78,7 @@ export class Homepage implements OnInit {
 
   ngOnInit() {
     this.getPropertyCategories();
-    this.loadListings();
+    this.loadProperties();
   }
 
   getPropertyCategories(): void {
@@ -112,7 +109,7 @@ export class Homepage implements OnInit {
       });
   }
 
-  loadListings(query?: {
+  loadProperties(query?: {
     keyword: string;
     limit: number;
     page: number;
@@ -120,44 +117,44 @@ export class Homepage implements OnInit {
     isApproved: boolean;
   }) {
     this.isLoading.set(true);
-    this.propertyListingService
-      .getPublicPropertyListings({
+    this.propertyService
+      .getAll({
         keyword: query?.keyword ?? '',
         limit: query?.limit ?? -1,
         page: query?.page ?? 1,
       })
       .pipe(take(1))
       .subscribe({
-        next: (res) => {
+        next: (res: HttpResponseInterface<Property[]>) => {
           this.paginatedData.set(res.data);
-          this.listings.set(res.data.data);
+          this.properties.set(res.data.data);
 
           this.isLoading.set(false);
         },
-        error: (error) => {
+        error: (error: any) => {
           console.log(error);
           this.isLoading.set(false);
         },
       });
   }
 
-  categoryListingsMap() {
+  categoryPropertiesMap() {
     const categories = this.propertyCategories();
-    const listings = this.listings();
+    const properties = this.properties();
 
     return categories
       .map((cat) => ({
         ...cat,
-        listings: listings.filter(
+        properties: properties.filter(
           (listing) => listing.property.categoryId === cat._id
         ),
       }))
-      .filter((cat) => cat.listings.length > 0) // only categories with listings
-      .sort((a, b) => b.listings.length - a.listings.length); // descending by count
+      .filter((cat) => cat.properties.length > 0) // only categories with properties
+      .sort((a, b) => b.properties.length - a.properties.length); // descending by count
   }
 
-  onPropertyCardClick(listing: PropertyListing): void {
-    this.router.navigate(['/listings', listing._id]);
+  onPropertyCardClick(listing: Property): void {
+    this.router.navigate(['/properties', listing._id]);
   }
 
   isPropertyFavorited(property: Property): boolean {
@@ -177,12 +174,12 @@ export class Homepage implements OnInit {
     }
   }
 
-  onFavoriteToggle(listing: PropertyListing): void {
+  onFavoriteToggle(listing: Property): void {
     this.toggleFavorite(listing.property);
   }
 
   viewListing(id: string) {
-    this.router.navigate([`/listings/${id}`]);
+    this.router.navigate([`/properties/${id}`]);
   }
 
   loadFavorites(): void {

@@ -1,15 +1,6 @@
-import { addressesEndpoints } from '../addresses/utils/marketplace-endpoints';
-import { contactsEndpoints } from '../admin/pages/contacts/utils/contacts-endpoints';
 import { rolesEndpoints } from '../admin/pages/roles/utils/roles-endpoints';
 import { authEndpoints } from '../auth/utils/auth-endpoints';
-import { bookingsEndpoints } from '../bookings/utils/bookings.endpoints';
 import { propertyCategoriesEndpoints } from '../categories/utils/property-categories-endpoints';
-import { helpcenterEndpoints } from '../help-center/utils/helpcenter-endpoints';
-import { invoicesEndpoints } from '../invoices/invoices-endpoints';
-import { paymentMethodsEndpoints } from '../marketplace/pages/pay/endpoints';
-import { supportCenterEndpoints } from '../marketplace/pages/support-center/utils/support-center-endpoints';
-import { paymentEndpoints } from '../payments/payment-endpoints';
-import { propertiesEndpoints } from '../properties/utils/properties-endpoints';
 import { customersEndpoints } from '../users/utils/customers-endpoints';
 import { employeesEndpoints } from '../users/utils/employees-endpoints';
 import {
@@ -32,8 +23,6 @@ export const fileEndpoints = {
 
 export const API_ENDPOINTS = {
   ...authEndpoints,
-  ...propertiesEndpoints,
-  ...bookingsEndpoints,
   ...fileEndpoints,
   ...authEndpoints,
   ...usersEndpoints,
@@ -42,15 +31,16 @@ export const API_ENDPOINTS = {
   ...hostsEndpoints,
   ...hostsDocumentEndpoints,
   ...customersEndpoints,
-  ...invoicesEndpoints,
-  ...paymentMethodsEndpoints,
-  ...paymentEndpoints,
   ...propertyCategoriesEndpoints,
-  ...addressesEndpoints,
-  ...contactsEndpoints,
-  ...helpcenterEndpoints,
-  ...supportCenterEndpoints,
-
+  ...propertiesEndpoints,
+  ...;andlordsEndpoints,
+  ...usersEndpoints,
+  ...rolesEndpoints,
+  ...employeesEndpoints,
+  ...hostsEndpoints,
+  ...hostsDocumentEndpoints,
+  ...customersEndpoints,
+  ...propertyCategoriesEndpoints,
   // Settings
   VIEW_SETTINGS: `${APIBaseAPIUrl}/settings`,
   UPDATE_SETTINGS: `${APIBaseAPIUrl}/settings`,

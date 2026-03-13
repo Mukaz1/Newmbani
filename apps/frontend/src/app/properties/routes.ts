@@ -20,7 +20,7 @@ export const routes: Routes = [
                 path: 'create',
                 loadComponent: () =>
                 import('../properties/pages/manage-properties/manage-properties').then(
-                    (m) => m.ManageProperties
+                    (m) => m.ManageProperty
                 ),
                 canMatch: [AuthGuard, LandlordGuard],
             },
@@ -36,7 +36,7 @@ export const routes: Routes = [
                 path: ':id/edit',
                 loadComponent: () =>
                 import('../properties/pages/manage-properties/manage-properties').then(
-                    (m) => m.ManageProperties
+                    (m) => m.ManageProperty
                 ),
                 canMatch: [AuthGuard, LandlordGuard],
             },

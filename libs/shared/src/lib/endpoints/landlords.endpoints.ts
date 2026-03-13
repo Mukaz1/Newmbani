@@ -1,6 +1,6 @@
 const LANDLORDS = '/api/landlords';
 
-export const LANDLORDS_ENDPOINTS = {
+export const LandlordsEndpoints = {
   CREATE_LANDLORD: LANDLORDS,
   GET_LANDLORDS: LANDLORDS,
   GET_LANDLORD: (id: string) => `${LANDLORDS}/${id}`,

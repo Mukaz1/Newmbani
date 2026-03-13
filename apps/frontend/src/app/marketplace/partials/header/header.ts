@@ -27,7 +27,7 @@ import { CurrencyWidget } from '../../../common/components/currency-widget/curre
 })
 export class Header implements OnInit {
   mobileMenuOpen = signal(false);
-  userType = signal({ admin: false, host: false, customer: false });
+  userType = signal({ admin: false, landlord: false, customer: false });
   isLoggedIn = signal(false);
   isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 

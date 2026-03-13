@@ -1,7 +1,7 @@
 const PROPERTIES = '/api/properties';
 const PROPERTY_CATEGORIES = '/api/property-categories';
 
-export const PROPERTIES_ENDPOINTS = {
+export const PropertiesEndpoints = {
   CREATE_PROPERTY: PROPERTIES,
   GET_PROPERTIES: PROPERTIES,
   GET_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
@@ -9,7 +9,7 @@ export const PROPERTIES_ENDPOINTS = {
   DELETE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
 } as const;
 
-export const PROPERTY_CATEGORIES_ENDPOINTS = {
+export const PropertyCategoriesEndpoints = {
   CREATE_PROPERTY_CATEGORY: PROPERTY_CATEGORIES,
   GET_PROPERTY_CATEGORIES: PROPERTY_CATEGORIES,
   GET_PROPERTY_CATEGORY: (id: string) => `${PROPERTY_CATEGORIES}/${id}`,

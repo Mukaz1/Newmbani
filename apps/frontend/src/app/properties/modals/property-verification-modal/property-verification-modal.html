@@ -17,15 +17,16 @@
                         <h3 class="block text-sm font-medium text-gray-500 dark:text-gray-300">
                             Property Name
                         </h3>
-                        <p class="text-md text-gray-700">{{ property()?.name }} </p>
+                        <p class="text-md text-gray-700">{{ property()?.title }} </p>
                     </div>
                     <div>
                         <h3 class="block text-sm font-medium text-gray-500 dark:text-gray-300">
                             Address
                         </h3>
-                        <p class="text-md text-gray-700">{{ property()?.address?.town }} - {{ property()?.address?.city
+                        <p class="text-md text-gray-700">{{ property()?.address?.county }} - {{
+                            property()?.address?.town
                             }},{{
-                            property()?.address?.country?.name }} </p>
+                            property()?.country?.name }} </p>
                     </div>
                 </div>
                 <div>
@@ -33,9 +34,9 @@
                         Restrication Status
                     </label>
                     <select id="status" formControlName="status" class="form-control mt-1" required>
-                        <option [ngValue]="PropertyApprovalStatusEnum.PENDING_REVIEW">Pending Review</option>
-                        <option [ngValue]="PropertyApprovalStatusEnum.APPROVED">Approved</option>
-                        <option [ngValue]="PropertyApprovalStatusEnum.REJECTED">Rejected</option>
+                        <option [ngValue]="PropertyApprovalStatus.UNDER_REVIEW">Pending Review</option>
+                        <option [ngValue]="PropertyApprovalStatus.APPROVED">Approved</option>
+                        <option [ngValue]="PropertyApprovalStatus.REJECTED">Rejected</option>
                     </select>
                 </div>
 

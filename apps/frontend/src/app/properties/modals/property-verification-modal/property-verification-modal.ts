@@ -26,7 +26,7 @@ export class PropertyVerificationModal implements OnInit {
   isLoading = signal<boolean>(false);
   property = signal<Property | null>(null);
 
-  private dialogRef = inject(DialogRef);
+  private dialogRef = inject<DialogRef<{ approved: boolean; property: Property } | void>>(DialogRef);
   private data = inject(DIALOG_DATA) as { property: Property };
   private propertiesService = inject(PropertiesService);
   private notificationService = inject(NotificationService);
@@ -64,8 +64,8 @@ export class PropertyVerificationModal implements OnInit {
             title: isApproved ? 'Property Approved' : 'Property Rejected',
             status: NotificationStatusEnum.SUCCESS,
             message: isApproved
-              ? `Property "${property.name}" approved successfully.`
-              : `Property "${property.name}" rejected.`,
+              ? `Property "${property.title}" approved successfully.`
+              : `Property "${property.title}" rejected.`,
           });
         },
         error: (error: HttpErrorResponse) => {

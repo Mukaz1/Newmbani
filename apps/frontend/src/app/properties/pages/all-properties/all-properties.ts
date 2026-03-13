@@ -23,7 +23,7 @@ import {
   PaginatedData,
   Landlord,
   Property,
-} from '@aluxe/types';
+} from '@newmbani/types';
 import { Dialog } from '@angular/cdk/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import saveAs from 'file-saver';
@@ -37,10 +37,9 @@ import { MetaService } from '../../../common/services/meta.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { PropertiesService } from '../../services/properties.service';
 import { AuthService } from '../../../auth/services/auth.service';
-import { ManageProperty } from '../manage-property/manage-property';
 import { ConfirmDialog } from '../../../common/components/confirm-dialog/confirm-dialog';
-import { LandlordsService } from '../../../landlord/services/landlords.service';
 import { take } from 'rxjs';
+import { LandlordsService } from '../../../landlords/services/landlords.service';
 
 @Component({
   selector: 'app-properties',

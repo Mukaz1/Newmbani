@@ -41,14 +41,12 @@ export class PropertiesService extends SocketService {
     page: number;
     keyword?: string;
     categoryId?: string;
-    express: boolean;
   }): Observable<HttpResponseInterface<PaginatedData<Property[]>>> {
     const options = data
       ? {
           params: new HttpParams()
             .set('limit', data.limit)
             .set('page', data.page)
-            .set('express', data.express)
             .set('categoryId', data.categoryId ? data.categoryId : '')
             .set('keyword', data.keyword ? data.keyword : ''),
         }
