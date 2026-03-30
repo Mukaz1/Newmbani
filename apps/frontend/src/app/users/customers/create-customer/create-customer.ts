@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {
   FormControl,
   FormGroup,
+  FormBuilder,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -12,10 +13,11 @@ import { MetaService } from '../../../common/services/meta.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { UsersService } from '../../../admin/services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpStatusCodeEnum, NotificationStatusEnum } from '@newmbani/types';
-import { RegisterCustomer, HttpResponseInterface } from '@newmbani/types';
+import { HttpStatusCodeEnum, NotificationStatusEnum, RegisterCustomer, HttpResponseInterface } from '@newmbani/types';
 import { Button } from '../../../common/components/button/button';
 import { passwordValidator } from '../../../common/utils/passwordValidator.util';
+import { Address } from '@newmbani/types'; // Import Address interface
+import { CountriesService } from '../../../countries/services/countries.service';
 
 @Component({
   selector: 'app-create-customer',
@@ -33,14 +35,26 @@ export class CreateCustomer implements OnDestroy {
     phone: new FormControl('', [Validators.required]),
     countryId: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, passwordValidator()]),
+    // Nested address form group
+    address: new FormGroup({
+      countryId: new FormControl('', [Validators.required]),
+      county: new FormControl('', [Validators.required]),
+      town: new FormControl(''),
+      street: new FormControl(''),
+      building: new FormControl(''),
+    }),
+    acceptTerms: new FormControl(false, [Validators.requiredTrue])
   });
   destroy$ = new Subject();
   private readonly router = inject(Router);
   private readonly usersService = inject(UsersService);
   private readonly notificationsService = inject(NotificationService);
+  private readonly countriesService = inject(CountriesService);
   private readonly metaService = inject(MetaService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
+
+  countries = this.countriesService.allCountries
   constructor() {
     this.metaService.setMeta({
       breadcrumb: {
@@ -64,15 +78,21 @@ export class CreateCustomer implements OnDestroy {
   createNewCustomer(): void {
     this.isLoading = true;
     if (this.registerNewCustomer.valid) {
-      const { name, email, password, phone, countryId, acceptTerms } =
-        this.registerNewCustomer.value;
+      const {
+        name,
+        email,
+        password,
+        phone,
+        acceptTerms,
+        address
+      } = this.registerNewCustomer.value;
 
       const new_customer: RegisterCustomer = {
         name,
         email,
         password,
         phone,
-        countryId,
+        address,
         acceptTerms,
       };
 

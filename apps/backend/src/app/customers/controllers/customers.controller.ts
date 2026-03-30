@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { HttpResponseInterface, ExpressQuery, PermissionEnum, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
-import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
+import { RegisterCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
 import { CustomersService } from '../services/customers.service';
 import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
 import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
@@ -36,7 +36,7 @@ export class CustomersController {
    */
   @Post()
   async createCustomer(
-    @Body() payload: CreateCustomerDto,
+    @Body() payload: RegisterCustomerDto,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
     // Create customer

@@ -20,9 +20,8 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { PropertyCard } from '../properties/components/property-card/property-card';
 import { CategoriesService } from '../../../categories/services/categories.service';
 import { MetaService } from '../../../common/services/meta.service';
-import { PricePipe } from '../../../common/pipes/price.pipe';
 import { NgClass, NgStyle } from '@angular/common';
-import { PropertiesService } from '../../../common/services/properties.service';
+import { PropertiesService } from '../../../properties/services/properties.service';
 
 @Component({
   selector: 'app-homepage',
@@ -31,7 +30,6 @@ import { PropertiesService } from '../../../common/services/properties.service';
     RouterLink,
     Partners,
     PropertyCard,
-    PricePipe,
     NgStyle,
     NgClass,
   ],
@@ -116,7 +114,7 @@ export class Homepage implements OnInit {
   }) {
     this.isLoading.set(true);
     this.propertyService
-      .getAll({
+      .getAllProperties({
         keyword: query?.keyword ?? '',
         limit: query?.limit ?? -1,
         page: query?.page ?? 1,

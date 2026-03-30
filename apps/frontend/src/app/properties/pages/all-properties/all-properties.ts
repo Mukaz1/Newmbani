@@ -215,7 +215,8 @@ export class AllProperties implements OnInit {
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface<PaginatedData<Property[]>>) => {
+        next: (response) => {
+          const res =  response as HttpResponseInterface<PaginatedData<Property[]>>
           this.properties.set(res.data.data);
           this.paginatedData.set(res.data);
           this.isLoading.set(false);
@@ -290,7 +291,7 @@ export class AllProperties implements OnInit {
     const data: object[] = [];
     this.properties().map((emp) => {
       const entry = {
-        Name: emp.name,
+        Name: emp.title,
       };
       data.push(entry);
     });
@@ -315,7 +316,7 @@ this.router.navigate(['create'], {relativeTo:this.route})
     const dialogRef = this.dialog.open(ConfirmDialog, {
       data: {
         title: 'Confirm Delete',
-        message: `Are you sure you want to delete "${property.name}"?`,
+        message: `Are you sure you want to delete "${property.title}"?`,
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
         confirmButtonStyle:

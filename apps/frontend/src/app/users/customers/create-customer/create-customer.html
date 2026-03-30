@@ -135,6 +135,65 @@
                   </div>
                 </div>
 
+                <!-- BEGIN ADDRESS FIELDS -->
+                <div class="mt-7 p-4 border rounded bg-gray-50">
+                  <p class="font-semibold mb-2">Address Details</p>
+                  <div formGroupName="address" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label class="form-label required" for="countryId">Country</label>
+                      <select class="form-control" id="countryId" formControlName="countryId">
+                        <option value="">Select Country</option>
+                        @for (c of countries() || []; track c._id) {
+                        <option [value]="c._id">{{ c.name }}</option>
+                        }
+                      </select>
+                      @if (
+                      registerNewCustomer.get('address.countryId')?.invalid &&
+                      (registerNewCustomer.get('address.countryId')?.dirty ||
+                      registerNewCustomer.get('address.countryId')?.touched)
+                      ) {
+                      <div class="input-error">
+                        @if (registerNewCustomer.get('address.countryId')?.errors?.['required']) {
+                        <span class="text-danger">Country is required.</span>
+                        }
+                      </div>
+                      }
+                    </div>
+                    <div>
+                      <label class="form-label required" for="county">County</label>
+                      <input type="text" class="form-control" id="county" formControlName="county"
+                        placeholder="e.g Nairobi" />
+                      @if (
+                      registerNewCustomer.get('address.county')?.invalid &&
+                      (registerNewCustomer.get('address.county')?.dirty ||
+                      registerNewCustomer.get('address.county')?.touched)
+                      ) {
+                      <div class="input-error">
+                        @if (registerNewCustomer.get('address.county')?.errors?.['required']) {
+                        <span class="text-danger">County is required.</span>
+                        }
+                      </div>
+                      }
+                    </div>
+                    <div>
+                      <label class="form-label" for="town">Town/Area</label>
+                      <input type="text" class="form-control" id="town" formControlName="town"
+                        placeholder="e.g Karen" />
+                    </div>
+                    <div>
+                      <label class="form-label" for="street">Street</label>
+                      <input type="text" class="form-control" id="street" formControlName="street"
+                        placeholder="e.g Lang'ata Road" />
+                    </div>
+                    <div>
+                      <label class="form-label" for="building">Building</label>
+                      <input type="text" class="form-control" id="building" formControlName="building"
+                        placeholder="e.g Apartment 702" />
+                    </div>
+                  </div>
+                </div>
+                <!-- END ADDRESS FIELDS -->
+
                 <div class="pt-5 flex flex-row gap-5">
                   <app-button type="button" [styles]="'btn !bg-gray-200 !text-gray-700 me-3 rounded-full'"
                     (buttonClicked)="discard()" label="Discard" />

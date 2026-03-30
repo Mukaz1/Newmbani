@@ -1,13 +1,12 @@
 import { Property, } from '@newmbani/types';
 
 import { Component, input, output, computed } from '@angular/core';
-import { PricePipe } from '../../../../../common/pipes/price.pipe';
 import { NgClass } from '@angular/common';
 import { PropertyImageApprovalStatus } from '@newmbani/types';
 
 @Component({
   selector: 'app-property-card',
-  imports: [PricePipe, NgClass],
+  imports: [ NgClass],
   templateUrl: './property-card.html',
   styleUrl: './property-card.scss',
 })

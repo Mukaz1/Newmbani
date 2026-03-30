@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { HttpResponseInterceptor } from '../../common/interceptors/http-response.interceptor';
 import {
   HttpResponseInterface,
-  CreateCustomer,
+  RegisterCustomer,
   CreateLandlord,
 } from '@newmbani/types';
 
@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class OnboardingService {
-  private httpClient = inject(HttpClient);
+   private httpClient: HttpClient = inject(HttpClient);
 
   /**
    * Register a landlord with the API.
@@ -35,7 +35,7 @@ export class OnboardingService {
    * @returns The response from the API or an error if the request fails.
    */
   registerCustomer(
-    payload: CreateCustomer
+    payload: RegisterCustomer
   ): Observable<HttpResponseInterface> {
     return this.httpClient.post<HttpResponseInterface>(
       API_ENDPOINTS.CUSTOMER_ONBOARDING,

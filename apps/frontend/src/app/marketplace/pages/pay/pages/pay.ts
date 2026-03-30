@@ -21,7 +21,6 @@ import {
   NotificationStatusEnum,
   Booking,
 } from '@newmbani/types';
-import { PricePipe } from '../../../../common/pipes/price.pipe';
 import { NotificationService } from '../../../../common/services/notification.service';
 import { SocketService } from '../../../../socket.io/socket-io.service';
 import { formatToMpesaNumber } from '@newmbani/utils';
@@ -52,7 +51,6 @@ export interface PaymentData {
     PaymentForm,
     AwaitingPayment,
     PaymentSuccess,
-    PricePipe,
   ],
   templateUrl: './pay.html',
 })

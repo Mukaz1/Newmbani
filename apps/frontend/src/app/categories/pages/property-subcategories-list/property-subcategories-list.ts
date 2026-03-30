@@ -129,8 +129,8 @@ export class PropertieSubcategoriesList
       .getCategories({ limit: 1000, page: 1, keyword: '' })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface) => {
-          const data = res.data as PaginatedData;
+        next: (res) => {
+          const data = (res as HttpResponseInterface).data as PaginatedData;
           this.categories.set((data?.data as PropertyCategory[]) || []);
           this.changeDetectorRef.detectChanges();
         },
@@ -157,8 +157,8 @@ export class PropertieSubcategoriesList
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface) => {
-          const data: PaginatedData | undefined = res.data as PaginatedData;
+        next: (res) => {
+          const data = (res as HttpResponseInterface).data as PaginatedData;
           if (data) {
             this.paginatedData.set(data);
             this.propertiesubCategories.set(data.data);

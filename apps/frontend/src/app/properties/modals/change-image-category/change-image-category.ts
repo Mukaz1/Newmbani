@@ -65,7 +65,8 @@ export class ChangeImageCategory implements OnInit {
       .getPropertyImageCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res:HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>) => {
+        next: (response) => {
+          const  res = response as HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>
           this.imageCategories.set(res.data.data);
           this.isLoading.set(false);
         },

@@ -9,7 +9,7 @@ import {
   UpdateUser,
   User,
   UpdateCustomer,
-  CreateCustomer,
+  RegisterCustomer,
 } from '@newmbani/types';
 import { Observable } from 'rxjs';
 
@@ -17,17 +17,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UsersService {
-  private readonly httpClient = inject(HttpClient);
+ private httpClient: HttpClient = inject(HttpClient);
 
   // Fetch all users-old
   findAll(): Observable<HttpResponseInterface<User[]>> {
     return this.httpClient.get<HttpResponseInterface<User[]>>(
-      API_ENDPOINTS.ALL_USERS
+      API_ENDPOINTS.GET_USERS
     );
   }
 
-  addNewCustomer(payload: CreateCustomer): Observable<HttpResponseInterface> {
-    const endpoint = `${API_ENDPOINTS.CREATE_CUSTOMER}`;
+  addNewCustomer(payload: RegisterCustomer): Observable<HttpResponseInterface> {
+    const endpoint =API_ENDPOINTS.CREATE_CUSTOMER;
     return this.httpClient.post<HttpResponseInterface>(endpoint, payload);
   }
 
@@ -36,7 +36,7 @@ export class UsersService {
     page: number;
     keyword: string;
   }): Observable<HttpResponseInterface> {
-    const endpoint = `${API_ENDPOINTS.ALL_CUSTOMERS}`;
+    const endpoint = API_ENDPOINTS.GET_CUSTOMERS;
     const options = data
       ? {
           params: new HttpParams()
@@ -50,8 +50,7 @@ export class UsersService {
 
   // Fetch a single customer by ID
   getCustomerById(userID: string) {
-    let endpoint = `${API_ENDPOINTS.VIEW_CUSTOMER}`;
-    endpoint = `${endpoint}/${userID}`;
+    const endpoint = API_ENDPOINTS.GET_CUSTOMER(userID);
     return this.httpClient.get<HttpResponseInterface>(endpoint);
   }
 
@@ -63,7 +62,7 @@ export class UsersService {
 
   // Fetch a single user by ID
   findById(id: string): Observable<HttpResponseInterface<User>> {
-    const endpoint = `${API_ENDPOINTS.VIEW_USER}/${id}`;
+    const endpoint = API_ENDPOINTS.GET_USER(id);
     return this.httpClient.get<HttpResponseInterface<User>>(endpoint);
   }
 
@@ -80,13 +79,13 @@ export class UsersService {
     id: string,
     payload: User
   ): Observable<HttpResponseInterface<User>> {
-    const endpoint = `${API_ENDPOINTS.UPDATE_USER}/${id}`;
+    const endpoint = API_ENDPOINTS.UPDATE_USER(id);
     return this.httpClient.put<HttpResponseInterface<User>>(endpoint, payload);
   }
 
   // Delete a user
-  deleteUser(id: number): Observable<HttpResponseInterface<null>> {
-    const endpoint = `${API_ENDPOINTS.DELETE_USER}/${id}`;
+  deleteUser(id: string): Observable<HttpResponseInterface<null>> {
+    const endpoint = API_ENDPOINTS.DELETE_USER(id);
     return this.httpClient.delete<HttpResponseInterface<null>>(endpoint);
   }
 
@@ -109,7 +108,7 @@ export class UsersService {
   }
 
   getAllEmployees(): Observable<HttpResponseInterface> {
-    const endpoint = `${API_ENDPOINTS.VIEW_EMPLOYEES}`;
+    const endpoint = API_ENDPOINTS.GET_EMPLOYEES;
     return this.httpClient.get<HttpResponseInterface>(endpoint);
   }
 
@@ -129,7 +128,7 @@ export class UsersService {
     page: number;
     keyword: string;
   }): Observable<HttpResponseInterface> {
-    const endpoint = `${API_ENDPOINTS.VIEW_EMPLOYEES}`;
+    const endpoint =API_ENDPOINTS.GET_EMPLOYEES;
     const options = data
       ? {
           params: new HttpParams()
@@ -147,26 +146,22 @@ export class UsersService {
   }
 
   getUserById(userID: string) {
-    let endpoint = `${API_ENDPOINTS.VIEW_USER}`;
-    endpoint = `${endpoint}/${userID}`;
+    const endpoint = API_ENDPOINTS.GET_USER(userID);
     return this.httpClient.get<HttpResponseInterface>(endpoint);
   }
 
   getEmployeeById(employeeId: string) {
-    let endpoint = `${API_ENDPOINTS.GET_EMPLOYEE_BY_ID}`;
-    endpoint = `${endpoint}/${employeeId}`;
+    const endpoint = API_ENDPOINTS.GET_EMPLOYEE_BY_ID(employeeId);
     return this.httpClient.get<HttpResponseInterface>(endpoint);
   }
 
   editEmployee(employeeId: string, payload: UpdateEmployee) {
-    let endpoint = `${API_ENDPOINTS.UPDATE_EMPLOYEE}`;
-    endpoint = `${endpoint}/${employeeId}`;
+    const endpoint =API_ENDPOINTS.UPDATE_EMPLOYEE(employeeId);
     return this.httpClient.patch<HttpResponseInterface>(endpoint, payload);
   }
 
   editProfile(userId: string, payload: UpdateUser) {
-    let endpoint = `${API_ENDPOINTS.UPDATE_USER}`;
-    endpoint = `${endpoint}/${userId}`;
+    let endpoint = API_ENDPOINTS.UPDATE_USER(userId);
     return this.httpClient.patch<HttpResponseInterface>(endpoint, payload);
   }
 }

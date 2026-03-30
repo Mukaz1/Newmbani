@@ -27,7 +27,6 @@ import { Button } from '../../../common/components/button/button';
 import { MetaService } from '../../../common/services/meta.service';
 import { BookingChart } from '../../Components/booking-chart/booking-chart';
 import { DoughnutChart } from '../../Components/doughnut-chart/doughnut-chart';
-import { PricePipe } from '../../../common/pipes/price.pipe';
 import {
   CommonModule,
   DatePipe,
@@ -43,7 +42,6 @@ import {
     RouterLink,
     BookingChart,
     DoughnutChart,
-    PricePipe,
     CommonModule,
   ],
   templateUrl: './landlord-dashboard.html',
@@ -118,7 +116,8 @@ export class LandlordDashboard implements OnInit {
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface<PaginatedData<Property[]>>) => {
+        next: (response) => {
+          const res = response as HttpResponseInterface<PaginatedData<Property[]>>
           this.properties.set(res.data.data);
           this.paginatedData.set(res.data);
           this.isLoading.set(false);
@@ -144,14 +143,14 @@ export class LandlordDashboard implements OnInit {
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
-        dashboard,
         limit: this.pageSize(),
         keyword: this.keyword(),
         page: this.currentPage(),
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res) => {
+        next: (response) => {
+          const res = response as HttpResponseInterface<PaginatedData<Booking[]>>
           this.bookings.set(res.data.data);
           this.isLoading.set(false);
         },

@@ -9,7 +9,7 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class LandlordsService {
-  private httpClient = inject(HttpClient);
+  private httpClient: HttpClient = inject(HttpClient);
 
   /**
    * Get all landlords
@@ -36,7 +36,7 @@ export class LandlordsService {
         }
       : {};
     return this.httpClient.get<HttpResponseInterface<Landlord[] | null>>(
-      API_ENDPOINTS.GET_LANDLORDS_FROM_STORE,
+      API_ENDPOINTS.GET_LANDLORDS,
       options
     );
   }
@@ -51,7 +51,7 @@ export class LandlordsService {
   getLandlordProfileById(
     landlordId: string
   ): Observable<HttpResponseInterface<Landlord | null>> {
-    const endpoint = `${API_ENDPOINTS.GET_LANDLORD_PROFILE_FROM_STORE}/${landlordId}`;
+    const endpoint = API_ENDPOINTS.GET_LANDLORD(landlordId);
     return this.httpClient.get<HttpResponseInterface<Landlord | null>>(endpoint);
   }
 
@@ -67,7 +67,7 @@ export class LandlordsService {
     landlordId: string,
     data: Partial<Landlord>
   ): Observable<HttpResponseInterface<Landlord | null>> {
-    const endpoint = `${API_ENDPOINTS.GET_LANDLORD_PROFILE_FROM_STORE}/${landlordId}`;
+    const endpoint = API_ENDPOINTS.GET_LANDLORD(landlordId);
     return this.httpClient.patch<HttpResponseInterface<Landlord | null>>(
       endpoint,
       data
@@ -83,7 +83,7 @@ export class LandlordsService {
    */
   approveLandlord(landlordId: string): Observable<HttpResponseInterface<Landlord | null>> {
     // The endpoint is landlords/:id/approve (PATCH)
-    const endpoint = `${API_ENDPOINTS.APPROVE_LANDLORD}/${landlordId}/approve`;
+    const endpoint =API_ENDPOINTS.APPROVE_LANDLORD(landlordId);
     return this.httpClient.patch<HttpResponseInterface<Landlord | null>>(
       endpoint,
       {}

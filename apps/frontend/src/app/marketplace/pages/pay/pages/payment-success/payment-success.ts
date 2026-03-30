@@ -1,13 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { PricePipe } from '../../../../../common/pipes/price.pipe';
 import { Invoice } from '@newmbani/types';
 
 @Component({
   selector: 'app-payment-success',
   standalone: true,
-  imports: [PricePipe],
+  imports: [],
   templateUrl: './payment-success.html',
   styleUrl: './payment-success.scss',
 })

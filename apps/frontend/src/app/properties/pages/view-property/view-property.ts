@@ -34,6 +34,7 @@ import { ChangeImageCategory } from '../../modals/change-image-category/change-i
 import { PaginatedData, PropertyApprovalStatus } from '@newmbani/types';
 import { PropertiesService } from '../../services/properties.service';
 import { UploadImages } from '../../modals/upload-images/upload-images';
+import { PropertyImageReviewModal } from '../../modals/property-image-review-modal/property-image-review-modal';
 
 @Component({
   selector: 'app-view-property',
@@ -263,8 +264,8 @@ export class ViewProperty implements OnInit, OnDestroy {
       },
     });
 
-    dialogRef.closed.pipe(takeUntil(this.destroy$)).subscribe((confirmed:boolean) => {
-      if (confirmed) {
+    dialogRef.closed.pipe(takeUntil(this.destroy$)).subscribe((confirmed) => {
+      if (confirmed as boolean) {
         if (propertyImageId) {
           this.propertiesService
             .removePropertyImage(propertyImageId)
@@ -367,8 +368,8 @@ export class ViewProperty implements OnInit, OnDestroy {
 
     dialogRef.closed
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((confirmed:boolean) => {
-        if (confirmed ) {
+      .subscribe((confirmed) => {
+        if (confirmed  as boolean) {
           this.propertiesService
             .deleteProperty(property._id)
             .pipe(takeUntilDestroyed(this.destroyRef))
@@ -422,7 +423,7 @@ export class ViewProperty implements OnInit, OnDestroy {
 
   reviewPropertyImage(propertyImage: PropertyImage) {
     const dialogRef = this.dialog.open(PropertyImageReviewModal, {
-      data: { propertyImage, propertyName: this.property()!.name },
+      data: { propertyImage, propertyName: this.property()!.title },
     });
 
     dialogRef.closed.subscribe((result: unknown) => {
@@ -435,7 +436,7 @@ export class ViewProperty implements OnInit, OnDestroy {
 
   changePropertyImageCategory(propertyImage: PropertyImage) {
     const dialogRef = this.dialog.open(ChangeImageCategory, {
-      data: { propertyImage, propertyName: this.property()!.name },
+      data: { propertyImage, propertyName: this.property()!.title },
     });
 
     dialogRef.closed.subscribe((result: unknown) => {

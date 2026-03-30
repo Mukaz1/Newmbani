@@ -16,7 +16,7 @@ import { API_ENDPOINTS } from '../../../../common/routes.constants';
   providedIn: 'root',
 })
 export class RolesService {
-  private httpClient = inject(HttpClient);
+   private httpClient: HttpClient = inject(HttpClient);
 
   getAll() {
     return this.httpClient.get(API_ENDPOINTS.GET_ROLES);

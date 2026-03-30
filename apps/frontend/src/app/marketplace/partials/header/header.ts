@@ -10,7 +10,6 @@ import {
 import { AuthService } from '../../../auth/services/auth.service';
 import { Button } from '../../../common/components/button/button';
 import { UserProfileWidget } from '../../components/user-profile-widget/user-profile-widget';
-import { CurrencyWidget } from '../../../common/components/currency-widget/currency-widget';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +19,6 @@ import { CurrencyWidget } from '../../../common/components/currency-widget/curre
     RouterLinkActive,
     Button,
     UserProfileWidget,
-    CurrencyWidget,
   ],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],

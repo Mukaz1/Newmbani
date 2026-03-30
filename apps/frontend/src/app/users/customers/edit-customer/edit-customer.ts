@@ -119,12 +119,11 @@ export class EditCustomer implements OnInit, OnDestroy {
   editCustomer(): void {
     this.isLoading = true;
     if (this.editCustomerForm.valid && this.customerId) {
-      const { name, email, phone } = this.editCustomerForm.value;
+      const { name, phone } = this.editCustomerForm.value;
 
       const customer: UpdateCustomer = {
         name,
         phone,
-        email,
       };
 
       this.usersService

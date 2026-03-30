@@ -1,6 +1,7 @@
 import { rolesEndpoints } from '../admin/pages/roles/utils/roles-endpoints';
 import { authEndpoints } from '../auth/utils/auth-endpoints';
-import { propertyCategoriesEndpoints } from '../categories/utils/property-categories-endpoints';
+import { bookingsEndpoints } from '../bookings/utils/bookings.endpoints';
+import { propertyCategoriesEndpoints, propertySubCategoriesEndpoints } from '../categories/utils/property-categories-endpoints';
 import { customersEndpoints } from '../customer/utils/customers.endpoints';
 import { landlordsEndpoints } from '../landlords/utils/landlords.endpoints';
 import { propertiesEndpoints, propertyImageCategoriesEndpoints, propertyImagesEndpoints } from '../properties/utils/properties.endpoints';
@@ -45,10 +46,12 @@ export const API_ENDPOINTS = {
   ...employeesEndpoints,
   ...customersEndpoints,
   ...propertyCategoriesEndpoints,
+  ...propertySubCategoriesEndpoints,
   ...propertiesEndpoints,
   ...notificationEndpoints,
   ...propertyImageCategoriesEndpoints,
   ...propertyImagesEndpoints,
+  ...bookingsEndpoints,
 
   // Settings
   VIEW_SETTINGS: `${APIBaseAPIUrl}/settings`,

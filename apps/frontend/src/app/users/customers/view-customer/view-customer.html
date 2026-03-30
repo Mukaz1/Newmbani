@@ -61,17 +61,6 @@
         {{ customer.createdAt | date : 'mediumDate' }}
       </div>
     </div>
-    <div class="my-2">
-      <div class="font-bold mb-1">Status</div>
-      <div>
-        <span><i class="bi bi-info-circle me-1 pr-2"></i></span>
-        @if (customer.isActive) {
-        <span class="badge">Active</span>
-        } @if (!customer.isActive) {
-        <span class="badge badge-light-error">In-Active</span>
-        }
-      </div>
-    </div>
   </div>
 </div>
 <!-- <div class="card p-5">

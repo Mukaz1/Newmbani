@@ -4,7 +4,7 @@ import {
   Customer,
   HttpResponseInterface,
   PaginatedData,
-  CreateCustomer,
+  RegisterCustomer,
   SOCKET_NAMESPACES,
   UpdateCustomer,
 } from '@newmbani/types';
@@ -16,7 +16,7 @@ import { SocketService } from '../../socket.io/socket-io.service';
   providedIn: 'root',
 })
 export class CustomersService extends SocketService {
-  private readonly httpClient = inject(HttpClient);
+  private readonly httpClient: HttpClient = inject(HttpClient);
 
   searchCustomer(keyword: string) {
     this.getSocket(SOCKET_NAMESPACES.CUSTOMERS).emit('customerSearch', { keyword, limit: -1, slim: true });
@@ -26,7 +26,7 @@ export class CustomersService extends SocketService {
    * Create a new customer
    */
   createCustomer(
-    payload: CreateCustomer
+    payload: RegisterCustomer
   ): Observable<HttpResponseInterface<Customer>> {
     const endpoint = `${API_ENDPOINTS.CREATE_CUSTOMER}`;
     return this.httpClient.post<HttpResponseInterface<Customer>>(
@@ -44,7 +44,7 @@ export class CustomersService extends SocketService {
     keyword: string;
     slim: boolean;
   }): Observable<HttpResponseInterface<PaginatedData<Customer[]>>> {
-    const endpoint = `${API_ENDPOINTS.ALL_CUSTOMERS}`;
+    const endpoint = `${API_ENDPOINTS.GET_CUSTOMERS}`;
     const options = data
       ? {
           params: new HttpParams()
@@ -63,7 +63,7 @@ export class CustomersService extends SocketService {
    * Get customer by ID
    */
   getCustomerById(id: string): Observable<HttpResponseInterface<Customer>> {
-    const endpoint = `${API_ENDPOINTS.VIEW_CUSTOMER}/${id}`;
+    const endpoint = `${API_ENDPOINTS.GET_CUSTOMER}/${id}`;
     return this.httpClient.get<HttpResponseInterface<Customer>>(endpoint);
   }
 
@@ -73,7 +73,7 @@ export class CustomersService extends SocketService {
   getCustomerByPhone(
     phone: string
   ): Observable<HttpResponseInterface<Customer>> {
-    const endpoint = `${API_ENDPOINTS.VIEW_CUSTOMER}/phone/${phone}`;
+    const endpoint = `${API_ENDPOINTS.GET_CUSTOMER}/phone/${phone}`;
     return this.httpClient.get<HttpResponseInterface<Customer>>(endpoint);
   }
 
@@ -91,11 +91,4 @@ export class CustomersService extends SocketService {
     );
   }
 
-  /**
-   * Delete customer
-   */
-  deleteCustomer(id: string): Observable<HttpResponseInterface<null>> {
-    const endpoint = `${API_ENDPOINTS.DELETE_CUSTOMER}/${id}`;
-    return this.httpClient.delete<HttpResponseInterface<null>>(endpoint);
-  }
 }

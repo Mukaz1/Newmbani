@@ -9,7 +9,7 @@
   <div class="flex flex-col gap-2 py-2">
     <h2 class="text-3xl font-bold text-gray-900 mb-3">Payment Successful!</h2>
     <p class="text-sm text-gray-600 mb-8">
-      Your payment of <span class="font-bold text-gray-900">{{ invoice?.totalAmount ?? 0 | price:invoice?.currencyId
+      Your payment of <span class="font-bold text-gray-900"> Ksh {{ invoice?.totalAmount ?? 0
         }}</span> has
       been confirmed
     </p>
@@ -20,7 +20,7 @@
 
       <div class="flex justify-between items-center py-2 border-b border-green-200">
         <span class="text-sm text-gray-600">Amount Paid</span>
-        <span class="font-bold text-gray-900">{{ invoice?.totalAmount ?? 0 | price:invoice?.currencyId }}</span>
+        <span class="font-bold text-gray-900">Ksh {{ invoice?.totalAmount ?? 0 }}</span>
       </div>
       <div class="flex justify-between items-center py-2 border-b border-green-200">
         <span class="text-sm text-gray-600">Payment Method</span>

@@ -13,7 +13,7 @@ import { RolesService } from '../../auth/services/roles.service';
 import { UsersService } from '../../auth/services/users.service';
 import { CustomHttpResponse, generatePassword } from '../../common';
 import {
-  CreateCustomerDto,
+  RegisterCustomerDto,
   PostCustomerDto,
   UpdateCustomerDto,
 } from '../dtos/customer.dto';
@@ -50,7 +50,7 @@ export class CustomersService {
    * @memberof CustomerService
    */
   async createCustomer(
-    customerDto: CreateCustomerDto,
+    customerDto: RegisterCustomerDto,
   ): Promise<HttpResponseInterface> {
     try {
       const { name, email, phone, acceptTerms } = customerDto;

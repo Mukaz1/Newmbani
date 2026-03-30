@@ -7,7 +7,6 @@ import { Dialog } from '@angular/cdk/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../auth/services/auth.service';
 import { ConfirmDialog } from '../common/components/confirm-dialog/confirm-dialog';
-import { CurrencyWidget } from '../common/components/currency-widget/currency-widget';
 import { getGreeting } from '../common/helpers/greetings.helper';
 import { UserProfileWidget } from '../marketplace/components/user-profile-widget/user-profile-widget';
 import { Footer } from './partials/footer/footer';
@@ -20,7 +19,6 @@ import { AdminSidebar } from './partials/sidebar/sidebar';
     Footer,
     AdminSidebar,
     NgClass,
-    CurrencyWidget,
     UserProfileWidget,
   ],
   templateUrl: './dashboard-wrapper.html',

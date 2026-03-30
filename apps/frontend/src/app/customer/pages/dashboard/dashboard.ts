@@ -17,12 +17,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../common/services/notification.service';
 import { DatePipe, NgClass, SlicePipe, TitleCasePipe } from '@angular/common';
 import { MetaService } from '../../../common/services/meta.service';
-import { PricePipe } from '../../../common/pipes/price.pipe';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, SlicePipe, TitleCasePipe, PricePipe, NgClass, DatePipe],
+  imports: [RouterLink, SlicePipe, TitleCasePipe,  NgClass, DatePipe],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss'],
 })
@@ -92,8 +91,9 @@ export class CustomerDashboard implements OnInit {
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface<PaginatedData<Booking[]>>) => {
-          this.bookings.set(res.data.data);
+        next: (res) => {
+          const response = res as HttpResponseInterface<PaginatedData<Booking[]>>
+          this.bookings.set(response.data.data);
           this.isLoading.set(false);
         },
         error: (error: HttpErrorResponse) => {

@@ -63,7 +63,8 @@ export class ViewPropertySubcategory implements OnInit {
         .getSubcategoryById(this.subCategoryId)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: (res: HttpResponseInterface<PropertiesSubCategory | null>) => {
+          next: (response) => {
+            const res = response as HttpResponseInterface<PropertiesSubCategory | null>
             if (res.data) {
               this.subcategory = res.data;
               this.isLoading = false;
@@ -103,7 +104,8 @@ export class ViewPropertySubcategory implements OnInit {
       .getCategoryById(categoryId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface<PropertyCategory | null>) => {
+        next: (response) => {
+          const res =response as  HttpResponseInterface<PropertyCategory | null>
           this.category = res.data || null;
           this.changeDetectorRef.detectChanges();
         },

@@ -5,5 +5,6 @@ export const landlordsEndpoints = {
   GET_LANDLORDS: LANDLORDS,
   GET_LANDLORD: (id: string) => `${LANDLORDS}/${id}`,
   UPDATE_LANDLORD: (id: string) => `${LANDLORDS}/${id}`,
+  APPROVE_LANDLORD:(id:string) => `${LANDLORDS}/${id}/approve`
 } as const;
 

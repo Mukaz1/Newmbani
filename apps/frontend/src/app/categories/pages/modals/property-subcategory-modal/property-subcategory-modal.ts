@@ -89,13 +89,13 @@ export class PropertiesSubCategoryModal implements OnInit {
           .updateSubcategory(id, payload)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
-            next: (res: HttpResponseInterface<PropertiesSubCategory>) => {
+            next: (res) => {
               this.notificationService.notify({
                 title: 'Success',
                 message: 'Property Subcategory updated successfully',
                 status: NotificationStatusEnum.SUCCESS,
               });
-              this.dialogRef.close(res.data);
+              this.dialogRef.close((res as  HttpResponseInterface<PropertiesSubCategory>).data);
             },
             error: (error: HttpErrorResponse) => {
               this.notificationService.notify({
@@ -110,8 +110,8 @@ export class PropertiesSubCategoryModal implements OnInit {
           .createSubcategory(payload)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
-            next: (res: HttpResponseInterface<CreatePropertiesSubCategory>) => {
-              this.dialogRef.close(res.data);
+            next: (res) => {
+              this.dialogRef.close((res as HttpResponseInterface<CreatePropertiesSubCategory>).data);
             },
             error: (error: HttpErrorResponse) => {
               this.notificationService.notify({

@@ -8,7 +8,7 @@ import { API_ENDPOINTS } from '@newmbani/shared';
   providedIn: 'root',
 })
 export class LandlordPropertiesService {
-  private httpClient = inject(HttpClient);
+   private httpClient: HttpClient = inject(HttpClient);
 
   getAll(data?: {
     limit: number;

@@ -8,7 +8,7 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class MediaService {
-  private readonly httpClient = inject(HttpClient);
+ private httpClient: HttpClient = inject(HttpClient);
 
   uploadMedia(payload: FormData) {
     const endpoint = API_ENDPOINTS.UPLOAD_FILE;

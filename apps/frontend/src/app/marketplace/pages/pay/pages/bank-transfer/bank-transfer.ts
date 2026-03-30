@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PricePipe } from '../../../../../common/pipes/price.pipe';
 
 interface BankDetails {
   bankName: string;
@@ -10,7 +9,7 @@ interface BankDetails {
 
 @Component({
   selector: 'app-bank-transfer',
-  imports: [PricePipe],
+  imports: [],
   templateUrl: './bank-transfer.html',
   styleUrl: './bank-transfer.scss',
 })

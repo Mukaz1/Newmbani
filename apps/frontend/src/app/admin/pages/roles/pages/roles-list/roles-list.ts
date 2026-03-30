@@ -20,7 +20,6 @@ import { MetaService } from '../../../../../common/services/meta.service';
 import { PaginatedData, Role } from '@newmbani/types';
 import { Breadcrumb } from '../../../../../common/components/breadcrumb/breadcrumb';
 import { DropdownMenu } from '../../../../../common/components/dropdown-menu/dropdown-menu';
-import { Button } from '../../../../../common/components/button/button';
 
 @Component({
   selector: 'app-roles-list',
@@ -34,7 +33,6 @@ import { Button } from '../../../../../common/components/button/button';
     Pagination,
     SearchInputWidget,
     DropdownMenu,
-    Button,
   ],
 })
 export class RolesList implements OnInit, OnDestroy {

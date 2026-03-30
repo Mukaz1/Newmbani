@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CustomerInvoiceService {
-  http = inject(HttpClient);
+  http: HttpClient = inject(HttpClient);
 
-  getClientInvoices(
-    customerId: string
-  ): Observable<HttpResponseInterface<PaginatedData<Invoice[]>>> {
-    const params = new HttpParams().set('customerId', customerId);
-    return this.http.get<HttpResponseInterface<PaginatedData<Invoice[]>>>(
-      API_ENDPOINTS.GET_INVOICES,
-      { params }
-    );
-  }
+  // getClientInvoices(
+  //   customerId: string
+  // ): Observable<HttpResponseInterface<PaginatedData<Invoice[]>>> {
+  //   const params = new HttpParams().set('customerId', customerId);
+  //   return this.http.get<HttpResponseInterface<PaginatedData<Invoice[]>>>(
+  //     API_ENDPOINTS.GET_INVOICES,
+  //     { params }
+  //   );
+  // }
 }

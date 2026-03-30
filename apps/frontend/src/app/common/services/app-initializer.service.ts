@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { catchError, map, take, finalize } from 'rxjs/operators';
 import { CountriesService } from '../../countries/services/countries.service';
-import { CurrencyService } from './currency.service';
 import { AppStateService } from './app-state.service';
 import { SettingsService } from '../../settings/services/settings.service';
 
@@ -11,7 +10,7 @@ import { SettingsService } from '../../settings/services/settings.service';
 })
 export class AppInitializerService {
   private countriesService = inject(CountriesService);
-  private currencyService = inject(CurrencyService);
+  // private currencyService = inject(CurrencyService);
   private appStateService = inject(AppStateService);
   private settingsService = inject(SettingsService);
 
@@ -25,7 +24,7 @@ export class AppInitializerService {
 
     const requests = [
       this.countriesService.fetchAllCountries(),
-      this.currencyService.loadCurrenciesForInitializer(),
+      // this.currencyService.loadCurrenciesForInitializer(),
       this.settingsService.loadSettingsForInitializer()
 
     ];

@@ -13,7 +13,7 @@ import {
   providedIn: 'root',
 })
 export class CountriesService {
-  private http = inject(HttpClient);
+   private http: HttpClient = inject(HttpClient);
 
   // Signals to hold the loaded countries
 

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PricePipe } from '../../../../../common/pipes/price.pipe';
 
 interface PaymentMethod {
   id: string;
@@ -21,7 +20,7 @@ interface Coupon {
 
 @Component({
   selector: 'app-paypal',
-  imports: [PricePipe],
+  imports: [],
   templateUrl: './paypal.html',
   styleUrl: './paypal.scss',
 })

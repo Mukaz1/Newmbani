@@ -15,7 +15,7 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class CategoriesService {
-  private http = inject(HttpClient);
+   private http: HttpClient = inject(HttpClient);
 
   // ---------------------------
   // Categories
@@ -36,14 +36,14 @@ export class CategoriesService {
       : {};
     return this.http.get<
       HttpResponseInterface<PaginatedData<PropertyCategory[]>>
-    >(API_ENDPOINTS.PROPERTY_CATEGORIES, options);
+    >(API_ENDPOINTS.GET_PROPERTY_CATEGORIES, options);
   }
 
   getCategoryById(
     id: string
   ): Observable<HttpResponseInterface<PropertyCategory>> {
     return this.http.get<HttpResponseInterface<PropertyCategory>>(
-      `${API_ENDPOINTS.VIEW_PROPERTY_CATEGORY}/${id}`
+     API_ENDPOINTS.GET_PROPERTY_CATEGORY(id)
     );
   }
 
@@ -61,14 +61,14 @@ export class CategoriesService {
     category: Partial<CreatePropertyCategory>
   ): Observable<HttpResponseInterface<PropertyCategory>> {
     return this.http.patch<HttpResponseInterface<PropertyCategory>>(
-      `${API_ENDPOINTS.UPDATE_PROPERTY_CATEGORY}/${id}`,
+      API_ENDPOINTS.UPDATE_PROPERTY_CATEGORY(id),
       category
     );
   }
 
   deleteCategory(id: string): Observable<HttpResponseInterface<void>> {
     return this.http.delete<HttpResponseInterface<void>>(
-      `${API_ENDPOINTS.PROPERTY_CATEGORIES}/${id}`
+     API_ENDPOINTS.DELETE_PROPERTY_CATEGORY(id)
     );
   }
 
@@ -93,14 +93,14 @@ export class CategoriesService {
       : {};
     return this.http.get<
       HttpResponseInterface<PaginatedData<PropertiesSubCategory[]>>
-    >(API_ENDPOINTS.ALL_SUB_CATEGORIES, options);
+    >(API_ENDPOINTS.GET_PROPERTY_SUBCATEGORIES, options);
   }
 
   getSubcategoryById(
     id: string
   ): Observable<HttpResponseInterface<PropertiesSubCategory>> {
     return this.http.get<HttpResponseInterface<PropertiesSubCategory>>(
-      `${API_ENDPOINTS.GET_PROPERTY_SUBCATEGORY}/${id}`
+    API_ENDPOINTS.GET_PROPERTY_SUBCATEGORY(id)
     );
   }
 
@@ -118,14 +118,14 @@ export class CategoriesService {
     subcategory: Partial<PropertiesSubCategory>
   ): Observable<HttpResponseInterface<PropertiesSubCategory>> {
     return this.http.patch<HttpResponseInterface<PropertiesSubCategory>>(
-      `${API_ENDPOINTS.UPDATE_PROPERTY_SUBCATEGORY}/${id}`,
+     API_ENDPOINTS.UPDATE_PROPERTY_SUBCATEGORY(id),
       subcategory
     );
   }
 
   deleteSubcategory(id: string): Observable<HttpResponseInterface<void>> {
     return this.http.delete<HttpResponseInterface<void>>(
-      `${API_ENDPOINTS.DELETE_PROPERTY_SUBCATEGORY}/${id}`
+     API_ENDPOINTS.DELETE_PROPERTY_SUBCATEGORY(id)
     );
   }
 }

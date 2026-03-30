@@ -3,7 +3,7 @@ import {
   PropertyImage,
   PropertyImageApprovalStatus,
   PropertyImageReviewInterface,
-} from '@aluxe/types';
+} from '@newmbani/types';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { PropertyImagesService } from '../../services/property-image.service';

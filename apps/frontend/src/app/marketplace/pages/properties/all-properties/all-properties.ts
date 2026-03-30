@@ -97,7 +97,7 @@ export class AllProperties implements OnInit {
     this.loadFavorites();
     this.route.queryParams
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
+      .subscribe((params: any) => {
         const queryParams: PropertyQueryParams = {
           keyword: params['keyword'] ?? this.keyword(),
           limit: params['limit'] ? +params['limit'] : this.pageSize(),

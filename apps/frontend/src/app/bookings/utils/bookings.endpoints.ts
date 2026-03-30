@@ -1,6 +1,6 @@
 const BOOKINGS = '/api/bookings';
 
-export const BOOKINGS_ENDPOINTS = {
+export const bookingsEndpoints = {
   CREATE_BOOKING: BOOKINGS,
   GET_BOOKINGS: BOOKINGS,
   GET_BOOKING: (id: string) => `${BOOKINGS}/${id}`,

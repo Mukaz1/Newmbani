@@ -8,7 +8,7 @@ import { FileInterface, HttpResponseInterface } from '@newmbani/types';
   providedIn: 'root',
 })
 export class FilesService {
-  private httpClient = inject(HttpClient);
+   private httpClient: HttpClient = inject(HttpClient);
 
   getFile(fileId: string): Observable<HttpResponseInterface<FileInterface>> {
     const endpoint = `${API_ENDPOINTS.VIEW_FILE}/${fileId}`;

@@ -8,7 +8,7 @@ import { HttpResponseInterface, Term } from '@newmbani/types';
   providedIn: 'root',
 })
 export class TermsAndConditionsService {
-  private httpClient = inject(HttpClient);
+   private httpClient: HttpClient = inject(HttpClient);
 
   getAllTerms() {
     return this.httpClient.get(API_ENDPOINTS.GET_TERMS);

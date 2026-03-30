@@ -2,7 +2,7 @@ import { Address } from '../addresses';
 import { AuditData } from '../audit';
 import { Country } from '../countries';
 
-export interface CreateCustomer {
+export interface RegisterCustomer {
   name: string;
   email: string;
   phone: string;
@@ -12,12 +12,12 @@ export interface CreateCustomer {
 }
 
 export interface UpdateCustomer {
-  name: string;
-  phone: string;
-  password: string;
-  address: Address;
+  name?: string;
+  phone?: string;
+  password?: string;
+  address?: Address;
 }
 
-export interface Customer extends CreateCustomer, AuditData {
+export interface Customer extends RegisterCustomer, AuditData {
   country: Country
 }

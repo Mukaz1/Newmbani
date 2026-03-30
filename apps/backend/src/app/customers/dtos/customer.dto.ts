@@ -1,4 +1,4 @@
-import { CreateCustomer, UpdateCustomer } from '@newmbani/types';
+import { RegisterCustomer, UpdateCustomer } from '@newmbani/types';
 import {
   IsString,
   IsNotEmpty,
@@ -9,7 +9,7 @@ import {
 import { AddressDto } from '../../common/dto/address.dto';
 import { Type } from 'class-transformer';
 
-export class CreateCustomerDto implements CreateCustomer {
+export class RegisterCustomerDto implements RegisterCustomer {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -57,7 +57,7 @@ export class UpdateCustomerDto implements UpdateCustomer {
 }
 
 
-export class PostCustomerDto extends CreateCustomerDto {
+export class PostCustomerDto extends RegisterCustomerDto {
   @IsString()
   @IsOptional()
   createdBy?: string;

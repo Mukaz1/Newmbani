@@ -3,12 +3,11 @@ import { PaginatedData,Property } from '@newmbani/types';
 import { take } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { NotificationService } from '../../../common/services/notification.service';
-import { PricePipe } from '../../../common/pipes/price.pipe';
 import { PropertiesService } from '../../../properties/services/properties.service';
 
 @Component({
   selector: 'app-top-selling-properties',
-  imports: [PricePipe],
+  imports: [],
   templateUrl: './top-selling-properties.html',
   styleUrl: './top-selling-properties.scss',
 })

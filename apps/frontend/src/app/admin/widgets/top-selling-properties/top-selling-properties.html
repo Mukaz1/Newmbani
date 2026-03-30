@@ -8,7 +8,7 @@
     <div class="flex items-center justify-between bg-white p-3 transition-all">
       <!-- Left section: image + info -->
       <div class="flex items-center gap-3 min-w-0">
-        <img [src]="property.images[0]?.link" alt="{{ property.title }}"
+        <img [src]="property?.images?.[0]?.link" alt="{{ property.title }}"
           class="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
         <div class="min-w-0">
           <h3 class="font-semibold text-gray-800 text-sm truncate max-w-[10rem]" title="{{ property.title }}">
@@ -16,7 +16,7 @@
           </h3>
 
           <p class="text-gray-500 text-xs">
-            {{ property.rentPrice | price:property.currencyId }}
+            {{ property.rentPrice }}
           </p>
         </div>
       </div>

@@ -22,17 +22,12 @@ export const routes: Routes = [
           ),
         canMatch: [AuthGuard, CustomerGuard],
       },
-      {
-        path: 'addresses',
-        loadComponent: () =>
-          import('./components/addresses/addresses').then((m) => m.Addresses),
-        canMatch: [AuthGuard, CustomerGuard],
-      },
+     
       {
         path: 'bookings',
         loadComponent: () =>
-          import('../bookings/pages/bookings/bookings').then(
-            (m) => m.Bookings
+          import('../bookings/pages/all-bookings/all-bookings').then(
+            (m) => m.AllBookings
           ),
         canMatch: [AuthGuard],
       },
@@ -44,30 +39,14 @@ export const routes: Routes = [
           ),
         canMatch: [AuthGuard],
       },
-      {
-        path: 'addresses',
-        loadComponent: () =>
-          import('./components/addresses/addresses').then((m) => m.Addresses),
-        canMatch: [AuthGuard],
-      },
+     
       {
         path: 'favorites',
         loadComponent: () =>
           import('./pages/favourites/favourites').then((m) => m.Favourites),
         canMatch: [AuthGuard],
       },
-      {
-        path: 'invoices',
-        loadComponent: () =>
-          import('./pages/invoices/invoices').then((m) => m.Invoices),
-        canMatch: [AuthGuard, CustomerGuard],
-      },
-      {
-        path: 'payments',
-        loadComponent: () =>
-          import('./pages/payments/payments').then((m) => m.Payments),
-        canMatch: [AuthGuard, CustomerGuard],
-      },
+   
       {
         path: 'settings',
         loadComponent: () =>
@@ -95,22 +74,8 @@ export const routes: Routes = [
               ),
             canMatch: [AuthGuard, CustomerGuard],
           },
-          {
-            path: 'billing',
-            loadComponent: () =>
-              import('./pages/settings/pages/billing/billing').then(
-                (m) => m.Billing
-              ),
-            canMatch: [AuthGuard, CustomerGuard],
-          },
-          {
-            path: 'notifications',
-            loadComponent: () =>
-              import('./pages/settings/pages/notifications/notifications').then(
-                (m) => m.Notifications
-              ),
-            canMatch: [AuthGuard, CustomerGuard],
-          },
+        
+        
         ],
       },
       { path: '**', redirectTo: '/customer/dashboard', pathMatch: 'full' },

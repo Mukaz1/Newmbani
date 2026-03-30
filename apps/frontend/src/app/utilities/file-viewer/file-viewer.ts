@@ -25,7 +25,7 @@ import { HttpResponseInterface, Settings } from '@newmbani/types';
 })
 export class FileViewer implements OnInit, OnChanges {
   @Input() isModal = false;
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     this.calculateWidth();
   }

@@ -11,7 +11,7 @@ import { MediaService } from '../../common/services/media.service';
   providedIn: 'root',
 })
 export class SettingsService {
-  private httpClient = inject(HttpClient);
+   private httpClient: HttpClient = inject(HttpClient);
   private readonly mediaService = inject(MediaService);
 
   private _settings = signal<Settings | null>(null);

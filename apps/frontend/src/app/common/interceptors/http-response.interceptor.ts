@@ -32,7 +32,7 @@ export class HttpResponseInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       tap({
-        next: async (event) => {
+        next: async (event: HttpEvent<any>) => {
           if (event instanceof HttpResponse) {
             const url = getCurrentURL(this.isBrowser);
 

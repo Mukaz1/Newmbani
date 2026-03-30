@@ -10,14 +10,15 @@ export const propertiesEndpoints = {
   GET_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
   UPDATE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
   DELETE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
-  
+  REVIEW_PROPERTY: (id: string) => `${PROPERTIES}/${id}/review`,
+
 } as const;
 
 
 
 export const propertyImageCategoriesEndpoints = {
   CREATE_PROPERTY_IMAGE_CATEGORY: PROPERTY_IMAGE_CATEGORIES,
-  GET_PROPERTY_IMAGE_CATEGORIES: PROPERTY_IMAGE_CATEGORIES,
+  GET_PROPERTY_IMAGE_CATEGORIES: (id: string) =>  `${PROPERTY_IMAGE_CATEGORIES}/${id}`,
   GET_PROPERTY_IMAGE_CATEGORY: (id: string) => `${PROPERTY_IMAGE_CATEGORIES}/${id}`,
   UPDATE_PROPERTY_IMAGE_CATEGORY: (id: string) => `${PROPERTY_IMAGE_CATEGORIES}/${id}`,
   DELETE_PROPERTY_IMAGE_CATEGORY: (id: string) => `${PROPERTY_IMAGE_CATEGORIES}/${id}`,

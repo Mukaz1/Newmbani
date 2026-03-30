@@ -9,7 +9,7 @@ import { LandlordsService } from '../../landlords/services/landlords.service';
 import { SignInDto } from '../dto/auth/sign-in.dto';
 import { AuthService } from '../services/auth.service';
 import { CreateLandlordDto } from '../../landlords/dtos/landlords.dto';
-import { CreateCustomerDto } from '../../customers/dtos/customer.dto';
+import { RegisterCustomerDto } from '../../customers/dtos/customer.dto';
 import { CustomersService } from '../../customers/services/customers.service';
 
 @Controller('auth/register')
@@ -50,7 +50,7 @@ export class RegisterController {
   /**
    * Register an account for a customer
    *
-   * @param {CreateCustomerDto} customerDto
+   * @param {RegisterCustomerDto} customerDto
    * @param res
    * @param req
    * @return {*}  {Promise<HttpResponseInterface>}
@@ -58,7 +58,7 @@ export class RegisterController {
    */
   @Post('customer')
   async registerClient(
-    @Body() customerDto: CreateCustomerDto,
+    @Body() customerDto: RegisterCustomerDto,
     @Req() req: any,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {

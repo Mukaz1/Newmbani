@@ -16,7 +16,7 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class PropertiesService {
-  private http = inject(HttpClient);
+   private http: HttpClient = inject(HttpClient);
 
   /**
    * Create a new property (BNB or Sale)
@@ -55,7 +55,7 @@ export class PropertiesService {
         }
       : {};
     return this.http.get<HttpResponseInterface<PaginatedData<Property[]>>>(
-      API_ENDPOINTS.PROPERTIES,
+      API_ENDPOINTS.GET_PROPERTIES,
       options
     );
   }
@@ -67,7 +67,7 @@ export class PropertiesService {
     idOrSlug: string
   ): Observable<HttpResponseInterface<Property>> {
     return this.http.get<HttpResponseInterface<Property>>(
-      `${API_ENDPOINTS.VIEW_PROPERTY}/${idOrSlug}`
+      `${API_ENDPOINTS.GET_PROPERTY}/${idOrSlug}`
     );
   }
 
@@ -89,7 +89,7 @@ export class PropertiesService {
    */
   deleteProperty(propertyId: string): Observable<HttpResponseInterface<void>> {
     return this.http.delete<HttpResponseInterface<void>>(
-      `${API_ENDPOINTS.PROPERTIES}/${propertyId}`
+      `${API_ENDPOINTS.DELETE_PROPERTY}/${propertyId}`
     );
   }
 
@@ -101,7 +101,7 @@ export class PropertiesService {
       propertyId: string
     ): Observable<HttpResponseInterface<void>> {
       return this.http.delete<HttpResponseInterface<void>>(
-        `${API_ENDPOINTS.PROPERTY_IMAGES}/${propertyId}`
+        `${API_ENDPOINTS.REVIEW_PROPERTY_IMAGE}/${propertyId}`
       );
     }
   

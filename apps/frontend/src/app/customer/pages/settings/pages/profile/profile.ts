@@ -24,14 +24,13 @@ import { NotificationService } from '../../../../../common/services/notification
 import { CustomersService } from '../../../../services/customer.service';
 import { DataLoading } from '../../../../../common/components/data-loading/data-loading';
 import { Dialog } from '@angular/cdk/dialog';
-import { Button } from '../../../../../common/components/button/button';
 import { Router } from '@angular/router';
 import { SearchableSelectOption } from '../../../../../marketplace/components/searchable-select/searchable-select';
 import { MediaService } from '../../../../../common/services/media.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [ReactiveFormsModule, DataLoading, Button],
+  imports: [ReactiveFormsModule, DataLoading,],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -77,7 +76,8 @@ export class Profile implements OnInit {
       .getCustomerById(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface<Customer>) => {
+        next: (response) => {
+          const res = response as  HttpResponseInterface<Customer>
           this.loading.set(false);
           const customer = res.data;
           this.customer.set(customer);
@@ -192,7 +192,8 @@ export class Profile implements OnInit {
       .updateCustomer(id, payload)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpResponseInterface<Customer>) => {
+        next: (response) => {
+          const res = response as HttpResponseInterface<Customer>
           this.loading.set(false);
           this.editMode.set(false);
           this.customer.set(res.data);

@@ -76,30 +76,7 @@ export const routes: Routes = [
               ),
             canMatch: [AuthGuard, LandlordGuard],
           },
-          {
-            path: 'billing',
-            loadComponent: () =>
-              import('../customer/pages/settings/pages/billing/billing').then(
-                (m) => m.Billing
-              ),
-            canMatch: [AuthGuard, LandlordGuard],
-          },
-          {
-            path: 'notifications',
-            loadComponent: () =>
-              import(
-                '../customer/pages/settings/pages/notifications/notifications'
-              ).then((m) => m.Notifications),
-            canMatch: [AuthGuard, LandlordGuard],
-          },
-          {
-            path: 'documents',
-            loadComponent: () =>
-              import('./pages/settings/documents/documents').then(
-                (m) => m.Documents
-              ),
-            canMatch: [AuthGuard, LandlordGuard],
-          },
+      
         ],
       },
       {

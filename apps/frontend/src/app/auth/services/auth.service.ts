@@ -31,7 +31,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  private http = inject(HttpClient);
+   private http: HttpClient = inject(HttpClient);
   private notify = inject(NotificationService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);

@@ -14,7 +14,7 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class UsersService {
-  private readonly httpClient = inject(HttpClient);
+ private http: HttpClient = inject(HttpClient);
 
   sortEmployeesByName(groups: Employee[]): Employee[] {
     const arrayForSort = [...groups];

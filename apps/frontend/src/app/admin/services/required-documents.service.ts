@@ -13,7 +13,7 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class RequiredDocumentsService {
-  private readonly http = inject(HttpClient);
+ private http: HttpClient = inject(HttpClient);
 
   getRequiredDocuments(): Observable<
     HttpResponseInterface<PaginatedData<RequiredDocument[]>>

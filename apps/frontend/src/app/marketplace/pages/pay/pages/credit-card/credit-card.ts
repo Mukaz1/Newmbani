@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PricePipe } from '../../../../../common/pipes/price.pipe';
 
 interface PaymentStatus {
   success: boolean;
@@ -23,7 +22,7 @@ interface SavedCard {
 
 @Component({
   selector: 'app-credit-card',
-  imports: [ReactiveFormsModule, FormsModule, PricePipe],
+  imports: [ReactiveFormsModule, FormsModule,],
   templateUrl: './credit-card.html',
   styleUrl: './credit-card.scss',
 })

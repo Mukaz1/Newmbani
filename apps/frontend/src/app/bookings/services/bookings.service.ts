@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Booking, CreateBooking, HttpResponseInterface, PaginatedData } from '@newmbani/types';
-import { API_ENDPOINTS } from '@newmbani/shared';
 import { Observable } from 'rxjs';
+import { API_ENDPOINTS } from '../../common/routes.constants';
 
 @Injectable({ providedIn: 'root' })
 export class BookingsService {
-  private http = inject(HttpClient)
+  private http:HttpClient = inject(HttpClient)
 
   getBookings(data?: {
     limit?: number;

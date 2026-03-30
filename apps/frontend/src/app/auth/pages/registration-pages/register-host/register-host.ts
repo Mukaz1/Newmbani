@@ -85,7 +85,7 @@ export class RegisterHost implements OnInit {
     }
     const { confirmPassword, ...payload } = this.hostForm.value;
 
-    this.onboardingService.registerHost(payload).subscribe({
+    this.onboardingService.registerLandlord(payload).subscribe({
       next: async (res) => {
         this.isLoading.set(false);
         this.notificationService.notify({

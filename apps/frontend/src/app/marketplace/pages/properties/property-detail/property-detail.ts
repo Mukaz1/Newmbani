@@ -22,7 +22,6 @@ import { DataLoading } from '../../../../common/components/data-loading/data-loa
 import { FormsModule } from '@angular/forms';
 import { Button } from '../../../../common/components/button/button';
 import { MetaService } from '../../../../common/services/meta.service';
-import { Reviews } from '../../../../common/components/reviews/reviews';
 import { Dialog } from '@angular/cdk/dialog';
 import { ViewImagesModal } from '../components/view-images-modal/view-images-modal';
 import { PropertiesService } from '../../../../properties/services/properties.service';
@@ -34,7 +33,6 @@ import { FormatLabelPipe } from '../../../../common/pipes/format-label.pipe';
     DataLoading,
     FormsModule,
     Button,
-    Reviews,
     DatePipe,
     FormatLabelPipe
   ],
@@ -89,7 +87,7 @@ export class PropertyDetail implements OnInit {
   ngOnInit(): void {
     this.route.params
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
+      .subscribe((params:any) => {
         if (params['id']) {
           this.getPropertyDetails(params['id']);
         }

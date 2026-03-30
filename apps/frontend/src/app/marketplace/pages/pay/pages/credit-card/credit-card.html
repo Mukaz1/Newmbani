@@ -1,6 +1,6 @@
 <div class="flex items-center mb-4">
     <span class="text-gray-500 mr-2">Amount to Pay:</span>
-    <span class="text-lg font-semibold text-primary-700">${{ totalAmount | price
+    <span class="text-lg font-semibold text-primary-700">${{ totalAmount
         }}</span>
 </div>
 <!-- Saved Cards -->
@@ -52,7 +52,7 @@
             class="w-full py-2 mt-2 bg-primary-600 text-white rounded-md font-semibold hover:bg-primary-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
             [disabled]="cardForm.invalid || isProcessing">
             @if (!isProcessing) {
-            <span>Pay ${{ totalAmount | price
+            <span>Pay ${{ totalAmount
                 }}</span>
             }
             @if (isProcessing) {

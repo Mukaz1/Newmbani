@@ -2,8 +2,10 @@ const USERS = '/api/users';
 
 export const usersEndpoints = {
   GET_USERS: USERS,
+  CREATE_USER: USERS,
   GET_USERS_BY_ROLE: (roleId: string) => `${USERS}/role/${roleId}`,
   GET_USER: (id: string) => `${USERS}/${id}`,
   UPDATE_USER: (id: string) => `${USERS}/${id}`,
+  DELETE_USER: (id: string) => `${USERS}/${id}`,
 } as const;
 

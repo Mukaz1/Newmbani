@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { NotificationStatusEnum, Country, PaginatedData } from '@newmbani/types';
+import { NotificationStatusEnum, Country, PaginatedData, HttpResponseInterface } from '@newmbani/types';
 import { NotificationService } from '../../../common/services/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MetaService } from '../../../common/services/meta.service';
@@ -62,7 +62,7 @@ export class Countries implements OnInit {
   ngOnInit() {
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((param) => {
+      .subscribe((param:any) => {
         const isEmpty = param.keys.length === 0;
         if (isEmpty) {
           this.patchQueryParams();
@@ -111,7 +111,8 @@ export class Countries implements OnInit {
       .getCountries(params)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
+        next: (res)=> {
+          const response = res as HttpResponseInterface<PaginatedData<Country[]>>
           this.countries.set(response.data.data);
           this.paginatedData.set(response.data);
           this.isLoading.set(false);

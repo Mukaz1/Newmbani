@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Country, NotificationStatusEnum, UpdateCountry } from '@newmbani/types';
+import { Country, HttpResponseInterface, NotificationStatusEnum, UpdateCountry } from '@newmbani/types';
 import { NotificationService } from '../../../common/services/notification.service';
 import { MetaService } from '../../../common/services/meta.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -93,9 +93,9 @@ export class ViewCountry implements OnInit {
     if (this.isUpdatingSupport()) return;
     const data: {
       customer: boolean;
-      host: boolean;
+      landlord: boolean;
     } = {
-      host: supported,
+      landlord: supported,
       customer: supported,
     };
     this.updateCountryField(
@@ -109,13 +109,13 @@ export class ViewCountry implements OnInit {
     );
   }
 
-  toggleHostSupport(hostSupport: boolean) {
+  toggleLandlordSupport(landlordSupport: boolean) {
     if (this.isUpdatingSupport()) return;
 
     this.updateCountryField(
       {
         supporting: {
-          host: hostSupport,
+          landlord: landlordSupport,
           customer: this.country()!.supporting.customer,
         },
       },
@@ -134,7 +134,7 @@ export class ViewCountry implements OnInit {
     this.updateCountryField(
       {
         supporting: {
-          host: this.country()!.supporting.host,
+          landlord: this.country()!.supporting.landlord,
           customer: customerSupport,
         },
       },
@@ -268,8 +268,9 @@ export class ViewCountry implements OnInit {
       .updateCountry(id, updateData)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          if (response.data) {
+        next: (res) => {
+         const response  = res as HttpResponseInterface<Country>
+          if (response.data ) {
             this.country.set(response.data);
             this.notificationService.notify({
               title: 'Success',
@@ -307,8 +308,8 @@ export class ViewCountry implements OnInit {
     return supported ? 'Supported' : 'Not Supported';
   }
 
-  getHostSupportClass(hostSupport: boolean): string {
-    return hostSupport
+  getLandlordSupportClass(landlordSupport: boolean): string {
+    return landlordSupport
       ? 'bg-blue-100 text-blue-700 border border-blue-200'
       : 'bg-gray-100 text-gray-700 border border-gray-200';
   }
