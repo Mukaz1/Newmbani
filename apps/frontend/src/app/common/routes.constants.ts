@@ -1,13 +1,12 @@
 import { rolesEndpoints } from '../admin/pages/roles/utils/roles-endpoints';
 import { authEndpoints } from '../auth/utils/auth-endpoints';
 import { propertyCategoriesEndpoints } from '../categories/utils/property-categories-endpoints';
-import { customersEndpoints } from '../users/utils/customers-endpoints';
+import { customersEndpoints } from '../customer/utils/customers.endpoints';
+import { landlordsEndpoints } from '../landlords/utils/landlords.endpoints';
+import { propertiesEndpoints, propertyImageCategoriesEndpoints, propertyImagesEndpoints } from '../properties/utils/properties.endpoints';
 import { employeesEndpoints } from '../users/utils/employees-endpoints';
-import {
-  hostsDocumentEndpoints,
-  hostsEndpoints,
-} from '../users/utils/hosts-endpoints';
 import { usersEndpoints } from '../users/utils/users-endpoints';
+
 import { APIBaseAPIUrl } from './base-api-url';
 
 export enum RouteConstants {
@@ -21,6 +20,17 @@ export const fileEndpoints = {
   DOWNLOAD_FILE: `${APIBaseAPIUrl}/files/download`,
 };
 
+const NOTIFICATION_DEMOS = '/api/notification-demos';
+const SMS_WEBHOOK = '/api/sms-webhook';
+
+export const notificationEndpoints = {
+  SEND_TEST_EMAIL: `${NOTIFICATION_DEMOS}/test-email`,
+  SEND_TEST_SMS: `${NOTIFICATION_DEMOS}/test-sms`,
+  SMS_WEBHOOK_ONFON: `${SMS_WEBHOOK}/onfon`,
+} as const;
+
+
+
 export const API_ENDPOINTS = {
   ...authEndpoints,
   ...fileEndpoints,
@@ -28,19 +38,18 @@ export const API_ENDPOINTS = {
   ...usersEndpoints,
   ...rolesEndpoints,
   ...employeesEndpoints,
-  ...hostsEndpoints,
-  ...hostsDocumentEndpoints,
+  ...landlordsEndpoints,
+  ...customersEndpoints,
+  ...propertyCategoriesEndpoints,
+  ...rolesEndpoints,
+  ...employeesEndpoints,
   ...customersEndpoints,
   ...propertyCategoriesEndpoints,
   ...propertiesEndpoints,
-  ...;andlordsEndpoints,
-  ...usersEndpoints,
-  ...rolesEndpoints,
-  ...employeesEndpoints,
-  ...hostsEndpoints,
-  ...hostsDocumentEndpoints,
-  ...customersEndpoints,
-  ...propertyCategoriesEndpoints,
+  ...notificationEndpoints,
+  ...propertyImageCategoriesEndpoints,
+  ...propertyImagesEndpoints,
+
   // Settings
   VIEW_SETTINGS: `${APIBaseAPIUrl}/settings`,
   UPDATE_SETTINGS: `${APIBaseAPIUrl}/settings`,

@@ -53,73 +53,17 @@ export const routes: Routes = [
           ),
         canActivate: [AuthGuard, AdminGuard],
       },
-      {
-        path: 'property-listings',
-        loadComponent: () =>
-          import(
-            '../property-listing/pages/all-property-listing/all-property-listing'
-          ).then((m) => m.AllPropertyListing),
-        canActivate: [AuthGuard, AdminGuard],
-      },
-      {
-        path: 'property-listings/:id',
-        loadComponent: () =>
-          import(
-            '../property-listing/pages/view-property-listing/view-property-listing'
-          ).then((m) => m.ViewPropertyListing),
-        canActivate: [AuthGuard, AdminGuard],
-      },
-      {
-        path: 'payments',
-        loadChildren: () =>
-          import('../payments/payments.routes').then((r) => r.routes),
-        canActivate: [AuthGuard, AdminGuard],
-      },
-
-      {
-        path: '',
-        loadChildren: () => import('../amenities/routes').then((r) => r.routes),
-        canActivate: [AuthGuard, AdminGuard],
-      },
-      {
-        path: 'properties',
-        canActivate: [AuthGuard, AdminGuard],
-        children: [
-          {
-            path: 'create',
-            loadComponent: () =>
-              import(
-                '../properties/pages/manage-property/manage-property'
-              ).then((m) => m.ManageProperty),
-            canActivate: [AuthGuard, AdminGuard],
-          },
-        ],
-      },
-      {
-        path: 'analytics',
-        loadComponent: () =>
-          import('./pages/landlords/pages/host-analytics/host-analytics').then(
-            (m) => m.HostAnalytics
-          ),
-        canActivate: [AuthGuard, AdminGuard],
-      },
-      {
-        path: 'messages',
-        loadComponent: () =>
-          import('./pages/landlords/pages/host-messages/host-messages').then(
-            (m) => m.HostMessages
-          ),
-        canActivate: [AuthGuard, AdminGuard],
-      },
+  
+  
       {
         path: 'settings',
         loadChildren: () => import('../settings/routes').then((m) => m.routes),
         canActivate: [AuthGuard, AdminGuard],
       },
       {
-        path: 'hosts',
+        path: 'landlords',
         loadChildren: () =>
-          import('./pages/landlords/host.routes').then((r) => r.routes),
+          import('./pages/landlords/landlord.routes').then((r) => r.routes),
         canActivate: [AuthGuard, AdminGuard],
       },
       {
@@ -146,11 +90,7 @@ export const routes: Routes = [
           import('../admin/pages/contacts/contacts.routes').then((r) => r.routes),
         canActivate: [AuthGuard, AdminGuard],
       },
-      {
-        path: 'help-center',
-        loadChildren: () =>
-          import('../help-center/help-center.routes').then((r) => r.routes),
-      },
+      
     ],
   },
   { path: '**', redirectTo: '/admin/dashboard', pathMatch: 'prefix' },

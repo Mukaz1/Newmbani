@@ -3,6 +3,8 @@ import {
   NotificationStatusEnum,
   UpdatePropertyImage,
   PropertyImageCategory,
+  HttpResponseInterface,
+  PaginatedData,
 } from '@newmbani/types';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -63,7 +65,7 @@ export class ChangeImageCategory implements OnInit {
       .getPropertyImageCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res) => {
+        next: (res:HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>) => {
           this.imageCategories.set(res.data.data);
           this.isLoading.set(false);
         },

@@ -1,0 +1,170 @@
+<div class="mx-auto">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Notification Settings</h2>
+
+    <div class="divide-y divide-gray-100">
+
+        <!-- Invoices Notification Settings -->
+        <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Invoices Notifications</h3>
+            <div class="flex flex-col gap-4">
+
+                <!-- In-app (Whatsapp) -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="invoicesInApp" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow In-app notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications delivered within the app.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="invoicesInApp"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.INVOICES, 'whatsapp')"
+                        (changed)="toggleChannel(NotificationTypeEnum.INVOICES, 'whatsapp')">
+                    </app-slide-toggle>
+                </div>
+
+                <!-- Push (SMS) -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="invoicesPush" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow Push notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications pushed to your device immediately.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="invoicesPush"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.INVOICES, 'sms')"
+                        (changed)="toggleChannel(NotificationTypeEnum.INVOICES, 'sms')">
+                    </app-slide-toggle>
+                </div>
+
+                <!-- Email -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="invoicesEmail" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow Email notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications sent directly to your email.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="invoicesEmail"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.INVOICES, 'email')"
+                        (changed)="toggleChannel(NotificationTypeEnum.INVOICES, 'email')">
+                    </app-slide-toggle>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receipts Notification Settings -->
+        <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Receipts Notifications</h3>
+            <div class="flex flex-col gap-4">
+
+                <!-- In-app -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="receiptsInApp" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow In-app notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications delivered within the app.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="receiptsInApp"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.RECEIPTS, 'whatsapp')"
+                        (changed)="toggleChannel(NotificationTypeEnum.RECEIPTS, 'whatsapp')">
+                    </app-slide-toggle>
+                </div>
+
+                <!-- Push -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="receiptsPush" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow Push notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications pushed to your device immediately.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="receiptsPush"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.RECEIPTS, 'sms')"
+                        (changed)="toggleChannel(NotificationTypeEnum.RECEIPTS, 'sms')">
+                    </app-slide-toggle>
+                </div>
+
+                <!-- Email -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="receiptsEmail" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow Email notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications sent directly to your email.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="receiptsEmail"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.RECEIPTS, 'email')"
+                        (changed)="toggleChannel(NotificationTypeEnum.RECEIPTS, 'email')">
+                    </app-slide-toggle>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tasks Notification Settings -->
+        <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Tasks Notifications</h3>
+            <div class="flex flex-col gap-4">
+
+                <!-- In-app -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="tasksInApp" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow In-app notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications delivered within the app.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="tasksInApp"
+                        [checked]="isChannelEnabled(NotificationTypeEnum.TASKS, 'whatsapp')"
+                        (changed)="toggleChannel(NotificationTypeEnum.TASKS, 'whatsapp')">
+                    </app-slide-toggle>
+                </div>
+
+                <!-- Push -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="tasksPush" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow Push notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications pushed to your device immediately.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="tasksPush" [checked]="isChannelEnabled(NotificationTypeEnum.TASKS, 'sms')"
+                        (changed)="toggleChannel(NotificationTypeEnum.TASKS, 'sms')">
+                    </app-slide-toggle>
+                </div>
+
+                <!-- Email -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <label for="tasksEmail" class="block text-base font-medium text-gray-900 mb-1">
+                            Allow Email notifications
+                        </label>
+                        <p class="text-sm text-gray-400">
+                            Notifications sent primarily to your email.
+                        </p>
+                    </div>
+                    <app-slide-toggle id="tasksEmail" [checked]="isChannelEnabled(NotificationTypeEnum.TASKS, 'email')"
+                        (changed)="toggleChannel(NotificationTypeEnum.TASKS, 'email')">
+                    </app-slide-toggle>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

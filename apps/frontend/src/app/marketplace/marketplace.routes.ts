@@ -39,14 +39,14 @@ export const routes: Routes = [
         path: 'listings',
         loadComponent: () =>
           import('./pages/properties/all-properties/all-properties').then(
-            (m) => m.AllListings
+            (m) => m.AllProperties
           ),
       },
       {
         path: 'listings/:id',
         loadComponent: () =>
           import('./pages/properties/property-detail/property-detail').then(
-            (m) => m.ListingDetail
+            (m) => m.PropertyDetail
           ),
       },
       {

@@ -8,16 +8,16 @@
       <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight mt-10 mb-5 md:mt-20 md:mb-6">
         Featured Categories
       </h2>
-      @for (category of categoryListingsMap(); track category._id) {
+      @for (category of categoryPropertiesMap(); track category._id) {
       <div class="mb-10">
         <p class="text-sm text-primary-600 uppercase font-medium mb-6">
           ● {{ category.name }}
         </p>
 
         <div class="flex gap-4 w-full overflow-auto">
-          @for (listing of category.listings; track listing._id) {
-          <app-property-card [listing]="listing" (cardClick)="onPropertyCardClick(listing)"
-            (favoriteToggle)="onFavoriteToggle(listing)" />
+          @for (property of category.properties; track property._id) {
+          <app-property-card [property]="property" (cardClick)="onPropertyCardClick(property)"
+            (favoriteToggle)="onFavoriteToggle(property)" />
           }
         </div>
       </div>
@@ -44,7 +44,7 @@
               <br />through verified bnbs in breathtaking location,<br />
               unplug, unwind and reconnect <br />with what matters most
             </p>
-            <button routerLink="/listings" class="btn-md">
+            <button routerLink="/properties" class="btn-md">
               Find Your Perfect Stay
             </button>
           </div>
@@ -54,7 +54,7 @@
         <div class="space-y-8">
           <!-- Features Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Curated Listings -->
+            <!-- Curated Properties -->
             <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-100">
               <div class="flex items-center mb-4">
                 <div class="w-10 h-10 bg-blue-50 rounded-2xl flex items-center justify-center mr-3">
@@ -65,7 +65,7 @@
                   </svg>
                 </div>
                 <h3 class="font-semibold text-lg text-gray-800">
-                  Curated Listings
+                  Curated Properties
                 </h3>
               </div>
               <p class="text-gray-600 text-sm">
@@ -128,8 +128,8 @@
               <!-- Right: Property Cards Stack, separated from the left column -->
               <div
                 class="relative w-full max-w-xs h-64 flex-shrink-0 flex flex-col items-center justify-center mx-auto min-h-64">
-                @if (listings().length > 0) {
-                @for (listing of listings().slice(0, 2); track listing._id; let i = $index) {
+                @if (properties().length > 0) {
+                @for (property of properties().slice(0, 2); track property._id; let i = $index) {
                 <div
                   class="absolute ml-16 md:ml-12 rounded-xl shadow-lg overflow-hidden bg-white cursor-pointer hover:shadow-2xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
                   [ngClass]="{
@@ -144,27 +144,23 @@
                    'translateX(-15%) rotate(12deg)',
       'transform-origin': 'bottom center',
       'transition': 'all 0.3s cubic-bezier(.4,2,.55,.43)'
-    }" (click)="viewListing(listing._id)" (keyup.enter)="viewListing(listing._id)"
-                  (keydown.space)="viewListing(listing._id)" tabindex="0">
+    }" (click)="viewListing(property._id)" (keyup.enter)="viewListing(property._id)"
+                  (keydown.space)="viewListing(property._id)" tabindex="0">
                   <img
-                    [src]="listing.property.images && listing.property.images.length >0 ?  listing.property.images[0]?.link : '/assets/images/placeholder-house.jpg'"
-                    [alt]="listing.property.name" class="w-full h-32 object-cover object-top block"
+                    [src]="property.images && property.images.length >0 ?  property.images[0]?.link : '/assets/images/placeholder-house.jpg'"
+                    [alt]="property.title" class="w-full h-32 object-cover object-top block"
                     style="padding:0; margin:0; border-radius:0; border-top-left-radius:0.75rem; border-top-right-radius:0.75rem;" />
                   <div class="p-3">
-                    <h4 class="font-semibold text-gray-900 text-sm truncate" [title]="listing.property.name">
-                      {{ listing.property.name || 'Untitled Property' }}
+                    <h4 class="font-semibold text-gray-900 text-sm truncate" [title]="property.title">
+                      {{ property.title || 'Untitled Property' }}
                     </h4>
-                    <p class="text-gray-600 text-xs truncate" [title]="listing.property.address.city">
-                      {{ listing.property.address.city }}, {{ listing.property.address.country.name }}
+                    <p class="text-gray-600 text-xs truncate" [title]="property.address.county">
+                      {{ property.address.county }}, {{ property.country.name }}
                     </p>
-                    @if (listing.pricing.discountedPrice) {
                     <p class="text-primary-600 font-bold text-sm mt-2">
-                      {{ listing.pricing.discountedPrice | price: listing.pricing.currencyId }}
-                      @if (listing.type === PropertyListingTypeEnum.BNB) {
-                      <span class="text-gray-500 text-xs font-normal">/ night</span>
-                      }
+                      Ksh {{ property.rentPrice }}
+                      <span class="text-gray-500 text-xs font-normal">/ month</span>
                     </p>
-                    }
                   </div>
                 </div>
                 }

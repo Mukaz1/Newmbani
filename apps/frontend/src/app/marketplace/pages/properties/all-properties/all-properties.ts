@@ -17,10 +17,8 @@ import {
   HttpResponseInterface,
   PaginatedData,
   Property,
-  Property,
 } from '@newmbani/types';
 import { CategoriesService } from '../../../../categories/services/categories.service';
-import { PropertyService } from '../../../../property-property/services/property-property.service';
 import { take } from 'rxjs';
 import { NotificationService } from '../../../../common/services/notification.service';
 import { DataLoading } from '../../../../common/components/data-loading/data-loading';
@@ -51,7 +49,7 @@ interface PropertyQueryParams {
   templateUrl: './all-properties.html',
   styleUrl: './all-properties.scss',
 })
-export class AllPropertys implements OnInit {
+export class AllProperties implements OnInit {
   properties = signal<Property[]>([]);
   isLoading = signal(true);
   paginatedData = signal<PaginatedData<any> | null>(null);

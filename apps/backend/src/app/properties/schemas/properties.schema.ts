@@ -29,9 +29,9 @@ export const PropertySchema = new Schema<Property>({
   description: { type: String, required: true, trim: true },
   rentPrice: { type: Number, required: true },
   deposit: { type: Number, required: true },
+  isFavorite: { type: Boolean, required: false, default:false },
   isAvailable: { type: Boolean, required: true },
   availableUnits: { type: Number, required: true },
-  propertyType: { type: String, required: true, trim: true },
   address: { 
     countryId: { type: String, required: true, trim: true },
     county: { type: String, required: true, trim: true },

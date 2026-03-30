@@ -39,14 +39,14 @@ export class PropertyImagesService {
       : {};
     return this.http.get<
       HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>
-    >(API_ENDPOINTS.PROPERTY_IMAGE_CATEGORIES, options);
+    >(API_ENDPOINTS.GET_PROPERTY_IMAGE_CATEGORIES, options);
   }
 
   getPropertyImageCategoryById(
     id: string
   ): Observable<HttpResponseInterface<PropertyImageCategory>> {
     return this.http.get<HttpResponseInterface<PropertyImageCategory>>(
-      `${API_ENDPOINTS.VIEW_PROPERTY_IMAGE_CATEGORY}/${id}`
+      `${API_ENDPOINTS.GET_PROPERTY_IMAGE_CATEGORY}/${id}`
     );
   }
 
@@ -73,7 +73,7 @@ export class PropertyImagesService {
     id: string
   ): Observable<HttpResponseInterface<void>> {
     return this.http.delete<HttpResponseInterface<void>>(
-      `${API_ENDPOINTS.PROPERTY_IMAGE_CATEGORIES}/${id}`
+      `${API_ENDPOINTS.GET_PROPERTY_IMAGE_CATEGORIES}/${id}`
     );
   }
 
@@ -81,7 +81,7 @@ export class PropertyImagesService {
     formData: FormData
   ): Observable<HttpResponseInterface<any>> {
     return this.http.post<HttpResponseInterface<any>>(
-      API_ENDPOINTS.PROPERTY_IMAGES,
+      API_ENDPOINTS.UPLOAD_PROPERTY_IMAGE,
       formData
     );
   }
@@ -91,7 +91,7 @@ export class PropertyImagesService {
     payload: PropertyImageReviewInterface;
   }): Observable<HttpResponseInterface<PropertyImage>> {
     const { propertyImageId, payload } = data;
-    const endpoint = `${API_ENDPOINTS.PROPERTY_IMAGES}/${propertyImageId}/review`;
+    const endpoint = API_ENDPOINTS.REVIEW_PROPERTY_IMAGE(propertyImageId);
     return this.http.patch<HttpResponseInterface<PropertyImage>>(
       endpoint,
       payload
@@ -103,7 +103,7 @@ export class PropertyImagesService {
     payload: UpdatePropertyImage;
   }): Observable<HttpResponseInterface<PropertyImage>> {
     const { propertyImageId, payload } = data;
-    const endpoint = `${API_ENDPOINTS.PROPERTY_IMAGES}/${propertyImageId}`;
+    const endpoint = API_ENDPOINTS.UPDATE_PROPERTY_IMAGE(propertyImageId);
     return this.http.patch<HttpResponseInterface<PropertyImage>>(
       endpoint,
       payload

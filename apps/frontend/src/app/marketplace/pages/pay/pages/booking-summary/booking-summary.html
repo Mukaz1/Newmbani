@@ -1,0 +1,68 @@
+<div class="p-5 lg:p-8">
+  <div class="col-span-3 md:col-span-1 w-full overflow-hidden">
+    <div class="flex gap-6 mb-4 justify-start">
+      <div class="md:hidden flex items-center gap-3 px-2">
+        <img src="assets/images/logos/logo-teal.svg" alt="Logo" class="h-12" />
+      </div>
+      <div class="flex items-end ">
+        <h2 class="font-semibold text-2xl">Booking Details</h2>
+      </div>
+    </div>
+    <div class="bg-white">
+      <img [src]="booking?.property?.images?.[0]?.link" alt="Property Image"
+        class="w-full h-48 object-cover rounded-2xl" />
+      <div class="py-6">
+        <h2 class="text-xl font-semibold mb-2">
+          {{ booking?.property?.title }}
+        </h2>
+        <div class="text-sm text-gray-600 mb-4">
+          <i class="bi bi-geo-alt"></i>
+          {{ booking?.property?.address?.county }}, {{
+          booking?.property?.country?.name }}
+        </div>
+
+        <!-- Dates -->
+        <div class="grid grid-cols-2 gap-3 border-t border-gray-100 px-0.5 py-2">
+          <div>
+            <div class="text-xs uppercase text-gray-600">
+              <i class="bi bi-clock"></i> Check-in
+            </div>
+            <div class="text-sm font-medium text-gray-900">
+              {{ booking?.viewingDate | date:'mediumDate' }}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Price Summary -->
+        <div class="border-t border-gray-100 py-2">
+          <h3 class="text-md font-semibold">Price </h3>
+
+          <!-- Total Section -->
+          <div class="border-t border-gray-200 pt-3">
+            <!-- Optional: Detailed Totals -->
+            <div class="text-sm text-gray-600 mt-2 space-y-1">
+              <div class="flex justify-between">
+                <span>Rent Price</span>
+                <span>Ksh:{{ booking?.property?.rentPrice }}</span>
+              </div>
+
+
+              <div class="flex justify-between">
+                <span>Deposit</span>
+                <span>Ksh:{{ booking?.property?.deposit }}</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-center text-base font-semibold text-gray-900">
+              <span>Total</span>
+              <span>
+
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

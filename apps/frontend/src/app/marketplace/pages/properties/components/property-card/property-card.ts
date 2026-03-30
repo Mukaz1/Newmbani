@@ -1,4 +1,4 @@
-import { PropertyListing, PropertyListingTypeEnum } from '@newmbani/types';
+import { Property, } from '@newmbani/types';
 
 import { Component, input, output, computed } from '@angular/core';
 import { PricePipe } from '../../../../../common/pipes/price.pipe';
@@ -12,18 +12,17 @@ import { PropertyImageApprovalStatus } from '@newmbani/types';
   styleUrl: './property-card.scss',
 })
 export class PropertyCard {
-  PropertyListingTypeEnum = PropertyListingTypeEnum;
 
-  listing = input.required<PropertyListing>();
+  property = input.required<Property>();
   isFavorited = input<boolean>(false);
 
-  cardClick = output<PropertyListing>();
-  favoriteToggle = output<PropertyListing>();
+  cardClick = output<Property>();
+  favoriteToggle = output<Property>();
 
   images = computed(() => {
-    const listing = this.listing();
-    if (!listing?.property?.images?.length) return [];
-    return listing.property.images.filter(
+    const property = this.property();
+    if (!property?.images?.length) return [];
+    return property.images.filter(
       (img) => img.approvalStatus === PropertyImageApprovalStatus.APPROVED
     );
   });
@@ -37,10 +36,10 @@ export class PropertyCard {
   });
 
   onCardClick(): void {
-    this.cardClick.emit(this.listing());
+    this.cardClick.emit(this.property());
   }
 
   onFavoriteToggle(): void {
-    this.favoriteToggle.emit(this.listing());
+    this.favoriteToggle.emit(this.property());
   }
 }

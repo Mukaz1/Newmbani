@@ -1,0 +1,55 @@
+<div class="modal-backdrop flex items-center justify-center">
+    <div class="modal-container w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 shadow-xl relative"
+        style="min-width: 24rem;">
+        <!-- Header -->
+        <div class="modal-header flex justify-between items-center border-b border-gray-200 dark:border-gray-700 p-4">
+            <h2 class="modal-title text-lg font-bold text-white">Property Image Review</h2>
+            <button class="modal-close" (click)="closeModal()" aria-label="Close modal">
+                <i class="bi bi-x-lg text-gray-800 dark:text-white text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+            <form [formGroup]="imageReviewForm" (submit)="onSubmit()" class="space-y-6">
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <p>{{propertyName()}}</p>
+                    </div>
+                    <img [src]="propertyImage()?.link" [alt]="propertyName()"
+                        class="w-full h-64 object-cover rounded-xl">
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Review Status
+                        </label>
+                        <select id="status" formControlName="status" class="form-control mt-1" required>
+                            <option [ngValue]="PropertyImageApprovalStatus.PENDING_REVIEW">Pending Review</option>
+                            <option [ngValue]="PropertyImageApprovalStatus.APPROVED">Approved</option>
+                            <option [ngValue]="PropertyImageApprovalStatus.REJECTED">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="comment" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Comment
+                    </label>
+                    <textarea id="comment" formControlName="comment" rows="4"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                        placeholder="Enter any comment or notes"></textarea>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer flex justify-end gap-3 border-t border-gray-200 dark:border-gray-700 p-4">
+            <app-button (buttonClicked)="closeModal()" [label]="'Cancel'"
+                styles="!bg-gray-200 !hover:bg-gray-400 !text-gray-700 "></app-button>
+            <app-button [label]="'Review'" (click)="onSubmit()" [disabled]="isLoading() || imageReviewForm.invalid"
+                [isLoading]="isLoading()"></app-button>
+        </div>
+    </div>
+</div>

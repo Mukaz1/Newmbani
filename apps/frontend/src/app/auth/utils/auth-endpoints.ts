@@ -19,4 +19,6 @@ export const authEndpoints = {
   HOST_ONBOARDING: `${APIBaseAPIUrl}/auth/register/host`,
   CUSTOMER_ONBOARDING: `${APIBaseAPIUrl}/auth/register/customer`,
   AUTH_LOGS: `${APIBaseAPIUrl}/account/auth-logs`,
+  REGISTER_LANDLORD: `${APIBaseAPIUrl}/auth/registerlandlord`,
+  REGISTER_CUSTOMER: `${APIBaseAPIUrl}/auth/register/customer`,
 };

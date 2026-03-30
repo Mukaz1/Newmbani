@@ -5,5 +5,10 @@
     "declaration": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "../../apps/frontend/src/app/bookings/utils/bookings.endpoints.ts",
+    "../../apps/frontend/src/app/customer/utils/customers.endpoints.ts",
+    "../../apps/frontend/src/app/landlords/utils/landlords.endpoints.ts"
+  ]
 }

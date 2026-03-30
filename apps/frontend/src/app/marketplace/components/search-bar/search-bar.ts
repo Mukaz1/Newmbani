@@ -5,8 +5,6 @@ import { DatePipe, NgClass } from '@angular/common';
 
 import { NotificationService } from '../../../common/services/notification.service';
 import { CategoriesService } from '../../../categories/services/categories.service';
-import { GuestPicker } from '../../pages/properties/components/guest-picker/guest-picker';
-import { DatePicker } from '../../../common/components/date-picker/date-picker';
 import { Button } from '../../../common/components/button/button';
 
 import {
@@ -20,8 +18,6 @@ import {
   selector: 'app-search-bar',
   imports: [
     ReactiveFormsModule,
-    GuestPicker,
-    DatePicker,
     DatePipe,
     Button,
     NgClass,

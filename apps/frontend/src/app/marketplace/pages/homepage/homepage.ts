@@ -14,7 +14,6 @@ import {
 } from '@newmbani/types';
 import { HeroSection } from '../../components/hero-section/hero-section';
 import { Router, RouterLink } from '@angular/router';
-// import { Testimonials } from '../../components/testimonials/testimonials';
 import { Partners } from '../../components/partners/partners';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
@@ -30,7 +29,6 @@ import { PropertiesService } from '../../../common/services/properties.service';
   imports: [
     HeroSection,
     RouterLink,
-    // Testimonials,
     Partners,
     PropertyCard,
     PricePipe,
@@ -125,7 +123,7 @@ export class Homepage implements OnInit {
       })
       .pipe(take(1))
       .subscribe({
-        next: (res: HttpResponseInterface<Property[]>) => {
+        next: (res: HttpResponseInterface<PaginatedData<Property[]>>) => {
           this.paginatedData.set(res.data);
           this.properties.set(res.data.data);
 
@@ -146,15 +144,15 @@ export class Homepage implements OnInit {
       .map((cat) => ({
         ...cat,
         properties: properties.filter(
-          (listing) => listing.property.categoryId === cat._id
+          (property) => property.categoryId === cat._id
         ),
       }))
       .filter((cat) => cat.properties.length > 0) // only categories with properties
       .sort((a, b) => b.properties.length - a.properties.length); // descending by count
   }
 
-  onPropertyCardClick(listing: Property): void {
-    this.router.navigate(['/properties', listing._id]);
+  onPropertyCardClick(property: Property): void {
+    this.router.navigate(['/properties', property._id]);
   }
 
   isPropertyFavorited(property: Property): boolean {
@@ -174,8 +172,8 @@ export class Homepage implements OnInit {
     }
   }
 
-  onFavoriteToggle(listing: Property): void {
-    this.toggleFavorite(listing.property);
+  onFavoriteToggle(property: Property): void {
+    this.toggleFavorite(property);
   }
 
   viewListing(id: string) {

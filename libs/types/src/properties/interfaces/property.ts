@@ -33,7 +33,8 @@ export interface Property extends PostCreateProperty, AuditData {
   category: PropertyCategory;
   landlord: Landlord;
   country: Country;
-  bookings: Booking[]
+  bookings: Booking[];
+  isFavorite: boolean
 }
 
 export interface Coordinates {

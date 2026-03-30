@@ -1,11 +1,9 @@
-import { APIBaseAPIUrl } from "../../common/base-api-url";
-
+const USERS = '/api/users';
 
 export const usersEndpoints = {
-  ALL_USERS: `${APIBaseAPIUrl}/users`,
-  CREATE_USER: `${APIBaseAPIUrl}/users`,
-  VIEW_USER: `${APIBaseAPIUrl}/users`,
-  UPDATE_USER: `${APIBaseAPIUrl}/users`,
-  DELETE_USER: `${APIBaseAPIUrl}/users`,
-  AUTH_LOGS: `${APIBaseAPIUrl}/account/auth-logs`,
-};
+  GET_USERS: USERS,
+  GET_USERS_BY_ROLE: (roleId: string) => `${USERS}/role/${roleId}`,
+  GET_USER: (id: string) => `${USERS}/${id}`,
+  UPDATE_USER: (id: string) => `${USERS}/${id}`,
+} as const;
+
