@@ -11,7 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   HttpResponseInterface,
   PropertyCategory,
-  PropertiesSubCategory,
+  PropertySubCategory,
 } from '@newmbani/types';
 import { DataLoading } from '../../../common/components/data-loading/data-loading';
 import { MetaService } from '../../../common/services/meta.service';
@@ -26,7 +26,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ViewPropertySubcategory implements OnInit {
   subCategoryId: string | null = null;
-  subcategory: PropertiesSubCategory | null = null;
+  subcategory: PropertySubCategory | null = null;
   category: PropertyCategory | null = null;
   isLoading = true;
 
@@ -64,7 +64,7 @@ export class ViewPropertySubcategory implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response) => {
-            const res = response as HttpResponseInterface<PropertiesSubCategory | null>
+            const res = response as HttpResponseInterface<PropertySubCategory | null>
             if (res.data) {
               this.subcategory = res.data;
               this.isLoading = false;

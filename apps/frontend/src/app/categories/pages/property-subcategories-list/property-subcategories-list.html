@@ -13,7 +13,7 @@
           </p>
         </div>
         <div>
-          <button type="button" (click)="addPropertiesSubCategoryModal()"
+          <button type="button" (click)="addPropertySubCategoryModal()"
             class="btn btn-primary p-2 px-4 text-sm font-semibold border border-gray-400 hover:text-white rounded-full hover:bg-primary-700">
             Add New Subcategory
           </button>
@@ -121,7 +121,7 @@
                     [routerLink]="['/admin/property-categories/subcategories', _propertiesubcategory._id]">
                     <i class="bi bi-eye text-lg"></i>
                   </button>
-                  <button class="space-x-2" (click)="editPropertiesSubCategoryModal(_propertiesubcategory)">
+                  <button class="space-x-2" (click)="editPropertySubCategoryModal(_propertiesubcategory)">
                     <i class="bi bi-pencil-square text-lg"></i>
                   </button>
                 </td>

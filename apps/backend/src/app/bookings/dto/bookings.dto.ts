@@ -1,4 +1,4 @@
-import { BookingStatusEnum, CreateBooking, PostCreateBooking } from "@newmbani/types";
+import { BookingStatusEnum, CreateBooking, PostCreateBooking, UpdateBooking } from "@newmbani/types";
 import { IsDate, IsEnum, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateBookingDto implements CreateBooking {
@@ -28,4 +28,11 @@ export class PostCreateBookingDto  extends CreateBookingDto implements PostCreat
     @IsNotEmpty()
     @IsEnum(BookingStatusEnum)
     status:BookingStatusEnum
+}
+
+export class UpdateBookingDto implements UpdateBooking {
+    @IsString()
+    @IsNotEmpty()
+    viewingDate: string;
+
 }

@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import {
-  PropertiesSubCategory,
+  PropertySubCategory,
   HttpResponseInterface,
-  CreatePropertiesSubCategory,
+  CreatePropertySubCategory,
   NotificationStatusEnum,
   PropertyCategory,
 } from '@newmbani/types';
@@ -25,7 +25,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './property-subcategory-modal.html',
   styleUrl: './property-subcategory-modal.scss',
 })
-export class PropertiesSubCategoryModal implements OnInit {
+export class PropertySubCategoryModal implements OnInit {
   propertiesubcategoryForm: FormGroup;
   propertyCategories = signal<PropertyCategory[]>([]);
 
@@ -34,7 +34,7 @@ export class PropertiesSubCategoryModal implements OnInit {
   private destroyRef = inject(DestroyRef);
   private categoriesService = inject(CategoriesService);
   private notificationService = inject(NotificationService);
-  data = inject<{ title: string; propertiesubcategory: PropertiesSubCategory }>(
+  data = inject<{ title: string; propertiesubcategory: PropertySubCategory }>(
     DIALOG_DATA
   );
   title = this.data?.title;
@@ -76,7 +76,7 @@ export class PropertiesSubCategoryModal implements OnInit {
 
   onSubmit() {
     if (this.propertiesubcategoryForm.valid) {
-      const payload: CreatePropertiesSubCategory = {
+      const payload: CreatePropertySubCategory = {
         name: this.propertiesubcategoryForm.get('name')?.value,
         description: this.propertiesubcategoryForm.get('description')?.value,
         categoryId: this.propertiesubcategoryForm.get('categoryId')?.value,
@@ -95,7 +95,7 @@ export class PropertiesSubCategoryModal implements OnInit {
                 message: 'Property Subcategory updated successfully',
                 status: NotificationStatusEnum.SUCCESS,
               });
-              this.dialogRef.close((res as  HttpResponseInterface<PropertiesSubCategory>).data);
+              this.dialogRef.close((res as  HttpResponseInterface<PropertySubCategory>).data);
             },
             error: (error: HttpErrorResponse) => {
               this.notificationService.notify({
@@ -111,7 +111,7 @@ export class PropertiesSubCategoryModal implements OnInit {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             next: (res) => {
-              this.dialogRef.close((res as HttpResponseInterface<CreatePropertiesSubCategory>).data);
+              this.dialogRef.close((res as HttpResponseInterface<CreatePropertySubCategory>).data);
             },
             error: (error: HttpErrorResponse) => {
               this.notificationService.notify({

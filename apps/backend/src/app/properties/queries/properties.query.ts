@@ -40,9 +40,9 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
         propertyId: { $toString: '$_id' },
       },
     },
-    landlordId ? { $match: { landlordId } } : {},
-    propertyId ? { $match: { propertyId } } : {},
     slug ? { $match: { slug } } : {},
+    propertyId ? { $match: { propertyId } } : {},
+    landlordId ? { $match: { landlordId } } : {},
     categoryId ? { $match: { categoryId } } : {},
     approvalStatus ? { $match: { approvalStatus } } : {},
     minPrice ? { $match: { rentPrice: { $gte: +minPrice || 0 } } } : {},
@@ -55,7 +55,7 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
         categoryId: { $toObjectId: '$categoryId' },
         subcategoryId: { $toObjectId: '$subcategoryId' },
         landlordId: { $toObjectId: '$landlordId' },
-        // countryId: { $toObjectId: '$address.countryId' },
+        countryId: { $toObjectId: '$address.countryId' },
         propertyId: { $toString: '$_id' },
       },
     },
@@ -113,6 +113,17 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
     { $unwind: { path: '$landlord', preserveNullAndEmptyArrays: false } },
+       
+    {
+      $lookup: {
+        from: DatabaseModelEnums.COUNTRY,
+        localField: 'countryId',
+        foreignField: '_id',
+        as: 'country',
+      },
+    },
+    { $unwind: { path: '$country', preserveNullAndEmptyArrays: false } },
+
 
     // keyword search
     {

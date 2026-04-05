@@ -12,7 +12,7 @@ import { Subject, takeUntil, forkJoin, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   CreatePropertyCategory,
-  CreatePropertiesSubCategory,
+  CreatePropertySubCategory,
   HttpStatusCodeEnum,
   NotificationStatusEnum,
   PropertyCategory,
@@ -107,7 +107,7 @@ export class AddPropertyCategory implements OnDestroy {
 
   private validateSubcategories(
     subcategories: any[]
-  ): CreatePropertiesSubCategory[] {
+  ): CreatePropertySubCategory[] {
     return subcategories
       .filter((sub) => sub.name && sub.name.trim().length > 0) // Filter out empty names
       .map((sub) => ({
@@ -119,7 +119,7 @@ export class AddPropertyCategory implements OnDestroy {
 
   private createSubcategories(
     categoryId: string,
-    subcategories: CreatePropertiesSubCategory[]
+    subcategories: CreatePropertySubCategory[]
   ) {
     if (subcategories.length === 0) {
       return of([]);

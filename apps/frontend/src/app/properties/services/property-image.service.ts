@@ -38,8 +38,9 @@ export class PropertyImagesService {
       params = params.set('keyword', data.keyword);
     }
 
-    return this.http.get<HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>>(
-      API_ENDPOINTS.GET_PROPERTY_IMAGE_CATEGORIES,
+    const endpoint = `${API_ENDPOINTS.GET_PROPERTY_IMAGE_CATEGORIES}`
+
+    return this.http.get<HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>>(endpoint,
       { params }
     );
   }

@@ -1,23 +1,25 @@
-import { GoogleMapsModule } from '@angular/google-maps';
-import { isPlatformBrowser } from '@angular/common';
+import { GoogleMap, MapInfoWindow } from '@angular/google-maps';
+import { isPlatformBrowser, NgIf } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
-  ChangeDetectionStrategy,
   PLATFORM_ID,
   inject,
 } from '@angular/core';
 
 @Component({
   selector: 'app-property-location',
+  standalone: true,
   templateUrl: './property-location.html',
-  imports: [GoogleMapsModule],
+  imports: [GoogleMap, MapInfoWindow, NgIf],
   styleUrls: ['./property-location.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertyLocation {
   private platformId = inject(PLATFORM_ID);
-  private isBrowser = isPlatformBrowser(this.platformId);
+  private cdr = inject(ChangeDetectorRef);
 
   // Nairobi fallback
   @Input() latitude = -1.286389;
@@ -42,8 +44,13 @@ export class PropertyLocation {
     if (isPlatformBrowser(this.platformId)) {
       window.open(
         `https://www.google.com/maps?q=${this.latitude},${this.longitude}`,
-        '_blank'
+        '_blank',
       );
     }
+  }
+
+  onMapInitialized(): void {
+    this.mapLoaded = true;
+    this.cdr.markForCheck();
   }
 }

@@ -21,29 +21,7 @@
       <label for="" class="text-xs font-medium !text-primary mb-1">Location</label>
       <input type="text" formControlName="location" placeholder="Where to?" class="form-control" />
     </div>
-    <!-- Bedrooms -->
-    <div class="col-span-3 md:col-span-1">
-      <label for="" class="text-xs font-medium !text-primary mb-1">Bedrooms</label>
-      <select formControlName="bedrooms" class="form-control">
-        <option value="">Any</option>
-        @for (n of [1,2,3,4]; track $index) {
-        <option [value]="n">{{ n }} {{ n > 1 ? 'bedrooms' : 'bedroom' }}</option>
-        }
-        <option value="5+">5+ bedrooms</option>
-      </select>
-    </div>
 
-    <!-- Bathrooms -->
-    <div class="col-span-3 md:col-span-1">
-      <label for="" class="text-xs font-medium !text-primary mb-1">Bathrooms</label>
-      <select formControlName="bathrooms" class="form-control">
-        <option value="">Any</option>
-        @for (n of [1,2,3,4]; track $index) {
-        <option [value]="n">{{ n }} {{ n > 1 ? 'bathrooms' : 'bathroom' }}</option>
-        }
-        <option value="5+">5+ bathrooms</option>
-      </select>
-    </div>
 
     <!-- Min Price -->
     <div class="col-span-3 md:col-span-1">

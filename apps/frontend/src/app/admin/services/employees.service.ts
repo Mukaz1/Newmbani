@@ -22,7 +22,7 @@ export class EmployeesService {
     page: number;
     keyword: string;
   }): Observable<HttpResponseInterface<PaginatedData<Employee[]>>> {
-    const endpoint = `${API_ENDPOINTS.VIEW_EMPLOYEES}`;
+    const endpoint = `${API_ENDPOINTS.GET_EMPLOYEES}`;
     const options = data
       ? {
           params: new HttpParams()
@@ -39,7 +39,7 @@ export class EmployeesService {
 
   // Fetch a single employee by ID
   getEmployeeById(id: string): Observable<HttpResponseInterface<Employee>> {
-    const endpoint = `${API_ENDPOINTS.VIEW_EMPLOYEE}/${id}`;
+    const endpoint = `${API_ENDPOINTS.GET_EMPLOYEE(id)}`;
     return this.http.get<HttpResponseInterface<Employee>>(endpoint);
   }
 

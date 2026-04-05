@@ -1,6 +1,6 @@
 import { Property, } from '@newmbani/types';
 
-import { Component, input, output, computed } from '@angular/core';
+import { Component, input, output, computed, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { PropertyImageApprovalStatus } from '@newmbani/types';
 
@@ -10,7 +10,7 @@ import { PropertyImageApprovalStatus } from '@newmbani/types';
   templateUrl: './property-card.html',
   styleUrl: './property-card.scss',
 })
-export class PropertyCard {
+export class PropertyCard implements OnInit{
 
   property = input.required<Property>();
   isFavorited = input<boolean>(false);
@@ -34,6 +34,9 @@ export class PropertyCard {
     return '/assets/images/no-image.jpg';
   });
 
+  ngOnInit(): void {
+    console.log(this.property());
+  }
   onCardClick(): void {
     this.cardClick.emit(this.property());
   }

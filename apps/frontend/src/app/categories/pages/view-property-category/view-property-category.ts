@@ -13,13 +13,13 @@ import { Subject, takeUntil } from 'rxjs';
 import {
   NotificationStatusEnum,
   PropertyCategory,
-  PropertiesSubCategory,
+  PropertySubCategory,
   User,
 } from '@newmbani/types';
 import { DataLoading } from '../../../common/components/data-loading/data-loading';
 import { MetaService } from '../../../common/services/meta.service';
 import { CategoriesService } from '../../services/categories.service';
-import { PropertiesSubCategoryModal } from '../modals/property-subcategory-modal/property-subcategory-modal';
+import { PropertySubCategoryModal } from '../modals/property-subcategory-modal/property-subcategory-modal';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -39,7 +39,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ViewPropertyCategory implements OnInit, OnDestroy {
   propertyCategory: PropertyCategory | null = null;
-  propertiesubCategories = signal<PropertiesSubCategory[]>([]);
+  propertiesubCategories = signal<PropertySubCategory[]>([]);
   users: User[] | null = null;
   propertyCategoryId: string | null = null;
   destroy$ = new Subject();
@@ -123,12 +123,12 @@ export class ViewPropertyCategory implements OnInit, OnDestroy {
   }
 
   addSubCategoryModal() {
-    const modalRef = this.dialog.open(PropertiesSubCategoryModal);
+    const modalRef = this.dialog.open(PropertySubCategoryModal);
     modalRef.closed
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res: any) => {
-        const propertiesubcategory: PropertiesSubCategory =
-          res as PropertiesSubCategory;
+        const propertiesubcategory: PropertySubCategory =
+          res as PropertySubCategory;
         // append propertiesubcategory to propertiesubCategories list
         if (!propertiesubcategory) return;
         this.propertiesubCategories.update((currentSubCategories) => [
@@ -147,8 +147,8 @@ export class ViewPropertyCategory implements OnInit, OnDestroy {
     this.router.navigate(['/admin/property-categories/subcategories', id]);
   }
 
-  editSubcategory(propertiesubcategory: PropertiesSubCategory) {
-    const modalRef = this.dialog.open(PropertiesSubCategoryModal, {
+  editSubcategory(propertiesubcategory: PropertySubCategory) {
+    const modalRef = this.dialog.open(PropertySubCategoryModal, {
       data: {
         title: 'Edit Property Subcategory',
         propertiesubcategory,
@@ -157,8 +157,8 @@ export class ViewPropertyCategory implements OnInit, OnDestroy {
     modalRef.closed
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res: any) => {
-        const propertiesubcategory: PropertiesSubCategory =
-          res as PropertiesSubCategory;
+        const propertiesubcategory: PropertySubCategory =
+          res as PropertySubCategory;
         if (!propertiesubcategory) return;
 
         this.getCategory(this.propertyCategory!._id);

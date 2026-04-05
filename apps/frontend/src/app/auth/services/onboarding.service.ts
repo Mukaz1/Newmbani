@@ -22,8 +22,9 @@ export class OnboardingService {
    * @returns The response from the API or an error if the request fails.
    */
   registerLandlord(payload: CreateLandlord): Observable<HttpResponseInterceptor> {
+    const endpoint = `${API_ENDPOINTS.CREATE_LANDLORD}`
     return this.httpClient.post<HttpResponseInterceptor>(
-      API_ENDPOINTS.LANDLORD_ONBOARDING,
+     endpoint,
       payload
     );
   }

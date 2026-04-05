@@ -27,6 +27,17 @@ export const RolePermissions = {
 
     PermissionEnum.VIEW_CONTACT,
     PermissionEnum.VIEW_CONTACTS,
+
+   
+      PermissionEnum.VIEW_BOOKING,
+      PermissionEnum.VIEW_BOOKINGS,
+      PermissionEnum.UPDATE_BOOKING,
+      PermissionEnum.DELETE_BOOKING,
+      PermissionEnum.MANAGE_BOOKINGS,
+    
+      PermissionEnum.VIEW_BOOKING_CANCELLATION,
+      PermissionEnum.VIEW_BOOKING_CANCELLATIONS,
+      PermissionEnum.MANAGE_BOOKING_CANCELLATIONS,
   ],
   // permissions a customer can have in the system by default
   customer: [
@@ -47,6 +58,18 @@ export const RolePermissions = {
     PermissionEnum.UPDATE_USER, // Update their User Profile
 
     PermissionEnum.UPLOAD_FILES, // they can upload their profile image
+    
+      PermissionEnum.CREATE_BOOKING,
+      PermissionEnum.VIEW_BOOKING,
+      PermissionEnum.VIEW_BOOKINGS,
+      PermissionEnum.UPDATE_BOOKING,
+      PermissionEnum.MANAGE_BOOKINGS,
+  
+        PermissionEnum.CREATE_BOOKING_CANCELLATION,
+      PermissionEnum.VIEW_BOOKING_CANCELLATION,
+      PermissionEnum.VIEW_BOOKING_CANCELLATIONS,
+      PermissionEnum.MANAGE_BOOKING_CANCELLATIONS,
+  
   ],
   // permissions a landlord can have in the system by default
   landlord: [
@@ -68,6 +91,18 @@ export const RolePermissions = {
 
     PermissionEnum.VIEW_REQUIRED_DOCUMENT,
     PermissionEnum.VIEW_REQUIRED_DOCUMENTS,
+
+  
+      PermissionEnum.VIEW_BOOKING,
+      PermissionEnum.VIEW_BOOKINGS,
+      PermissionEnum.UPDATE_BOOKING,
+      PermissionEnum.MANAGE_BOOKINGS,
+    
+  
+      PermissionEnum.VIEW_BOOKING_CANCELLATION,
+      PermissionEnum.VIEW_BOOKING_CANCELLATIONS,
+      PermissionEnum.MANAGE_BOOKING_CANCELLATIONS,
+    
   ],
 };
 

@@ -3,7 +3,6 @@ import { TopCategories } from '../../widgets/top-categories/top-categories';
 import { WelcomeCard } from '../../widgets/welcome-card/welcome-card';
 import { TopStats } from '../../widgets/top-stats/top-stats';
 import { TopSellingProperties } from '../../widgets/top-selling-properties/top-selling-properties';
-import { LatestBookings } from '../../../bookings/components/latest-bookings/latest-bookings';
 import { TopLandlords } from '../../widgets/top-landlords/top-landlords';
 
 @Component({

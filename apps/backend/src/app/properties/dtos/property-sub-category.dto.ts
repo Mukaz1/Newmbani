@@ -1,7 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
+import { CreatePropertySubCategory } from '@newmbani/types';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class CreatePropertiesSubCategoryDto {
+export class CreatePropertySubCategoryDto implements CreatePropertySubCategory {
   @IsString()
   @IsNotEmpty()
   categoryId: string;
@@ -19,7 +20,7 @@ export class CreatePropertiesSubCategoryDto {
   icon?: string;
 }
 
-export class PostNewPropertiesSubCategoryDto extends CreatePropertiesSubCategoryDto {
+export class PostNewPropertySubCategoryDto extends CreatePropertySubCategoryDto {
   @IsString()
   @IsNotEmpty()
   createdBy: string;
@@ -30,11 +31,11 @@ export class PostNewPropertiesSubCategoryDto extends CreatePropertiesSubCategory
 }
 
 // Update
-export class UpdatePropertiesSubCategoryDto extends PartialType(
-  CreatePropertiesSubCategoryDto
+export class UpdatePropertySubCategoryDto extends PartialType(
+  CreatePropertySubCategoryDto
 ) {}
 
-export class PostPropertiesSubCategoryUpdateDto extends UpdatePropertiesSubCategoryDto {
+export class PostPropertySubCategoryUpdateDto extends UpdatePropertySubCategoryDto {
   @IsString()
   @IsNotEmpty()
   updatedBy: string;

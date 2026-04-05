@@ -5,6 +5,7 @@ import {
   PropertyImageApprovalStatus,
   Property,
   PaginatedData,
+  HttpResponseInterface,
 } from '@newmbani/types';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -86,7 +87,8 @@ export class ViewImagesModal implements OnInit {
       .getPropertyImageCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (res: HttpErrorResponse<PaginatedData<PropertyImage>>) => {
+        next: (response) => {
+          const res = response as HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>
           this.imageCategories.set(res.data.data);
           this.isLoading.set(false);
         },

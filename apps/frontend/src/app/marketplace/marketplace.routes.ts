@@ -36,21 +36,21 @@ export const routes: Routes = [
       },
      
       {
-        path: 'listings',
+        path: 'properties',
         loadComponent: () =>
           import('./pages/properties/all-properties/all-properties').then(
             (m) => m.AllProperties
           ),
       },
       {
-        path: 'listings/:id',
+        path: 'properties/:id',
         loadComponent: () =>
           import('./pages/properties/property-detail/property-detail').then(
             (m) => m.PropertyDetail
           ),
       },
       {
-        path: 'listings/:id/images',
+        path: 'properties/:id/images',
         loadComponent: () =>
           import(
             './pages/properties/components/view-images-modal/view-images-modal'

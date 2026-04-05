@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { HttpResponseInterface, HttpStatusCodeEnum, ExpressQuery, BookingStatusEnum } from '@newmbani/types';
+import { HttpResponseInterface, HttpStatusCodeEnum, ExpressQuery, BookingStatusEnum, Booking, PaginatedData } from '@newmbani/types';
 import { CustomHttpResponse } from '../../common';
 import { BookingModel } from '../schemas/booking.schema';
-import { CreateBookingDto, PostCreateBookingDto } from '../dto/bookings.dto';
-import { getBookingParams } from '../utils/getBookingsParams';
+import { CreateBookingDto, PostCreateBookingDto, UpdateBookingDto } from '../dto/bookings.dto';
+import { BookingQueryPayload, getBookingParams } from '../utils/getBookingsParams';
 import { BookingAggregation } from '../queries/bookings.query';
 import { PipelineStage } from 'mongoose';
 
@@ -15,22 +15,37 @@ export class BookingsService {
   /**
    * Create a new booking.
    */
-  async create(bookingDto: CreateBookingDto, userId:string): Promise<HttpResponseInterface> {
+  async create(bookingDto: CreateBookingDto, userId: string): Promise<HttpResponseInterface<Booking>> {
     try {
-      // Enforce PostCreateBooking fields
+      const duplicate = await BookingModel.findOne({
+        customerId: bookingDto.customerId,
+        propertyId: bookingDto.propertyId,
+        viewingDate: bookingDto.viewingDate, 
+      });
+
+      if (duplicate) {
+        return new CustomHttpResponse({
+          data: null,
+          statusCode: HttpStatusCodeEnum.BAD_REQUEST,
+          message: 'A booking with the same customer, property, and date already exists.',
+        });
+      }
+
       const payload: PostCreateBookingDto = {
         ...bookingDto,
         status: BookingStatusEnum.PENDING,
         createdAt: new Date(),
-        createdBy: userId
+        createdBy: userId,
       };
 
-      const booking = await BookingModel.create(payload);
+      const created = await BookingModel.create(payload);
+
+      const bookingResponse = await this.findOne(created._id);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.CREATED,
         message: 'The booking has been created successfully',
-        data: booking,
+        data: bookingResponse.data ?? null,
       });
     } catch (error) {
       return new CustomHttpResponse({
@@ -44,32 +59,58 @@ export class BookingsService {
   /**
    * Get all bookings with optional query for pagination, filtering, sorting, etc.
    */
-  async findAll(query?: ExpressQuery): Promise<HttpResponseInterface> {
+  async findAll(query?: ExpressQuery): Promise<HttpResponseInterface<PaginatedData<Booking[]>>> {
     try {
-      const totalDocuments = await BookingModel.countDocuments().exec();
-      const payload = await getBookingParams({
-        query: query || {},
-        totalDocuments,
-      });
+      const limitQ = query?.limit;
+      const totalDocuments = await BookingModel.find().countDocuments().exec();
+      const limit = +limitQ === -1 ? totalDocuments : +query?.limit || 10;
+      const keyword = query && query.keyword ? query.keyword : '';
+      const page = query && query.page ? +query.page : 1;
+      const skip = limit * (page - 1);
+      const slim: boolean = query?.slim
+        ? (query.slim as unknown as boolean) || false
+        : false;
+      const sort: any =
+        query && query.sort ? { ...(query.sort as any) } : { createdAt: -1 };
 
-      const { page, limit } = payload;
-      const aggregationStages = BookingAggregation({ payload });
+      const bookingPayload: BookingQueryPayload = {
+        keyword: keyword as string,
+        skip,
+        sort,
+        limit,
+        page,
+        slim,
+      };
 
-      const bookings = await BookingModel.aggregate(aggregationStages as PipelineStage[]).exec();
+      const search: Array<any> =
+        query &&
+        (await BookingAggregation({
+          payload: bookingPayload,
+        }));
 
-      // For pagination information: count docs after filters applied
-      const countPipeline: PipelineStage[] = [
-        ...(aggregationStages.filter(Boolean) as PipelineStage[]),
-        { $count: 'count' },
-      ];
-      const countResults = await BookingModel.aggregate(countPipeline).exec();
-      const total = countResults.length > 0 ? countResults[0].count : 0;
+      // get all the bookings
+      const bookings: Booking[] = await BookingModel.aggregate(search).exec();
+
+      const counts = await BookingModel
+        .aggregate([...search.slice(0, -2), { $count: 'count' }])
+        .exec();
+
+      const total = counts.length > 0 ? counts[0].count : 0;
       const pages = Math.ceil(total / limit);
+
+      // prepare the response
+      const response: PaginatedData<Booking[]> = {
+        page,
+        limit,
+        total,
+        data: bookings,
+        pages,
+      };
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: 'Bookings loaded successfully',
-        data: { page, limit, total, data: bookings, pages },
+        data: response,
       });
     } catch (error) {
       return new CustomHttpResponse({
@@ -83,31 +124,37 @@ export class BookingsService {
   /**
    * Get a single booking by ID.
    */
-  async findOne(id: string): Promise<HttpResponseInterface> {
+  async findOne(id: string): Promise<HttpResponseInterface<Booking>> {
     try {
-      // Setup aggregation to match on bookingId
-      const payload = await getBookingParams({
-        query: {},
-        totalDocuments: 1,
-      });
+      // Use a default sort key to avoid MongoDB error when sort is empty
+      const bookingPayload = {
+        keyword: '',
+        skip: 0,
+        limit: 1,
+        page: 1,
+        sort: { _id: -1 }, // Ensures at least one sort key is present
+        slim: false,
+      };
 
-      const aggregationStages = BookingAggregation({ payload, bookingId: id });
+      // Get the aggregation pipeline with bookingId
+      const pipeline = BookingAggregation({ payload: bookingPayload, bookingId: id });
 
-      const bookings = await BookingModel.aggregate(aggregationStages as PipelineStage[]).exec();
+      // Execute the aggregation pipeline
+      const bookings = await BookingModel.aggregate(pipeline as PipelineStage[]).exec();
       const booking = bookings[0];
 
-      if (!booking) {
+      if (booking) {
         return new CustomHttpResponse({
-          statusCode: HttpStatusCodeEnum.NOT_FOUND,
-          message: `Booking with id ${id} not found`,
-          data: null,
+          statusCode: HttpStatusCodeEnum.OK,
+          message: `Booking ${id} found`,
+          data: booking,
         });
       }
 
       return new CustomHttpResponse({
-        statusCode: HttpStatusCodeEnum.OK,
-        message: `Booking ${id} found`,
-        data: booking,
+        statusCode: HttpStatusCodeEnum.NOT_FOUND,
+        message: `Booking with id ${id} not found`,
+        data: null,
       });
     } catch (error) {
       return new CustomHttpResponse({
@@ -121,20 +168,38 @@ export class BookingsService {
   /**
    * Update a booking.
    */
-  async update(id: string, updateDto: Partial<CreateBookingDto>): Promise<HttpResponseInterface> {
+  async update(id: string, updateDto:UpdateBookingDto): Promise<HttpResponseInterface<Booking>> {
     try {
+
+      const booking = await BookingModel.findOne({_id:id})
+
+      const duplicate = await BookingModel.findOne({
+        customerId: booking.customerId,
+        propertyId: booking.propertyId,
+        viewingDate: updateDto.viewingDate, 
+      });
+
+      if (duplicate) {
+        return new CustomHttpResponse({
+          data: null,
+          statusCode: HttpStatusCodeEnum.BAD_REQUEST,
+          message: 'A booking for this property with the same date already exists.',
+        });
+      }
+
       const updatePayload = {
         ...updateDto,
         updatedAt: new Date(),
       };
 
-      const booking = await BookingModel.findOneAndUpdate(
+       await BookingModel.findOneAndUpdate(
         { _id: id },
         updatePayload,
         { new: true }
       ).exec();
 
-      if (!booking) {
+      const updatedBooking = (await this.findOne(id)).data
+      if (!updatedBooking) {
         return new CustomHttpResponse({
           statusCode: HttpStatusCodeEnum.NOT_FOUND,
           message: `Booking with id ${id} not found`,
@@ -145,7 +210,7 @@ export class BookingsService {
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: `Booking ${id} updated successfully`,
-        data: booking,
+        data: updatedBooking,
       });
     } catch (error) {
       return new CustomHttpResponse({
@@ -156,10 +221,23 @@ export class BookingsService {
     }
   }
 
+
+  async updateBookingStatus (bookingId: string, status:BookingStatusEnum): Promise<HttpResponseInterface<Booking>>{
+    const booking = await BookingModel.findOneAndUpdate(
+      { _id: bookingId },
+      { status, updatedAt: new Date() },
+      { new: true },
+    ).exec();
+    if (!booking) {
+      return new CustomHttpResponse ({statusCode: HttpStatusCodeEnum.NOT_FOUND, message: `Booking with id ${bookingId} not found` , data:null})
+    }
+    return new CustomHttpResponse ({statusCode: HttpStatusCodeEnum.OK, message: `Booking status updated` , data:booking})
+  }
+
   /**
    * Remove a booking.
    */
-  async remove(id: string): Promise<HttpResponseInterface> {
+  async remove(id: string): Promise<HttpResponseInterface<null>> {
     try {
       const result = await BookingModel.deleteOne({ _id: id }).exec();
 

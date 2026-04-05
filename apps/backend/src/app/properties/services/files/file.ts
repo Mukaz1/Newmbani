@@ -1,4 +1,4 @@
-import { AuditData } from '../common/audit-data';
+import { AuditData } from '@newmbani/types';
 import { FileTypesEnum } from './enums/file-types.enum';
 
 export interface CreateFileInterface {

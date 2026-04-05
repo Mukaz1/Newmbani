@@ -45,6 +45,7 @@ export class LandlordsService {
         phone,
         address,
         acceptTerms,
+        idNumber,
         languages,
         password,
       } = landlordDto;
@@ -84,6 +85,7 @@ export class LandlordsService {
         phone,
         address,
         languages,
+        idNumber,
         acceptTerms,
         approvalStatus: LandlordApprovalStatus.UNDER_REVIEW,
         createdBy: 'system',

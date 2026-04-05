@@ -1,4 +1,4 @@
-import { Invoice } from '../invoices';
+import { Invoice } from "@newmbani/types";
 
 export interface FileGeneration {
   file: Buffer;

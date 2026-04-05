@@ -1,154 +1,59 @@
-<!-- <form class="w-full mx-auto bg-white rounded-2xl shadow-lg border p-6 space-y-6" [formGroup]="bookingItemsForm">
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 
-    <div class="flex flex-col items-baseline justify-between">
-        <div>
-            <input type="hidden" formControlName="price" />
+<div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
 
-            <span class="text-2xl font-bold text-gray-900">
-                {{ (
-                currentListing()?.type === PropertyListingTypeEnum.BNB
-                ? (totalDays > 0
-                ? totalPrice
-                : currentListing()?.pricing?.discountedPrice ?? 0)
-                : currentListing()?.pricing?.discountedPrice ?? 0)
+    <!-- ── Price ──────────────────────────────────────────────────────── -->
+    <div class="px-6 pt-6 pb-4 border-b border-gray-100">
+        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Price</p>
+        <p class="text-3xl font-extrabold text-gray-700">
+            Ksh {{ currentProperty()?.rentPrice }}
+        </p>
 
-                }}
-            </span>
-
-            @if (
-            currentListing()?.pricing?.price &&
-            currentListing()?.pricing?.price !== currentListing()?.pricing?.discountedPrice
-            ) {
-            <span class="text-sm text-gray-500 line-through ml-2">
-                {{(
-                currentListing()?.type === PropertyListingTypeEnum.BNB && totalDays > 0
-                ? (currentListing()?.pricing?.price ?? 0) * totalDays
-                : currentListing()?.pricing?.price ?? 0)
-
-                }}
-            </span>
-            }
-
-            @if (currentListing()?.type === PropertyListingTypeEnum.BNB) {
-            <span class="text-gray-600 ml-1">
-                / {{ totalDays > 0 ? totalDays + ' nights' : 'night' }}
-            </span>
-            }
-        </div>
-
+        @if (currentProperty()?.deposit) {
+        <p class="text-xs text-gray-400 mt-1">
+            Ksh + {{ currentProperty()?.deposit }} refundable deposit
+        </p>
+        }
     </div>
 
-    <div class="space-y-4">
+    <!-- ── Agent Detail ───────────────────────────────────────────────── -->
+    <div class="px-6 py-5 border-b border-gray-100">
+        <p class="text-sm font-semibold text-gray-900 mb-4">Landlord Detail</p>
 
-        <div formGroupName="metadata">
-            <input type="hidden" formControlName="checkIn" />
-            <input type="hidden" formControlName="checkOut" />
-            <input type="hidden" formControlName="appointment" />
-
-            <label for="dates" class="text-sm font-medium text-gray-700 mb-2">Dates</label>
-
-            @if (currentListing()?.type === PropertyListingTypeEnum.BNB) {
-            <div
-                class="flex items-center border rounded-2xl cursor-pointer hover:border-gray-400 transition overflow-hidden">
-                <div class="flex-1 px-4 py-3 flex justify-between items-center"
-                    (click)="activeDateField.set('checkIn'); showDatePicker = true"
-                    [class.ring-2]="activeDateField() === 'checkIn'">
-                    <span class="text-gray-900 font-medium">
-                        {{ metadata?.checkIn ? (metadata?.checkIn | date:'MMM d') : 'Check-in' }}
-                    </span>
-                </div>
-
-                <div class="w-px h-6 bg-gray-300"></div>
-
-                <div class="flex-1 px-4 py-3 flex justify-between items-center"
-                    (click)="activeDateField.set('checkOut'); showDatePicker = true"
-                    [class.ring-2]="activeDateField() === 'checkOut'">
-                    <span class="text-gray-900 font-medium">
-                        {{ metadata?.checkOut ? (metadata?.checkOut | date:'MMM d') : 'Check-out' }}
-                    </span>
-                </div>
-
-                <div class="px-3 text-gray-500">
-                    <i class="bi bi-calendar3" (click)="toggleDatePicker()"></i>
-                </div>
-            </div>
-            @if (showDatePicker && activeDateField() === 'checkIn') {
-            <app-date-picker [checkIn]="metadata?.checkIn ?? null" [checkOut]="metadata?.checkOut ?? null"
-                [activeField]="activeDateField()" [unavailableDates]="unavailableDates()"
-                (checkInChange)="onCheckInChange($event)" (checkOutChange)="onCheckOutChange($event)"
-                (close)="showDatePicker = false">
-            </app-date-picker>
-            }
-            @if (showDatePicker && activeDateField() === 'checkOut') {
-            <app-date-picker [checkIn]="metadata?.checkIn ?? null" [checkOut]="metadata?.checkOut ?? null"
-                [activeField]="activeDateField()" [unavailableDates]="unavailableDates()"
-                (checkInChange)="onCheckInChange($event)" (checkOutChange)="onCheckOutChange($event)"
-                (close)="showDatePicker = false">
-            </app-date-picker>
-            }
+        <div class="flex items-center gap-4 mb-4">
+            <!-- Avatar -->
+            @if (currentProperty()?.landlord?.profileImage) {
+            <img [src]="currentProperty()!.landlord.profileImage" alt="Agent profile"
+                class="w-14 h-14 rounded-full object-cover ring-2 ring-gray-100 flex-shrink-0" />
             } @else {
-            <div class="w-full flex items-center justify-between border rounded-2xl px-4 mb-2 py-2 cursor-pointer hover:border-gray-400 transition"
-                (click)="activeDateField.set('appointment'); showDatePicker = true"
-                [class.ring-2]="activeDateField() === 'appointment'">
-                <span class="text-gray-900 font-medium">
-                    {{ metadata?.appointment
-                    ? (metadata?.appointment | date: 'MMM d, h:mm a')
-                    : 'Viewing date' }}
-                </span>
-                <div class="px-3 text-gray-500">
-                    <i class="bi bi-calendar3" (click)="toggleDatePicker()"></i>
-                </div>
+            <div
+                class="w-14 h-14 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center flex-shrink-0">
+                <i class="bi bi-person text-2xl text-gray-400"></i>
             </div>
-
-            @if (showDatePicker && activeDateField() === 'appointment') {
-            <app-date-picker [activeField]="activeDateField()" [unavailableDates]="unavailableDates()"
-                (appointmentChange)="onAppointmentChange($event)" (close)="showDatePicker = false">
-            </app-date-picker>
-
             }
-            }
-        </div>
 
-        @if(currentListing()?.type === PropertyListingTypeEnum.BNB){
-        <div>
-            <label for="guests" class="text-sm font-medium text-gray-700">Guests</label>
-            <div class="w-full !flex !justify-between items-center form-control cursor-pointer px-2 text-md hover:border-gray-400 transition"
-                (click)="showGuestPicker = !showGuestPicker">
-                <span class="text-gray-900 font-medium">
-                    {{ guests().adults }} Adult{{ guests().adults === 1 ? '' : 's' }},
-                    {{ guests().children }} Child{{ guests().children === 1 ? '' : 'ren' }},
-                    {{ guests().infants }} Infant{{ guests().infants === 1 ? '' : 's' }},
-                    @if(guests().pets === 0){
-                    <span>No pets Allowed</span>
-                    } @else{
-                    {{ guests().pets }} pet{{ guests().pets === 1 ? '' : 's' }}
-                    }
-                </span>
-                <i class="bi bi-people text-gray-500"></i>
+            <!-- Name & role -->
+            <div class="min-w-0">
+                <p class="font-bold text-gray-900 truncate">
+                    {{ currentProperty()?.landlord?.displayName || 'N/A' }}
+                </p>
+                <p class="text-xs text-gray-500">Property Owner</p>
             </div>
-
-            @if(showGuestPicker){
-            <div class="mt-3">
-                <app-guest-picker [guestsValue]="guests()" (guestsChange)="onGuestsChange($event)"
-                    [listing]="currentListing()">
-                </app-guest-picker>
-            </div>}
         </div>
-        }
-        @if (isLoggedIn) {
-        @if(userType().customer){
 
-        <app-button type="button" (buttonClicked)="bookProperty()" styles="w-full p-2 mt-2 py-4" label="Book Now" />
-        }@else {
-        <div class="border border-dashed border-red-300 px-4 py-2 rounded-md text-red-500">
-            <span class="text-red-500">
-                You need customer account to book
-            </span>
-        </div>
-        }
-        } @else {
-        <app-button type="button" (buttonClicked)="redirectToLogin()" styles="w-full p-2 mt-2 py-4"
-            label="Sign In to Book" />
-        }
+
     </div>
-</form>  -->
+
+    <!-- ── Inspection Times ───────────────────────────────────────────── -->
+    <div class="px-6 py-5">
+
+
+        <button type="button" (click)="makeAppointment()"
+            class="w-full flex items-center justify-center gap-2 py-3 bg-gray-500 text-white text-sm font-semibold rounded-xl hover:bg-primary/90 active:scale-[.98] transition-all duration-200 shadow-sm shadow-primary/30">
+            <i class="bi bi-calendar3 text-base"></i>
+            Make Appointment
+        </button>
+    </div>
+
+</div>

@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, viewChild } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { propertyCategories } from '../../../common/data/property-categories.data';
-import Chart, { ChartConfiguration } from 'chart.js/auto';
 import { NgStyle, TitleCasePipe } from '@angular/common';
 
 @Component({
@@ -48,7 +47,7 @@ export class TopCategories implements AfterViewInit {
     ],
   };
 
-  options: ChartConfiguration = {
+  options = {
     type: 'doughnut',
     data: this.data,
     options: {
@@ -82,6 +81,5 @@ export class TopCategories implements AfterViewInit {
     this.canvas = this.myChart().nativeElement;
     this.ctx = this.canvas.getContext('2d');
 
-    new Chart(this.ctx, this.options);
   }
 }

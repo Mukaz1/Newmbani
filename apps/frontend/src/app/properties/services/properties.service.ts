@@ -67,7 +67,7 @@ export class PropertiesService {
     idOrSlug: string
   ): Observable<HttpResponseInterface<Property>> {
     return this.http.get<HttpResponseInterface<Property>>(
-      `${API_ENDPOINTS.GET_PROPERTY}/${idOrSlug}`
+      API_ENDPOINTS.GET_PROPERTY(idOrSlug)
     );
   }
 
@@ -79,7 +79,7 @@ export class PropertiesService {
     property: Partial<Property>
   ): Observable<HttpResponseInterface<Partial<Property>>> {
     return this.http.patch<HttpResponseInterface<Partial<Property>>>(
-      `${API_ENDPOINTS.UPDATE_PROPERTY}/${propertyId}`,
+      API_ENDPOINTS.UPDATE_PROPERTY(propertyId),
       property
     );
   }
@@ -89,7 +89,7 @@ export class PropertiesService {
    */
   deleteProperty(propertyId: string): Observable<HttpResponseInterface<void>> {
     return this.http.delete<HttpResponseInterface<void>>(
-      `${API_ENDPOINTS.DELETE_PROPERTY}/${propertyId}`
+      API_ENDPOINTS.DELETE_PROPERTY(propertyId)
     );
   }
 
@@ -101,7 +101,7 @@ export class PropertiesService {
       propertyId: string
     ): Observable<HttpResponseInterface<void>> {
       return this.http.delete<HttpResponseInterface<void>>(
-        `${API_ENDPOINTS.REVIEW_PROPERTY_IMAGE}/${propertyId}`
+        API_ENDPOINTS.DELETE_PROPERTY_IMAGE(propertyId)
       );
     }
   
@@ -116,7 +116,7 @@ export class PropertiesService {
       comment: string;
     }): Observable<HttpResponseInterface<any>> {
       const { propertyId, status, comment } = data;
-      const endpoint = `${API_ENDPOINTS.REVIEW_PROPERTY}/${propertyId}/review`;
+      const endpoint = API_ENDPOINTS.REVIEW_PROPERTY(propertyId);
       const payload = {
         status,
         comment,

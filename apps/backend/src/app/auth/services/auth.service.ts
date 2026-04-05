@@ -273,12 +273,25 @@ export class AuthService {
    * @return {*}  {Promise<void>}
    * @memberof AuthService
    */
+  /**
+   * Clears server-side session (e.g. Redis). Uses `ignoreExpiration` so logout works
+   * even when the access token is already expired.
+   */
   async invalidateToken(accessToken: string): Promise<void> {
+    const secret =
+      this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET') ??
+      'this-is-a-secret';
     try {
-      const decoded = await this.jwtService.verifyAsync(accessToken);
-      await this.redisService.invalidate(decoded.sub);
-    } catch (error) {
-      throw new UnauthorizedException('Invalid access token');
+      const decoded = await this.jwtService.verifyAsync<{ sub: string }>(
+        accessToken,
+        { secret, ignoreExpiration: true },
+      );
+      if (decoded?.sub) {
+        await this.redisService.invalidate(decoded.sub);
+      }
+    } catch {
+      // Malformed or wrong-signature token: nothing to invalidate server-side
+      this.logger.warn('Logout: could not verify access token for Redis invalidation');
     }
   }
 

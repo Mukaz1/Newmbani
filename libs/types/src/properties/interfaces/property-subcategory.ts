@@ -1,22 +1,20 @@
 import { AuditData } from '../../common/audit-data';
 import { PropertyCategory } from './property-category';
 
-export interface CreatePropertiesSubCategory {
+export interface CreatePropertySubCategory {
   categoryId: string;
   name: string;
-  description: string;
+  description?: string;
   icon?: string;
 }
 
-export interface PostPropertiesSubCategory extends CreatePropertiesSubCategory {
+export interface PostPropertySubCategory extends CreatePropertySubCategory {
   slug: string;
   createdBy: string;
 }
 
-export type UpdatePropertiesSubCategory = Partial<PostPropertiesSubCategory>;
+  export type UpdatePropertySubCategory = Partial<PostPropertySubCategory>;
 
-export interface PropertiesSubCategory
-  extends PostPropertiesSubCategory,
-    AuditData {
-  propertyCategory?: PropertyCategory;
+export interface PropertySubCategory extends PostPropertySubCategory, AuditData {
+  category: PropertyCategory;
 }

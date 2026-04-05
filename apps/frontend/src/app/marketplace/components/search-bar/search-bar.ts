@@ -1,11 +1,9 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DatePipe, NgClass } from '@angular/common';
 
 import { NotificationService } from '../../../common/services/notification.service';
 import { CategoriesService } from '../../../categories/services/categories.service';
-import { Button } from '../../../common/components/button/button';
 
 import {
   HttpResponseInterface,
@@ -18,9 +16,7 @@ import {
   selector: 'app-search-bar',
   imports: [
     ReactiveFormsModule,
-    DatePipe,
-    Button,
-    NgClass,
+
   ],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
@@ -99,8 +95,6 @@ export class SearchBar implements OnInit {
     // Build parameters object, only including meaningful values
     const queryParams: any = {
       ...(raw.location && raw.location.trim() && { location: raw.location }),
-      ...(raw.bedrooms && raw.bedrooms > 0 && { bedrooms: raw.bedrooms }),
-      ...(raw.bathrooms && raw.bathrooms > 0 && { bathrooms: raw.bathrooms }),
       ...(raw.minPrice && raw.minPrice > 0 && { minPrice :raw.minPrice}),
       ...(raw.maxPrice && raw.maxPrice > 0 && { maxPrice :raw.maxPrice}),
       ...(raw.category && { category :raw.category}),

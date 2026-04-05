@@ -4,9 +4,10 @@ import { Booking } from '../../bookings';
 import { Country } from '../../countries';
 import { Landlord } from '../../landlords';
 import { PropertyApprovalStatus } from '../enums/property-approval-status.enum';
-import { PropertyElectricityEnum, PropertyType, PropertyWaterEnum } from '../enums/property-type';
+import { PropertyElectricityEnum,  PropertyWaterEnum } from '../enums/property-type';
 import { PropertyCategory } from './property-category';
 import { PropertyImage } from './property-images';
+import { PropertySubCategory } from './property-subcategory';
 
 export interface CreateProperty {
   landlordId: string;
@@ -32,6 +33,7 @@ export interface PostCreateProperty extends CreateProperty {
 export interface Property extends PostCreateProperty, AuditData {
   category: PropertyCategory;
   landlord: Landlord;
+  subcategory: PropertySubCategory;
   country: Country;
   bookings: Booking[];
   isFavorite: boolean

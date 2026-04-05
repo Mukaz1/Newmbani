@@ -46,18 +46,13 @@
             @if (property().features.electricity) {
             <div class="flex items-center gap-1">
                 <!-- <i class="bx bx-bed"></i> -->
-                <i class="bx bx-bed"></i>
+                <i class="bx bxs-bolt-circle"></i>
                 <span>{{ property().features.electricity }}</span>
             </div>
             } @if (property().features.water) {
             <div class="flex items-center gap-1">
-                <i class="bx bx-bath"></i>
+                <i class="bx bx-water"></i>
                 <span>{{ property().features.water }} </span>
-            </div>
-            } @if (property().features.security) {
-            <div class="flex items-center gap-1">
-                <i class="bi bi-bounding-box"></i>
-                <span>{{ property().features.security }} sq ft</span>
             </div>
             }
         </div>

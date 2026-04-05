@@ -13,7 +13,7 @@ import {
   HttpResponseInterface,
   NotificationStatusEnum,
   PaginatedData,
-  PropertiesSubCategory,
+  PropertySubCategory,
   PropertyCategory,
 } from '@newmbani/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -39,7 +39,7 @@ import { DataLoading } from '../../../common/components/data-loading/data-loadin
 import { Pagination } from '../../../common/components/pagination/pagination';
 import { SearchInputWidget } from '../../../common/components/search-input-widget/search-input-widget';
 import { DropdownMenu } from '../../../common/components/dropdown-menu/dropdown-menu';
-import { PropertiesSubCategoryModal } from '../modals/property-subcategory-modal/property-subcategory-modal';
+import { PropertySubCategoryModal } from '../modals/property-subcategory-modal/property-subcategory-modal';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -61,7 +61,7 @@ export class PropertieSubcategoriesList
   implements OnInit, AfterViewInit
 {
   // Use signals for reactive state
-  propertiesubCategories = signal<PropertiesSubCategory[]>([]);
+  propertiesubCategories = signal<PropertySubCategory[]>([]);
   paginatedData = signal<PaginatedData | undefined>(undefined);
   loading = signal<boolean>(true);
   keyword = signal<string>('');
@@ -177,13 +177,13 @@ export class PropertieSubcategoriesList
       });
   }
 
-  addPropertiesSubCategoryModal() {
-    const modalRef = this.dialog.open(PropertiesSubCategoryModal);
+  addPropertySubCategoryModal() {
+    const modalRef = this.dialog.open(PropertySubCategoryModal);
     modalRef.closed
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res: any) => {
-        const propertiesubcategory: PropertiesSubCategory =
-          res as PropertiesSubCategory;
+        const propertiesubcategory: PropertySubCategory =
+          res as PropertySubCategory;
         // append propertiesubcategory to propertiesubCategories list
         if (!propertiesubcategory) return;
         this.propertiesubCategories.update((currentSubCategories) => [
@@ -198,8 +198,8 @@ export class PropertieSubcategoriesList
       });
   }
 
-  editPropertiesSubCategoryModal(propertiesubcategory: PropertiesSubCategory) {
-    const modalRef = this.dialog.open(PropertiesSubCategoryModal, {
+  editPropertySubCategoryModal(propertiesubcategory: PropertySubCategory) {
+    const modalRef = this.dialog.open(PropertySubCategoryModal, {
       data: {
         title: 'Edit Property Subcategory',
         propertiesubcategory,
@@ -208,8 +208,8 @@ export class PropertieSubcategoriesList
     modalRef.closed
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res: any) => {
-        const propertiesubcategory: PropertiesSubCategory =
-          res as PropertiesSubCategory;
+        const propertiesubcategory: PropertySubCategory =
+          res as PropertySubCategory;
         if (!propertiesubcategory) return;
 
         this.getPropertiesubCategories(); // Reload the entire list after editing
@@ -363,7 +363,7 @@ export class PropertieSubcategoriesList
 
   async exportTableToCSV(): Promise<void> {
     const data: object[] = [];
-    this.propertiesubCategories().map((emp: PropertiesSubCategory) => {
+    this.propertiesubCategories().map((emp: PropertySubCategory) => {
       const entry = {
         Name: emp.name,
         Description: emp.description,

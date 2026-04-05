@@ -48,10 +48,7 @@ import { LandlordsService } from '../../../landlords/services/landlords.service'
     ReactiveFormsModule,
     FormsModule,
     ReactiveFormsModule,
-    DataLoading,
-    Pagination,
-    SearchInputWidget,
-    DropdownMenu,
+  
   ],
   templateUrl: './all-properties.html',
   styleUrl: './all-properties.scss',

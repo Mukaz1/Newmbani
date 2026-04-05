@@ -4,486 +4,306 @@
 
 @if (isLoading()) {
 <app-data-loading [fullPage]="true" />
-} @else { @if (property(); as currentProperty) {
+} @else {
+@if (property(); as currentProperty) {
 
 <div class="min-h-screen pt-4">
-  <!-- Main Content -->
   <div class="container mx-auto px-4 py-6">
-    <div class="flex justify-between items-start">
-      <!-- Title & Price -->
-      <div class="flex-1">
-        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2 line-clamp-2">
-          {{currentProperty.title}}
-        </h1>
-        <p class="text-gray-600 mb-4 flex items-center gap-2">
-          <i class="bi bi-geo-alt text-gray-600"></i>
-          {{currentProperty.address.town || 'N/A'}},
-          {{currentProperty.address.county || 'N/A' }},
-          {{currentProperty.country.name || 'N/A' }}
-        </p>
-      </div>
-      <div class="hidden md:block">
-        <app-button (buttonClicked)="goBack()" label="Back to propertys" icon="bi bi-arrow-left" [showIcon]="true"
-          iconPosition="left" />
-      </div>
+
+    <!-- ── Back button (mobile) ─────────────────────────────────── -->
+    <div class="mb-4 flex md:hidden">
+      <app-button (buttonClicked)="goBack()" label="Back" icon="bi bi-arrow-left" [showIcon]="true"
+        iconPosition="left" />
     </div>
-    <div class="space-y-4">
-      <!-- Property Images -->
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        <!-- Main Image -->
-        <!-- Image Swiper/Carousel for mobile and desktop -->
-        <div class="lg:col-span-3 relative h-[500px] rounded-xl overflow-hidden bg-gray-100 select-none touch-pan-x"
-          (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)">
-          <img [src]="getCurrentImage().link" [alt]="currentProperty.title" (click)="openLightbox(selectedImageIndex())"
-            (keydown.enter)="openLightbox(selectedImageIndex())" (keypress.enter)="openLightbox(selectedImageIndex())"
-            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            onerror="this.src='/assets/images/no-image.jpg'" draggable="false" [style.touchAction]="'pan-y'" />
-          <div class=" absolute top-1 right-1">
-            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-xs">{{
-              getCurrentImage().propertyImageCategory.name }}</span>
-          </div>
-          <!-- Counter -->
-          <div class="absolute top-4 left-4 flex gap-2 items-center justify-center">
-            <!-- Share button -->
-            <button (click)="shareProperty()" class=" p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition"
-              aria-label="Share property">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8.684 13.342A3 3 0 118 12c0-.482.114-.938.316-1.342m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-              </svg>
-            </button>
-            <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-              {{ selectedImageIndex() + 1 }} / {{ getPropertyImages().length }}
-            </span>
-          </div>
 
-          <!-- Navigation Buttons (show on all screen sizes to support swipe fallback) -->
-          <button (click)="previousImage()"
-            class="absolute top-1/2 left-4 -translate-y-1/2 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 z-10"
-            aria-label="Previous image">
-            ‹
-          </button>
-          <button (click)="nextImage()"
-            class="absolute top-1/2 right-4 -translate-y-1/2 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 z-10"
-            aria-label="Next image">
-            ›
-          </button>
+    <!-- ── Image Gallery ────────────────────────────────────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 rounded-2xl overflow-hidden mb-6">
 
-          <!-- Swipe Hint (only on mobile) -->
+      <!-- Main image -->
+      <div class="lg:col-span-3 relative h-[380px] lg:h-[460px] bg-gray-100 select-none touch-pan-x cursor-pointer"
+        (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)">
+        <img [src]="getCurrentImage().link" [alt]="currentProperty.title" (click)="openLightbox(selectedImageIndex())"
+          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          onerror="this.src='/assets/images/no-image.jpg'" draggable="false" />
 
-          <button (click)="viewAllImages()"
-            class="absolute bottom-4 right-4 p-2 bg-white/90 hover:bg-white rounded-md shadow-lg transition border border-gray-600"
+        <!-- Share + counter -->
+        <div class="absolute top-3 left-3 flex items-center gap-2">
+          <button (click)="shareProperty()" class="p-2 bg-white/90 hover:bg-white rounded-full shadow transition"
             aria-label="Share property">
-            <span class=""><i class="bi bi-grid-3x3-gap"></i> Show All Photos</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8.684 13.342A3 3 0 118 12c0-.482.114-.938.316-1.342m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+            </svg>
           </button>
+          <span class="bg-black/50 text-white px-2.5 py-1 rounded-full text-xs backdrop-blur-sm">
+            {{ selectedImageIndex() + 1 }} / {{ getPropertyImages().length }}
+          </span>
         </div>
 
-        <!-- Side Images -->
-        <div class="hidden lg:col-span-2 md:grid grid-cols-2 grid-rows-2 gap-4 h-[500px]">
-          @for (sideImage of getPropertyImages().slice(1, 5); track $index) {
-          <div class="relative rounded-xl overflow-hidden bg-gray-100" (click)="openLightbox(selectedImageIndex())"
-            (keydown.enter)="openLightbox(selectedImageIndex())" (keypress.enter)="openLightbox(selectedImageIndex())">
-            <img [src]="sideImage.link" alt="Property image {{$index + 2}}"
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
-            <div class=" absolute top-1 right-1">
-              <span class="bg-black/50 text-white px-3 py-1 rounded-full text-xs">{{
-                sideImage.propertyImageCategory.name }}</span>
-            </div>
+        <!-- Category badge -->
+        <div class="absolute top-3 right-3">
+          <span class="bg-black/50 text-white px-2.5 py-1 rounded-full text-xs">
+            {{ getCurrentImage().propertyImageCategory.name }}
+          </span>
+        </div>
+
+        <!-- Prev / Next arrows -->
+        <button (click)="previousImage()"
+          class="absolute top-1/2 left-3 -translate-y-1/2 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 z-10 text-lg leading-none"
+          aria-label="Previous image">‹</button>
+        <button (click)="nextImage()"
+          class="absolute top-1/2 right-3 -translate-y-1/2 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 z-10 text-lg leading-none"
+          aria-label="Next image">›</button>
+
+        <!-- View all photos -->
+        <button (click)="viewAllImages()"
+          class="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-white/90 hover:bg-white border border-gray-300 rounded-lg text-xs font-medium shadow transition">
+          <i class="bi bi-grid-3x3-gap"></i> View all {{ getPropertyImages().length }} Photos
+        </button>
+      </div>
+
+      <!-- Side grid (2 × 2) -->
+      <div class="hidden lg:grid lg:col-span-2 grid-cols-2 grid-rows-2 gap-3 h-[460px]">
+        @for (sideImage of getPropertyImages().slice(1, 5); track $index) {
+        <div class="relative bg-gray-100 overflow-hidden cursor-pointer rounded-xl" (click)="openLightbox($index + 1)">
+          <img [src]="sideImage.link" alt="Property image {{ $index + 2 }}"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            onerror="this.src='/assets/images/no-image.jpg'" />
+          <div class="absolute top-2 right-2">
+            <span class="bg-black/50 text-white px-2 py-0.5 rounded-full text-xs">
+              {{ sideImage.propertyImageCategory.name }}
+            </span>
+          </div>
+          <!-- "Show more" overlay on last cell when there are extra images -->
+          @if ($index === 3 && getPropertyImages().length > 5) {
+          <div (click)="viewAllImages()"
+            class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-xl cursor-pointer">
+            <span class="text-white font-semibold text-sm">
+              +{{ getPropertyImages().length - 5 }} more
+            </span>
           </div>
           }
         </div>
-      </div>
-
-      <!-- Thumbnails -->
-      <div class="hidden md:flex gap-2 overflow-x-auto scrollbar-hide">
-        @for (image of getThumbnailImages(); track $index) {
-        <button (click)="selectImage($index)"
-          [class]="'flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ' + 
-        (selectedImageIndex() === $index ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200 hover:border-gray-300')">
-          <img [src]="image.link" alt="Thumbnail {{$index + 1}}" class="w-full h-full object-cover" />
-        </button>
         }
       </div>
+    </div>
 
-      <!-- Two-column layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Left Column - Property Details -->
-        <div class="lg:col-span-2">
-          <div class="px-0">
+    <!-- ── Thumbnails ──────────────────────────────────────────── -->
+    <div class="hidden md:flex gap-2 overflow-x-auto pb-2 scrollbar-hide mb-6">
+      @for (image of getThumbnailImages(); track $index) {
+      <button (click)="selectImage($index)" [class]="'flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 ' +
+                (selectedImageIndex() === $index
+                  ? 'border-primary ring-2 ring-primary/20'
+                  : 'border-gray-200 hover:border-gray-300')">
+        <img [src]="image.link" alt="Thumbnail {{ $index + 1 }}" class="w-full h-full object-cover" />
+      </button>
+      }
+    </div>
 
+    <!-- ── Two-column layout ───────────────────────────────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <!-- Description -->
-            <div class="mb-6">
-              <div class="flex justify-between items-center">
-                <h2 class="text-xl font-semibold mb-3 text-gray-900">
-                  Description
-                </h2>
+      <!-- LEFT: Property details -->
+      <div class="lg:col-span-2 space-y-8">
+
+        <!-- Title + address -->
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+          <div>
+            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight mb-2">
+              {{ currentProperty.title }}
+            </h1>
+            <p class="text-gray-500 flex items-center gap-1.5 text-sm">
+              <i class="bi bi-geo-alt-fill text-primary"></i>
+              {{ currentProperty.address.street || '' }}
+              {{ currentProperty.address.town ? ', ' + currentProperty.address.town : '' }},
+              {{ currentProperty.address.county || 'N/A' }},
+              {{ currentProperty.country.name || 'N/A' }}
+            </p>
+          </div>
+          <div class="hidden md:block flex-shrink-0">
+            <app-button (buttonClicked)="goBack()" label="Back to Properties" icon="bi bi-arrow-left" [showIcon]="true"
+              iconPosition="left" />
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">Description</h2>
+          <p class="text-gray-600 leading-relaxed text-sm">
+            {{ currentProperty.description }}
+          </p>
+        </div>
+
+        <!-- Facilities -->
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Facilities</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+
+            <!-- Water -->
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+              <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <i class="bx bxs-water-drop-alt text-primary text-lg"></i>
               </div>
-              <p class="text-gray-700 leading-relaxed">
-                {{currentProperty.description}}
-              </p>
-            </div>
-
-            <!-- Features -->
-            <h2 class="text-xl font-semibold mb-3 text-gray-900">Features</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <!-- Bedrooms -->
-              <div class="flex items-center gap-3">
-                <i class="bx bx-bed text-primary text-xl"></i>
-                <div class="text-lg font-semibold text-gray-900">
+              <div>
+                <p class="text-xs text-gray-500">Water</p>
+                <p class="text-sm font-semibold text-gray-900">
                   {{ currentProperty.features.water | formatLabel }}
-                </div>
-                <div class="text-sm text-gray-600">Bedrooms</div>
+                </p>
               </div>
+            </div>
 
-              <!-- Bathrooms -->
-              <div class="flex items-center gap-3">
-                <i class="bx bx-bath text-primary text-xl"></i>
-                <div class="text-lg font-semibold text-gray-900">
+            <!-- Electricity -->
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+              <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <i class="bx bxs-bolt text-primary text-lg"></i>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500">Electricity</p>
+                <p class="text-sm font-semibold text-gray-900">
                   {{ currentProperty.features.electricity | formatLabel }}
-                </div>
-                <div class="text-sm text-gray-600">Bathrooms</div>
+                </p>
               </div>
-
-              <!-- Size -->
-              <div class="flex items-center gap-3">
-                <i class="bi bi-bounding-box text-primary text-xl"></i>
-                <div class="text-lg font-semibold text-gray-900">
-                  {{ currentProperty.features.security| formatLabel }}
-                </div>
-                <div class="text-sm text-gray-600">Sq Ft</div>
-              </div>
-
-
             </div>
 
-
-            <!-- Location -->
-            <h2 class="text-xl font-semibold mb-3 text-gray-900">Location</h2>
-            <div>
-              <div class="flex flex-wrap gap-4 items-center">
-                <span class="text-gray-600 font-medium">Address:</span>
-                <span class="font-medium text-gray-900">{{currentProperty?.country?.name ||
-                  'N/A'}} - {{currentProperty?.address?.county ||
-                  'N/A'}}</span>
-                <span class="font-medium text-gray-900">{{currentProperty?.address?.town || 'N/A'}},
-                  {{currentProperty?.address?.street ||
-                  'N/A'}}</span>
+            <!-- Security -->
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+              <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <i class="bx bx-lock-alt text-primary text-lg"></i>
               </div>
-
-              <!-- Map placeholder -->
-              <!-- <app-property-location
-                  [latitude]="property.lat"
-                  [longitude]="property.lng"
-                  [propertyName]="property.name"
-                /> -->
-
-              <!--<div
-                class="mt-4 h-48 bg-gradient-to-r from-gray-200 to-gray-300 rounded-lg flex items-center justify-center">
-                <div class="text-center">
-                  <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
-                  </svg>
-                  <span class="text-gray-500 text-sm">Map integration coming soon</span>
-                </div>
-              </div> -->
-            </div>
-
-
-            <!-- Landlorded By Section -->
-            <div class="mt-8">
-              <h2 class="text-xl font-semibold mb-6 text-gray-900">Owned By</h2>
-
-              <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
-
-                <!-- Landlord Info -->
-                <div class="flex items-start gap-6 pb-6 border-b border-gray-100">
-
-                  <!-- Profile Image -->
-                  <div class="flex-shrink-0">
-                    @if (currentProperty?.landlord?.profileImage) {
-                    <img [src]="currentProperty.landlord.profileImage" alt="Landlord profile picture"
-                      class="w-20 h-20 rounded-full object-cover ring-4 ring-gray-100" />
-                    } @else {
-                    <div
-                      class="w-20 h-20 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center ring-4 ring-gray-50">
-                      <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    }
-                  </div>
-
-                  <!-- Landlord Details -->
-                  <div class="flex-1 min-w-0">
-                    <h3 class="text-xl font-bold text-gray-900 mb-1">
-                      {{ currentProperty?.landlord?.displayName || 'Anonymous Landlord' }}
-                    </h3>
-
-                    @if (currentProperty?.landlord?.createdAt) {
-                    <p class="text-sm text-gray-500 mb-3">
-                      Member since {{ currentProperty.landlord.createdAt | date: 'MMMM yyyy' }}
-                    </p>
-                    }
-
-
-                  </div>
-
-
-                </div>
-
-
+              <div>
+                <p class="text-xs text-gray-500">Security</p>
+                <p class="text-sm font-semibold text-gray-900">
+                  {{ currentProperty.features.security | formatLabel }}
+                </p>
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- Right Column -->
-        <div class="lg:col-span-1 space-y-4">
-          <!-- Pricing Card-->
-          <!-- <app-pricing-card [currentProperty]="currentProperty" /> -->
+        <!-- Location -->
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Location</h2>
 
-          <!-- Contact Form -->
-          <!-- <div class="">
-            <div class="bg-white rounded-2xl shadow-lg border p-6 space-y-6">
-              <h3 class="text-xl font-semibold mb-4 text-gray-900">
-                {{ currentProperty.landlord }}
-              </h3>
-              @if (!showContactForm) {
-              <div class="space-y-4">
-                <div class="text-center">
-                  <div
-                    class="w-16 h-16 bg-gradient-to-r from-primary/10 to-primary/20 rounded-full mx-auto mb-3 flex items-center justify-center"
-                  >
-                    <svg
-                      class="w-8 h-8 text-primary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </div>
-                  <p class="text-sm text-gray-600">
-                    Property managed by professional agents
-                  </p>
-                </div>
-                <app-button
-                  (click)="toggleContactForm()"
-                  styles="w-full py-4 mt-3"
-                  label="Send message"
-                />
-              </div>
-              } @else {
-              <form (ngSubmit)="submitContactForm()" class="space-y-4">
-                <div class="flex justify-between items-center mb-4">
-                  <h4 class="text-lg font-medium text-gray-900">
-                    Send a Message
-                  </h4>
-                  <button
-                    type="button"
-                    (click)="toggleContactForm()"
-                    class="p-1 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-                  >
-                    <svg
-                      class="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                  <div>
-                    <label
-                      for=""
-                      class="block text-sm font-medium text-gray-700 mb-1"
-                      >First Name *</label
-                    >
-                    <input
-                      type="text"
-                      [(ngModel)]="contactForm.firstName"
-                      name="firstName"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-sm"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      for=""
-                      class="block text-sm font-medium text-gray-700 mb-1"
-                      >Last Name *</label
-                    >
-                    <input
-                      type="text"
-                      [(ngModel)]="contactForm.lastName"
-                      name="lastName"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-sm"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    for=""
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Email *</label
-                  >
-                  <input
-                    type="email"
-                    [(ngModel)]="contactForm.email"
-                    name="email"
-                    required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-sm"
-                  />
-                </div>
-                <div>
-                  <label
-                    for=""
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Phone Number</label
-                  >
-                  <input
-                    type="tel"
-                    [(ngModel)]="contactForm.phoneNumber"
-                    name="phoneNumber"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-sm"
-                  />
-                </div>
-                <div>
-                  <label
-                    for=""
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Message *</label
-                  >
-                  <textarea
-                    [(ngModel)]="contactForm.message"
-                    name="message"
-                    required
-                    rows="4"
-                    placeholder="I'm interested in this property..."
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-sm resize-none placeholder-gray-400"
-                  ></textarea>
-                </div>
-                <app-button type="submit" label="Send Message" class="w-full" />
-              </form>
-              }
-            </div>
-          </div> -->
+          <p class="text-sm text-gray-500 mb-3">
+            <span class="font-medium text-gray-700">Address: </span>
+            {{ currentProperty?.country?.name || 'N/A' }} –
+            {{ currentProperty?.address?.county || 'N/A' }},
+            {{ currentProperty?.address?.town || 'N/A' }},
+            {{ currentProperty?.address?.street || 'N/A' }}
+          </p>
+
+          <app-property-location [latitude]="property()!.map!.lat" [longitude]="property()!.map!.lng"
+            [propertyName]="property()!.title" />
+        </div>
+
+      </div><!-- /LEFT -->
+
+      <!-- RIGHT: Pricing card (sticky on desktop) -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-4">
+          <app-pricing-card [currentProperty]="currentProperty" />
         </div>
       </div>
-    </div>
 
-    <!-- Similar Properties Section -->
-    <!-- <div class="mt-16">
-      <h2 class="text-2xl lg:text-3xl font-bold mb-2 text-gray-900">Discover Property</h2>
-      <p class="text-gray-600 mb-8">Still haven't found what you're looking for? Browse through our propertys</p>
+    </div><!-- /grid -->
+
+    <!-- ── Similar / Discover properties ──────────────────────── -->
+    <div class="mt-20">
+      <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">Explore More Properties</h2>
+      <p class="text-gray-500 text-sm mb-8">
+        Still haven't found what you're looking for? Browse through our listings.
+      </p>
 
       @if (isSimilarPropertiesLoading()) {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (item of [1,2,3]; track $index) {
+        @for (item of [1, 2, 3]; track $index) {
         <div class="bg-gray-200 rounded-2xl h-80 animate-pulse"></div>
         }
       </div>
       } @else {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (property of similarProperties(); track property._id) {
-        <app-property-card [property]="property" [isFavorited]="isPropertyFavorited(property.property)"
+        @for (prop of similarProperties(); track prop._id) {
+        <app-property-card [property]="prop" [isFavorited]="isPropertyFavorited(prop)"
           (cardClick)="onPropertyCardClick($event)" (favoriteToggle)="onFavoriteToggle($event)" />
         }
       </div>
       }
-    </div> -->
-  </div>
+    </div>
+
+  </div><!-- /container -->
 </div>
+
 } @else {
 <!-- Property Not Found -->
 <div class="min-h-screen flex items-center justify-center bg-gray-50">
   <div class="text-center p-8">
-    <div class="text-gray-400 mb-6">
+    <div class="text-gray-300 mb-6">
       <svg class="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
           d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
       </svg>
     </div>
     <h1 class="text-3xl font-bold text-gray-900 mb-3">Property Not Found</h1>
-    <p class="text-gray-600 mb-8 max-w-md mx-auto">
-      The property you're looking for doesn't exist or has been removed from our
-      propertiess.
+    <p class="text-gray-500 mb-8 max-w-md mx-auto text-sm">
+      The property you're looking for doesn't exist or has been removed.
     </p>
-    <div class="space-y-3 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
       <button (click)="goBack()"
-        class="w-full sm:w-auto px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">
+        class="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition font-medium shadow">
         Back to Properties
       </button>
-      <a href="/propertys"
-        class="w-full sm:w-auto px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium inline-block text-center">
+      <a href="/properties"
+        class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition font-medium">
         Browse All Properties
       </a>
     </div>
   </div>
 </div>
-} }
+}
+}
 
-<!-- Lightbox Modal -->
+<!-- ── Lightbox Modal ─────────────────────────────────────────────────── -->
 @if (lightboxOpen() && property()?.images) {
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
-  style="backdrop-filter: blur(4px)" aria-modal="true" role="dialog" aria-label="Image lightbox">
-
-  <!-- Close Button: top right of the page, outside modal content -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/85" style="backdrop-filter: blur(4px)"
+  aria-modal="true" role="dialog" aria-label="Image lightbox" (click)="closeLightbox()">
+  <!-- Close -->
   <button type="button"
-    class="fixed top-4 right-4 z-50 w-10 h-10 bg-black bg-opacity-60 text-white rounded-full hover:bg-opacity-80 shadow-lg transition duration-200 hover:scale-110 flex items-center justify-center"
+    class="fixed top-4 right-4 z-50 w-10 h-10 bg-black/60 text-white rounded-full hover:bg-black/80 shadow transition flex items-center justify-center"
     (click)="closeLightbox()" aria-label="Close lightbox">
-    <i class="bi bi-x-lg text-xl"></i>
+    <i class="bi bi-x-lg"></i>
   </button>
 
-  <!-- Navigation Buttons: center left and center right, outside modal content -->
+  <!-- Prev -->
   @if ((property()?.images?.length ?? 0) > 1) {
   <button type="button"
-    class="fixed left-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-black bg-opacity-60 text-white rounded-full hover:bg-opacity-80 shadow-lg transition duration-200 hover:scale-110 flex items-center justify-center"
+    class="fixed left-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-black/60 text-white rounded-full hover:bg-black/80 shadow transition flex items-center justify-center"
     (click)="previousImage()" aria-label="Previous image">
-    <i class="bi bi-chevron-left text-2xl"></i>
+    <i class="bi bi-chevron-left text-xl"></i>
   </button>
   <button type="button"
-    class="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-black bg-opacity-60 text-white rounded-full hover:bg-opacity-80 shadow-lg transition duration-200 hover:scale-110 flex items-center justify-center"
+    class="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-black/60 text-white rounded-full hover:bg-black/80 shadow transition flex items-center justify-center"
     (click)="nextImage()" aria-label="Next image">
-    <i class="bi bi-chevron-right text-2xl"></i>
+    <i class="bi bi-chevron-right text-xl"></i>
   </button>
   }
 
-  <!-- Image content centered -->
-  <div class="relative max-w-4xl max-h-full p-4 flex flex-col items-center justify-center"
-    (click)="$event.stopPropagation()" (keypress.enter)="$event.stopPropagation()" tabindex="0"
-    aria-label="Image viewer" role="region">
-
-    <!-- Image -->
+  <!-- Image -->
+  <div class="relative max-w-4xl max-h-full p-4 flex flex-col items-center" (click)="$event.stopPropagation()"
+    tabindex="0" role="region" aria-label="Image viewer">
     <img [src]="property()?.images?.[lightboxIndex()]?.link" [alt]="property()?.title || 'Property Image'"
-      class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-md" />
-    <div class=" absolute top-6 right-6">
-      <span class="bg-black/50 text-white px-3 py-1 rounded-full text-xs">{{
-        property()?.images?.[lightboxIndex()]?.propertyImageCategory?.name }}</span>
+      class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl" />
+
+    <!-- Category badge -->
+    <div class="absolute top-6 right-6">
+      <span class="bg-black/50 text-white px-3 py-1 rounded-full text-xs">
+        {{ property()?.images?.[lightboxIndex()]?.propertyImageCategory?.name }}
+      </span>
     </div>
 
-    <!-- Image Counter -->
+    <!-- Counter -->
     @if ((property()?.images?.length ?? 0) > 1) {
-    <div
-      class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm"
-      aria-live="polite">
+    <div class="mt-3 bg-black/50 text-white px-4 py-1.5 rounded-full text-sm" aria-live="polite">
       {{ lightboxIndex() + 1 }} / {{ property()?.images?.length }}
     </div>
     }

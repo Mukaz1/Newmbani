@@ -25,6 +25,8 @@ const propertyFeaturesSchema = new Schema<PropertyFeatures>(
 export const PropertySchema = new Schema<Property>({
   landlordId: { type: String, required: true, trim: true },
   categoryId: { type: String, required: true, trim: true },
+  subcategoryId: { type: String, required: true, trim: true },
+  slug: { type: String, required: true, trim: true, unique: true },
   title: { type: String, required: true, trim: true },
   description: { type: String, required: true, trim: true },
   rentPrice: { type: Number, required: true },

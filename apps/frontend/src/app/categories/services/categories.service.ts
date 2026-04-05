@@ -5,8 +5,8 @@ import {
   HttpResponseInterface,
   PaginatedData,
   PropertyCategory,
-  PropertiesSubCategory,
-  CreatePropertiesSubCategory,
+  PropertySubCategory,
+  CreatePropertySubCategory,
   CreatePropertyCategory,
 } from '@newmbani/types';
 import { API_ENDPOINTS } from '../../common/routes.constants';
@@ -81,7 +81,7 @@ export class CategoriesService {
     page?: number;
     keyword?: string;
     categoryId?: string;
-  }): Observable<HttpResponseInterface<PaginatedData<PropertiesSubCategory[]>>> {
+  }): Observable<HttpResponseInterface<PaginatedData<PropertySubCategory[]>>> {
     const options = data
       ? {
           params: new HttpParams()
@@ -92,22 +92,22 @@ export class CategoriesService {
         }
       : {};
     return this.http.get<
-      HttpResponseInterface<PaginatedData<PropertiesSubCategory[]>>
+      HttpResponseInterface<PaginatedData<PropertySubCategory[]>>
     >(API_ENDPOINTS.GET_PROPERTY_SUBCATEGORIES, options);
   }
 
   getSubcategoryById(
     id: string
-  ): Observable<HttpResponseInterface<PropertiesSubCategory>> {
-    return this.http.get<HttpResponseInterface<PropertiesSubCategory>>(
+  ): Observable<HttpResponseInterface<PropertySubCategory>> {
+    return this.http.get<HttpResponseInterface<PropertySubCategory>>(
     API_ENDPOINTS.GET_PROPERTY_SUBCATEGORY(id)
     );
   }
 
   createSubcategory(
-    subcategory: Omit<CreatePropertiesSubCategory, '_id'>
-  ): Observable<HttpResponseInterface<CreatePropertiesSubCategory>> {
-    return this.http.post<HttpResponseInterface<CreatePropertiesSubCategory>>(
+    subcategory: Omit<CreatePropertySubCategory, '_id'>
+  ): Observable<HttpResponseInterface<CreatePropertySubCategory>> {
+    return this.http.post<HttpResponseInterface<CreatePropertySubCategory>>(
       API_ENDPOINTS.CREATE_PROPERTY_SUBCATEGORY,
       subcategory
     );
@@ -115,9 +115,9 @@ export class CategoriesService {
 
   updateSubcategory(
     id: string,
-    subcategory: Partial<PropertiesSubCategory>
-  ): Observable<HttpResponseInterface<PropertiesSubCategory>> {
-    return this.http.patch<HttpResponseInterface<PropertiesSubCategory>>(
+    subcategory: Partial<PropertySubCategory>
+  ): Observable<HttpResponseInterface<PropertySubCategory>> {
+    return this.http.patch<HttpResponseInterface<PropertySubCategory>>(
      API_ENDPOINTS.UPDATE_PROPERTY_SUBCATEGORY(id),
       subcategory
     );

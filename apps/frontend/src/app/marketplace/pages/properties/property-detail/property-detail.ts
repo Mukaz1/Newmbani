@@ -26,6 +26,9 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ViewImagesModal } from '../components/view-images-modal/view-images-modal';
 import { PropertiesService } from '../../../../properties/services/properties.service';
 import { FormatLabelPipe } from '../../../../common/pipes/format-label.pipe';
+import { PropertyLocation } from '../property-location/property-location';
+import { PropertyCard } from '../components/property-card/property-card';
+import { PricingCard } from '../components/pricing-card/pricing-card';
 
 @Component({
   selector: 'app-property-detail',
@@ -33,8 +36,10 @@ import { FormatLabelPipe } from '../../../../common/pipes/format-label.pipe';
     DataLoading,
     FormsModule,
     Button,
-    DatePipe,
-    FormatLabelPipe
+    FormatLabelPipe,
+    PropertyLocation,
+    PropertyCard,
+    PricingCard
   ],
   templateUrl: './property-detail.html',
   styleUrl: './property-detail.scss',
@@ -89,6 +94,7 @@ export class PropertyDetail implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params:any) => {
         if (params['id']) {
+          console.log(params['id']);
           this.getPropertyDetails(params['id']);
         }
       });
@@ -114,7 +120,7 @@ export class PropertyDetail implements OnInit {
             title: 'Error',
           });
           this.isLoading.set(false);
-          this.router.navigate(['/propertys']);
+          this.router.navigate(['/properties']);
         },
       });
   }

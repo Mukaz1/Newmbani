@@ -1,15 +1,7 @@
-import {
-  Body,
-  Controller,
-  Headers,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Headers, Post, Req } from '@nestjs/common';
 import { Public } from '../decorators/public.decorator';
 import { RefreshTokenDto } from '../dto/auth/refresh-token.dto';
 import { SignInDto } from '../dto/auth/sign-in.dto';
-import { AuthenticationGuard } from '../guards/authentication.guard';
 import { AuthService } from '../services/auth.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HttpResponseInterface, HttpStatusCodeEnum } from '@newmbani/types';
@@ -63,13 +55,21 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthenticationGuard)
+  /**
+   * Logout does not use {@link AuthenticationGuard}: an expired access token would
+   * otherwise return 401 before we can clear Redis. Send `Authorization: Bearer <token>`
+   * when available; optional body is not required.
+   */
+  @Public()
   @Post('logout')
   async invalidateToken(
-    @Headers('authorization') authorization: string,
+    @Headers('authorization') authorization?: string,
   ): Promise<HttpResponseInterface> {
-    const token = authorization.split(' ')[1];
-    await this.authService.invalidateToken(token);
+    const bearer = authorization?.match(/^Bearer\s+(.+)$/i);
+    const token = bearer?.[1]?.trim();
+    if (token) {
+      await this.authService.invalidateToken(token);
+    }
     return {
       data: undefined,
       statusCode: HttpStatusCodeEnum.OK,

@@ -1,12 +1,12 @@
 import { AuditData } from "../../audit";
-import { CreatePropertiesSubCategory, PropertiesSubCategory } from "./property-subcategory";
+import { CreatePropertySubCategory, PropertySubCategory } from "./property-subcategory";
 
 
 export interface CreatePropertyCategory{
     name:string;
     description: string;
     icon?: string;
-    subCategories?: Omit<CreatePropertiesSubCategory, 'categoryId'>[];
+    subCategories?: Omit<CreatePropertySubCategory, 'categoryId'>[];
 
 }
 export type UpdatePropertyCategory = Partial<CreatePropertyCategory>
@@ -19,5 +19,5 @@ export interface PostPropertyCategory extends CreatePropertyCategory {
   export interface PropertyCategory
   extends Omit<PostPropertyCategory, 'subCategories'>,
     AuditData {
-  subCategories: PropertiesSubCategory[];
+  subCategories: PropertySubCategory[];
 }

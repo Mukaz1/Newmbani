@@ -48,14 +48,14 @@ export class BookingsService {
     id: string,
     booking: Partial<CreateBooking>
   ): Observable<HttpResponseInterface<Booking>> {
-    const endpoint =API_ENDPOINTS.UPDATE_BOOKING(id)
-    return this.http.patch<HttpResponseInterface<Booking>>(
+    const endpoint =`${API_ENDPOINTS.UPDATE_BOOKING(id)}`
+    return this.http.patch<HttpResponseInterface<Booking>>(endpoint,
       booking
     );
   }
 
   deleteBooking(id: string): Observable<HttpResponseInterface<void>> {
-    const endpoint =API_ENDPOINTS.DELETE_BOOKING(id)
+    const endpoint =`${API_ENDPOINTS.DELETE_BOOKING(id)}`
 
     return this.http.delete<HttpResponseInterface<void>>(
       endpoint

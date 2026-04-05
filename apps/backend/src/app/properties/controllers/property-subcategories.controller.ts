@@ -10,7 +10,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { PropertiesubcategoriesService } from '../services/property-subcategories.service';
+import { PropertySubCategoriesService } from '../services/property-subcategories.service';
 import {
   ExpressQuery,
   HttpResponseInterface,
@@ -18,8 +18,8 @@ import {
   UserRequest,
 } from '@newmbani/types';
 import {
-  CreatePropertiesSubCategoryDto,
-  UpdatePropertiesSubCategoryDto,
+  CreatePropertySubCategoryDto,
+  UpdatePropertySubCategoryDto,
 } from '../dtos/property-sub-category.dto';
 import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
 import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
@@ -27,16 +27,16 @@ import { AuthorizationGuard } from '../../auth/guards/authorization.guard';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 
 @Controller('property-subcategories')
-export class PropertiesubcategoriesController {
+export class PropertySubCategoriesController {
   constructor(
-    private readonly propertiesubcategoriesService: PropertiesubcategoriesService
+    private readonly propertysubcategoriesService: PropertySubCategoriesService
   ) {}
 
   /**
    * Register a new property subcategory
    * @return {*} {Promise<HttpResponseInterface>}
    * @memberof PropertyCategoriesController
-   * @param createPropertiesSubCategoryDto
+   * @param createPropertySubCategoryDto
    * @param res
    */
   @Post()
@@ -46,14 +46,14 @@ export class PropertiesubcategoriesController {
     PermissionEnum.MANAGE_PROPERTY_CATEGORIES,
   ])
   async create(
-    @Body() createPropertiesSubCategoryDto: CreatePropertiesSubCategoryDto,
+    @Body() createPropertySubCategoryDto: CreatePropertySubCategoryDto,
     @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
     const userId = user._id.toString();
     // create property subcategory
-    const response = await this.propertiesubcategoriesService.create({
-      createPropertiesSubCategoryDto,
+    const response = await this.propertysubcategoriesService.create({
+      createPropertySubCategoryDto,
       userId,
     });
     // set status code
@@ -74,7 +74,7 @@ export class PropertiesubcategoriesController {
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
     // get all accounts
-    const response = await this.propertiesubcategoriesService.findAll(query);
+    const response = await this.propertysubcategoriesService.findAll(query);
     res.setStatus(response.statusCode);
     return response;
   }
@@ -92,7 +92,7 @@ export class PropertiesubcategoriesController {
     @Param('id') id: string,
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
-    const response = await this.propertiesubcategoriesService.findOne(id);
+    const response = await this.propertysubcategoriesService.findOne(id);
     res.setStatus(response.statusCode);
     return response;
   }
@@ -100,7 +100,7 @@ export class PropertiesubcategoriesController {
   /**
    * Update property subcategory
    * @param {string} id
-   * @param updatePropertiesSubCategoryDto
+   * @param updatePropertySubCategoryDto
    * @param res
    * @return {*} {Promise<HttpResponseInterface>}
    * @memberof PropertyCategoriesController
@@ -113,15 +113,15 @@ export class PropertiesubcategoriesController {
   ])
   async update(
     @Param('id') id: string,
-    @Body() updatePropertiesSubCategoryDto: UpdatePropertiesSubCategoryDto,
+    @Body() updatePropertySubCategoryDto: UpdatePropertySubCategoryDto,
     @Req() { user }: UserRequest,
     @GenericResponse() res: GenericResponse
   ): Promise<HttpResponseInterface> {
     const userId = user._id.toString();
     // Update property subcategory
-    const response = await this.propertiesubcategoriesService.update(
+    const response = await this.propertysubcategoriesService.update(
       id,
-      updatePropertiesSubCategoryDto,
+      updatePropertySubCategoryDto,
       userId
     );
     // set status code
@@ -144,6 +144,6 @@ export class PropertiesubcategoriesController {
     PermissionEnum.MANAGE_PROPERTY_CATEGORIES,
   ])
   async remove(@Param('id') id: string): Promise<any> {
-    return this.propertiesubcategoriesService.remove(id);
+    return this.propertysubcategoriesService.remove(id);
   }
 }

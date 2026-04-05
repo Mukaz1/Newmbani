@@ -1,4 +1,4 @@
-import { lookup } from "dns";
+import { DatabaseModelEnums } from "@newmbani/types";
 import { BookingQueryPayload } from "../utils/getBookingsParams";
 
 export const BookingAggregation = (data: {
@@ -35,6 +35,35 @@ export const BookingAggregation = (data: {
           },
         },
       },
+{
+  $lookup: {
+    from: DatabaseModelEnums.CUSTOMER,
+    localField: 'customerId',
+    foreignField: '_id',
+    as: 'customer',
+  },
+},
+{
+  $unwind: {
+    path: '$customer',
+    preserveNullAndEmptyArrays: true,
+  },
+},
+  {
+    $lookup: {
+      from: DatabaseModelEnums.PROPERTY,
+      localField: 'propertyId',
+      foreignField: '_id',
+      as: 'property',
+    },
+  },
+  
+  {
+    $unwind: {
+      path: '$property',
+      preserveNullAndEmptyArrays: true,
+    },
+  },
 
       {
         $project: {

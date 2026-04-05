@@ -29,14 +29,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @throws {UnauthorizedException} - If the user is not found.
    * @memberof JwtStrategy
    */
-  async validate(payload: JwtPayload): Promise<any> {
+  async validate(payload: JwtPayload & { sub?: string; email?: string }) {
+    // Prefer `sub` (standard JWT subject); email-only lookup can fail if the claim is missing.
     const user: User | null = (
-      await this.usersService.findOne({
-        email: payload.email,
-      })
+      await this.usersService.findOne(
+        payload.sub
+          ? { userId: payload.sub }
+          : { email: payload.email },
+      )
     ).data;
     if (!user) {
-      this.logger.error('User not found');
+      this.logger.error('User not found for JWT validate');
       throw new UnauthorizedException();
     }
     return user;

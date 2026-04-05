@@ -54,11 +54,6 @@ import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
      * @memberof PropertyCategoriesController
      */
     @Get()
-    @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    @RequiredPermissions([
-      PermissionEnum.VIEW_PROPERTY_CATEGORY,
-      PermissionEnum.VIEW_PROPERTY_CATEGORIES,
-    ])
     async findAll(
       @Query() query: ExpressQuery,
       @GenericResponse() res: GenericResponse

@@ -150,7 +150,11 @@ export class Homepage implements OnInit {
   }
 
   onPropertyCardClick(property: Property): void {
+    if(property.slug){
+      this.router.navigate(['/properties', property.slug]);
+    } else {
     this.router.navigate(['/properties', property._id]);
+    }
   }
 
   isPropertyFavorited(property: Property): boolean {
@@ -175,7 +179,7 @@ export class Homepage implements OnInit {
   }
 
   viewListing(id: string) {
-    this.router.navigate([`/properties/${id}`]);
+    this.router.navigate(['/properties', id]);
   }
 
   loadFavorites(): void {

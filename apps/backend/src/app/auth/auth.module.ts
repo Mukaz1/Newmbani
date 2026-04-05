@@ -29,7 +29,7 @@ import { UsersService } from './services/users.service';
 import { AccountController } from './controllers/account.controller';
 import { UsersController } from './controllers/users.controller';
 import { CustomersModule } from '../customers/customers.module';
-import { BookingsModule } from './bookings/bookings.module';
+import { BookingsModule } from '../bookings/bookings.module';
 
 @Global()
 @Module({

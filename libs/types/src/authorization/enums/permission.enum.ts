@@ -180,6 +180,10 @@ export enum PermissionEnum {
   UPDATE_BOOKING = 'update-booking',
   DELETE_BOOKING = 'delete-booking',
   MANAGE_BOOKINGS = 'manage-bookings',
+  CREATE_BOOKING_CANCELLATION = 'create-booking-cancellation',
+  VIEW_BOOKING_CANCELLATION = 'view-booking-cancellation',
+  VIEW_BOOKING_CANCELLATIONS = 'view-booking-cancellations',
+  MANAGE_BOOKING_CANCELLATIONS = 'manage-booking-cancellations',
 
   // Upload files
   UPLOAD_FILES = 'upload-files',
@@ -394,6 +398,13 @@ export const ModulePermissions = {
     PermissionEnum.UPDATE_BOOKING,
     PermissionEnum.DELETE_BOOKING,
     PermissionEnum.MANAGE_BOOKINGS,
+  ],
+
+  bookingCancellation:[
+      PermissionEnum.CREATE_BOOKING_CANCELLATION,
+    PermissionEnum.VIEW_BOOKING_CANCELLATION,
+    PermissionEnum.VIEW_BOOKING_CANCELLATIONS,
+    PermissionEnum.MANAGE_BOOKING_CANCELLATIONS,
   ],
 
   files: [PermissionEnum.UPLOAD_FILES],

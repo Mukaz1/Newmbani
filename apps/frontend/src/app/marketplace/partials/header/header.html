@@ -16,12 +16,8 @@
         <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
           class="text-gray-600 hover:text-secondary-400 transition-colors"
           routerLinkActive="font-bold text-secondary-500">Home</a>
-        <a routerLink="/listings" class="text-gray-600 hover:text-secondary-400 transition-colors"
+        <a routerLink="/properties" class="text-gray-600 hover:text-secondary-400 transition-colors"
           routerLinkActive="font-bold text-secondary-500">Listings</a>
-        <a routerLink="/aluxe" class="text-gray-600 hover:text-secondary-400 transition-colors"
-          routerLinkActive="font-bold text-secondary-500">Aluxe</a>
-        <a routerLink="/design-build" class="text-gray-600 hover:text-secondary-400 transition-colors"
-          routerLinkActive="font-bold text-secondary-500">Design & Build</a>
         <a routerLink="/contact-us" class="text-gray-600 hover:text-secondary-400 transition-colors"
           routerLinkActive="font-bold text-secondary-500">Contact Us</a>
 
@@ -37,7 +33,6 @@
 
       <!-- Desktop: person icon dropdown (only if logged in) -->
       <div class="hidden md:flex items-center">
-        <app-currency-widget/>
         <app-user-profile-widget theme="light" [forBackend]="false" />
 
       </div>
@@ -45,7 +40,6 @@
       <!-- Mobile area: person icon (direct dashboard) + hamburger dropdown -->
       <div class="md:hidden flex justify-end items-center">
         <!-- Person icon (mobile) -> dashboard (only if logged in) -->
-        <app-currency-widget/>
         <app-user-profile-widget theme="light" [forBackend]="false" />
         <!-- Mobile menu: dropdown component, hamburger is the trigger -->
 
@@ -61,12 +55,8 @@
             <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
               class="text-gray-600 hover:text-secondary-400 transition-colors"
               routerLinkActive="font-bold text-secondary-500">Home</a>
-            <a routerLink="/listings" class="text-gray-600 hover:text-secondary-400 transition-colors"
+            <a routerLink="/properties" class="text-gray-600 hover:text-secondary-400 transition-colors"
               routerLinkActive="font-bold text-secondary-500">Listings</a>
-            <a routerLink="/aluxe" class="text-gray-600 hover:text-secondary-400 transition-colors"
-              routerLinkActive="font-bold text-secondary-500">Aluxe</a>
-            <a routerLink="/design-build" class="text-gray-600 hover:text-secondary-400 transition-colors"
-              routerLinkActive="font-bold text-secondary-500">Design & Build</a>
             <a routerLink="/contact-us" class="text-gray-600 hover:text-secondary-400 transition-colors"
               routerLinkActive="font-bold text-secondary-500">Contact Us</a>
             @if (!isLoggedIn()) {

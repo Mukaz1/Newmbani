@@ -7,10 +7,12 @@ import { PropertyImageCategoriesController } from './controllers/property-image-
 import { PropertyImagesController } from './controllers/property-images.controller';
 import { PropertyImageCategoriesService } from './services/property-image-categories.service';
 import { PropertyImagesService } from './services/property-images.service';
+import { PropertySubCategoriesController } from './controllers/property-subcategories.controller';
+import { PropertySubCategoriesService } from './services/property-subcategories.service';
 
 @Module({
-  providers: [PropertyCategoriesService, PropertiesService, PropertyImageCategoriesService, PropertyImagesService],
-  exports: [PropertyCategoriesService, PropertiesService, PropertyImageCategoriesService, PropertyImagesService],
-  controllers: [PropertyCategoriesController, PropertiesController, PropertyImageCategoriesController, PropertyImagesController],
+  providers: [PropertyCategoriesService, PropertiesService, PropertyImageCategoriesService, PropertyImagesService, PropertySubCategoriesService],
+  exports: [PropertyCategoriesService, PropertiesService, PropertyImageCategoriesService, PropertyImagesService, PropertySubCategoriesService],
+  controllers: [PropertyCategoriesController, PropertiesController, PropertyImageCategoriesController, PropertyImagesController, PropertySubCategoriesController],
 })
 export class PropertiesModule {}

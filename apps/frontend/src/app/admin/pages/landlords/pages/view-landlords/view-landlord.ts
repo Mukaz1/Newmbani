@@ -19,7 +19,6 @@ import { LandlordsService } from '../../../../../landlords/services/landlords.se
 import { ViewFileViaModal } from '../../../../../utilities/view-file-via-modal/view-file-via-modal';
 import { NotificationService } from '../../../../../common/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DocumentVerificationModal } from '../../modals/document-verification-modal/document-verification-modal';
 import { CdkMenu, CdkMenuModule, CdkMenuTrigger } from '@angular/cdk/menu';
 
 @Component({
@@ -73,7 +72,6 @@ export class ViewLandlord implements OnInit {
     if (this.landlordId) {
       this.fetchLandlord();
     }
-    this.allLandlordDocumentsApproved();
   }
 
   fetchLandlord() {
@@ -136,24 +134,6 @@ export class ViewLandlord implements OnInit {
     });
   }
 
-  approveDocument(document: LandlordDocument) {
-    const dialogRef = this.dialog.open(DocumentVerificationModal, {
-      data: { document },
-      disableClose: true,
-    });
-
-    dialogRef.closed.subscribe((result: unknown) => {
-      this.fetchLandlord();
-    });
-  }
-
-  allLandlordDocumentsApproved(): boolean {
-    const documents = this.landlord()?.documents ?? [];
-    const result =
-      documents.length > 0 &&
-      documents.every((doc) => doc.status === LandlordDocumentStatus.APPROVED);
-    return result;
-  }
 
   goBack() {
     this.router.navigate(['../'], { relativeTo: this.route });

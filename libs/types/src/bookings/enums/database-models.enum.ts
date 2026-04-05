@@ -1,3 +1,4 @@
 export enum BookingDatabaseModelEnums {
-    BOOKING ='bookings'
+  BOOKING = 'bookings',
+  BOOKING_CANCELLATION = 'booking_cancellations',
 }

@@ -46,7 +46,7 @@ export class LandlordPropertiesService {
   getPropertyById(
     propertyId: string
   ): Observable<HttpResponseInterface<Property | null>> {
-    const endpoint = `${API_ENDPOINTS.GET_PROPERTY}/${propertyId}`;
+    const endpoint = API_ENDPOINTS.GET_PROPERTY(propertyId);
     return this.httpClient.get<HttpResponseInterface<Property | null>>(
       endpoint
     );

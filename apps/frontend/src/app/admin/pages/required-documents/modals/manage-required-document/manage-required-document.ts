@@ -49,7 +49,7 @@ export class ManageRequiredDocument implements OnInit {
     isMandatory: new FormControl(false, [Validators.required]),
     countryId: new FormControl('', [Validators.required]),
     isServiceProvider: new FormControl(false, [Validators.required]),
-    isPropertyHost: new FormControl(false, [Validators.required]),
+    isPropertyLandlord: new FormControl(false, [Validators.required]),
   });
 
   private dialogRef = inject(DialogRef);
@@ -66,7 +66,7 @@ export class ManageRequiredDocument implements OnInit {
         name: this.requiredDocument?.name,
         isMandatory: this.requiredDocument?.isMandatory,
         isServiceProvider: this.requiredDocument?.isServiceProvider,
-        isPropertyHost: this.requiredDocument?.isPropertyHost,
+        isPropertyLandlord: this.requiredDocument?.isPropertyLandlord,
       });
     }
   }
@@ -93,7 +93,7 @@ export class ManageRequiredDocument implements OnInit {
       isServiceProvider: isServiceProvider
         ? isServiceProvider
         : this.requiredDocument?.isServiceProvider || false,
-      isPropertyHost: isServiceProvider
+      isPropertyLandlord: isServiceProvider
         ? isServiceProvider
         : this.requiredDocument?.isServiceProvider || false,
       isMandatory: isMandatory

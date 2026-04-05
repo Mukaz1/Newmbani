@@ -1,4 +1,4 @@
-interface PropertyCategoryAggregationPayload {
+interface PropertySubCategoryAggregationPayload {
   keyword: string;
   skip: number;
   limit: number;
@@ -6,8 +6,8 @@ interface PropertyCategoryAggregationPayload {
   categoryId?: string;
 }
 
-export async function AggregatePropertiesubcategories(
-  data: PropertyCategoryAggregationPayload
+export async function AggregatePropertySubCategories(
+  data: PropertySubCategoryAggregationPayload
 ) {
   const keyword: string = data.keyword || '';
 

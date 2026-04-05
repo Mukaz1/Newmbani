@@ -16,7 +16,7 @@
     [center]="position"
     [zoom]="zoom"
     [options]="mapOptions"
-    (mapInitialized)="mapLoaded = true"
+    (mapInitialized)="onMapInitialized()"
   >
     <!-- <map-marker
       [position]="position"

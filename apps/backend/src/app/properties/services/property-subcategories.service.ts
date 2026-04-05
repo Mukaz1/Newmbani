@@ -6,59 +6,55 @@ import {
   HttpResponseInterface,
   HttpStatusCodeEnum,
   PaginatedData,
-  PropertiesSubCategory,
+  PropertySubCategory,
 } from '@newmbani/types';
 import {
-  CreatePropertiesSubCategoryDto,
-  PostNewPropertiesSubCategoryDto,
-  PostPropertiesSubCategoryUpdateDto,
-  UpdatePropertiesSubCategoryDto,
+  CreatePropertySubCategoryDto,
+  PostNewPropertySubCategoryDto,
+  PostPropertySubCategoryUpdateDto,
+  UpdatePropertySubCategoryDto,
 } from '../dtos/property-sub-category.dto';
 import { CustomHttpResponse, generateSlug } from '../../common';
-import { AggregatePropertiesubcategories } from '../queries/property-subcategories.aggregator';
+import { AggregatePropertySubCategories } from '../queries/property-subcategories.aggregator';
+import { PropertySubCategoryModel } from '../schemas/property-sub-category.schema';
 
 @Injectable()
-export class PropertiesubcategoriesService {
+export class PropertySubCategoriesService {
   /**
-   * Creates an instance of PropertiesubcategoriesService.
-   * @param propertiesubcategories The mongoose model for property subcategories.
+   * Creates an instance of PropertySubCategoriesService.
+   * @param propertySubCategories The mongoose model for property subcategories.
    */
-  constructor(
-    @Inject(DatabaseModelEnums.PROPERTY_SUB_CATEGORY)
-    private propertiesubcategories: Model<PropertiesSubCategory>
-  ) {}
-
   /**
    * Register a new Property Category
    *
    * @return {*}  {Promise<HttpResponseInterface>}
-   * @memberof PropertiesubcategoriesService
+   * @memberof PropertySubCategoriesService
    * @param data
    */
   async create(data: {
-    createPropertiesSubCategoryDto: CreatePropertiesSubCategoryDto;
+    createPropertySubCategoryDto: CreatePropertySubCategoryDto;
     userId: string;
   }): Promise<HttpResponseInterface> {
-    const { createPropertiesSubCategoryDto, userId } = data;
+    const { createPropertySubCategoryDto, userId } = data;
     try {
-      const payload: PostNewPropertiesSubCategoryDto = {
-        ...createPropertiesSubCategoryDto,
-        slug: generateSlug(createPropertiesSubCategoryDto.name),
+      const payload: PostNewPropertySubCategoryDto = {
+        ...createPropertySubCategoryDto,
+        slug: generateSlug(createPropertySubCategoryDto.name),
         createdBy: userId,
       };
 
-      const propertyCategory = await this.propertiesubcategories.create(
+      const propertyCategory = await PropertySubCategoryModel.create(
         payload
       );
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.CREATED,
-        message: `The subcategory ${createPropertiesSubCategoryDto.name} has been created successfully`,
+        message: `The subcategory ${createPropertySubCategoryDto.name} has been created successfully`,
         data: propertyCategory,
       });
     } catch (error) {
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.BAD_REQUEST,
-        message: `There was an error creating the subcategory ${createPropertiesSubCategoryDto.name}`,
+        message: `There was an error creating the subcategory ${createPropertySubCategoryDto.name}`,
         data: error,
       });
     }
@@ -69,13 +65,13 @@ export class PropertiesubcategoriesService {
    * it filters the property categories by the account type and/or the holder id.
    *
    * @return {Promise<HttpResponseInterface>} - The response of the operation.
-   * @memberof PropertiesubcategoriesService
+   * @memberof PropertySubCategoriesService
    * @param query
    */
   async findAll(query?: ExpressQuery): Promise<HttpResponseInterface> {
     try {
       const limitQ = query.limit;
-      const totalDocuments = await this.propertiesubcategories
+      const totalDocuments = await PropertySubCategoryModel
         .find()
         .countDocuments()
         .exec();
@@ -95,7 +91,7 @@ export class PropertiesubcategoriesService {
 
       const search: Array<any> =
         query &&
-        (await AggregatePropertiesubcategories({
+        (await AggregatePropertySubCategories({
           keyword: keyword as string,
           skip,
           sort,
@@ -104,10 +100,10 @@ export class PropertiesubcategoriesService {
         }));
 
       // get all the property subCategories
-      const subCategories: PropertiesSubCategory[] =
-        await this.propertiesubcategories.aggregate(search).exec();
+      const subCategories: PropertySubCategory[] =
+        await PropertySubCategoryModel.aggregate(search).exec();
 
-      const counts = await this.propertiesubcategories
+      const counts = await PropertySubCategoryModel
         .aggregate([...search.slice(0, -2), { $count: 'count' }])
         .exec();
 
@@ -139,7 +135,7 @@ export class PropertiesubcategoriesService {
 
   async findOne(id: string) {
     try {
-      const propertyCategory = await this.propertiesubcategories.findById(id);
+        const propertyCategory = await PropertySubCategoryModel.findById(id);
       if (propertyCategory) {
         return new CustomHttpResponse({
           statusCode: HttpStatusCodeEnum.CREATED,
@@ -169,23 +165,23 @@ export class PropertiesubcategoriesService {
    * @param {UpdatePropertyCategoryDto} updatePropertyCategoryDto
    * @param {string} userId
    * @return {*}  {Promise<HttpResponseInterface>}
-   * @memberof PropertiesubcategoriesService
+   * @memberof PropertySubCategoriesService
    */
 
   async update(
     id: string,
-    updatePropertyCategoryDto: UpdatePropertiesSubCategoryDto,
+    updatePropertyCategoryDto: UpdatePropertySubCategoryDto,
     userId: string
   ): Promise<HttpResponseInterface> {
     try {
       const filter = { _id: id };
-      const payload: PostPropertiesSubCategoryUpdateDto =
-        updatePropertyCategoryDto as unknown as PostPropertiesSubCategoryUpdateDto;
+      const payload: PostPropertySubCategoryUpdateDto =
+        updatePropertyCategoryDto as unknown as PostPropertySubCategoryUpdateDto;
       payload.updatedBy = userId;
       payload.updatedAt = new Date();
       // update the Property Category
       const propertyCategory =
-        await this.propertiesubcategories.findOneAndUpdate(filter, payload, {
+        await PropertySubCategoryModel.findOneAndUpdate(filter, payload, {
           returnOriginal: false,
         });
       return new CustomHttpResponse({

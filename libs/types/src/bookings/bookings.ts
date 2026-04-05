@@ -10,6 +10,12 @@ export interface CreateBooking {
   viewingDate: string |Date;
 }
 
+export interface UpdateBooking {
+  viewingDate: string |Date;
+}
+
+
+
 export interface PostCreateBooking extends CreateBooking {
   status: BookingStatusEnum;
   createdBy: string;
@@ -21,3 +27,4 @@ export interface Booking extends PostCreateBooking, AuditData {
   property: Property;
   invoice?: Invoice | null;
 }
+

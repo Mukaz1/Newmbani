@@ -1,8 +1,8 @@
 import { model, Schema } from 'mongoose';
-import { DatabaseModelEnums, PropertiesSubCategory } from '@newmbani/types';
+import { DatabaseModelEnums, PropertySubCategory } from '@newmbani/types';
 import { BaseSchema } from '../../database/schemas/base.schema';
 
-export const PropertiesSubCategorySchema = new Schema<PropertiesSubCategory>({
+export const PropertySubCategorySchema = new Schema<PropertySubCategory>({
   categoryId: { type: String, required: true, trim: true },
   name: { type: String, required: true, trim: true },
   description: { type: String, required: false, trim: true },
@@ -13,7 +13,7 @@ export const PropertiesSubCategorySchema = new Schema<PropertiesSubCategory>({
   ...BaseSchema.obj,
 });
 
-export const PropertiesSubCategoryModel = model<PropertiesSubCategory>(
+export const PropertySubCategoryModel = model<PropertySubCategory>(
   DatabaseModelEnums.PROPERTY_SUB_CATEGORY,
-  PropertiesSubCategorySchema
+  PropertySubCategorySchema
 );

@@ -2,7 +2,7 @@
   <div class="modal-container md:w-2/3 lg:w-1/2 w-full min-w-96 h-full rounded-t-2xl">
     <!-- Header -->
     <div class="modal-header flex justify-between items-center">
-      <h2 class="modal-title">Host Details</h2>
+      <h2 class="modal-title">Landlord Details</h2>
       <button class="modal-close" (click)="closeModal()" aria-label="Close modal">
         <i class="bi bi-x-lg text-white text-lg"></i>
       </button>
@@ -10,14 +10,14 @@
 
     <!-- Body -->
     <div class="modal-body">
-      <form [formGroup]="hostVerificationForm" (submit)="onSubmit()" class="space-y-6">
+      <form [formGroup]="landlordVerificationForm" (submit)="onSubmit()" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Host Name
+              Landlord Name
             </label>
             <input id="name" formControlName="name" type="text" class="form-input form-control mt-1"
-              placeholder="Enter host name" required />
+              placeholder="Enter landlord name" required />
           </div>
 
           <div>
@@ -48,8 +48,8 @@
       <app-button (buttonClicked)="closeModal()" [label]="'Cancel'"
         styles="!bg-gray-200 !hover:bg-gray-400 !text-gray-700 "></app-button>
 
-      <app-button [label]="'Verify Host'" (click)="verifyHost()"
-        [disabled]="isLoading() || hostVerificationForm.invalid" [isLoading]="isLoading()"
+      <app-button [label]="'Verify Landlord'" (click)="verifyLandlord()"
+        [disabled]="isLoading() || landlordVerificationForm.invalid" [isLoading]="isLoading()"
         [ngClass]="{ 'opacity-50 cursor-not-allowed': isLoading() }"></app-button>
     </div>
   </div>

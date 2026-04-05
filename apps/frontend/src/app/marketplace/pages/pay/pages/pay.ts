@@ -23,10 +23,8 @@ import {
 } from '@newmbani/types';
 import { NotificationService } from '../../../../common/services/notification.service';
 import { SocketService } from '../../../../socket.io/socket-io.service';
-import { formatToMpesaNumber } from '@newmbani/utils';
 import { PaymentsService } from '../../../../payments/services/payments.service';
 import { BookingsService } from '../../../../bookings/services/bookings.service';
-import { BookingSummary } from './booking-summary/booking-summary';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MetaService } from '../../../../common/services/meta.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -46,12 +44,6 @@ export interface PaymentData {
 @Component({
   selector: 'app-pay',
   standalone: true,
-  imports: [
-    BookingSummary,
-    PaymentForm,
-    AwaitingPayment,
-    PaymentSuccess,
-  ],
   templateUrl: './pay.html',
 })
 export class Pay implements OnInit {
