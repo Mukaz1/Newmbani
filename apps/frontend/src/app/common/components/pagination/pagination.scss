@@ -1,3 +1,4 @@
+@reference "../../../../styles.css";
 button,
 .button {
   @apply bg-white dark:bg-gray-100 px-3 py-3 w-10 h-10 rounded-full hover:bg-gray-300 text-sm font-medium flex flex-col items-center justify-center transition-colors duration-150;
