@@ -8,7 +8,9 @@ import { ToastNotification } from './common/components/toast-notification/toast-
   imports: [RouterOutlet, ToastNotification],
   template: `<div class="w-full h-full">
     <router-outlet />
-    <app-toast-notification />
+    <div class=" z-50">
+      <app-toast-notification />
+    </div>
   </div>`,
 })
 export class App implements OnInit {

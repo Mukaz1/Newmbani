@@ -18,19 +18,21 @@
   justify-content: flex-start;
   padding-top: 10px;
   padding-bottom: 10px;
+  /* Use the project's CSS custom properties if available, fall back to explicit colors */
   &.success {
-    background-color: var(--primary) !important;
+    background-color: var(--primary, var(--color-primary, #004c4c)) !important;
     color: #fff;
   }
   &.info {
-    background-color: var(--primary) !important;
+    background-color: var(--primary, var(--color-primary, #004c4c)) !important;
+    color: #fff;
   }
   &.error {
-    background-color: var(--error) !important;
+    background-color: var(--error, #c53030) !important;
     color: #fff;
   }
   &.warning {
-    background-color: orange !important;
+    background-color: var(--warning, orange) !important;
     color: #111;
   }
 
@@ -72,9 +74,17 @@
 
   &.show {
     visibility: visible;
-    -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s,
+    -webkit-animation:
+      fadein 0.5s,
+      expand 0.5s 0.5s,
+      stay 3s 1s,
+      shrink 0.5s 2s,
       fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s,
+    animation:
+      fadein 0.5s,
+      expand 0.5s 0.5s,
+      stay 3s 1s,
+      shrink 0.5s 4s,
       fadeout 0.5s 4.5s;
   }
 }

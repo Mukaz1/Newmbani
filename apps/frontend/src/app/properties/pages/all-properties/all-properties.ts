@@ -16,7 +16,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   HttpResponseInterface,
   NotificationStatusEnum,
@@ -40,15 +40,19 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { ConfirmDialog } from '../../../common/components/confirm-dialog/confirm-dialog';
 import { take } from 'rxjs';
 import { LandlordsService } from '../../../landlords/services/landlords.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-properties',
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    FormsModule,
-    ReactiveFormsModule,
-  
+    DataLoading,
+    DropdownMenu,
+    Pagination,
+    SearchInputWidget,
+    DatePipe,
+    RouterLink,
   ],
   templateUrl: './all-properties.html',
   styleUrl: './all-properties.scss',
@@ -160,7 +164,7 @@ export class AllProperties implements OnInit {
       checkArray.push(new FormControl(targetValue));
     } else {
       const index = checkArray.controls.findIndex(
-        (control) => control.value === targetValue
+        (control) => control.value === targetValue,
       );
       if (index !== -1) {
         checkArray.removeAt(index);
@@ -213,7 +217,9 @@ export class AllProperties implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const res =  response as HttpResponseInterface<PaginatedData<Property[]>>
+          const res = response as HttpResponseInterface<
+            PaginatedData<Property[]>
+          >;
           this.properties.set(res.data.data);
           this.paginatedData.set(res.data);
           this.isLoading.set(false);
@@ -263,7 +269,7 @@ export class AllProperties implements OnInit {
       ]);
     }
     this.allSelected.set(
-      this.selectedProperties().length === this.properties().length
+      this.selectedProperties().length === this.properties().length,
     );
   }
 
@@ -275,9 +281,8 @@ export class AllProperties implements OnInit {
     return this.router.navigate([propertyslug], { relativeTo: this.route });
   }
 
-
   editProperty(id: string) {
-    this.router.navigate([id, 'edit'], {relativeTo: this.route})
+    this.router.navigate([id, 'edit'], { relativeTo: this.route });
   }
 
   printStatement = () => {
@@ -307,7 +312,7 @@ export class AllProperties implements OnInit {
       });
       return;
     }
-this.router.navigate(['create'], {relativeTo:this.route})
+    this.router.navigate(['create'], { relativeTo: this.route });
   }
   deleteProperty(property: Property) {
     const dialogRef = this.dialog.open(ConfirmDialog, {
@@ -331,7 +336,7 @@ this.router.navigate(['create'], {relativeTo:this.route})
             .subscribe({
               next: () => {
                 this.properties.update((list) =>
-                  list.filter((p) => p._id !== property._id)
+                  list.filter((p) => p._id !== property._id),
                 );
                 this.notificationService.notify({
                   title: 'Success!',

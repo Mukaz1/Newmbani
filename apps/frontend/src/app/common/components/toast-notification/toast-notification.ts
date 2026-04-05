@@ -42,6 +42,15 @@ export class ToastNotification implements OnInit {
     if (!toast || !this.notification) {
       return;
     }
+    // Move the toast element to document.body to avoid ancestor stacking contexts
+    // (some app containers may create stacking contexts via transforms/positioning).
+    try {
+      if (this.isBrowser && toast.parentElement !== document.body) {
+        document.body.appendChild(toast);
+      }
+    } catch (err) {
+      // ignore
+    }
     toast.className = `show ${this.notification.status}`;
     setTimeout(() => {
       this.closeNotification();
@@ -59,7 +68,7 @@ export class ToastNotification implements OnInit {
     toast.className = toast.className.replace('show', '');
     toast.className = toast.className.replace(
       `${this.notification?.status}`,
-      ''
+      '',
     );
     this.notification = null;
     this.changeDetectorRef.detectChanges();

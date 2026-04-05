@@ -1,1 +1,92 @@
-<p>all-bookings works!</p>
+@if (isLoading()) {
+<app-data-loading [fullPage]="true" />
+} @else {
+<div class="main flex-col">
+    <div class="flex flex-col">
+        <div class="mb-5">
+            <div class="flex flex-row justify-between">
+                <div>
+                    <p class="title">Bookings</p>
+                    <p>There are {{ paginatedData()?.total || bookings().length }} bookings</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <div class="flex flex-row justify-between items-center mb-4">
+                <div class="flex-1">
+                    <app-search-input-widget [enableAdvancedSearch]="false" [keyword]="keyword()"
+                        (keywordChangedEvent)="onSearchTermChange($event)"
+                        (searchButtonClickedEvent)="onSearchTermChange($event)" />
+                </div>
+            </div>
+
+            <form>
+                <table
+                    class="table-md w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
+                    <thead>
+                        <tr class="text-start text-muted font-bold text-uppercase gs-0">
+                            <th class="w-10px pe-2 border-b border-gray-200">
+                                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                    <input class="form-check-input" type="checkbox" (change)="onSelectAll($event)"
+                                        #selectAll />
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Property</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Customer</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Created</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 font-semibold">
+                        @if (bookings().length === 0) {
+                        <tr>
+                            <td colspan="6" class="text-center py-6">No bookings to display</td>
+                        </tr>
+                        } @else { @for (b of bookings(); track b._id) {
+                        <tr>
+                            <td>
+                                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" [value]="b._id"
+                                        (change)="selectBooking($event, b._id)" />
+                                </div>
+                            </td>
+                            <td class="px-6 py-2.5 whitespace-nowrap text-sm text-gray-700 font-normal">
+                                {{ b.property.title || '—' }}
+                            </td>
+                            <td class="px-6 py-2.5 whitespace-nowrap text-sm text-gray-700 font-normal">{{
+                                b.customer.name || '—' }}</td>
+                            <td class="px-6 py-2.5 whitespace-nowrap">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-700">{{
+                                    b.status }}</span>
+                            </td>
+                            <td class="px-6 py-2.5 whitespace-nowrap text-sm text-gray-500 font-normal">{{ b.createdAt |
+                                date : 'medium' }}</td>
+                            <td class="px-6 py-2.5 whitespace-nowrap flex gap-2 text-right">
+                                <button (click)="viewBooking(b._id)"><i class="bi bi-eye text-lg"></i></button>
+                                <button (click)="deleteBooking(b._id)"><i
+                                        class="bi bi-trash text-lg text-red-500"></i></button>
+                            </td>
+                        </tr>
+                        } }
+                    </tbody>
+                </table>
+            </form>
+
+            @if (paginatedData()) {
+            <div class="mb-5">
+                <app-pagination [paginatedData]="paginatedData()" (pageChange)="onPageChange($event)"
+                    (itemsPerPageChange)="handlePageSizeChange($event)" />
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}
