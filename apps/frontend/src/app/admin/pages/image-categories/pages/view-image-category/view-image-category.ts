@@ -56,6 +56,6 @@ export class ViewImageCategory implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/image-categories'], { relativeTo: this.route });
+    this.router.navigate(['/admin/image-categories'], { relativeTo: this.route });
   }
 }
