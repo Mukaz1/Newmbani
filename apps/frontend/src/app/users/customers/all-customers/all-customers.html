@@ -9,12 +9,12 @@
           <p class="title">Customers List</p>
           <p>There are {{ paginatedData?.total }} Customers for you</p>
         </div>
-        <div>
+        <!-- <div>
           <button type="button" (click)="addNewCustomer()"
             class="btn btn-primary p-2 px-4 text-sm font-semibold border border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
             Add New Customer
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="card p-5">
@@ -119,9 +119,9 @@
                     <button class="space-x-2" (click)="viewCustomer(_customer._id)">
                       <i class="bi bi-eye text-lg"></i>
                     </button>
-                    <button class="space-x-2" (click)="editCustomer(_customer._id)">
+                    <!-- <button class="space-x-2" (click)="editCustomer(_customer._id)">
                       <i class="bi bi-pencil-square text-lg"></i>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>

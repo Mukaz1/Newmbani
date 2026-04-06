@@ -24,7 +24,6 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     DataLoading,
-    RouterLink,
     InitialsPipe,
     DatePipe,
   ],

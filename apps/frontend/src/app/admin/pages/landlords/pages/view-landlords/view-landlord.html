@@ -14,8 +14,26 @@
         <div>
           <div class="text-xl font-bold text-primary-800">
             {{ landlord()?.name }}
-            <i [ngClass]="{'bi-patch-check-fill':landlord()!.verified,'bi-patch-exclamation-fill text-yellow-600':!landlord()!.verified }"
-              class="bi text-md"></i>
+            <span class="inline-flex items-center gap-1">
+              <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold" [ngClass]="{
+                  'bg-green-100 text-green-700': landlord()?.approvalStatus === landlordApprovalStatus.APPROVED,
+                  'bg-yellow-100 text-yellow-700': landlord()?.approvalStatus === landlordApprovalStatus.UNDER_REVIEW,
+                  'bg-red-100 text-red-700': landlord()?.approvalStatus === landlordApprovalStatus.REJECTED
+                }">
+                <i [ngClass]="{
+                    'bi bi-check-circle-fill text-green-500': landlord()?.approvalStatus === landlordApprovalStatus.APPROVED,
+                    'bi bi-patch-exclamation-fill text-yellow-500': landlord()?.approvalStatus === landlordApprovalStatus.UNDER_REVIEW,
+                    'bi bi-x-circle-fill text-red-600': landlord()?.approvalStatus === landlordApprovalStatus.REJECTED
+                  }" class="text-base"></i>
+                {{
+                landlord()?.approvalStatus === landlordApprovalStatus.APPROVED
+                ? 'Approved'
+                : landlord()?.approvalStatus === landlordApprovalStatus.UNDER_REVIEW
+                ? 'Pending'
+                : 'Rejected'
+                }}
+              </span>
+            </span>
           </div>
           <div class="flex gap-2">
             <i class="bi bi-geo-alt text-primary-600"></i>
@@ -42,19 +60,19 @@
         </div>
       </div>
       <div>
-        <div class="text-xs text-gray-500 font-semibold">Contact Person</div>
+        <div class="text-xs text-gray-500 font-semibold">Name </div>
         <div class="text-base text-gray-900 font-medium">
           {{ landlord()?.name || '-' }}
         </div>
       </div>
       <div>
-        <div class="text-xs text-gray-500 font-semibold">Contact Email</div>
+        <div class="text-xs text-gray-500 font-semibold">Email</div>
         <div class="text-base text-gray-900 font-medium">
           {{ landlord()?.email || '-' }}
         </div>
       </div>
       <div>
-        <div class="text-xs text-gray-500 font-semibold">Contact Phone</div>
+        <div class="text-xs text-gray-500 font-semibold">Phone</div>
         <div class="text-base text-gray-900 font-medium">
           {{ landlord()?.phone || '-' }}
         </div>
@@ -71,7 +89,7 @@
 
   <!--    landlord documents -->
 
-  <div class="bg-white p-6 mb-6 ">
+  <!-- <div class="bg-white p-6 mb-6 ">
     <h2 class="text-lg font-semibold mb-4">Documents</h2>
     <div class="overflow-x-auto">
       <table class="w-full table table-auto text-sm">
@@ -131,7 +149,7 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
 </main>
 
 }

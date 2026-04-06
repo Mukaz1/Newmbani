@@ -1,0 +1,18 @@
+<form class="p-4 w-full max-w-md" [formGroup]="form" (ngSubmit)="submit()">
+    <h3 class="text-lg font-semibold">Cancel Booking</h3>
+    <p class="text-sm text-gray-500 mt-1">Provide an optional reason for cancelling this booking.</p>
+
+    <div class="mt-4">
+        <label class="block text-xs text-gray-500" for="cancel-reason">Reason (optional)</label>
+        <textarea id="cancel-reason" rows="4" formControlName="reason" class="w-full mt-2 p-2 border rounded"
+            placeholder="Reason for cancellation">
+        </textarea>
+    </div>
+
+    <div class="mt-4 flex justify-end gap-2">
+        <button type="button" (click)="close()" class="px-3 py-1 rounded bg-gray-100"
+            [disabled]="submitting()">Cancel</button>
+        <button type="submit" class="px-3 py-1 rounded bg-red-600 text-white"
+            [disabled]="submitting() || form.invalid">Confirm Cancel</button>
+    </div>
+</form>

@@ -12,7 +12,7 @@ import { take } from 'rxjs';
 import { NotificationService } from '../../../common/services/notification.service';
 import { FileUploader } from '../../../common/components/file-uploader/file-uploader';
 import { Button } from '../../../common/components/button/button';
-import { PropertyImagesService } from '../../services/property-image.service';
+import { PropertyImagesService } from '../../../admin/pages/image-categories/services/property-image.service';
 
 @Component({
   selector: 'app-upload-images',
@@ -22,7 +22,7 @@ import { PropertyImagesService } from '../../services/property-image.service';
 })
 export class UploadImages implements OnInit {
   data = inject<{ propertyId: string; propertyImageCategoryId: string }>(
-    DIALOG_DATA
+    DIALOG_DATA,
   );
   private readonly dialogRef = inject(DialogRef);
   selectedFiles: File[] = [];
@@ -31,7 +31,7 @@ export class UploadImages implements OnInit {
   currentYear = new Date().getFullYear();
   imageCategory = signal<PropertyImageCategory | null>(null);
   private readonly propertyImageCategoriesService = inject(
-    PropertyImagesService
+    PropertyImagesService,
   );
   private readonly notificationService = inject(NotificationService);
 

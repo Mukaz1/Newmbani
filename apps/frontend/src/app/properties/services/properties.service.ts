@@ -113,13 +113,13 @@ export class PropertiesService {
     reviewProperty(data: {
       propertyId: string;
       status: string;
-      comment: string;
+      reviewComment: string;
     }): Observable<HttpResponseInterface<any>> {
-      const { propertyId, status, comment } = data;
+      const { propertyId, status, reviewComment } = data;
       const endpoint = API_ENDPOINTS.REVIEW_PROPERTY(propertyId);
       const payload = {
         status,
-        comment,
+        reviewComment,
       };
       return this.http.patch<HttpResponseInterface<any>>(endpoint, payload);
     }

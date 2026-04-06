@@ -72,7 +72,7 @@
                             <td class="px-6 py-2.5 whitespace-nowrap text-right relative">
                                 <button [cdkMenuTriggerFor]="actionsMenu"
                                     class="btn-md rounded-full flex items-center gap-2" aria-label="Actions">
-                                    Actions <i class="bi bi-chevron-down text-xs"></i>
+                                    <i class="bi bi-three-dots-vertical text-xs"></i>
                                 </button>
                                 <ng-template #actionsMenu>
                                     <div class="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 rounded-2xl shadow-xl z-30 py-1 overflow-hidden"
@@ -86,12 +86,17 @@
                                             class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
                                             <i class="bi bi-pencil text-gray-400 w-4"></i> Update Booking
                                         </button>
+                                        <button cdkMenuItem (click)="cancelBooking(b._id)"
+                                            class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition">
+                                            <i class="bi bi-x-circle w-4"></i> Cancel Booking
+                                        </button>
                                         }
-                                        @if(isLandlord()) {
+                                        @if(isLandlord() && b.status === BookingStatus.PENDING) {
                                         <button cdkMenuItem (click)="approveBooking(b)"
                                             class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
                                             <i class="bi bi-patch-check text-gray-400 w-4"></i> Approve Booking
                                         </button>
+
                                         }
                                         <hr class="my-1 border-gray-100" />
                                         <button cdkMenuItem (click)="deleteBooking(b._id)"

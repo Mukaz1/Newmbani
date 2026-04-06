@@ -15,6 +15,7 @@ import { BookingCancellationModel } from '../schemas/booking-cancellation.schema
 import { BookingModel } from '../schemas/booking.schema';
 import { getBookingCancellationParams, BookingCancellationQueryPayload } from '../utils/getBookingCancellationParams';
 import { BookingsService } from './bookings.service';
+import { UpdateBookingStatusDto } from '../dto/bookings.dto';
 
 @Injectable()
 export class BookingCancellationsService {
@@ -74,7 +75,7 @@ export class BookingCancellationsService {
 
       const markResult = await this.bookingsService.updateBookingStatus(
         dto.bookingId,
-        BookingStatusEnum.CANCELLED,
+        { status: BookingStatusEnum.CANCELLED } as UpdateBookingStatusDto,
       );
 
       if (markResult.statusCode !== HttpStatusCodeEnum.OK) {

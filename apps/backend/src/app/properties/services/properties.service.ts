@@ -16,6 +16,7 @@ import {
   CreatePropertyDto,
   PostCreatePropertyDto,
   PostUpdatePropertyDto,
+  PropertyReviewDto,
   UpdatePropertyDto,
 } from '../dtos/properties.dto';
 import { AggregateProperties } from '../queries/properties.query';
@@ -204,15 +205,70 @@ export class PropertiesService {
         updatedAt: new Date(),
       };
 
-      const updatedProperty = await PropertyModel.findOneAndUpdate(filter, payload, {
-        new: true,
-      });
+      const updatedProperty = await PropertyModel.findOneAndUpdate(
+        filter,
+        payload,
+        {
+          new: true,
+        },
+      );
 
       this.eventEmitter.emit(SystemEventsEnum.PropertyUpdated, updatedProperty);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: `Property ${updatePropertyDto.title} updated successfully!`,
+        data: updatedProperty,
+      });
+    } catch (error) {
+      return new CustomHttpResponse({
+        statusCode: HttpStatusCodeEnum.BAD_REQUEST,
+        message: error.message,
+        data: error,
+      });
+    }
+  }
+
+  /**
+   * Update Property
+   */
+  async reviewProperty(
+    id: string,
+    reviewPropertyDto: PropertyReviewDto,
+    userId: string,
+  ): Promise<HttpResponseInterface> {
+    try {
+      const filter = { _id: id };
+
+      const property = await PropertyModel.findById(id);
+      if (!property) {
+        return new CustomHttpResponse({
+          statusCode: HttpStatusCodeEnum.NOT_FOUND,
+          message: `Property not found`,
+          data: null,
+        });
+      }
+
+      const payload = {
+        approvalStatus: reviewPropertyDto.status,
+        reviewComment: reviewPropertyDto.reviewComment,
+        updatedBy: userId,
+        updatedAt: new Date(),
+      };
+
+      const updatedProperty = await PropertyModel.findOneAndUpdate(
+        filter,
+        payload,
+        {
+          new: true,
+        },
+      );
+
+      this.eventEmitter.emit(SystemEventsEnum.PropertyUpdated, updatedProperty);
+
+      return new CustomHttpResponse({
+        statusCode: HttpStatusCodeEnum.OK,
+        message: `Property ${updatedProperty.title} reviewed successfully!`,
         data: updatedProperty,
       });
     } catch (error) {

@@ -18,7 +18,11 @@ import {
   BookingStatusEnum,
 } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
-import { CreateBookingDto, UpdateBookingDto } from '../dto/bookings.dto';
+import {
+  CreateBookingDto,
+  UpdateBookingDto,
+  UpdateBookingStatusDto,
+} from '../dto/bookings.dto';
 import { BookingsService } from '../services/bookings.service';
 import { AuthorizationGuard } from '../../auth/guards/authorization.guard';
 import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
@@ -118,10 +122,13 @@ export class BookingsController {
   ])
   async updateStatus(
     @Param('id') id: string,
-    @Body() status: BookingStatusEnum,
+    @Body() statusDto: UpdateBookingStatusDto,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
-    const response = await this.bookingsService.updateBookingStatus(id, status);
+    const response = await this.bookingsService.updateBookingStatus(
+      id,
+      statusDto,
+    );
     res.setStatus(response.statusCode);
     return response;
   }

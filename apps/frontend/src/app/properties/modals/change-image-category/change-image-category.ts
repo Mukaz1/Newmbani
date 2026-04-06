@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 import { take } from 'rxjs';
 import { NotificationService } from '../../../common/services/notification.service';
-import { PropertyImagesService } from '../../services/property-image.service';
+import { PropertyImagesService } from '../../../admin/pages/image-categories/services/property-image.service';
 import { Button } from '../../../common/components/button/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -66,7 +66,9 @@ export class ChangeImageCategory implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const  res = response as HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>
+          const res = response as HttpResponseInterface<
+            PaginatedData<PropertyImageCategory[]>
+          >;
           this.imageCategories.set(res.data.data);
           this.isLoading.set(false);
         },

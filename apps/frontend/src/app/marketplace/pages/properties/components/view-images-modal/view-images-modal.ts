@@ -19,7 +19,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../../../../../common/services/notification.service';
-import { PropertyImagesService } from '../../../../../properties/services/property-image.service';
+import { PropertyImagesService } from '../../../../../admin/pages/image-categories/services/property-image.service';
 
 @Component({
   selector: 'app-view-images-modal',
@@ -44,7 +44,7 @@ export class ViewImagesModal implements OnInit {
 
   private readonly notificationService = inject(NotificationService);
   private readonly propertyImageCategoriesService = inject(
-    PropertyImagesService
+    PropertyImagesService,
   );
 
   private readonly dialogRef = inject(DialogRef);
@@ -62,7 +62,7 @@ export class ViewImagesModal implements OnInit {
     const approvedImages = list.filter(
       (img) =>
         img.propertyImageCategoryId === categoryId &&
-        img.approvalStatus === PropertyImageApprovalStatus.APPROVED
+        img.approvalStatus === PropertyImageApprovalStatus.APPROVED,
     );
     return approvedImages;
   };
@@ -88,7 +88,9 @@ export class ViewImagesModal implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const res = response as HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>
+          const res = response as HttpResponseInterface<
+            PaginatedData<PropertyImageCategory[]>
+          >;
           this.imageCategories.set(res.data.data);
           this.isLoading.set(false);
         },

@@ -22,6 +22,7 @@ export interface CreateProperty {
   address: Address;
   map: Coordinates;
   features: PropertyFeatures;
+  caretaker?: Caretaker
 }
 
 export interface PostCreateProperty extends CreateProperty {
@@ -36,12 +37,19 @@ export interface Property extends PostCreateProperty, AuditData {
   subcategory: PropertySubCategory;
   country: Country;
   bookings: Booking[];
-  isFavorite: boolean
+  isFavorite: boolean;
+  reviewComment: string
 }
 
 export interface Coordinates {
   lat: number;
   lng: number;
+}
+
+export interface Caretaker {
+  name: string;
+  email: string;
+  phone: string;
 }
 
 

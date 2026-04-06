@@ -45,7 +45,7 @@ export class TopLandlords implements OnInit {
       .getAllLandlords({
         limit: this.pageSize(),
         page: this.currentPage(),
-        keyword: this.keyword() || undefined,
+        keyword: this.keyword() || '',
       })
       .subscribe({
         next: (res: any) => {

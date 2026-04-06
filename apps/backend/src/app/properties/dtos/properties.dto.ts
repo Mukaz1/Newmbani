@@ -5,7 +5,7 @@ import {
   PropertyApprovalStatus,
   PropertyFeatures,
   PropertyImage,
-  PropertyType,
+  Caretaker,
 } from '@newmbani/types';
 import {
   IsArray,
@@ -21,6 +21,21 @@ import {
 import { AddressDto } from '../../common/dto/address.dto';
 import { Type } from 'class-transformer';
 import { PartialType } from '@nestjs/swagger';
+
+// Caretaker DTO
+export class CaretakerDto implements Caretaker {
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+}
 
 export class CreatePropertyDto implements CreateProperty {
   @IsNotEmpty()
@@ -67,10 +82,14 @@ export class CreatePropertyDto implements CreateProperty {
   @IsNotEmpty()
   features: PropertyFeatures;
 
-
   @IsObject()
   @IsNotEmpty()
   map: Coordinates;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CaretakerDto)
+  caretaker?: CaretakerDto;
 }
 
 export class PostCreatePropertyDto
@@ -101,4 +120,14 @@ export class PostUpdatePropertyDto extends PartialType(PostCreatePropertyDto) {
 
   @IsNotEmpty()
   updatedAt: Date;
+}
+
+export class PropertyReviewDto {
+  @IsNotEmpty()
+  @IsEnum(PropertyApprovalStatus)
+  status: PropertyApprovalStatus;
+
+  @IsString()
+  @IsOptional()
+  reviewComment?: string;
 }

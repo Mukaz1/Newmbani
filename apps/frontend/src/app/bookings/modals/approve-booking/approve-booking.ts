@@ -18,6 +18,7 @@ export class ApproveBooking {
   private notificationService = inject(NotificationService);
 
   approving = signal(false);
+  rejecting = signal(false);
 
   booking = this.data?.booking ?? null;
 
@@ -54,6 +55,36 @@ export class ApproveBooking {
             title: 'Error',
             message:
               (err as any)?.error?.message || 'Failed to approve booking',
+            status: 'error' as any,
+          });
+        },
+      });
+  }
+
+  reject(): void {
+    if (!this.booking) return;
+    this.rejecting.set(true);
+    this.bookingsService
+      .updateBookingStatus(this.booking._id, BookingStatusEnum.REJECTED)
+      .subscribe({
+        next: () => {
+          this.rejecting.set(false);
+          this.notificationService.notify({
+            title: 'Rejected',
+            message: 'Booking rejected',
+            status: 'success' as any,
+          });
+          try {
+            this.dialogRef.close({ updated: true });
+          } catch (e) {
+            // ignore
+          }
+        },
+        error: (err) => {
+          this.rejecting.set(false);
+          this.notificationService.notify({
+            title: 'Error',
+            message: (err as any)?.error?.message || 'Failed to reject booking',
             status: 'error' as any,
           });
         },

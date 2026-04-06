@@ -17,13 +17,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { ConfirmDialog } from '../../../common/components/confirm-dialog/confirm-dialog';
-import { Booking, HttpResponseInterface } from '@newmbani/types';
+  import { Booking, BookingStatusEnum, } from '@newmbani/types';
 import { ViewBooking } from '../view-booking/view-booking';
 import { BookProperty } from '../../../marketplace/pages/properties/components/book-property/book-property';
 import { ApproveBooking } from '../../modals/approve-booking/approve-booking';
 import { take } from 'rxjs';
 import { CdkMenu, CdkMenuTrigger, CdkMenuItem } from '@angular/cdk/menu';
 import { AuthService } from '../../../auth/services/auth.service';
+import { CancelBooking } from '../../modals/cancel-booking/cancel-booking';
 
 @Component({
   selector: 'app-all-bookings',
@@ -54,6 +55,9 @@ export class AllBookings implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
+
+
+  BookingStatus = BookingStatusEnum;
 
   ngOnInit() {
     this.fetchBookings();
@@ -161,6 +165,22 @@ export class AllBookings implements OnInit {
     ref.closed.pipe(take(1)).subscribe((res) => {
       if ((res as any)?.updated) this.fetchBookings();
     });
+  }
+
+  cancelBooking(id: string): void {
+    const b = this.bookings().find((b) => b._id === id);
+    if (!b) return;
+    const ref = this.dialog.open(CancelBooking, { data: { booking: b } });
+
+    try {
+      ref.closed.subscribe((res: any) => {
+        if (res?.updated) {
+          this.fetchBookings();
+        }
+      });
+    } catch (e) {
+      // ignore
+    }
   }
 
   deleteBooking(bookingId: string) {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { NotificationService } from '../../../common/services/notification.service';
-import { CategoriesService } from '../../../categories/services/categories.service';
+import { CategoriesService } from '../../../admin/pages/categories/services/categories.service';
 
 import {
   HttpResponseInterface,
@@ -14,10 +14,7 @@ import {
 
 @Component({
   selector: 'app-search-bar',
-  imports: [
-    ReactiveFormsModule,
-
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.scss',
 })
@@ -27,13 +24,11 @@ export class SearchBar implements OnInit {
   private notificationService = inject(NotificationService);
   private fb = inject(FormBuilder);
 
-
   searchForm!: FormGroup;
   // today = '';
 
   propertyCategoryOptions: PropertyCategory[] = [];
   categories: PropertyCategory[] = [];
-
 
   ngOnInit() {
     this.loadCategories();
@@ -43,11 +38,9 @@ export class SearchBar implements OnInit {
       minPrice: [0],
       maxPrice: [0],
       categoryId: [''],
-      
     });
   }
 
- 
   private loadCategories() {
     this.categoriesService.getCategories().subscribe({
       next: (res: HttpResponseInterface<PaginatedData<PropertyCategory[]>>) => {
@@ -61,7 +54,6 @@ export class SearchBar implements OnInit {
     });
   }
 
- 
   private validatePrices(): boolean {
     const min = this.searchForm.get('minPrice')?.value;
     const max = this.searchForm.get('maxPrice')?.value;
@@ -95,12 +87,11 @@ export class SearchBar implements OnInit {
     // Build parameters object, only including meaningful values
     const queryParams: any = {
       ...(raw.location && raw.location.trim() && { location: raw.location }),
-      ...(raw.minPrice && raw.minPrice > 0 && { minPrice :raw.minPrice}),
-      ...(raw.maxPrice && raw.maxPrice > 0 && { maxPrice :raw.maxPrice}),
-      ...(raw.category && { category :raw.category}),
+      ...(raw.minPrice && raw.minPrice > 0 && { minPrice: raw.minPrice }),
+      ...(raw.maxPrice && raw.maxPrice > 0 && { maxPrice: raw.maxPrice }),
+      ...(raw.category && { category: raw.category }),
     };
 
-   
     this.router.navigate(['/properties'], { queryParams });
   }
 }

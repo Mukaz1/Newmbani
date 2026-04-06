@@ -1,0 +1,35 @@
+<div class="p-4 max-w-lg">
+    <h2 class="text-xl font-semibold mb-4">{{ category()._id ? 'Edit' : 'Create' }} Image Category</h2>
+
+    <div *ngIf="isLoading()">Loading category...</div>
+
+    <form *ngIf="!isLoading()" (ngSubmit)="save()">
+        <div class="mb-3">
+            <label class="block text-sm font-medium mb-1">Name</label>
+            <input class="input w-full" [(ngModel)]="category().name" name="name" required />
+        </div>
+        <div class="mb-3 grid grid-cols-2 gap-3">
+            <div>
+                <label class="block text-sm font-medium mb-1">Min number</label>
+                <input type="number" class="input w-full" [(ngModel)]="category().minNumber" name="minNumber"
+                    required />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Max number</label>
+                <input type="number" class="input w-full" [(ngModel)]="category().maxNumber" name="maxNumber"
+                    required />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="block text-sm font-medium mb-1">Max file size (KB)</label>
+            <input type="number" class="input w-full" [(ngModel)]="category().maxFileSize" name="maxFileSize" />
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="isSaving()">{{ isSaving() ? 'Saving...' : 'Save'
+                }}</button>
+            <button type="button" class="btn" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+</div>

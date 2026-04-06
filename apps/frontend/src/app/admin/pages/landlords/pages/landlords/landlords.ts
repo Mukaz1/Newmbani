@@ -8,7 +8,12 @@ import {
   AfterViewInit,
   signal,
 } from '@angular/core';
-import { PaginatedData, Landlord } from '@newmbani/types';
+import {
+  PaginatedData,
+  Landlord,
+  HttpResponseInterface,
+  LandlordApprovalStatus,
+} from '@newmbani/types';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { DataLoading } from '../../../../../common/components/data-loading/data-loading';
 import {
@@ -78,6 +83,7 @@ export class Landlords implements OnInit, AfterViewInit {
   showModal = signal(false);
   selectedLandlord = signal<Landlord | null>(null);
 
+  LandlordStatus = LandlordApprovalStatus;
   // Inject dependencies
   private readonly landlordService = inject(LandlordsService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
@@ -127,24 +133,16 @@ export class Landlords implements OnInit, AfterViewInit {
       .getAllLandlords({
         limit: this.pageSize(),
         page: this.currentPage(),
-        keyword: this.searchTerm() || undefined,
+        keyword: this.searchTerm() || '',
       })
       .subscribe({
         next: (res: any) => {
-          const data = res?.data?.data || [];
+          const data =
+            (res as HttpResponseInterface<PaginatedData<Landlord[]>>)?.data
+              ?.data || [];
           this.totalLandlords.set(res?.data?.total || data.length);
-          let landlords = data.map((v: any) => ({
-            id: v._id || v.id,
-            name: v.name || v.name || 'N/A',
-            email: v.email || v.email || 'N/A',
-            status: v.status || 'pending',
-            createdAt: v.createdAt ? v.createdAt.slice(0, 10) : '',
-            ...v,
-          }));
-          if (this.statusFilter() !== 'all') {
-            landlords = landlords.filter((v: Landlord) => v.verified);
-          }
-          this.landlords.set(landlords);
+
+          this.landlords.set(data);
           this.isLoading.set(false);
 
           // Invalidate selected if new landlords loaded
@@ -154,7 +152,7 @@ export class Landlords implements OnInit, AfterViewInit {
         },
         error: (err) => {
           this.error.set(
-            err?.error?.message || err.message || 'Failed to load landlords.'
+            err?.error?.message || err.message || 'Failed to load landlords.',
           );
           this.isLoading.set(false);
         },
@@ -190,7 +188,7 @@ export class Landlords implements OnInit, AfterViewInit {
       checkArray.push(new FormControl(targetValue));
     } else {
       const index = checkArray.controls.findIndex(
-        (control) => control.value === targetValue
+        (control) => control.value === targetValue,
       );
       if (index !== -1) {
         checkArray.removeAt(index);

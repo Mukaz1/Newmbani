@@ -6,6 +6,7 @@ import { BookingsService } from '../../services/bookings.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { ApproveBooking } from '../../../bookings/modals/approve-booking/approve-booking';
+import { CancelBooking } from '../../modals/cancel-booking/cancel-booking';
 
 @Component({
   selector: 'app-view-booking',
@@ -42,51 +43,21 @@ export class ViewBooking {
   cancelBooking(): void {
     const b = this.booking();
     if (!b) return;
+    const ref = this.dialog.open(CancelBooking, { data: { booking: b } });
 
-    const reason = window.prompt(
-      'Reason for cancelling this booking (optional):',
-      '',
-    );
-    if (reason === null) return; // user cancelled prompt
-
-    const customerId = this.authService.getStoredUser()?.customerId;
-    if (!customerId) {
-      this.notificationService.notify({
-        title: 'Error',
-        message: 'Unable to determine customer id',
-        status: 'error' as any,
-      });
-      return;
-    }
-
-    this.bookingsService
-      .createCancellation({
-        customerId,
-        bookingId: b._id,
-        reason: reason || 'Cancelled by customer',
-      })
-      .subscribe({
-        next: () => {
-          this.notificationService.notify({
-            title: 'Cancelled',
-            message: 'Booking cancelled successfully',
-            status: 'success' as any,
-          });
-          // close and signal parent to refresh
+    try {
+      ref.closed.subscribe((res: any) => {
+        if (res?.updated) {
           try {
             this.dialogRef.close({ updated: true });
           } catch (e) {
             // ignore
           }
-        },
-        error: (err) => {
-          this.notificationService.notify({
-            title: 'Error',
-            message: err?.error?.message || 'Failed to cancel booking',
-            status: 'error' as any,
-          });
-        },
+        }
       });
+    } catch (e) {
+      // ignore
+    }
   }
 
   openApproveModal(): void {

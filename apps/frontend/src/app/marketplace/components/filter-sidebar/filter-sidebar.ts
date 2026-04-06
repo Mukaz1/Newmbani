@@ -21,16 +21,12 @@ import {
 } from '@angular/forms';
 
 import { Button } from '../../../common/components/button/button';
-import { CategoriesService } from '../../../categories/services/categories.service';
+import { CategoriesService } from '../../../admin/pages/categories/services/categories.service';
 import { NotificationService } from '../../../common/services/notification.service';
 
 @Component({
   selector: 'app-filter-sidebar',
-  imports: [
-    FormsModule,
-    Button,
-    ReactiveFormsModule,
-  ],
+  imports: [FormsModule, Button, ReactiveFormsModule],
   templateUrl: './filter-sidebar.html',
   styleUrl: './filter-sidebar.scss',
 })
@@ -43,7 +39,6 @@ export class FilterSidebar implements OnInit {
     categoryId: new FormControl<string>(''),
     minPrice: new FormControl<number | null>(null),
     maxPrice: new FormControl<number | null>(null),
-   
   });
 
   // UI state
@@ -106,8 +101,8 @@ export class FilterSidebar implements OnInit {
           // Only include guestsType if any value > 0
           const filtered = Object.fromEntries(
             Object.entries(value).filter(
-              ([, v]) => typeof v === 'number' && v > 0
-            )
+              ([, v]) => typeof v === 'number' && v > 0,
+            ),
           );
           if (Object.keys(filtered).length > 0) {
             result[key] = filtered;
@@ -144,12 +139,10 @@ export class FilterSidebar implements OnInit {
       categoryId: '',
       minPrice: null,
       maxPrice: null,
-      
     });
     // Emit an empty object to signal clearing all filter params
     this.filtersChanged.emit({});
   }
-
 
   closeFilters() {
     this.closeFiltersEvent.emit();

@@ -6,7 +6,7 @@ import {
 } from '@newmbani/types';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { PropertyImagesService } from '../../services/property-image.service';
+import { PropertyImagesService } from '../../../admin/pages/image-categories/services/property-image.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import {
   FormControl,
@@ -40,7 +40,7 @@ export class PropertyImageReviewModal implements OnInit {
   imageReviewForm = new FormGroup({
     status: new FormControl(
       PropertyImageApprovalStatus.PENDING_REVIEW,
-      Validators.required
+      Validators.required,
     ),
     comment: new FormControl(''),
   });

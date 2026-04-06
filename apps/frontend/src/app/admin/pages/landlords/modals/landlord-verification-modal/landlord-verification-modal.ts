@@ -12,6 +12,8 @@ import { Landlord, NotificationStatusEnum } from '@newmbani/types';
 import { LandlordsService } from '../../../../../landlords/services/landlords.service';
 import { NotificationService } from '../../../../../common/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../../../../auth/services/auth.service';
+import { LandlordApprovalStatus } from '@newmbani/types';
 
 @Component({
   selector: 'app-landlord-verification-modal',
@@ -27,12 +29,16 @@ export class LandlordVerificationModal implements OnInit {
   private data = inject(DIALOG_DATA) as { landlord: Landlord };
   private landlordsService = inject(LandlordsService);
   private notificationService = inject(NotificationService);
+  private authService = inject(AuthService);
 
   landlordVerificationForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     displayName: new FormControl('', [Validators.required]),
     countryId: new FormControl('', [Validators.required]),
-    verificationStatus: new FormControl('', [Validators.required]),
+    verificationStatus: new FormControl<LandlordApprovalStatus>(
+      LandlordApprovalStatus.UNDER_REVIEW,
+      [Validators.required],
+    ),
     comments: new FormControl(''),
   });
 
@@ -50,7 +56,15 @@ export class LandlordVerificationModal implements OnInit {
     this.isLoading.set(true);
     const landlordId = this.landlord()?._id;
     if (!landlordId) return;
-    this.landlordsService.approveLandlord(landlordId).subscribe({
+    const formData = this.landlordVerificationForm.value;
+    const payload = {
+      approvalStatus: formData.verificationStatus as LandlordApprovalStatus,
+      approvalComment: formData.comments || '',
+      approvedBy: this.authService.getStoredUser()?._id || '',
+    };
+
+    console.log('Verifying landlord with payload', payload);
+    this.landlordsService.approveLandlord(landlordId, payload).subscribe({
       next: (res) => {
         this.isLoading.set(false);
         this.dialogRef.close({ verified: true, landlord: res.data });
@@ -65,7 +79,7 @@ export class LandlordVerificationModal implements OnInit {
         this.notificationService.notify({
           title: 'Errror',
           status: NotificationStatusEnum.ERROR,
-          message: error.error.message,
+          message: error.error?.message || 'Failed to verify landlord',
         });
       },
     });
@@ -74,9 +88,34 @@ export class LandlordVerificationModal implements OnInit {
   rejectLandlord() {
     // Set landlord.verified to false and close the modal with result
     this.isLoading.set(true);
-    this.data.landlord.verified = false;
-    this.isLoading.set(false);
-    this.dialogRef.close({ verified: false, landlord: this.data.landlord });
+    const landlordId = this.landlord()?._id;
+    if (!landlordId) return;
+    const formData = this.landlordVerificationForm.value;
+    const payload = {
+      approvalStatus: LandlordApprovalStatus.REJECTED,
+      approvalComment: formData.comments || 'Rejected by admin',
+      approvedBy: this.authService.getStoredUser()?._id || '',
+    };
+
+    this.landlordsService.approveLandlord(landlordId, payload).subscribe({
+      next: (res) => {
+        this.isLoading.set(false);
+        this.dialogRef.close({ verified: false, landlord: res.data });
+        this.notificationService.notify({
+          title: 'Rejected',
+          status: NotificationStatusEnum.SUCCESS,
+          message: `Landlord ${this.landlord()?.displayName} rejected`,
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isLoading.set(false);
+        this.notificationService.notify({
+          title: 'Errror',
+          status: NotificationStatusEnum.ERROR,
+          message: error.error?.message,
+        });
+      },
+    });
   }
 
   closeModal() {

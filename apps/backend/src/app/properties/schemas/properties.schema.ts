@@ -1,7 +1,16 @@
 import { model, Schema } from 'mongoose';
-import { Coordinates, DatabaseModelEnums, Property, PropertyElectricityEnum, PropertyFeatures, PropertyWaterEnum } from '@newmbani/types';
+import { Coordinates, DatabaseModelEnums, Property, PropertyElectricityEnum, PropertyFeatures, PropertyWaterEnum, Caretaker, PropertyApprovalStatus } from '@newmbani/types';
 import { BaseSchema } from '../../database/schemas/base.schema';
 
+// Caretaker Subschema
+const CaretakerSchema = new Schema<Caretaker>(
+  {
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: false, trim: true },
+    phone: { type: String, required: true, trim: true }
+  },
+  { _id: false }
+);
 
 const CoordinatesSchema = new Schema<Coordinates>(
   {
@@ -20,13 +29,12 @@ const propertyFeaturesSchema = new Schema<PropertyFeatures>(
   { _id: false }
 );
 
-
-
 export const PropertySchema = new Schema<Property>({
   landlordId: { type: String, required: true, trim: true },
   categoryId: { type: String, required: true, trim: true },
   subcategoryId: { type: String, required: true, trim: true },
   slug: { type: String, required: true, trim: true, unique: true },
+  reviewComment: { type: String, required: false, trim: true },
   title: { type: String, required: true, trim: true },
   description: { type: String, required: true, trim: true },
   rentPrice: { type: Number, required: true },
@@ -42,12 +50,13 @@ export const PropertySchema = new Schema<Property>({
     building: { type: String, required: false, trim: true }
   },
   images: { type: [String], required: false, trim: true },
-  approvalStatus: { type: String, required: true, trim: true },
-
-    // Location
-    map: CoordinatesSchema,
-    // features
-    features: propertyFeaturesSchema,
+  approvalStatus: { type: String, enum:PropertyApprovalStatus, required: true, trim: true },
+  // Location
+  map: CoordinatesSchema,
+  // features
+  features: propertyFeaturesSchema,
+  // caretaker subschema
+  caretaker: { type: CaretakerSchema, required: false },
   // extend the base schema
   ...BaseSchema.obj,
 });

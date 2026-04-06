@@ -25,7 +25,7 @@ export class LandlordsService {
   getAllLandlords(data?: {
     limit: number;
     page: number;
-    keyword?: string;
+    keyword: string;
   }): Observable<HttpResponseInterface<Landlord[] | null>> {
     const options = data
       ? {
@@ -37,7 +37,7 @@ export class LandlordsService {
       : {};
     return this.httpClient.get<HttpResponseInterface<Landlord[] | null>>(
       API_ENDPOINTS.GET_LANDLORDS,
-      options
+      options,
     );
   }
 
@@ -49,10 +49,12 @@ export class LandlordsService {
    * @memberof LandlordsService
    */
   getLandlordProfileById(
-    landlordId: string
+    landlordId: string,
   ): Observable<HttpResponseInterface<Landlord | null>> {
     const endpoint = API_ENDPOINTS.GET_LANDLORD(landlordId);
-    return this.httpClient.get<HttpResponseInterface<Landlord | null>>(endpoint);
+    return this.httpClient.get<HttpResponseInterface<Landlord | null>>(
+      endpoint,
+    );
   }
 
   /**
@@ -65,12 +67,12 @@ export class LandlordsService {
    */
   updateLandlordProfileById(
     landlordId: string,
-    data: Partial<Landlord>
+    data: Partial<Landlord>,
   ): Observable<HttpResponseInterface<Landlord | null>> {
     const endpoint = API_ENDPOINTS.GET_LANDLORD(landlordId);
     return this.httpClient.patch<HttpResponseInterface<Landlord | null>>(
       endpoint,
-      data
+      data,
     );
   }
 
@@ -81,12 +83,21 @@ export class LandlordsService {
    * @return {*} Observable<HttpResponseInterface<Landlord | null>>
    * @memberof LandlordsService
    */
-  approveLandlord(landlordId: string): Observable<HttpResponseInterface<Landlord | null>> {
-    // The endpoint is landlords/:id/approve (PATCH)
-    const endpoint =API_ENDPOINTS.APPROVE_LANDLORD(landlordId);
+  approveLandlord(
+    landlordId: string,
+    data:
+      | {
+          approvalStatus: string;
+          approvalComment?: string;
+          approvedBy?: string;
+        }
+      | Record<string, any> = {},
+  ): Observable<HttpResponseInterface<Landlord | null>> {
+    console.log(data);
+    const endpoint = API_ENDPOINTS.APPROVE_LANDLORD(landlordId);
     return this.httpClient.patch<HttpResponseInterface<Landlord | null>>(
       endpoint,
-      {}
+      data,
     );
   }
 }

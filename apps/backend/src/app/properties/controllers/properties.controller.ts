@@ -13,7 +13,7 @@ import {
 import { HttpResponseInterface, PermissionEnum, UserRequest } from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { ExpressQuery } from '@newmbani/types';
-import { CreatePropertyDto, UpdatePropertyDto } from '../dtos/properties.dto';
+import { CreatePropertyDto, PropertyReviewDto, UpdatePropertyDto } from '../dtos/properties.dto';
 import { PropertiesService } from '../services/properties.service';
 import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
 import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
@@ -98,6 +98,29 @@ export class PropertiesController {
     res.setStatus(response.statusCode);
     return response;
   }
+
+  @Patch(':id/review')
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.REVIEW_PROPERTIES,
+    PermissionEnum.MANAGE_PROPERTIES,
+  ])
+async review(
+  @Param('id') id: string,
+  @Body() reviewPropertyDto: PropertyReviewDto,
+  @Req() { user }: UserRequest,
+  @GenericResponse() res: GenericResponse,
+): Promise<HttpResponseInterface> {
+  const userId = user._id.toString();
+  const response = await this.propertiesService.reviewProperty(
+    id,
+    reviewPropertyDto,
+    userId,
+  );
+
+  res.setStatus(response.statusCode);
+  return response;
+}
 
   /**
    * Remove property

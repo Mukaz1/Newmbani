@@ -53,7 +53,7 @@ export class PropertyVerificationModal implements OnInit {
       .reviewProperty({
         propertyId: property._id,
         status,
-        comment: this.propertyVerificationForm.value.comments || '',
+        reviewComment: this.propertyVerificationForm.value.comments || '',
       })
       .subscribe({
         next: (res) => {

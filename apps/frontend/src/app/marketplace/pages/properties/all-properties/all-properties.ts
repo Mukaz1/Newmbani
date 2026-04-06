@@ -18,7 +18,7 @@ import {
   PaginatedData,
   Property,
 } from '@newmbani/types';
-import { CategoriesService } from '../../../../categories/services/categories.service';
+import { CategoriesService } from '../../../../admin/pages/categories/services/categories.service';
 import { take } from 'rxjs';
 import { NotificationService } from '../../../../common/services/notification.service';
 import { DataLoading } from '../../../../common/components/data-loading/data-loading';
@@ -189,7 +189,7 @@ export class AllProperties implements OnInit {
     if ('location' in filters && !!filters.location) {
       queryParams.location = filters.location;
     }
-     {
+    {
       queryParams.guestsType = JSON.stringify(filters.guestsType);
     }
 
@@ -223,7 +223,7 @@ export class AllProperties implements OnInit {
 
     if (isFav) {
       this.favorites.set(
-        currentFavorites.filter((fav) => fav._id !== property._id)
+        currentFavorites.filter((fav) => fav._id !== property._id),
       );
     } else {
       this.favorites.set([...currentFavorites, property]);

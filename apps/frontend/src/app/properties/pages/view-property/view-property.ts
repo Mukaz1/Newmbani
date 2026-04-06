@@ -34,7 +34,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmDialog } from '../../../common/components/confirm-dialog/confirm-dialog';
 import { AuthService } from '../../../auth/services/auth.service';
-import { PropertyImagesService } from '../../services/property-image.service';
+import { PropertyImagesService } from '../../../admin/pages/image-categories/services/property-image.service';
 import { PropertyVerificationModal } from '../../modals/property-verification-modal/property-verification-modal';
 import { ChangeImageCategory } from '../../modals/change-image-category/change-image-category';
 import { PropertiesService } from '../../services/properties.service';
@@ -54,7 +54,10 @@ type TabType = 'details' | 'images';
     TitleCasePipe,
     CurrencyPipe,
     FormatLabelPipe,
-    PropertyLocation, CdkMenu, CdkMenuItem, CdkMenuTrigger
+    PropertyLocation,
+    CdkMenu,
+    CdkMenuItem,
+    CdkMenuTrigger,
   ],
   templateUrl: './view-property.html',
   styleUrl: './view-property.scss',

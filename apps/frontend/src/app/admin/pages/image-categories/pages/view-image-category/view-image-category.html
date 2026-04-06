@@ -1,0 +1,48 @@
+@if (!category) {
+<div class="flex justify-center mt-10">
+    <span>Loading...</span>
+</div>
+} @if (category) {
+<div class="flex-col">
+    <div class="flex flex-col">
+        <div class="py-3 py-lg-6">
+            <div class="flex flex-row justify-between">
+                <div class="page-title flex flex-col justify-center flex-wrap me-3">
+                    <p class="title">Image Category Details</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn" (click)="goBack()">Back</button>
+                    <!-- Button for Upload Images; add action as needed -->
+                    <button class="btn">Upload Images</button>
+                </div>
+            </div>
+        </div>
+        <div class="card mx-auto w-full p-5">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                <div class="my-2">
+                    <div class="font-bold mb-1">Category Name</div>
+                    <div class="text-gray-600">{{ category.name }}</div>
+                </div>
+                <div class="my-2">
+                    <div class="font-bold mb-1">Min Images</div>
+                    <div class="text-gray-600">{{ category.minNumber }}</div>
+                </div>
+                <div class="my-2">
+                    <div class="font-bold mb-1">Max Images</div>
+                    <div class="text-gray-600">{{ category.maxNumber }}</div>
+                </div>
+                <div class="my-2">
+                    <div class="font-bold mb-1">Max File Size (KB)</div>
+                    <div class="text-gray-600">{{ category.maxFileSize || 'N/A' }}</div>
+                </div>
+            </div>
+            <!-- Optional description (if present in model), can add like below:
+        <div class="my-2">
+          <div class="font-bold mb-1">Description</div>
+          <div class="text-gray-600">{{ category.description || 'N/A' }}</div>
+        </div>
+        -->
+        </div>
+    </div>
+</div>
+}

@@ -14,16 +14,14 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/dashboard/dashboard').then(
-            (m) => m.AdminDashboard
-          ),
+          import('./pages/dashboard/dashboard').then((m) => m.AdminDashboard),
         canActivate: [AuthGuard, AdminGuard],
       },
       {
         path: 'bookings',
         loadComponent: () =>
           import('../bookings/pages/all-bookings/all-bookings').then(
-            (m) => m.AllBookings
+            (m) => m.AllBookings,
           ),
         canActivate: [AuthGuard, AdminGuard],
       },
@@ -32,7 +30,7 @@ export const routes: Routes = [
         path: 'bookings/:id',
         loadComponent: () =>
           import('../bookings/pages/view-booking/view-booking').then(
-            (m) => m.ViewBooking
+            (m) => m.ViewBooking,
           ),
         canActivate: [AuthGuard, AdminGuard],
       },
@@ -41,7 +39,7 @@ export const routes: Routes = [
         path: 'properties',
         loadComponent: () =>
           import('../properties/pages/all-properties/all-properties').then(
-            (m) => m.AllProperties
+            (m) => m.AllProperties,
           ),
         canActivate: [AuthGuard, AdminGuard],
       },
@@ -49,12 +47,11 @@ export const routes: Routes = [
         path: 'properties/:id',
         loadComponent: () =>
           import('../properties/pages/view-property/view-property').then(
-            (m) => m.ViewProperty
+            (m) => m.ViewProperty,
           ),
         canActivate: [AuthGuard, AdminGuard],
       },
-  
-  
+
       {
         path: 'settings',
         loadChildren: () => import('../settings/routes').then((m) => m.routes),
@@ -81,16 +78,25 @@ export const routes: Routes = [
       {
         path: 'property-categories',
         loadChildren: () =>
-          import('../categories/categories.routes').then((r) => r.routes),
+          import('./pages/categories/categories.routes').then((r) => r.routes),
+        canActivate: [AuthGuard, AdminGuard],
+      },
+      {
+        path: 'image-categories',
+        loadChildren: () =>
+          import('./pages/image-categories/image-categories.routes').then(
+            (r) => r.routes,
+          ),
         canActivate: [AuthGuard, AdminGuard],
       },
       {
         path: 'contacts',
         loadChildren: () =>
-          import('../admin/pages/contacts/contacts.routes').then((r) => r.routes),
+          import('../admin/pages/contacts/contacts.routes').then(
+            (r) => r.routes,
+          ),
         canActivate: [AuthGuard, AdminGuard],
       },
-      
     ],
   },
   { path: '**', redirectTo: '/admin/dashboard', pathMatch: 'prefix' },

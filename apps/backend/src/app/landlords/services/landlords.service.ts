@@ -267,19 +267,20 @@ export class LandlordsService {
           data: null,
         });
       }
-      landlord.approvalStatus = data.approvalStatus;
-      landlord.approvedBy = userId;
-      landlord.approvalComment = data.approvalComment;
-      landlord.approvedAt = new Date();
-
-      await LandlordModel.findByIdAndUpdate(landlordId, landlord, { new: true }).exec();  
+     const payload = {
+      ...data,
+      updatedBy:userId
+     }
+     console.log({payload})
+     const updated = await LandlordModel.findByIdAndUpdate(landlordId, payload, { new: true }).exec();  
+     console.log({updated})
       // Emit the event that the landlord has been approved
       this.eventEmitter.emit(SystemEventsEnum.LandlordApproved, landlord);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: 'Landlord approved successfully!',
-        data: landlord,
+        data: updated,
       });
     } catch (error) {
       return new CustomHttpResponse({

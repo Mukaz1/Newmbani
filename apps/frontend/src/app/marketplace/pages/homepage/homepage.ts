@@ -18,21 +18,14 @@ import { Partners } from '../../components/partners/partners';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
 import { PropertyCard } from '../properties/components/property-card/property-card';
-import { CategoriesService } from '../../../categories/services/categories.service';
+import { CategoriesService } from '../../../admin/pages/categories/services/categories.service';
 import { MetaService } from '../../../common/services/meta.service';
 import { NgClass, NgStyle } from '@angular/common';
 import { PropertiesService } from '../../../properties/services/properties.service';
 
 @Component({
   selector: 'app-homepage',
-  imports: [
-    HeroSection,
-    RouterLink,
-    Partners,
-    PropertyCard,
-    NgStyle,
-    NgClass,
-  ],
+  imports: [HeroSection, RouterLink, Partners, PropertyCard, NgStyle, NgClass],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',
 })
@@ -142,7 +135,7 @@ export class Homepage implements OnInit {
       .map((cat) => ({
         ...cat,
         properties: properties.filter(
-          (property) => property.categoryId === cat._id
+          (property) => property.categoryId === cat._id,
         ),
       }))
       .filter((cat) => cat.properties.length > 0) // only categories with properties
@@ -150,10 +143,10 @@ export class Homepage implements OnInit {
   }
 
   onPropertyCardClick(property: Property): void {
-    if(property.slug){
+    if (property.slug) {
       this.router.navigate(['/properties', property.slug]);
     } else {
-    this.router.navigate(['/properties', property._id]);
+      this.router.navigate(['/properties', property._id]);
     }
   }
 
@@ -167,7 +160,7 @@ export class Homepage implements OnInit {
 
     if (isFav) {
       this.favorites.set(
-        currentFavorites.filter((fav) => fav._id !== property._id)
+        currentFavorites.filter((fav) => fav._id !== property._id),
       );
     } else {
       this.favorites.set([...currentFavorites, property]);

@@ -5,7 +5,7 @@ import { bookingCancellationsEndpoints } from '../bookings/utils/booking-cancell
 import {
   propertyCategoriesEndpoints,
   propertySubCategoriesEndpoints,
-} from '../categories/utils/property-categories-endpoints';
+} from '../admin/pages/categories/utils/property-categories-endpoints';
 import { customersEndpoints } from '../customer/utils/customers.endpoints';
 import { landlordsEndpoints } from '../landlords/utils/landlords.endpoints';
 import {

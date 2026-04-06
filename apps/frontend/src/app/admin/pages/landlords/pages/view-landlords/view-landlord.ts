@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Landlord,
+  LandlordApprovalStatus,
   LandlordDocument,
   LandlordDocumentStatus,
   NotificationStatusEnum,
@@ -28,14 +29,11 @@ import { CdkMenu, CdkMenuModule, CdkMenuTrigger } from '@angular/cdk/menu';
   imports: [
     DataLoading,
     DatePipe,
-    CdkMenu,
     CdkMenuModule,
-    CdkMenuTrigger,
     Button,
-    TitleCasePipe,
     InitialsPipe,
-    NgClass,
-  ],
+    NgClass
+],
 })
 export class ViewLandlord implements OnInit {
   landlord = signal<Landlord | null>(null);
@@ -51,7 +49,7 @@ export class ViewLandlord implements OnInit {
   private metaService = inject(MetaService);
 
   LandlordDocumentStatus = LandlordDocumentStatus;
-
+  landlordApprovalStatus =  LandlordApprovalStatus
   constructor() {
     this.metaService.setMeta({
       breadcrumb: {

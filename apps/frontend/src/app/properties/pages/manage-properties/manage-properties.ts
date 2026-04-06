@@ -20,7 +20,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { CountriesService } from '../../../countries/services/countries.service';
 import { PropertiesService } from '../../services/properties.service';
-import { CategoriesService } from '../../../categories/services/categories.service';
+import { CategoriesService } from '../../../admin/pages/categories/services/categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataLoading } from '../../../common/components/data-loading/data-loading';
 import { Button } from '../../../common/components/button/button';
