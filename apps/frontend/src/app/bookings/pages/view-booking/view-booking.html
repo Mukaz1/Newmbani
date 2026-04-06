@@ -1,1 +1,55 @@
-<p>view-bookings works!</p>
+<div class="modal-backdrop">
+    <div class="modal-container">
+        <div class="modal-body">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="modal-title">
+                        {{ booking()?.property?.title || 'Property' }}
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Booking for: <strong>{{ booking()?.customer?.name || 'N/A' }}</strong>
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    @if (isCustomer()) {
+                    <button type="button" (click)="cancelBooking()"
+                        class="px-3 py-1 rounded bg-red-50 text-red-700 hover:bg-red-100">
+                        Cancel Booking
+                    </button>
+                    }
+
+                    @if (isLandlord()) {
+                    <button type="button" (click)="openApproveModal()"
+                        class="px-3 py-1 rounded bg-green-50 text-green-700 hover:bg-green-100">
+                        Approve Booking
+                    </button>
+                    }
+
+                    <button type="button" (click)="close()"
+                        class="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 space-y-4">
+                <div>
+                    <p class="text-xs text-gray-500">Viewing Date</p>
+                    <p class="text-sm font-semibold">{{ booking()?.viewingDate | date:'fullDate' }}</p>
+                </div>
+
+                <div>
+                    <p class="text-xs text-gray-500">Customer</p>
+                    <p class="text-sm font-semibold">{{ booking()?.customer?.name }}</p>
+                    <p class="text-sm text-gray-600">{{ booking()?.customer?.email }}</p>
+                    <p class="text-sm text-gray-600">{{ booking()?.customer?.phone }}</p>
+                </div>
+
+                <div>
+                    <p class="text-xs text-gray-500">Property</p>
+                    <p class="text-sm font-semibold">{{ booking()?.property?.title }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

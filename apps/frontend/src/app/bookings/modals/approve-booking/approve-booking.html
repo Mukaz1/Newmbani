@@ -1,0 +1,21 @@
+<div class="p-4">
+    <h3 class="text-lg font-semibold">Approve Booking</h3>
+    <p class="text-sm text-gray-500 mt-1">Are you sure you want to approve this booking?</p>
+
+    <div class="mt-4 space-y-3">
+        <div>
+            <p class="text-xs text-gray-500">Property</p>
+            <p class="text-sm font-semibold">{{ booking?.property?.title || '—' }}</p>
+        </div>
+
+        <div>
+            <p class="text-xs text-gray-500">Viewing Date</p>
+            <p class="text-sm font-semibold">{{ booking?.viewingDate | date:'fullDate' }}</p>
+        </div>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-2">
+        <button type="button" (click)="close()" class="px-3 py-1 rounded bg-gray-100">Cancel</button>
+        <button type="button" (click)="approve()" class="px-3 py-1 rounded bg-green-600 text-white">Approve</button>
+    </div>
+</div>

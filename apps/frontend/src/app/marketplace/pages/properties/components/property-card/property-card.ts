@@ -1,17 +1,16 @@
-import { Property, } from '@newmbani/types';
+import { Property } from '@newmbani/types';
 
-import { Component, input, output, computed, OnInit } from '@angular/core';
+import { Component, input, output, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { PropertyImageApprovalStatus } from '@newmbani/types';
 
 @Component({
   selector: 'app-property-card',
-  imports: [ NgClass],
+  imports: [NgClass],
   templateUrl: './property-card.html',
   styleUrl: './property-card.scss',
 })
-export class PropertyCard implements OnInit{
-
+export class PropertyCard {
   property = input.required<Property>();
   isFavorited = input<boolean>(false);
 
@@ -22,7 +21,7 @@ export class PropertyCard implements OnInit{
     const property = this.property();
     if (!property?.images?.length) return [];
     return property.images.filter(
-      (img) => img.approvalStatus === PropertyImageApprovalStatus.APPROVED
+      (img) => img.approvalStatus === PropertyImageApprovalStatus.APPROVED,
     );
   });
 
@@ -34,9 +33,6 @@ export class PropertyCard implements OnInit{
     return '/assets/images/no-image.jpg';
   });
 
-  ngOnInit(): void {
-    console.log(this.property());
-  }
   onCardClick(): void {
     this.cardClick.emit(this.property());
   }

@@ -25,7 +25,14 @@ import { PropertiesService } from '../../../properties/services/properties.servi
 
 @Component({
   selector: 'app-homepage',
-  imports: [HeroSection, RouterLink, Partners, PropertyCard, NgStyle, NgClass],
+  imports: [
+    HeroSection,
+    RouterLink,
+    Partners,
+    PropertyCard,
+    NgStyle,
+    NgClass,
+  ],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',
 })
@@ -61,7 +68,7 @@ export class Homepage implements OnInit {
         ],
       },
       title: 'Home',
-      description: 'Discover properties and more at Newmbani.',
+      description: 'Discover properties and more at Aluxe.',
     });
   }
 
@@ -135,7 +142,7 @@ export class Homepage implements OnInit {
       .map((cat) => ({
         ...cat,
         properties: properties.filter(
-          (property) => property.categoryId === cat._id,
+          (property) => property.categoryId === cat._id
         ),
       }))
       .filter((cat) => cat.properties.length > 0) // only categories with properties
@@ -143,10 +150,10 @@ export class Homepage implements OnInit {
   }
 
   onPropertyCardClick(property: Property): void {
-    if (property.slug) {
+    if(property.slug){
       this.router.navigate(['/properties', property.slug]);
     } else {
-      this.router.navigate(['/properties', property._id]);
+    this.router.navigate(['/properties', property._id]);
     }
   }
 
@@ -160,7 +167,7 @@ export class Homepage implements OnInit {
 
     if (isFav) {
       this.favorites.set(
-        currentFavorites.filter((fav) => fav._id !== property._id),
+        currentFavorites.filter((fav) => fav._id !== property._id)
       );
     } else {
       this.favorites.set([...currentFavorites, property]);

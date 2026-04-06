@@ -1,13 +1,13 @@
-import {
-  Component,
-  computed,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { DialogRef, DIALOG_DATA, Dialog } from '@angular/cdk/dialog';
 import { Router } from '@angular/router';
-import { Property, NotificationStatusEnum } from '@newmbani/types';
+import {
+  Property,
+  NotificationStatusEnum,
+  HttpResponseInterface,
+  Booking,
+} from '@newmbani/types';
 import { AuthService } from '../../../../../auth/services/auth.service';
 import { PropertiesService } from '../../../../../properties/services/properties.service';
 import { NotificationService } from '../../../../../common/services/notification.service';
@@ -28,6 +28,8 @@ export class BookProperty implements OnInit {
   selectedDate = signal<Date | null>(null);
   isLoading = signal(false);
   unavailableDates = signal<Date[]>([]);
+  // Backend error message to display inside the dialog when createBooking fails
+  errorMessage = signal<string | null>(null);
 
   // ─── Calendar ────────────────────────────────────────────────────────
   currentMonth = signal(new Date().getMonth());
@@ -35,8 +37,18 @@ export class BookProperty implements OnInit {
 
   readonly weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   readonly monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   /** Flat array of Date | null (null = padding cell before first day) */
@@ -54,7 +66,7 @@ export class BookProperty implements OnInit {
   });
 
   currentMonthLabel = computed(
-    () => `${this.monthNames[this.currentMonth()]} ${this.currentYear()}`
+    () => `${this.monthNames[this.currentMonth()]} ${this.currentYear()}`,
   );
 
   isLoggedIn = computed(() => this.authService.isAuthenticated());
@@ -67,7 +79,11 @@ export class BookProperty implements OnInit {
   private propertiesService = inject(PropertiesService);
   private bookingsService = inject(BookingsService);
   private notificationService = inject(NotificationService);
-  private data = inject(DIALOG_DATA) as { property: Property };
+  private data = inject(DIALOG_DATA) as {
+    property: Property;
+    bookingId?: string;
+    initialDate?: string;
+  };
 
   constructor() {
     this.property.set(this.data.property);
@@ -109,7 +125,7 @@ export class BookProperty implements OnInit {
 
   isUnavailable(date: Date): boolean {
     return this.unavailableDates().some(
-      (d) => d.toDateString() === date.toDateString()
+      (d) => d.toDateString() === date.toDateString(),
     );
   }
 
@@ -176,6 +192,53 @@ export class BookProperty implements OnInit {
     }
 
     this.isLoading.set(true);
+    // If this dialog was opened to edit an existing booking, call update instead
+    if (this.data?.bookingId) {
+      this.bookingsService
+        .updateBooking(this.data.bookingId, { viewingDate })
+        .subscribe({
+          next: (res) => {
+            this.isLoading.set(false);
+            this.close();
+            const booking = (res as HttpResponseInterface<Booking>).data;
+            this.dialog.open(BookingMessage, { data: booking });
+          },
+          error: (err: HttpErrorResponse | any) => {
+            this.isLoading.set(false);
+            // try to extract a helpful message from the backend response
+            let msg = 'Booking failed. Please try again.';
+            try {
+              if (err instanceof HttpErrorResponse) {
+                // common patterns: { message: '...' } or validation { errors: [...] }
+                if (err.error?.message) msg = err.error.message;
+                else if (err.error?.errors && Array.isArray(err.error.errors)) {
+                  msg = err.error.errors
+                    .map((e: any) => e.message || e)
+                    .join('; ');
+                } else if (err.status && err.statusText) {
+                  msg = `${err.status} ${err.statusText}`;
+                } else if (typeof err.error === 'string') {
+                  msg = err.error;
+                }
+              } else if (err?.message) {
+                msg = err.message;
+              }
+            } catch (e) {
+              // ignore parsing errors, fall back to generic message
+            }
+
+            // expose the message inside the dialog and send a toast notification
+            this.errorMessage.set(msg);
+            this.notificationService.notify({
+              message: msg,
+              status: NotificationStatusEnum.ERROR,
+              title: 'Booking Error',
+            });
+            console.error('Booking error', err);
+          },
+        });
+      return;
+    }
 
     this.bookingsService
       .createBooking({ customerId, propertyId, viewingDate })
@@ -183,18 +246,14 @@ export class BookProperty implements OnInit {
         next: (res) => {
           this.isLoading.set(false);
           this.close();
+          const booking = (res as HttpResponseInterface<Booking>).data;
           // Open the success modal
           this.dialog.open(BookingMessage, {
-            data: { booking: res.data },
+            data: booking,
           });
         },
-        error: () => {
+        error: (err: HttpErrorResponse | any) => {
           this.isLoading.set(false);
-          this.notificationService.notify({
-            message: 'Booking failed. Please try again.',
-            status: NotificationStatusEnum.ERROR,
-            title: 'Booking Error',
-          });
         },
       });
   }

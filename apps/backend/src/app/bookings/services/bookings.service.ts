@@ -39,8 +39,9 @@ export class BookingsService {
       };
 
       const created = await BookingModel.create(payload);
+      
+      const bookingResponse = await this.findOne(created._id.toString());
 
-      const bookingResponse = await this.findOne(created._id);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.CREATED,

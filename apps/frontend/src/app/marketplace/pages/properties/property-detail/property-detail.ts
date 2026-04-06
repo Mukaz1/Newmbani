@@ -94,7 +94,6 @@ export class PropertyDetail implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params:any) => {
         if (params['id']) {
-          console.log(params['id']);
           this.getPropertyDetails(params['id']);
         }
       });

@@ -27,7 +27,6 @@ import {
   PropertyImage,
   PaginatedData,
   PropertyApprovalStatus,
-  PropertyImageApprovalStatus,
 } from '@newmbani/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
@@ -42,6 +41,7 @@ import { PropertiesService } from '../../services/properties.service';
 import { UploadImages } from '../../modals/upload-images/upload-images';
 import { PropertyLocation } from '../../../marketplace/pages/properties/property-location/property-location';
 import { FormatLabelPipe } from '../../../common/pipes/format-label.pipe';
+import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 
 type TabType = 'details' | 'images';
 
@@ -54,7 +54,7 @@ type TabType = 'details' | 'images';
     TitleCasePipe,
     CurrencyPipe,
     FormatLabelPipe,
-    PropertyLocation,
+    PropertyLocation, CdkMenu, CdkMenuItem, CdkMenuTrigger
   ],
   templateUrl: './view-property.html',
   styleUrl: './view-property.scss',
@@ -96,7 +96,6 @@ export class ViewProperty implements OnInit, OnDestroy {
 
   destroy$ = new Subject<void>();
   PropertyApprovalStatus = PropertyApprovalStatus;
-  PropertyImageApprovalStatus = PropertyImageApprovalStatus;
 
   constructor() {
     this.metaService.setMeta({
@@ -157,7 +156,6 @@ export class ViewProperty implements OnInit, OnDestroy {
           res: HttpResponseInterface<PaginatedData<PropertyImageCategory[]>>,
         ) => {
           this.imageCategories.set(res.data.data);
-          console.log('Fetched image categories:', res.data.data);
         },
         error: (error: HttpErrorResponse) => {
           this.notificationService.notify({

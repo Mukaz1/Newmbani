@@ -17,12 +17,25 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { ConfirmDialog } from '../../../common/components/confirm-dialog/confirm-dialog';
-import { Booking } from '@newmbani/types';
+import { Booking, HttpResponseInterface } from '@newmbani/types';
+import { ViewBooking } from '../view-booking/view-booking';
+import { BookProperty } from '../../../marketplace/pages/properties/components/book-property/book-property';
+import { ApproveBooking } from '../../modals/approve-booking/approve-booking';
 import { take } from 'rxjs';
+import { CdkMenu, CdkMenuTrigger, CdkMenuItem } from '@angular/cdk/menu';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-all-bookings',
-  imports: [DataLoading, Pagination, SearchInputWidget, DatePipe],
+  imports: [
+    DataLoading,
+    Pagination,
+    SearchInputWidget,
+    DatePipe,
+    CdkMenu,
+    CdkMenuItem,
+    CdkMenuTrigger,
+  ],
   templateUrl: './all-bookings.html',
   styleUrl: './all-bookings.css',
 })
@@ -38,6 +51,7 @@ export class AllBookings implements OnInit {
 
   private readonly bookingsService = inject(BookingsService);
   private readonly notificationService = inject(NotificationService);
+  private readonly authService = inject(AuthService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -108,9 +122,45 @@ export class AllBookings implements OnInit {
     this.fetchBookings();
   }
 
+  isAdmin(): boolean {
+    return this.authService.getUserType().admin;
+  }
+  isLandlord(): boolean {
+    return this.authService.getUserType().landlord;
+  }
+  isCustomer(): boolean {
+    return this.authService.getUserType().customer;
+  }
+  updateBooking(bookingId: string) {
+    const booking = this.bookings().find((b) => b._id === bookingId);
+    if (!booking) return;
+
+    const ref = this.dialog.open(BookProperty, {
+      data: {
+        property: booking.property,
+        bookingId: booking._id,
+        initialDate: booking.viewingDate,
+      },
+    });
+
+    ref.closed.pipe(take(1)).subscribe((res) => {
+      if (res) this.fetchBookings();
+    });
+  }
+  approveBooking(booking: Booking) {
+    const ref = this.dialog.open(ApproveBooking, { data: { booking } });
+    ref.closed.pipe(take(1)).subscribe((res) => {
+      if (res) this.fetchBookings();
+    });
+  }
   viewBooking(id: string) {
-    // navigation handled elsewhere; placeholder
-    console.log('view', id);
+    const booking = this.bookings().find((b) => b._id === id);
+    if (!booking) return;
+
+    const ref = this.dialog.open(ViewBooking, { data: { booking } });
+    ref.closed.pipe(take(1)).subscribe((res) => {
+      if ((res as any)?.updated) this.fetchBookings();
+    });
   }
 
   deleteBooking(bookingId: string) {

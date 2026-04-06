@@ -64,3 +64,18 @@
     }
   }
 }
+
+/* Right-side dialog overlay styling (applied via panelClass on CDK overlay pane) */
+.cdk-overlay-pane.right-side-dialog {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: flex-end !important;
+  padding: 0 !important;
+}
+
+.cdk-overlay-pane.right-side-dialog .modal-container {
+  width: 420px !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  overflow: auto !important;
+}

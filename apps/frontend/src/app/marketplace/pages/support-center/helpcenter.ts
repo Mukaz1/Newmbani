@@ -32,7 +32,7 @@ export class HelpCenter implements OnInit {
   private helpcenterService = inject(HelpcenterService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  defaultIcon = 'assets/images/logos/logo-orange.svg';
+  defaultIcon = 'assets/images/logos/favicon.png';
 
   topics: Topic[] = [];
   filteredTopics: Topic[] = [];

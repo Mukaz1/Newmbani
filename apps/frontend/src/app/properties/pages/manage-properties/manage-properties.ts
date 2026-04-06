@@ -173,14 +173,54 @@ export class ManageProperty implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (res) => {
-          this.categories.set(res.data.data);
-          // Re-resolve selectedCategory after categories load (needed for edit mode)
-          const categoryId = this.propertyForm.get('categoryId')?.value;
-          if (categoryId) {
-            this.selectedCategory.set(
-              this.categories().find((c) => c._id.toString() === categoryId),
-            );
-          }
+          const categories = res.data.data;
+          this.categories.set(categories);
+
+          // Fetch all subcategories once and attach them to their parent category
+          this.categoriesService
+            .getSubcategories()
+            .pipe(take(1))
+            .subscribe({
+              next: (subRes) => {
+                const subs = subRes.data.data;
+                const byCat = new Map<string, typeof subs>();
+                subs.forEach((s: any) => {
+                  const cid = s.categoryId?.toString?.() ?? s.categoryId;
+                  const arr = byCat.get(cid) ?? [];
+                  arr.push(s);
+                  byCat.set(cid, arr);
+                });
+
+                // attach subcategories to categories
+                const categoriesWithSubs = categories.map((c) => ({
+                  ...c,
+                  subCategories: byCat.get(c._id?.toString?.() ?? c._id) ?? [],
+                }));
+
+                this.categories.set(categoriesWithSubs);
+
+                // Re-resolve selectedCategory after categories + subcategories load (needed for edit mode)
+                const categoryId = this.propertyForm.get('categoryId')?.value;
+                if (categoryId) {
+                  this.selectedCategory.set(
+                    this.categories().find(
+                      (c) => c._id.toString() === categoryId,
+                    ),
+                  );
+                }
+              },
+              error: () => {
+                // If subcategories fail, still set selectedCategory based on categories
+                const categoryId = this.propertyForm.get('categoryId')?.value;
+                if (categoryId) {
+                  this.selectedCategory.set(
+                    this.categories().find(
+                      (c) => c._id.toString() === categoryId,
+                    ),
+                  );
+                }
+              },
+            });
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);

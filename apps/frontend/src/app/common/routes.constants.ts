@@ -1,10 +1,18 @@
 import { rolesEndpoints } from '../admin/pages/roles/utils/roles-endpoints';
 import { authEndpoints } from '../auth/utils/auth-endpoints';
 import { bookingsEndpoints } from '../bookings/utils/bookings.endpoints';
-import { propertyCategoriesEndpoints, propertySubCategoriesEndpoints } from '../categories/utils/property-categories-endpoints';
+import { bookingCancellationsEndpoints } from '../bookings/utils/booking-cancellations.endpoints';
+import {
+  propertyCategoriesEndpoints,
+  propertySubCategoriesEndpoints,
+} from '../categories/utils/property-categories-endpoints';
 import { customersEndpoints } from '../customer/utils/customers.endpoints';
 import { landlordsEndpoints } from '../landlords/utils/landlords.endpoints';
-import { propertiesEndpoints, propertyImageCategoriesEndpoints, propertyImagesEndpoints } from '../properties/utils/properties.endpoints';
+import {
+  propertiesEndpoints,
+  propertyImageCategoriesEndpoints,
+  propertyImagesEndpoints,
+} from '../properties/utils/properties.endpoints';
 import { employeesEndpoints } from '../users/utils/employees-endpoints';
 import { usersEndpoints } from '../users/utils/users-endpoints';
 
@@ -30,8 +38,6 @@ export const notificationEndpoints = {
   SMS_WEBHOOK_ONFON: `${SMS_WEBHOOK}/onfon`,
 } as const;
 
-
-
 export const API_ENDPOINTS = {
   ...authEndpoints,
   ...fileEndpoints,
@@ -52,6 +58,7 @@ export const API_ENDPOINTS = {
   ...propertyImageCategoriesEndpoints,
   ...propertyImagesEndpoints,
   ...bookingsEndpoints,
+  ...bookingCancellationsEndpoints,
 
   // Settings
   VIEW_SETTINGS: `${APIBaseAPIUrl}/settings`,

@@ -10,7 +10,13 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { HttpResponseInterface, ExpressQuery, UserRequest, PermissionEnum } from '@newmbani/types';
+import {
+  HttpResponseInterface,
+  ExpressQuery,
+  UserRequest,
+  PermissionEnum,
+  BookingStatusEnum,
+} from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { CreateBookingDto, UpdateBookingDto } from '../dto/bookings.dto';
 import { BookingsService } from '../services/bookings.service';
@@ -36,8 +42,11 @@ export class BookingsController {
     @GenericResponse() res: GenericResponse,
     @Req() { user }: UserRequest,
   ): Promise<HttpResponseInterface> {
-    const userId = user._id.toString()
-    const response = await this.bookingsService.create(createBookingDto, userId);
+    const userId = user._id.toString();
+    const response = await this.bookingsService.create(
+      createBookingDto,
+      userId,
+    );
 
     res.setStatus(response.statusCode);
     return response;
@@ -94,6 +103,25 @@ export class BookingsController {
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
     const response = await this.bookingsService.update(id, updateBookingDto);
+    res.setStatus(response.statusCode);
+    return response;
+  }
+
+  /**
+   * Update a booking status.
+   */
+  @Patch(':id/status')
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.UPDATE_BOOKING,
+    PermissionEnum.MANAGE_BOOKINGS,
+  ])
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() status: BookingStatusEnum,
+    @GenericResponse() res: GenericResponse,
+  ): Promise<HttpResponseInterface> {
+    const response = await this.bookingsService.updateBookingStatus(id, status);
     res.setStatus(response.statusCode);
     return response;
   }
