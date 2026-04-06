@@ -9,6 +9,7 @@ export interface PropertyAggregationPayload {
   slug?: string;
   propertyId?: string;
   categoryId?: string;
+  subcategoryId?: string;
   approvalStatus?: PropertyApprovalStatus;
   landlordId?: string;
   rating?: number;
@@ -24,6 +25,7 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
     limit,
     sort,
     categoryId,
+    subcategoryId,
     landlordId,
     propertyId,
     rating,
@@ -73,6 +75,15 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
 
     {
       $lookup: {
+        from: DatabaseModelEnums.PROPERTY_SUB_CATEGORY,
+        localField: 'subcategoryId',
+        foreignField: '_id',
+        as: 'subcategory',
+      },
+    },
+    { $unwind: { path: '$subcategory', preserveNullAndEmptyArrays: true } },
+    {
+      $lookup: {
         from: DatabaseModelEnums.PROPERTY_IMAGE,
         localField: 'propertyId',
         foreignField: 'propertyId',
@@ -103,7 +114,6 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
 
-    
     {
       $lookup: {
         from: DatabaseModelEnums.LANDLORD,
@@ -113,7 +123,7 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
     { $unwind: { path: '$landlord', preserveNullAndEmptyArrays: false } },
-       
+
     {
       $lookup: {
         from: DatabaseModelEnums.COUNTRY,
@@ -123,7 +133,6 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
     { $unwind: { path: '$country', preserveNullAndEmptyArrays: false } },
-
 
     // keyword search
     {

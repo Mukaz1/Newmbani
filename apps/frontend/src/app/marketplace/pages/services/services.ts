@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AluxeServicesService } from '../../../properties/services/aluxe-services.service';
+import { AluxeServicesService } from '../../../properties/services/newmbani-services.service';
 import { AluxeServiceInterface } from '@newmbani/types';
 
 interface Service {
@@ -53,7 +53,7 @@ export class Services implements OnInit {
   }
 
   goToServiceDetails(id: string) {
-    this.router.navigate(['/aluxe', id]);
+    this.router.navigate(['/newmbani', id]);
   }
 
   openModal(service: Service): void {

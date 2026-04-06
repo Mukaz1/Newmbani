@@ -33,24 +33,24 @@ interface Responsibility {
 })
 export class TermsConditions {
   effectiveDate = '03/10/2025';
-  companyName = 'Aluxe Ltd.';
+  companyName = 'Newmbani Ltd.';
   registeredOffice = 'Eldoret, Kenya';
 
   contactInfo = {
-    email: 'Bookings.aluxe@gmail.com',
+    email: 'Bookings.newmbani@gmail.com',
     phone: ['+254 701 663 066', '+254 720 220 801'],
     address: 'Eden Centre, Room F19, Eldoret, Kenya',
   };
 
   definitions: Definition[] = [
     {
-      term: 'Aluxe / we / our',
-      description: 'Aluxe Ltd.',
+      term: 'Newmbani / we / our',
+      description: 'Newmbani Ltd.',
     },
     {
       term: 'Platform',
       description:
-        "Aluxe's website, mobile applications, digital systems, and associated services.",
+        "Newmbani's website, mobile applications, digital systems, and associated services.",
     },
     {
       term: 'User',
@@ -114,7 +114,7 @@ export class TermsConditions {
         'Deliver services professionally and safely',
         'Possess any required licenses, insurance, or permits',
         'Take full responsibility for their conduct and outcomes',
-        'Indemnify Aluxe from claims related to their services',
+        'Indemnify Newmbani from claims related to their services',
       ],
     },
   ];
@@ -124,7 +124,7 @@ export class TermsConditions {
       id: 'introduction',
       title: '1. Introduction',
       content:
-        'Welcome to Aluxe. By accessing or using the Aluxe platform, you agree to these Terms & Conditions, which govern your relationship with Aluxe Ltd. This document outlines how the platform operates, the responsibilities of each party, and the standards required to ensure a safe, transparent, and seamless experience for all Users, Hosts, Guests, and Service Providers.',
+        'Welcome to Newmbani. By accessing or using the Newmbani platform, you agree to these Terms & Conditions, which govern your relationship with Newmbani Ltd. This document outlines how the platform operates, the responsibilities of each party, and the standards required to ensure a safe, transparent, and seamless experience for all Users, Hosts, Guests, and Service Providers.',
     },
     {
       id: 'nature',
@@ -132,11 +132,11 @@ export class TermsConditions {
       content:
         'The Platform functions as a digital marketplace that connects Guests with Hosts and Service Providers.',
       highlights: [
-        'Aluxe does not own or manage the properties listed unless explicitly stated in writing.',
+        'Newmbani does not own or manage the properties listed unless explicitly stated in writing.',
         'Hosts control their Listings, pricing, rules, and availability.',
         'Guests contract directly with Hosts or Service Providers when making a booking.',
         'Service Providers operate independently and are solely responsible for the services they deliver.',
-        'Aluxe facilitates communication, discovery, and transactions but is not a party to individual accommodation or service agreements.',
+        'Newmbani facilitates communication, discovery, and transactions but is not a party to individual accommodation or service agreements.',
       ],
     },
     {
@@ -150,7 +150,7 @@ export class TermsConditions {
             'Be at least 18 years old or legally recognized as an adult',
             'Maintain security of their login credentials',
           ],
-          note: 'Aluxe may suspend or terminate accounts that violate these Terms, compromise safety, or misuse the Platform.',
+          note: 'Newmbani may suspend or terminate accounts that violate these Terms, compromise safety, or misuse the Platform.',
         },
       ],
     },
@@ -158,11 +158,11 @@ export class TermsConditions {
       id: 'payments',
       title: '6. Payments, Fees & Taxes',
       content:
-        'All payments for bookings and services are processed through the Aluxe Platform or as otherwise specified at checkout.',
+        'All payments for bookings and services are processed through the Newmbani Platform or as otherwise specified at checkout.',
       subsections: [
         {
           items: [
-            'Payments may be processed through Aluxe or directly to Hosts or Service Providers.',
+            'Payments may be processed through Newmbani or directly to Hosts or Service Providers.',
             'All applicable fees, commissions, or charges will be displayed prior to booking.',
             'Pricing may vary based on factors such as demand, season, or location.',
             'Guests agree to pay the total amount presented at checkout.',
@@ -175,7 +175,7 @@ export class TermsConditions {
       id: 'cancellations',
       title: '7. Cancellations, Modifications & Refunds',
       content: [
-        'Cancellations, booking changes, and refunds are governed by the Aluxe Refund & Cancellation Policy.',
+        'Cancellations, booking changes, and refunds are governed by the Newmbani Refund & Cancellation Policy.',
         'Refund eligibility depends on the cancellation policy assigned to the Listing.',
         'Refunds will only be issued where permitted under that policy or required by law.',
       ],
@@ -192,11 +192,11 @@ export class TermsConditions {
             'Harass, harm, or discriminate against others',
             'Damage property or disrupt other Users',
             'Manipulate reviews, ratings, or Platform systems',
-            "Circumvent fees or conduct off-platform transactions intended to avoid Aluxe's processes",
+            "Circumvent fees or conduct off-platform transactions intended to avoid Newmbani's processes",
             'Upload content that is illegal, offensive, or harmful',
             "Interfere with the Platform's security or operations",
           ],
-          note: 'Aluxe may remove content, restrict accounts, or take legal action if these Terms are violated.',
+          note: 'Newmbani may remove content, restrict accounts, or take legal action if these Terms are violated.',
         },
       ],
     },
@@ -207,12 +207,12 @@ export class TermsConditions {
       subsections: [
         {
           items: [
-            'Aluxe does not guarantee the accuracy, legality, safety, or condition of any Listing',
-            'Aluxe is not responsible for actions, omissions, or conduct of Hosts, Guests, or Service Providers',
-            'Aluxe is not liable for indirect, incidental, or consequential damages',
-            "Aluxe's total liability is limited to the service fees paid by the User for the specific transaction giving rise to the claim",
+            'Newmbani does not guarantee the accuracy, legality, safety, or condition of any Listing',
+            'Newmbani is not responsible for actions, omissions, or conduct of Hosts, Guests, or Service Providers',
+            'Newmbani is not liable for indirect, incidental, or consequential damages',
+            "Newmbani's total liability is limited to the service fees paid by the User for the specific transaction giving rise to the claim",
           ],
-          note: 'Users agree to indemnify and hold Aluxe harmless from claims arising from their actions or violations of these Terms.',
+          note: 'Users agree to indemnify and hold Newmbani harmless from claims arising from their actions or violations of these Terms.',
         },
       ],
     },
@@ -220,22 +220,22 @@ export class TermsConditions {
       id: 'intellectual-property',
       title: '10. Intellectual Property',
       content: [
-        'All technology, design, trademarks, branding, and materials on the Platform belong to Aluxe.',
+        'All technology, design, trademarks, branding, and materials on the Platform belong to Newmbani.',
         'Users may not reproduce, copy, distribute, or exploit Platform content without written consent.',
-        'Users who upload Content grant Aluxe a global, royalty-free license to use, publish, and display that Content for operational and promotional purposes.',
+        'Users who upload Content grant Newmbani a global, royalty-free license to use, publish, and display that Content for operational and promotional purposes.',
       ],
     },
     {
       id: 'privacy',
       title: '11. Privacy & Data Handling',
-      content: 'Aluxe handles personal data in accordance with:',
+      content: 'Newmbani handles personal data in accordance with:',
       subsections: [
         {
           items: [
             'The Kenya Data Protection Act (2019)',
             'Global data protection principles',
           ],
-          note: 'Users consent to the collection, processing, and storage of their personal information as described in the Aluxe Privacy Policy.',
+          note: 'Users consent to the collection, processing, and storage of their personal information as described in the Newmbani Privacy Policy.',
         },
       ],
     },
@@ -255,11 +255,11 @@ export class TermsConditions {
       subsections: [
         {
           items: [
-            'These Terms, along with referenced policies, form the complete agreement between Users and Aluxe.',
+            'These Terms, along with referenced policies, form the complete agreement between Users and Newmbani.',
             'If any provision is found invalid, the remainder stays in effect.',
-            'Failure by Aluxe to enforce any right does not constitute a waiver.',
-            'Aluxe is not responsible for delays caused by events beyond reasonable control, including natural events, strikes, or government actions.',
-            'Users may not transfer rights or obligations under these Terms without prior written approval. Aluxe may assign its rights where necessary.',
+            'Failure by Newmbani to enforce any right does not constitute a waiver.',
+            'Newmbani is not responsible for delays caused by events beyond reasonable control, including natural events, strikes, or government actions.',
+            'Users may not transfer rights or obligations under these Terms without prior written approval. Newmbani may assign its rights where necessary.',
           ],
         },
       ],

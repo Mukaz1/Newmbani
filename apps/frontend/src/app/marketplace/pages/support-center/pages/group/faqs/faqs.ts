@@ -40,9 +40,9 @@ export class Faqs {
   faqs: FAQ[] = [
     {
       id: 1,
-      question: 'What is Aluxe BnBs?',
+      question: 'What is Newmbani BnBs?',
       answer:
-        'Aluxe BnBs is a platform that connects guests with unique and verified vacation homes, short-stay rentals, and holiday experiences across Kenya.',
+        'Newmbani BnBs is a platform that connects guests with unique and verified vacation homes, short-stay rentals, and holiday experiences across Kenya.',
     },
     {
       id: 2,

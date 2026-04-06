@@ -22,14 +22,14 @@ export class Testimonials {
       title: 'Frequent Landlord',
       image: 'https://randomuser.me/api/portraits/men/32.jpg',
       quote:
-        'Listing with Aluxe was a turning point. I started getting bookings within a week. Their insights were sharp, and the support was top-notch!',
+        'Listing with Newmbani was a turning point. I started getting bookings within a week. Their insights were sharp, and the support was top-notch!',
     },
     {
       name: 'Faith K.',
       title: 'Passive Income Seeker',
       image: 'https://randomuser.me/api/portraits/women/65.jpg',
       quote:
-        'I love how hands-off this has become. Aluxe handles the details while I enjoy the returns. It’s a win-win.',
+        'I love how hands-off this has become. Newmbani handles the details while I enjoy the returns. It’s a win-win.',
     },
   ];
 

@@ -22,7 +22,7 @@ export class BankTransfer {
   // Bank transfer details
   bankDetails: BankDetails = {
     bankName: 'Chase Bank',
-    accountName: 'Aluxe Marketplace',
+    accountName: 'Newmbani Marketplace',
     accountNumber: '1234567890',
     routingNumber: '021000021',
   };

@@ -18,11 +18,11 @@ interface PolicySection {
 })
 export class PrivacyPolicy {
   effectiveDate = '03/10/2025';
-  companyName = 'Aluxe Ltd.';
+  companyName = 'Newmbani Ltd.';
   registeredOffice = 'Eldoret, Kenya';
 
   contactInfo = {
-    email: 'Bookings.aluxe@gmail.com',
+    email: 'Bookings.newmbani@gmail.com',
     phone: ['+254 701 663 066', '+254 720 220 801'],
     address: 'Eden Centre, Room F19, Eldoret, Kenya',
   };
@@ -32,14 +32,15 @@ export class PrivacyPolicy {
       id: 'introduction',
       title: '1. Introduction',
       content: [
-        'This Privacy Policy explains how Aluxe Ltd. ("Aluxe") collects, uses, stores, and protects personal data in compliance with the Kenya Data Protection Act, 2019, and recognized international data protection principles.',
-        'By using the Aluxe Platform, Users consent to the practices described in this Policy.',
+        'This Privacy Policy explains how Newmbani Ltd. ("Newmbani") collects, uses, stores, and protects personal data in compliance with the Kenya Data Protection Act, 2019, and recognized international data protection principles.',
+        'By using the Newmbani Platform, Users consent to the practices described in this Policy.',
       ],
     },
     {
       id: 'data-collection',
       title: '2. Data We Collect',
-      content: 'Aluxe may collect the following categories of personal data:',
+      content:
+        'Newmbani may collect the following categories of personal data:',
       subsections: [
         {
           letter: 'a',
@@ -66,7 +67,7 @@ export class PrivacyPolicy {
     {
       id: 'data-usage',
       title: '3. How We Use Personal Data',
-      content: 'Aluxe uses personal data for the following purposes:',
+      content: 'Newmbani uses personal data for the following purposes:',
       subsections: [
         {
           letter: 'a',
@@ -97,7 +98,7 @@ export class PrivacyPolicy {
     {
       id: 'data-sharing',
       title: '4. Sharing of Personal Data',
-      content: 'Aluxe may share personal data with:',
+      content: 'Newmbani may share personal data with:',
       subsections: [
         {
           letter: 'a',
@@ -122,14 +123,14 @@ export class PrivacyPolicy {
       title: '5. International Data Transfers',
       content: [
         'For Users located outside Kenya, personal data may be transferred to or stored in other countries.',
-        'Aluxe ensures such transfers comply with the Kenya Data Protection Act, 2019, and that adequate safeguards are in place to protect User information.',
+        'Newmbani ensures such transfers comply with the Kenya Data Protection Act, 2019, and that adequate safeguards are in place to protect User information.',
       ],
     },
     {
       id: 'data-security',
       title: '6. Data Security',
       content: [
-        'Aluxe implements appropriate technical and organizational measures to protect personal data from unauthorized access, alteration, or disclosure.',
+        'Newmbani implements appropriate technical and organizational measures to protect personal data from unauthorized access, alteration, or disclosure.',
         'Users acknowledge that no digital platform can guarantee absolute security, and data is shared at their own risk.',
       ],
     },
@@ -137,7 +138,7 @@ export class PrivacyPolicy {
       id: 'data-retention',
       title: '7. Data Retention',
       content: [
-        'Aluxe retains personal data for as long as necessary to fulfil contractual, operational, and legal obligations.',
+        'Newmbani retains personal data for as long as necessary to fulfil contractual, operational, and legal obligations.',
         'When data is no longer needed, it will be securely deleted, anonymized, or archived in accordance with legal requirements.',
       ],
     },
@@ -181,15 +182,15 @@ export class PrivacyPolicy {
       id: 'children',
       title: "10. Children's Data",
       content: [
-        'The Aluxe Platform is not intended for individuals under 18 years of age.',
-        'Aluxe does not knowingly collect personal data from minors. If such data is identified, it will be deleted promptly.',
+        'The Newmbani Platform is not intended for individuals under 18 years of age.',
+        'Newmbani does not knowingly collect personal data from minors. If such data is identified, it will be deleted promptly.',
       ],
     },
     {
       id: 'amendments',
       title: '11. Amendments to This Policy',
       content: [
-        'Aluxe may update or modify this Privacy Policy at any time.',
+        'Newmbani may update or modify this Privacy Policy at any time.',
         'Changes will be posted on the Platform, and continued use constitutes acceptance of the updated Policy.',
       ],
     },

@@ -1,1 +1,533 @@
-<p>view-property works!</p>
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+
+@if (isLoading()) {
+<app-data-loading [fullPage]="true" />
+
+} @else if (error()) {
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center p-8">
+        <i class="bi bi-exclamation-circle text-5xl text-red-400 mb-4 block"></i>
+        <h2 class="text-xl font-bold text-gray-900 mb-2">Failed to Load Property</h2>
+        <p class="text-gray-500 mb-4 text-sm">{{ error() }}</p>
+        <button (click)="goBack()" class="btn-md rounded-full">Go Back</button>
+    </div>
+</div>
+
+} @else if (property(); as prop) {
+<div class="main flex-col mt-6">
+
+    <!-- ── Hero: image grid + property summary ──────────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
+
+        <!-- Image grid (left, 3 cols) -->
+        <div class="lg:col-span-3">
+            <div class="grid grid-cols-2 grid-rows-2 gap-2 h-72 lg:h-96 rounded-2xl overflow-hidden">
+
+                <!-- Main image (spans 2 rows) -->
+                <div class="row-span-2 relative bg-gray-100 cursor-pointer group overflow-hidden"
+                    (click)="openImageViewer(0, allImages())">
+                    @if (allImages().length > 0) {
+                    <img [src]="allImages()[0]?.link" [alt]="prop.title"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onerror="this.src='/assets/images/no-image.jpg'" />
+                    } @else {
+                    <div class="w-full h-full flex items-center justify-center bg-gray-100">
+                        <i class="bi bi-image text-5xl text-gray-300"></i>
+                    </div>
+                    }
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                        <i
+                            class="bi bi-eye text-white text-2xl opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                </div>
+
+                <!-- Side images (2 cells) -->
+                @for (img of allImages().slice(1, 3); track img._id; let i = $index) {
+                <div class="relative bg-gray-100 cursor-pointer group overflow-hidden
+                   {{ i === 1 && allImages().length > 3 ? 'relative' : '' }}"
+                    (click)="openImageViewer(i + 1, allImages())">
+                    <img [src]="img.link" [alt]="prop.title"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onerror="this.src='/assets/images/no-image.jpg'" />
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                        <i
+                            class="bi bi-eye text-white text-xl opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </div>
+                    <!-- Show all overlay on last visible cell -->
+                    @if (i === 1 && allImages().length > 3) {
+                    <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center cursor-pointer"
+                        (click)="openImageViewer(2, allImages()); $event.stopPropagation()">
+                        <i class="bi bi-images text-white text-2xl mb-1"></i>
+                        <span class="text-white text-sm font-semibold">+{{ allImages().length - 3 }} more</span>
+                    </div>
+                    }
+                </div>
+                }
+
+                <!-- Placeholder cells when fewer than 3 images -->
+                @if (allImages().length === 0) {
+                <div class="bg-gray-100 flex items-center justify-center">
+                    <i class="bi bi-image text-3xl text-gray-200"></i>
+                </div>
+                <div class="bg-gray-100 flex items-center justify-center">
+                    <i class="bi bi-image text-3xl text-gray-200"></i>
+                </div>
+                } @else if (allImages().length === 1) {
+                <div class="bg-gray-100"></div>
+                <div class="bg-gray-100"></div>
+                } @else if (allImages().length === 2) {
+                <div class="bg-gray-100"></div>
+                }
+
+            </div>
+        </div>
+
+        <!-- Property summary (right, 2 cols) -->
+        <div class="lg:col-span-2 flex flex-col justify-between">
+
+            <div class="space-y-4">
+
+                <!-- Actions dropdown (top right) -->
+                <div class="flex items-start justify-between gap-3">
+                    <button (click)="goBack()"
+                        class="btn-outline-sm rounded-full flex items-center gap-1.5 flex-shrink-0">
+                        <i class="bi bi-arrow-left text-xs"></i> Back
+                    </button>
+
+                    <!-- Dropdown trigger -->
+                    <div class="relative" #actionsDropdown>
+                        <button (click)="toggleActionsMenu()" class="btn-md rounded-full flex items-center gap-2">
+                            Actions <i class="bi bi-chevron-down text-xs"></i>
+                        </button>
+
+                        @if (actionsMenuOpen()) {
+                        <div class="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-200 rounded-2xl shadow-xl z-30 py-1 overflow-hidden"
+                            (click)="$event.stopPropagation()">
+                            <!-- Edit — landlord only -->
+                            @if (isLandlord()) {
+                            <button (click)="editProperty(prop._id); toggleActionsMenu()"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                <i class="bi bi-pencil text-gray-400 w-4"></i> Edit Property
+                            </button>
+                            }
+
+                            <!-- Upload images — landlord only -->
+                            @if (isLandlord()) {
+                            <button (click)="switchTab('images'); toggleActionsMenu()"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                <i class="bi bi-cloud-upload text-gray-400 w-4"></i> Upload Images
+                            </button>
+                            }
+
+                            <!-- Approve — admin only -->
+                            @if (isAdmin()) {
+                            <button (click)="approveProperty(prop); toggleActionsMenu()"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                <i class="bi bi-patch-check text-gray-400 w-4"></i> Review & Approve
+                            </button>
+                            }
+
+                            <hr class="my-1 border-gray-100" />
+
+                            <!-- Delete — both -->
+                            <button (click)="deleteProperty(prop); toggleActionsMenu()"
+                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition">
+                                <i class="bi bi-trash w-4"></i> Delete Property
+                            </button>
+
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Status badge -->
+                <span
+                    class="inline-flex px-3 py-1 rounded-full text-xs font-semibold {{ getStatusClass(prop.approvalStatus) }}">
+                    {{ prop.approvalStatus | titlecase }}
+                </span>
+
+                <!-- Title -->
+                <h1 class="text-xl lg:text-2xl font-bold text-gray-900 leading-tight">{{ prop.title }}</h1>
+
+                <!-- Category & Subcategory -->
+                <div class="flex flex-wrap gap-2">
+                    @if (prop.category.name) {
+                    <span class="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                        {{ prop.category.name }}
+                    </span>
+                    }
+                    @if (prop.subcategory.name) {
+                    <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                        {{ prop.subcategory.name }}
+                    </span>
+                    }
+                </div>
+
+                <!-- Location -->
+                <p class="text-sm text-gray-500 flex items-start gap-1.5">
+                    <i class="bi bi-geo-alt-fill text-primary mt-0.5 flex-shrink-0"></i>
+                    <span>
+                        {{ prop.address.street ? prop.address.street + ', ' : '' }}
+                        {{ prop.address.town ? prop.address.town + ', ' : '' }}
+                        {{ prop.address.county }}, {{ prop.country.name }}
+                    </span>
+                </p>
+
+                <!-- Price -->
+                <div class="pt-2">
+                    <p class="text-2xl font-extrabold text-primary">
+                        {{ prop.rentPrice | currency:'KES ':'symbol':'1.0-0' }}
+                        <span class="text-sm font-normal text-gray-400">/ month</span>
+                    </p>
+                    @if (prop.deposit) {
+                    <p class="text-xs text-gray-400 mt-1">
+                        + {{ prop.deposit | currency:'KES ':'symbol':'1.0-0' }} refundable deposit
+                    </p>
+                    }
+                </div>
+
+                <!-- Availability chips -->
+                <div class="flex gap-3">
+                    <div class="p-3 bg-gray-50 rounded-xl flex-1">
+                        <p class="text-xs text-gray-400">Units</p>
+                        <p class="font-bold text-gray-900">{{ prop.availableUnits }}</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-xl flex-1">
+                        <p class="text-xs text-gray-400">Status</p>
+                        <p class="font-bold" [class]="prop.isAvailable ? 'text-green-600' : 'text-red-500'">
+                            {{ prop.isAvailable ? 'Available' : 'Unavailable' }}
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Landlord mini card -->
+            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl mt-4 border border-gray-100">
+                @if (prop.landlord.profileImage) {
+                <img [src]="prop.landlord.profileImage" alt="Landlord"
+                    class="w-10 h-10 rounded-full object-cover ring-2 ring-white flex-shrink-0" />
+                } @else {
+                <div
+                    class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center flex-shrink-0">
+                    <i class="bi bi-person text-lg text-gray-400"></i>
+                </div>
+                }
+                <div class="min-w-0">
+                    <p class="text-xs text-gray-400">{{ isAdmin() ? 'Landlord' : 'Owner' }}</p>
+                    <p class="text-sm font-semibold text-gray-900 truncate">
+                        {{ prop.landlord.displayName || 'N/A' }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Tabs ──────────────────────────────────────────────── -->
+    <div class="border-b border-gray-200 mb-6">
+        <nav class="flex gap-0" role="tablist">
+            <button role="tab"
+                [class]="activeTab() === 'details'
+          ? 'px-6 py-3 text-sm font-semibold text-primary border-b-2 border-primary -mb-px'
+          : 'px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 border-b-2 border-transparent -mb-px transition'"
+                (click)="switchTab('details')">
+                <i class="bi bi-info-circle mr-2"></i>Details
+            </button>
+            <button role="tab"
+                [class]="activeTab() === 'images'
+          ? 'px-6 py-3 text-sm font-semibold text-primary border-b-2 border-primary -mb-px'
+          : 'px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 border-b-2 border-transparent -mb-px transition'"
+                (click)="switchTab('images')">
+                <i class="bi bi-images mr-2"></i>Images
+                <span class="ml-1.5 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">
+                    {{ prop.images?.length || 0 }}
+                </span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ── Tab: Details ──────────────────────────────────────── -->
+    @if (activeTab() === 'details') {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- LEFT: Description + Features + Map -->
+        <div class="lg:col-span-2 space-y-6">
+
+            <div class="card p-6">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Description</h3>
+                <p class="text-gray-700 leading-relaxed text-sm">{{ prop.description }}</p>
+            </div>
+
+            <div class="card p-6">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Features</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="bx bxs-water-drop-alt text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Water</p>
+                            <p class="text-sm font-semibold text-gray-900">{{ prop.features.water | formatLabel }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="bx bxs-bolt text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Electricity</p>
+                            <p class="text-sm font-semibold text-gray-900">{{ prop.features.electricity | formatLabel }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="bx bx-lock-alt text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Security</p>
+                            <p class="text-sm font-semibold text-gray-900">{{ prop.features.security | formatLabel }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Location</h3>
+                <app-property-location [latitude]="prop.map.lat" [longitude]="prop.map.lng"
+                    [propertyName]="prop.title" />
+            </div>
+
+        </div>
+
+        <!-- RIGHT: Meta -->
+        <div class="space-y-5">
+
+            <div class="card p-6 space-y-3 text-sm">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Classification</h3>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Category</span>
+                    <span class="font-medium text-gray-800">{{ prop.category.name || '—' }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Subcategory</span>
+                    <span class="font-medium text-gray-800">{{ prop.subcategory.name || '—' }}</span>
+                </div>
+
+            </div>
+
+            <div class="card p-6 space-y-2 text-sm">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Timeline</h3>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Created</span>
+                    <span class="text-gray-700">{{ prop.createdAt | date:'mediumDate' }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Updated</span>
+                    <span class="text-gray-700">{{ prop.updatedAt | date:'mediumDate' }}</span>
+                </div>
+            </div>
+
+            <!-- Landlord full card -->
+            <div class="card p-6">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                    {{ isAdmin() ? 'Landlord' : 'Owner' }}
+                </h3>
+                <div class="flex items-center gap-4">
+                    @if (prop.landlord.profileImage) {
+                    <img [src]="prop.landlord.profileImage" alt="Landlord"
+                        class="w-14 h-14 rounded-full object-cover ring-2 ring-gray-100 flex-shrink-0" />
+                    } @else {
+                    <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                        <i class="bi bi-person text-2xl text-gray-400"></i>
+                    </div>
+                    }
+                    <div class="min-w-0">
+                        <p class="font-semibold text-gray-900 truncate">{{ prop.landlord.displayName || 'N/A' }}</p>
+                        <p class="text-xs text-gray-400 truncate">{{ prop.landlord.email }}</p>
+                        @if (prop.landlord.createdAt) {
+                        <p class="text-xs text-gray-400 mt-0.5">
+                            Member since {{ prop.landlord.createdAt | date:'MMM yyyy' }}
+                        </p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    }
+
+    <!-- ── Tab: Images ───────────────────────────────────────── -->
+    @if (activeTab() === 'images') {
+    <div class="space-y-8">
+
+        @if (imageCategories().length === 0) {
+        <div class="text-center py-16 text-gray-400">
+            <i class="bi bi-images text-4xl mb-3 block"></i>
+            <p class="text-sm">No image categories configured.</p>
+        </div>
+        }
+
+        @for (category of imageCategories(); track category._id) {
+        <div>
+
+            <!-- Category header -->
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-primary inline-block"></span>
+                    <h3 class="text-sm font-bold text-gray-800">{{ category.name }}</h3>
+                    <span class="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {{ filteredImagesByCategory(category._id).length }} images
+                    </span>
+                </div>
+
+                <!-- Upload per category — landlord only -->
+                @if (isLandlord()) {
+                <button (click)="uploadImagesModal(category._id)"
+                    class="btn-outline-sm rounded-full flex items-center gap-1.5 text-xs">
+                    <i class="bi bi-cloud-upload text-xs"></i> Upload to {{ category.name }}
+                </button>
+                }
+            </div>
+
+            <!-- Empty state -->
+            @if (filteredImagesByCategory(category._id).length === 0) {
+            <div class="border-2 border-dashed border-gray-200 rounded-2xl p-10 text-center
+                     {{ isLandlord() ? 'cursor-pointer hover:border-primary/50 hover:bg-primary/5' : '' }} transition"
+                (click)="isLandlord() && uploadImagesModal(category._id)">
+                <i class="bi bi-cloud-upload text-3xl text-gray-300 mb-2 block"></i>
+                <p class="text-sm text-gray-400">No {{ category.name }} images yet</p>
+                @if (isLandlord()) {
+                <p class="text-xs text-primary mt-1 font-medium">Click to upload</p>
+                }
+            </div>
+
+            } @else {
+            <!-- Image grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                @for (image of filteredImagesByCategory(category._id); track image._id; let i = $index) {
+                <div class="relative group rounded-2xl overflow-hidden bg-gray-100 aspect-square cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                    (click)="openImageViewer(i, filteredImagesByCategory(category._id))">
+                    <img [src]="image.link" [alt]="prop.title"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onerror="this.src='/assets/images/no-image.jpg'" />
+
+                    <!-- Hover overlay with eye icon -->
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100
+                           transition-opacity flex items-center justify-center">
+                        <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow">
+                            <i class="bi bi-eye text-gray-800"></i>
+                        </div>
+                    </div>
+
+                    <!-- Approval badge -->
+                    <div class="absolute top-2 left-2">
+                        <span class="text-xs px-2 py-0.5 rounded-full font-medium
+                      {{ image.approvalStatus === PropertyImageApprovalStatus.APPROVED
+                          ? 'bg-green-100 text-green-700'
+                          : image.approvalStatus === PropertyImageApprovalStatus.REJECTED
+                          ? 'bg-red-100 text-red-700'
+                          : 'bg-yellow-100 text-yellow-700' }}">
+                            {{ image.approvalStatus | titlecase }}
+                        </span>
+                    </div>
+
+                </div>
+                }
+
+                <!-- Add more tile — landlord only -->
+                @if (isLandlord()) {
+                <div class="rounded-2xl border-2 border-dashed border-gray-200 aspect-square flex flex-col
+                         items-center justify-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition"
+                    (click)="uploadImagesModal(category._id)">
+                    <i class="bi bi-plus-circle text-2xl text-gray-300 mb-1"></i>
+                    <span class="text-xs text-gray-400">Add</span>
+                </div>
+                }
+
+            </div>
+            }
+
+        </div>
+        }
+
+    </div>
+    }
+
+</div>
+}
+
+<!-- ── Image Viewer Modal ─────────────────────────────────── -->
+@if (imageViewerOpen()) {
+<div class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center" style="backdrop-filter: blur(6px)"
+    (keydown)="onViewerKeydown($event)" tabindex="0" role="dialog" aria-modal="true">
+
+    <!-- Close -->
+    <button
+        class="fixed top-4 right-4 z-50 w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition"
+        (click)="closeImageViewer()" aria-label="Close">
+        <i class="bi bi-x-lg"></i>
+    </button>
+
+    <!-- Counter -->
+    <div class="fixed top-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-sm px-4 py-1.5 rounded-full">
+        {{ viewerIndex() + 1 }} / {{ viewerImages().length }}
+    </div>
+
+    <!-- Prev -->
+    @if (viewerImages().length > 1) {
+    <button
+        class="fixed left-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition"
+        (click)="viewerPrev()" aria-label="Previous">
+        <i class="bi bi-chevron-left text-xl"></i>
+    </button>
+    <button
+        class="fixed right-4 top-1/2 -translate-y-1/2 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition"
+        (click)="viewerNext()" aria-label="Next">
+        <i class="bi bi-chevron-right text-xl"></i>
+    </button>
+    }
+
+    <!-- Image + actions -->
+    <div class="relative flex flex-col items-center max-w-4xl max-h-full px-16 py-16"
+        (click)="$event.stopPropagation()">
+        <img [src]="viewerImages()[viewerIndex()]?.link" [alt]="property()?.title"
+            class="max-w-full max-h-[70vh] object-contain rounded-2xl shadow-2xl" />
+
+        <!-- Action bar below image — landlord only -->
+        @if (isLandlord()) {
+        <div class="mt-4 flex items-center gap-3">
+
+            <button (click)="changePropertyImageCategory(viewerImages()[viewerIndex()])"
+                class="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full transition">
+                <i class="bi bi-tag"></i> Change Category
+            </button>
+
+            <button (click)="removeImageFromViewer(viewerImages()[viewerIndex()]._id)"
+                class="flex items-center gap-2 px-4 py-2 bg-red-500/80 hover:bg-red-500 text-white text-sm rounded-full transition">
+                <i class="bi bi-trash"></i> Delete
+            </button>
+
+        </div>
+        }
+
+        <!-- Image info -->
+        <div class="mt-3 text-center">
+            <span class="text-xs text-white/60">
+                {{ viewerImages()[viewerIndex()]?.propertyImageCategory?.name }}
+                · {{ viewerImages()[viewerIndex()]?.approvalStatus | titlecase }}
+            </span>
+        </div>
+
+    </div>
+
+</div>
+}

@@ -1,1 +1,243 @@
-<p>manage-properties works!</p>
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+
+@if (isLoading()) {
+<app-data-loading [fullPage]="true" />
+} @else {
+<div class="main flex-col">
+
+    <!-- Header -->
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+            <p class="title">{{ property() ? 'Edit Property' : 'Create Property' }}</p>
+            <p class="text-sm text-gray-500 mt-0.5">
+                {{ property()
+                ? 'Update the details of your existing listing.'
+                : 'Fill in the details below to create a new listing.' }}
+            </p>
+        </div>
+        <button type="button" (click)="goBack()" class="btn-outline-sm rounded-full flex items-center gap-2">
+            <i class="bi bi-arrow-left text-sm"></i> Back
+        </button>
+    </div>
+
+    <form [formGroup]="propertyForm" (ngSubmit)="submit()" class="space-y-6">
+
+        <!-- ── Basic Info ───────────────────────────── -->
+        <div class="card p-6">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Basic Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Title <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" formControlName="title" class="form-control"
+                        placeholder="e.g. Modern 3-Bedroom Apartment in Westlands" />
+                    @if (propertyForm.get('title')?.invalid && propertyForm.get('title')?.touched) {
+                    <p class="text-red-500 text-xs mt-1">Title is required.</p>
+                    }
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Description <span class="text-red-500">*</span>
+                    </label>
+                    <textarea formControlName="description" rows="4" class="form-control resize-none"
+                        placeholder="Describe the property in detail..."></textarea>
+                    @if (propertyForm.get('description')?.invalid && propertyForm.get('description')?.touched) {
+                    <p class="text-red-500 text-xs mt-1">Description is required.</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Category <span class="text-red-500">*</span>
+                    </label>
+                    <select formControlName="categoryId" class="form-control">
+                        <option value="">Select category</option>
+                        @for (cat of categories(); track cat._id) {
+                        <option [value]="cat._id">{{ cat.name }}</option>
+                        }
+                    </select>
+                    @if (propertyForm.get('categoryId')?.invalid && propertyForm.get('categoryId')?.touched) {
+                    <p class="text-red-500 text-xs mt-1">Category is required.</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Subcategory <span class="text-red-500">*</span>
+                    </label>
+                    <select formControlName="subcategoryId" class="form-control">
+                        <option value="">Select subcategory</option>
+                        @for (sub of selectedCategory()?.subCategories ?? []; track sub._id) {
+                        <option [value]="sub._id">{{ sub.name }}</option>
+                        }
+                    </select>
+                    @if (!selectedCategory()) {
+                    <p class="text-gray-400 text-xs mt-1">Select a category first.</p>
+                    }
+                    @if (propertyForm.get('subcategoryId')?.invalid && propertyForm.get('subcategoryId')?.touched) {
+                    <p class="text-red-500 text-xs mt-1">Subcategory is required.</p>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Pricing & Availability ──────────────── -->
+        <div class="card p-6">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Pricing & Availability</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Rent Price <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" formControlName="rentPrice" class="form-control" placeholder="0" min="0" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Deposit <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" formControlName="deposit" class="form-control" placeholder="0" min="0" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Available Units <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" formControlName="availableUnits" class="form-control" placeholder="1"
+                        min="0" />
+                </div>
+
+                <div class="flex flex-col justify-end">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Availability</label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" formControlName="isAvailable" class="w-4 h-4 accent-primary" />
+                        <span class="text-sm text-gray-700">Available for rent</span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Features ──────────────────────────── -->
+        <div class="card p-6" formGroupName="features">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Features</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Water <span class="text-red-500">*</span>
+                    </label>
+                    <select formControlName="water" class="form-control">
+                        <option value="">Select water type</option>
+                        @for (opt of waterOptions; track opt.value) {
+                        <option [value]="opt.value">{{ opt.label }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Electricity <span class="text-red-500">*</span>
+                    </label>
+                    <select formControlName="electricity" class="form-control">
+                        <option value="">Select electricity type</option>
+                        @for (opt of electricityOptions; track opt.value) {
+                        <option [value]="opt.value">{{ opt.label }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Security <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" formControlName="security" class="form-control"
+                        placeholder="e.g. 24hr Guard, CCTV" />
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Address ───────────────────────────── -->
+        <div class="card p-6" formGroupName="address">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Address</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Country <span class="text-red-500">*</span>
+                    </label>
+                    <select formControlName="countryId" class="form-control">
+                        <option value="">Select country</option>
+                        @for (country of countries(); track country._id) {
+                        <option [value]="country._id">{{ country.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        County / Region <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" formControlName="county" class="form-control" placeholder="e.g. Nairobi" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Town</label>
+                    <input type="text" formControlName="town" class="form-control" placeholder="e.g. Westlands" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Street</label>
+                    <input type="text" formControlName="street" class="form-control" placeholder="e.g. Waiyaki Way" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Building</label>
+                    <input type="text" formControlName="building" class="form-control"
+                        placeholder="e.g. Westgate Mall" />
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── Map Coordinates ───────────────────── -->
+        <div class="card p-6" formGroupName="map">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Map Location</h3>
+            <p class="text-xs text-gray-400 mb-4">
+                Enter the latitude and longitude coordinates for the property pin on the map.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Latitude <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" step="any" formControlName="lat" class="form-control" placeholder="-1.2921" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Longitude <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" step="any" formControlName="lng" class="form-control" placeholder="36.8219" />
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Actions ───────────────────────────── -->
+        <div class="flex items-center justify-end gap-4 pb-12">
+            <button type="button" (click)="goBack()" class="btn-outline-sm rounded-full px-6">
+                Cancel
+            </button>
+            <app-button type="submit" [label]="property() ? 'Update Property' : 'Create Property'"
+                [isLoading]="isLoading()" [disabled]="propertyForm.invalid || isLoading()" styles="rounded-full px-8" />
+        </div>
+
+    </form>
+</div>
+}

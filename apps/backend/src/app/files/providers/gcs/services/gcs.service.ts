@@ -29,7 +29,7 @@ export class GcsService {
       projectId: storageConfig.googleProjectId, // Your Google Cloud project ID
       credentials: storageConfig.googleCredentials,
     });
-    this.bucketName = storageConfig.mediaBucket || 'aluxe-storage';
+    this.bucketName = storageConfig.mediaBucket || 'newmbani-storage';
   }
 
   /**
@@ -54,7 +54,7 @@ export class GcsService {
 
       // Create URL for directly file access via HTTP.
       const publicUrl = format(
-        `https://storage.googleapis.com/${bucket.name}/${file.name}`
+        `https://storage.googleapis.com/${bucket.name}/${file.name}`,
       );
 
       // try {
@@ -98,7 +98,7 @@ export class GcsService {
                 contentType: mimetype,
               },
               resumable: false, // Disable resumable uploads for buffer data
-            })
+            }),
           )
           .on('error', reject)
           .on('finish', async () => {
@@ -117,7 +117,7 @@ export class GcsService {
 
       // Create URL for direct file access via HTTP.
       const publicUrl = format(
-        `https://storage.googleapis.com/${this.bucketName}/${file.name}`
+        `https://storage.googleapis.com/${this.bucketName}/${file.name}`,
       );
 
       // Return the public URL for the uploaded file
@@ -171,7 +171,7 @@ export class GcsService {
     const bucket = this.storage.bucket(this.bucketName);
 
     const publicUrl = format(
-      `https://storage.googleapis.com/${bucket.name}/${fileName}`
+      `https://storage.googleapis.com/${bucket.name}/${fileName}`,
     );
     try {
       // Make the file public

@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AluxeServicesService } from '../../../properties/services/aluxe-services.service';
+import { AluxeServicesService } from '../../../properties/services/newmbani-services.service';
 import { AluxeServiceInterface } from '@newmbani/types';
 
 @Component({

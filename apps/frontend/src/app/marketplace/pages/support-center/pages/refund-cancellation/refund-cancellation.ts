@@ -27,7 +27,7 @@ interface CancellationTier {
 })
 export class RefundCancellation {
   effectiveDate = '03/10/2025';
-  companyName = 'Aluxe Ltd.';
+  companyName = 'Newmbani Ltd.';
   registeredOffice = 'Eldoret, Kenya';
 
   accommodationTiers: CancellationTier[] = [
@@ -56,11 +56,11 @@ export class RefundCancellation {
       id: 'general',
       title: '1. General Provisions',
       content:
-        'This Refund & Cancellation Policy ("Policy") outlines the terms and conditions for refunds and cancellations for bookings and services made through the Aluxe Platform.',
+        'This Refund & Cancellation Policy ("Policy") outlines the terms and conditions for refunds and cancellations for bookings and services made through the Newmbani Platform.',
       subsections: [
         {
           number: '1.1',
-          text: 'This Refund & Cancellation Policy applies to all bookings and services made through the Aluxe Platform.',
+          text: 'This Refund & Cancellation Policy applies to all bookings and services made through the Newmbani Platform.',
         },
         {
           number: '1.2',
@@ -68,7 +68,7 @@ export class RefundCancellation {
         },
         {
           number: '1.3',
-          text: 'This Policy forms part of the contractual framework between Users and Aluxe Ltd.',
+          text: 'This Policy forms part of the contractual framework between Users and Newmbani Ltd.',
         },
       ],
     },
@@ -106,7 +106,7 @@ export class RefundCancellation {
     {
       id: 'design',
       title: '5. Design, Furnishing & Build Services',
-      content: '(For Aluxe-certified contractors and service providers.)',
+      content: '(For Newmbani-certified contractors and service providers.)',
       subsections: [
         {
           number: '5.1',
@@ -118,7 +118,7 @@ export class RefundCancellation {
         },
         {
           number: '5.3',
-          text: "If a project is cancelled before work begins, refunds may be issued at Aluxe's discretion, minus administrative or processing fees.",
+          text: "If a project is cancelled before work begins, refunds may be issued at Newmbani's discretion, minus administrative or processing fees.",
         },
       ],
     },
@@ -165,7 +165,7 @@ export class RefundCancellation {
         },
         {
           number: '8.3',
-          text: 'Aluxe is not responsible for delays caused by banks, mobile money providers, or other payment processors.',
+          text: 'Newmbani is not responsible for delays caused by banks, mobile money providers, or other payment processors.',
         },
       ],
     },
@@ -173,7 +173,7 @@ export class RefundCancellation {
       id: 'exceptional',
       title: '9. Exceptional Circumstances',
       content:
-        'Aluxe may, at its discretion, grant refunds outside the standard policy when supported by verifiable evidence. Exceptional circumstances include:',
+        'Newmbani may, at its discretion, grant refunds outside the standard policy when supported by verifiable evidence. Exceptional circumstances include:',
       subsections: [
         {
           number: '9.1',
@@ -185,10 +185,10 @@ export class RefundCancellation {
         },
         {
           number: '9.3',
-          text: 'Property found unsafe or uninhabitable upon arrival, as verified by Aluxe.',
+          text: 'Property found unsafe or uninhabitable upon arrival, as verified by Newmbani.',
         },
       ],
-      note: 'All decisions under this clause are at the sole discretion of Aluxe Ltd.',
+      note: 'All decisions under this clause are at the sole discretion of Newmbani Ltd.',
     },
     {
       id: 'non-refundable',
@@ -228,7 +228,7 @@ export class RefundCancellation {
         {
           number: '12.1',
           title: 'Entire Agreement',
-          text: 'This Policy forms part of the binding agreement between Users and Aluxe alongside the Terms & Conditions.',
+          text: 'This Policy forms part of the binding agreement between Users and Newmbani alongside the Terms & Conditions.',
         },
         {
           number: '12.2',
@@ -238,7 +238,7 @@ export class RefundCancellation {
         {
           number: '12.3',
           title: 'Force Majeure',
-          text: 'Aluxe is not liable for delays caused by events outside its control, including system outages, payment processor failures, strikes, or government restrictions.',
+          text: 'Newmbani is not liable for delays caused by events outside its control, including system outages, payment processor failures, strikes, or government restrictions.',
         },
       ],
     },

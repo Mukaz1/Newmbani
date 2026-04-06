@@ -46,7 +46,7 @@ export class AboutUs {
       },
       title: 'About Us',
       description:
-        'Learn more about the story, mission, and values behind Aluxe.',
+        'Learn more about the story, mission, and values behind Newmbani.',
     });
   }
 }
