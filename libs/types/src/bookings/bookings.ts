@@ -7,6 +7,7 @@ import { Invoice } from '../invoices/invoice';
 export interface CreateBooking {
   customerId: string;
   propertyId: string;
+  landlordId: string;
   viewingDate: string |Date;
 }
 

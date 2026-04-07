@@ -33,7 +33,7 @@ import { MetaService } from '../../../../../common/services/meta.service';
 import saveAs from 'file-saver';
 import { DropdownMenu } from '../../../../../common/components/dropdown-menu/dropdown-menu';
 import { LandlordsService } from '../../../../../landlords/services/landlords.service';
-import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgClass, } from '@angular/common';
 
 @Component({
   selector: 'app-admin-landlords',
@@ -41,7 +41,6 @@ import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
   imports: [
     DataLoading,
     DatePipe,
-    TitleCasePipe,
     FormsModule,
     ReactiveFormsModule,
     RouterLink,

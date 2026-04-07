@@ -44,11 +44,11 @@ export const routes: Routes = [
           },
 
           {
-            path: 'host',
+            path: 'landlord',
             loadComponent: () =>
               import(
-                './pages/registration-pages/register-host/register-host'
-              ).then((m) => m.RegisterHost),
+                './pages/registration-pages/register-landlord/register-landlord'
+              ).then((m) => m.RegisterLandlord),
           },
         ],
       },

@@ -25,7 +25,7 @@ import { Dialog } from '@angular/cdk/dialog';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, SlicePipe, TitleCasePipe,  NgClass, DatePipe],
+  imports: [RouterLink, SlicePipe, TitleCasePipe, NgClass, DatePipe],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss'],
 })
@@ -43,11 +43,11 @@ export class CustomerDashboard implements OnInit {
     return user ? `${user.name}` : 'Guest';
   });
 
-  BookingStatus = BookingStatusEnum
+  BookingStatus = BookingStatusEnum;
   private readonly bookingsService = inject(BookingsService);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private dialog = inject(Dialog)
+  private dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
   private readonly notificationService = inject(NotificationService);
   private readonly metaService = inject(MetaService);
@@ -89,16 +89,20 @@ export class CustomerDashboard implements OnInit {
         ? DashboardsEnum.LANDLORD
         : DashboardsEnum.ADMIN;
     this.isLoading.set(true);
+    const customerId = this.authService.user()?.customerId;
     this.bookingsService
       .getBookings({
         limit: this.pageSize(),
         keyword: this.keyword(),
         page: this.currentPage(),
+        customerId: customerId ?? '',
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          const response = res as HttpResponseInterface<PaginatedData<Booking[]>>
+          const response = res as HttpResponseInterface<
+            PaginatedData<Booking[]>
+          >;
           this.bookings.set(response.data.data);
           this.isLoading.set(false);
         },
@@ -142,7 +146,10 @@ export class CustomerDashboard implements OnInit {
     if (!Array.isArray(bookings)) return [];
     return bookings.filter((b: Booking) => {
       const status = this.getBookingStatus(b);
-      return status === BookingStatusEnum.APPROVED || status === BookingStatusEnum.PENDING;
+      return (
+        status === BookingStatusEnum.APPROVED ||
+        status === BookingStatusEnum.PENDING
+      );
     });
   }
 

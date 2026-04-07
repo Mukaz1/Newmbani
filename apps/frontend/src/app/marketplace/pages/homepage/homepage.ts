@@ -10,6 +10,7 @@ import {
   HttpResponseInterface,
   PaginatedData,
   Property,
+  PropertyApprovalStatus,
   PropertyCategory,
 } from '@newmbani/types';
 import { HeroSection } from '../../components/hero-section/hero-section';
@@ -101,7 +102,6 @@ export class Homepage implements OnInit {
     keyword: string;
     limit: number;
     page: number;
-    isRestricted: boolean;
     isApproved: boolean;
   }) {
     this.isLoading.set(true);
@@ -110,6 +110,7 @@ export class Homepage implements OnInit {
         keyword: query?.keyword ?? '',
         limit: query?.limit ?? -1,
         page: query?.page ?? 1,
+        approvalStatus: PropertyApprovalStatus.APPROVED,
       })
       .pipe(take(1))
       .subscribe({

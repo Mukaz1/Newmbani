@@ -7,6 +7,9 @@ export interface BookingQueryPayload {
     limit: number;
     sort: object;
     slim: boolean;
+    customerId?:string;
+    propertyId?:string;
+    landlordId?:string;
   }
 
 export const getBookingParams = async (data: {
@@ -24,6 +27,26 @@ export const getBookingParams = async (data: {
         ? (query.sort as object) || { createdAt: -1 }
         : { createdAt: -1 };
     const slim = !!query.slim;
+    const landlordId: string | undefined =
+    query && query.landlordId
+      ? (query.landlordId as string).includes('undefined')
+        ? undefined
+        : (query.landlordId as string)
+      : undefined;
+      const customerId: string | undefined =
+      query && query.customerId
+        ? (query.customerId as string).includes('undefined')
+          ? undefined
+          : (query.customerId as string)
+        : undefined;
+        const propertyId: string | undefined =
+        query && query.propertyId
+          ? (query.propertyId as string).includes('undefined')
+            ? undefined
+            : (query.propertyId as string)
+          : undefined;
+    
+  
     return {
       keyword,
       limit,
@@ -31,6 +54,9 @@ export const getBookingParams = async (data: {
       sort,
       skip,
       slim,
+      landlordId,
+      propertyId,
+      customerId
     };
   };
   

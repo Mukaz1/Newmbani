@@ -12,7 +12,7 @@ export interface CreateLandlord {
   address: Address;
   acceptTerms: boolean;
   languages?: string[];
-  idNumber: string;
+  idNumber?: string;
   password: string;
 }
 

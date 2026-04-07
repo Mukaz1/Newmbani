@@ -3,6 +3,7 @@ import {
   FormBuilder,
   Validators,
   FormGroup,
+  FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -46,10 +47,16 @@ export class RegisterEmailPassword implements OnInit {
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', Validators.required],
-    countryId: ['', Validators.required],
     password: ['', [Validators.required, passwordValidator()]],
     confirmPassword: ['', Validators.required],
     acceptTerms: [false, Validators.requiredTrue],
+    address: this.fb.group({
+      countryId: ['', Validators.required],
+      county: ['', Validators.required],
+      town: [''],
+      street: [''],
+      building: [''],
+    }),
   });
 
   showPassword = signal(false);
@@ -73,9 +80,24 @@ export class RegisterEmailPassword implements OnInit {
 
   onSignup(): void {
     this.isLoading.set(true);
-    if (this.customerForm.invalid) return;
+    if (this.customerForm.invalid) {
+      this.isLoading.set(false);
+      return;
+    }
 
-    const { confirmPassword, ...payload } = this.customerForm.value;
+    const { confirmPassword, ...rest } = this.customerForm.value;
+    // Compose RegisterCustomer payload as per type definition
+    const { name, email, phone, password, acceptTerms, address } = rest;
+    const payload = {
+      name,
+      email,
+      phone,
+      password,
+      acceptTerms,
+      address: {
+        ...address,
+      },
+    };
     this.onboardingService.registerCustomer(payload).subscribe({
       next: () => (
         this.notificationService.notify({

@@ -17,6 +17,7 @@ import {
   HttpResponseInterface,
   PaginatedData,
   Property,
+  PropertyApprovalStatus,
 } from '@newmbani/types';
 import { CategoriesService } from '../../../../admin/pages/categories/services/categories.service';
 import { take } from 'rxjs';
@@ -33,6 +34,7 @@ interface PropertyQueryParams {
   landlordId?: string;
   categoryId?: string;
   location?: string;
+  approvalStatus?: PropertyApprovalStatus;
 }
 
 @Component({
@@ -104,6 +106,7 @@ export class AllProperties implements OnInit {
           page: params['page'] ? +params['page'] : this.currentPage(),
           landlordId: params['landlordId'],
           categoryId: params['categoryId'],
+          approvalStatus: params['approvalStatus'],
         };
         this.getProperty(queryParams);
       });
@@ -119,6 +122,7 @@ export class AllProperties implements OnInit {
       landlordId: query?.landlordId,
       categoryId: query?.categoryId,
       location: query?.location,
+      approvalStatus: query?.approvalStatus ?? PropertyApprovalStatus.APPROVED,
     };
 
     this.propertiesService

@@ -18,15 +18,23 @@ export class BookingsService {
     limit?: number;
     page?: number;
     keyword?: string;
+    landlordId?: string;
+    customerId?: string;
+    propertyId?: string;
   }): Observable<HttpResponseInterface<PaginatedData<Booking[]>>> {
     const options = data
       ? {
           params: new HttpParams()
             .set('limit', data.limit?.toString() ?? '')
             .set('page', data.page?.toString() ?? '')
-            .set('keyword', data.keyword ?? ''),
+            .set('keyword', data.keyword ?? '')
+            .set('customerId', data.customerId ?? '')
+            .set('propertyId', data.propertyId ?? '')
+            .set('landlordId', data.landlordId ?? ''),
         }
       : {};
+
+      console.log(options)
     return this.http.get<HttpResponseInterface<PaginatedData<Booking[]>>>(
       API_ENDPOINTS.GET_BOOKINGS,
       options,

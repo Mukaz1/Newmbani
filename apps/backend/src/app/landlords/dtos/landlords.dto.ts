@@ -34,7 +34,7 @@ export class CreateLandlordDto {
   password: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   idNumber: string;
 
   @IsOptional()

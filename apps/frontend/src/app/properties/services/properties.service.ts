@@ -1,5 +1,3 @@
-
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -16,17 +14,17 @@ import { API_ENDPOINTS } from '../../common/routes.constants';
   providedIn: 'root',
 })
 export class PropertiesService {
-   private http: HttpClient = inject(HttpClient);
+  private http: HttpClient = inject(HttpClient);
 
   /**
    * Create a new property (BNB or Sale)
    */
   createProperty(
-    property: CreateProperty
+    property: CreateProperty,
   ): Observable<HttpResponseInterface<Property>> {
     return this.http.post<HttpResponseInterface<Property>>(
       API_ENDPOINTS.CREATE_PROPERTY,
-      property
+      property,
     );
   }
 
@@ -56,7 +54,7 @@ export class PropertiesService {
       : {};
     return this.http.get<HttpResponseInterface<PaginatedData<Property[]>>>(
       API_ENDPOINTS.GET_PROPERTIES,
-      options
+      options,
     );
   }
 
@@ -64,10 +62,10 @@ export class PropertiesService {
    * Get a single property by ID or slug
    */
   getPropertyByIdOrSlug(
-    idOrSlug: string
+    idOrSlug: string,
   ): Observable<HttpResponseInterface<Property>> {
     return this.http.get<HttpResponseInterface<Property>>(
-      API_ENDPOINTS.GET_PROPERTY(idOrSlug)
+      API_ENDPOINTS.GET_PROPERTY(idOrSlug),
     );
   }
 
@@ -76,11 +74,11 @@ export class PropertiesService {
    */
   updateProperty(
     propertyId: string,
-    property: Partial<Property>
+    property: Partial<Property>,
   ): Observable<HttpResponseInterface<Partial<Property>>> {
     return this.http.patch<HttpResponseInterface<Partial<Property>>>(
       API_ENDPOINTS.UPDATE_PROPERTY(propertyId),
-      property
+      property,
     );
   }
 
@@ -89,38 +87,37 @@ export class PropertiesService {
    */
   deleteProperty(propertyId: string): Observable<HttpResponseInterface<void>> {
     return this.http.delete<HttpResponseInterface<void>>(
-      API_ENDPOINTS.DELETE_PROPERTY(propertyId)
+      API_ENDPOINTS.DELETE_PROPERTY(propertyId),
     );
   }
 
-
-    /**
+  /**
    * Remove a property image
    */
-    removePropertyImage(
-      propertyId: string
-    ): Observable<HttpResponseInterface<void>> {
-      return this.http.delete<HttpResponseInterface<void>>(
-        API_ENDPOINTS.DELETE_PROPERTY_IMAGE(propertyId)
-      );
-    }
-  
-    /**
-     * Review property (approve or reject)
-     * @param propertyId The id of the property to review
-     * @param reviewDto The review payload (status, reason, etc)
-     */
-    reviewProperty(data: {
-      propertyId: string;
-      status: string;
-      reviewComment: string;
-    }): Observable<HttpResponseInterface<any>> {
-      const { propertyId, status, reviewComment } = data;
-      const endpoint = API_ENDPOINTS.REVIEW_PROPERTY(propertyId);
-      const payload = {
-        status,
-        reviewComment,
-      };
-      return this.http.patch<HttpResponseInterface<any>>(endpoint, payload);
-    }
+  removePropertyImage(
+    propertyId: string,
+  ): Observable<HttpResponseInterface<void>> {
+    return this.http.delete<HttpResponseInterface<void>>(
+      API_ENDPOINTS.DELETE_PROPERTY_IMAGE(propertyId),
+    );
+  }
+
+  /**
+   * Review property (approve or reject)
+   * @param propertyId The id of the property to review
+   * @param reviewDto The review payload (status, reason, etc)
+   */
+  reviewProperty(data: {
+    propertyId: string;
+    status: string;
+    reviewComment: string;
+  }): Observable<HttpResponseInterface<any>> {
+    const { propertyId, status, reviewComment } = data;
+    const endpoint = API_ENDPOINTS.REVIEW_PROPERTY(propertyId);
+    const payload = {
+      status,
+      reviewComment,
+    };
+    return this.http.patch<HttpResponseInterface<any>>(endpoint, payload);
+  }
 }

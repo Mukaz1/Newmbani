@@ -90,12 +90,14 @@ export class AllBookings implements OnInit {
   }
 
   fetchBookings() {
+    const landlordId = this.authService.user()?.landlordId
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
         limit: this.pageSize(),
         page: this.currentPage(),
         keyword: this.keyword(),
+        landlordId: landlordId || ''
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

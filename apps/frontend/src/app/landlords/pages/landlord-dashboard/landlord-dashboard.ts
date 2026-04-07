@@ -43,7 +43,11 @@ import { BookingStatusEnum } from '@newmbani/types'; // Proper enum import
     RouterLink,
     BookingChart,
     DoughnutChart,
-    NgClass, TitleCasePipe, DatePipe, SlicePipe, DecimalPipe
+    NgClass,
+    TitleCasePipe,
+    DatePipe,
+    SlicePipe,
+    DecimalPipe,
   ],
   templateUrl: './landlord-dashboard.html',
   styleUrl: './landlord-dashboard.scss',
@@ -80,7 +84,7 @@ export class LandlordDashboard implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly metaService = inject(MetaService);
   @ViewChild('listingChart') listingChart!: any;
-  BookingStatusEnum =BookingStatusEnum
+  BookingStatusEnum = BookingStatusEnum;
   constructor() {
     this.metaService.setMeta({
       breadcrumb: {
@@ -118,7 +122,9 @@ export class LandlordDashboard implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const res = response as HttpResponseInterface<PaginatedData<Property[]>>;
+          const res = response as HttpResponseInterface<
+            PaginatedData<Property[]>
+          >;
           this.properties.set(res.data.data);
           this.paginatedData.set(res.data);
           this.isLoading.set(false);
@@ -142,16 +148,20 @@ export class LandlordDashboard implements OnInit {
         ? DashboardsEnum.LANDLORD
         : DashboardsEnum.ADMIN;
     this.isLoading.set(true);
+    const landlordId = this.authService.user()?.landlordId;
     this.bookingsService
       .getBookings({
         limit: this.pageSize(),
         keyword: this.keyword(),
         page: this.currentPage(),
+        landlordId: landlordId ?? '',
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const res = response as HttpResponseInterface<PaginatedData<Booking[]>>;
+          const res = response as HttpResponseInterface<
+            PaginatedData<Booking[]>
+          >;
           this.bookings.set(res.data.data);
           this.isLoading.set(false);
         },
@@ -183,7 +193,10 @@ export class LandlordDashboard implements OnInit {
     if (!Array.isArray(bookings)) return [];
     return bookings.filter((b: Booking) => {
       const status = this.getBookingStatus(b);
-      return status === BookingStatusEnum.PENDING || status === BookingStatusEnum.APPROVED;
+      return (
+        status === BookingStatusEnum.PENDING ||
+        status === BookingStatusEnum.APPROVED
+      );
     });
   }
 

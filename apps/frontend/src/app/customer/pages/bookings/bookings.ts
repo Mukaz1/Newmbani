@@ -79,12 +79,15 @@ export class Bookings {
   }
 
   fetchBookings() {
+    const customerId = this.authService.user()?.customerId
+console.log(customerId)
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
         limit: this.pageSize(),
         page: this.currentPage(),
         keyword: this.keyword(),
+        customerId: customerId || ''
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

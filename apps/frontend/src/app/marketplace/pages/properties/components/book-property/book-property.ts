@@ -185,6 +185,7 @@ export class BookProperty implements OnInit {
     const user = this.authService.user;
     const customerId = user()?.customerId as string;
     const propertyId = this.property()?._id?.toString() as string;
+    const landlordId = this.property()?.landlordId?.toString() as string;
 
     if (!customerId || !propertyId) {
       this.notificationService.notify({
@@ -245,7 +246,7 @@ export class BookProperty implements OnInit {
     }
 
     this.bookingsService
-      .createBooking({ customerId, propertyId, viewingDate })
+      .createBooking({ customerId, propertyId, landlordId, viewingDate })
       .subscribe({
         next: (res) => {
           this.isLoading.set(false);

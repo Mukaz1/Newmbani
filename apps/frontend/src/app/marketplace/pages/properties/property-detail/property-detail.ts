@@ -39,7 +39,7 @@ import { PricingCard } from '../components/pricing-card/pricing-card';
     FormatLabelPipe,
     PropertyLocation,
     PropertyCard,
-    PricingCard
+    PricingCard,
   ],
   templateUrl: './property-detail.html',
   styleUrl: './property-detail.scss',
@@ -92,7 +92,7 @@ export class PropertyDetail implements OnInit {
   ngOnInit(): void {
     this.route.params
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params:any) => {
+      .subscribe((params: any) => {
         if (params['id']) {
           this.getPropertyDetails(params['id']);
         }
@@ -216,11 +216,9 @@ export class PropertyDetail implements OnInit {
 
   getPropertyImages(): PropertyImage[] {
     const property = this.property();
-    if (property  && Array.isArray(property.images)) {
+    if (property && Array.isArray(property.images)) {
       // Only include images with approvalStatus === 'APPROVED'
-      const approvedImages: PropertyImage[] = property.images.filter(
-        (img) => img.approvalStatus === PropertyImageApprovalStatus.APPROVED
-      );
+      const approvedImages: PropertyImage[] = property.images;
 
       // Group approved images by categoryId
       const imagesByCategory: { [categoryId: string]: PropertyImage[] } = {};
@@ -431,7 +429,7 @@ export class PropertyDetail implements OnInit {
 
     if (isFav) {
       this.favorites.set(
-        currentFavorites.filter((fav) => fav._id !== property._id)
+        currentFavorites.filter((fav) => fav._id !== property._id),
       );
     } else {
       this.favorites.set([...currentFavorites, property]);

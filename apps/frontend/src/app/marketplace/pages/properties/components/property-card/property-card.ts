@@ -20,9 +20,7 @@ export class PropertyCard {
   images = computed(() => {
     const property = this.property();
     if (!property?.images?.length) return [];
-    return property.images.filter(
-      (img) => img.approvalStatus === PropertyImageApprovalStatus.APPROVED,
-    );
+    return property.images;
   });
 
   cardImageUrl = computed(() => {

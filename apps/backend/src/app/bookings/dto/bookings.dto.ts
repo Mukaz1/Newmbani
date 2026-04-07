@@ -11,9 +11,14 @@ export class CreateBookingDto implements CreateBooking {
   @IsNotEmpty()
   customerId: string;
 
+  
   @IsString()
   @IsNotEmpty()
   propertyId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  landlordId: string;
 
   @IsString()
   @IsNotEmpty()

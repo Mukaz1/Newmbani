@@ -17,7 +17,6 @@ import { UserProfileWidget } from '../../components/user-profile-widget/user-pro
   imports: [
     RouterLink,
     RouterLinkActive,
-    Button,
     UserProfileWidget,
   ],
   templateUrl: './header.html',
