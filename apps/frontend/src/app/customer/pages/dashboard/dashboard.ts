@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { signal, computed } from '@angular/core';
 import {
   Booking,
+  BookingStatusEnum,
   DashboardsEnum,
   HttpResponseInterface,
   NotificationStatusEnum,
@@ -17,6 +18,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../common/services/notification.service';
 import { DatePipe, NgClass, SlicePipe, TitleCasePipe } from '@angular/common';
 import { MetaService } from '../../../common/services/meta.service';
+import { ViewBooking } from '../../../bookings/pages/view-booking/view-booking';
+import { take } from 'rxjs';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,9 +43,11 @@ export class CustomerDashboard implements OnInit {
     return user ? `${user.name}` : 'Guest';
   });
 
+  BookingStatus = BookingStatusEnum
   private readonly bookingsService = inject(BookingsService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private dialog = inject(Dialog)
   private readonly destroyRef = inject(DestroyRef);
   private readonly notificationService = inject(NotificationService);
   private readonly metaService = inject(MetaService);
@@ -114,38 +120,21 @@ export class CustomerDashboard implements OnInit {
     return 'Good Evening';
   }
 
-  getBookingStatus(booking: Booking): 'Scheduled' | 'Active' | 'Completed' {
-    if (!booking?.invoice?.items?.length) return 'Completed';
-
-    const checkIn = booking.invoice?.items?.[0]?.metadata?.checkIn;
-    const checkOut = booking.invoice?.items?.[0]?.metadata?.checkOut;
-
-    if (!checkIn || !checkOut) return 'Completed';
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const inDate = new Date(checkIn);
-    inDate.setHours(0, 0, 0, 0);
-
-    const outDate = new Date(checkOut);
-    outDate.setHours(0, 0, 0, 0);
-
-    if (today < inDate) {
-      return 'Scheduled';
-    } else if (today >= inDate && today < outDate) {
-      return 'Active';
-    } else {
-      return 'Completed';
-    }
+  getBookingStatus(booking: Booking): BookingStatusEnum {
+    // Simply return the booking's assigned status
+    return booking?.status;
   }
 
   get completedBookings() {
     const bookings = this.bookings?.();
     if (!Array.isArray(bookings)) return [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of today
     return bookings.filter((b: Booking) => {
-      const status = this.getBookingStatus(b);
-      return status === 'Completed';
+      if (!b.viewingDate) return false;
+      const viewingDate = new Date(b.viewingDate);
+      viewingDate.setHours(0, 0, 0, 0); // Compare only date, not time
+      return viewingDate < today;
     });
   }
   get activeOrScheduledBookings() {
@@ -153,11 +142,17 @@ export class CustomerDashboard implements OnInit {
     if (!Array.isArray(bookings)) return [];
     return bookings.filter((b: Booking) => {
       const status = this.getBookingStatus(b);
-      return status === 'Scheduled' || status === 'Active';
+      return status === BookingStatusEnum.APPROVED || status === BookingStatusEnum.PENDING;
     });
   }
 
   viewBooking(id: string) {
-    this.router.navigate([`/customer/bookings/${id}`]);
+    const booking = this.bookings().find((b) => b._id === id);
+    if (!booking) return;
+
+    const ref = this.dialog.open(ViewBooking, { data: { booking } });
+    ref.closed.pipe(take(1)).subscribe((res) => {
+      if ((res as any)?.updated) this.fetchBookings();
+    });
   }
 }

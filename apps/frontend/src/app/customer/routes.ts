@@ -26,8 +26,8 @@ export const routes: Routes = [
       {
         path: 'bookings',
         loadComponent: () =>
-          import('../bookings/pages/all-bookings/all-bookings').then(
-            (m) => m.AllBookings
+          import('./pages/bookings/bookings').then(
+            (m) => m.Bookings
           ),
         canMatch: [AuthGuard],
       },

@@ -55,6 +55,35 @@ export const BookingAggregation = (data: {
       localField: 'propertyId',
       foreignField: '_id',
       as: 'property',
+      pipeline: [
+        {
+          $addFields: {
+           
+            propertyId: {
+              $toString: '$_id',
+            },
+            landlordId: { $toObjectId: '$landlordId' },
+          },
+        },
+        {
+          
+          $lookup: {
+            from: DatabaseModelEnums.PROPERTY_IMAGE,
+            localField: 'propertyId',
+            foreignField: 'propertyId',
+            as: 'images',
+          },
+        },
+        {
+          $lookup: {
+            from: DatabaseModelEnums.LANDLORD,
+            localField: 'landlordId',
+            foreignField: '_id',
+            as: 'landlord',
+          },
+        },
+        { $unwind: { path: '$landlord', preserveNullAndEmptyArrays: false } },
+      ]
     },
   },
   

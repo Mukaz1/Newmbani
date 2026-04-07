@@ -5,11 +5,11 @@ import { BookingsService } from '../../services/bookings.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Button } from '../../../common/components/button/button';
 
 @Component({
   selector: 'app-cancel-booking',
-  standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Button],
   templateUrl: './cancel-booking.html',
   styleUrl: './cancel-booking.scss',
 })

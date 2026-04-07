@@ -61,7 +61,7 @@
     </div>
     <!-- Favorites -->
     <div
-      class="hidden rounded-xl p-6 bg-pink-50 border-pink-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
+      class=" rounded-xl p-6 bg-pink-50 border-pink-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
       <div class="flex items-center space-x-4">
         <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center">
           <i class="bi bi-heart-fill text-3xl"></i>
@@ -78,7 +78,7 @@
 
     <!-- Transactions -->
     <div
-      class="rounded-xl p-6 bg-blue-50 border-blue-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
+      class="hidden rounded-xl p-6 bg-blue-50 border-blue-200 backdrop-blur-md text-gray-800 shadow-sm border transition transform">
       <div class="flex items-center space-x-4">
         <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
           <i class="bi bi-credit-card-2-front text-3xl"></i>
@@ -156,15 +156,17 @@
 
               <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
                 <span class="font-regular text-gray-800">
-                  Ksh {{ booking?.invoice?.totalAmount || 0 }}
+                  Ksh.{{ booking?.property?.rentPrice }}
                 </span>
               </td>
               <td class="px-2 py-3 align-middle text-center whitespace-nowrap">
-                <span class="py-2 px-3 rounded-full text-center text-xs font-semibold inline-block" [ngClass]="{
-                'bg-primary-100 text-primary-700': getBookingStatus(booking) === 'Scheduled',
-                'bg-primary-500 text-white': getBookingStatus(booking) === 'Active',
-                'bg-secondary-100 text-secondary-700': getBookingStatus(booking) === 'Completed'
-              }">
+                <span class="px-2 inline-flex text-xs py-2 rounded-full border items-center text-center font-semibold"
+                  [ngClass]="{
+                   'bg-green-100 text-green-700 border-green-200': getBookingStatus(booking) === BookingStatus.APPROVED,
+                   'bg-yellow-50 text-yellow-700 border-yellow-200': getBookingStatus(booking) === BookingStatus.PENDING,
+                   'bg-gray-100 text-gray-700 border-gray-200': getBookingStatus(booking) === BookingStatus.CANCELLED,
+                   'bg-red-100 text-red-700 border-red-200': getBookingStatus(booking) === BookingStatus.REJECTED,
+                 }">
                   {{ getBookingStatus(booking) | titlecase }}
                 </span>
               </td>

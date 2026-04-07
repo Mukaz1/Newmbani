@@ -24,11 +24,11 @@
       </div>
 
       <!-- Desktop: Become a Host button -->
-      @if (!isLoggedIn()) {
+      <!-- @if (!isLoggedIn()) {
       <div class="hidden md:block">
         <app-button (buttonClicked)="onBecomeHost()" label="Become a Host" styles=""></app-button>
       </div>
-      }
+      } -->
 
 
       <!-- Desktop: person icon dropdown (only if logged in) -->
@@ -59,11 +59,11 @@
               routerLinkActive="font-bold text-secondary-500">Listings</a>
             <a routerLink="/contact-us" class="text-gray-600 hover:text-secondary-400 transition-colors"
               routerLinkActive="font-bold text-secondary-500">Contact Us</a>
-            @if (!isLoggedIn()) {
+            <!-- @if (!isLoggedIn()) {
             <div class="md:hidden ">
               <app-button (buttonClicked)="onBecomeHost()" label="Become a Host" styles=""></app-button>
             </div>
-            }
+            } -->
           </div>
         </div>
         }

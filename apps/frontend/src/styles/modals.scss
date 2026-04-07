@@ -25,8 +25,7 @@
   }
 
   .modal-close {
-    @apply absolute top-5 right-6 w-8 h-8 flex items-center justify-center 
-               rounded-full hover:bg-white/20 transition-colors;
+    @apply absolute top-5 right-6 w-8 h-8 flex items-center justify-center  rounded-full hover:bg-white/20 transition-colors;
   }
 
   .modal-body {

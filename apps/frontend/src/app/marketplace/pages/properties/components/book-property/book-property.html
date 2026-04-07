@@ -61,11 +61,11 @@
                     } @else {
                     <button type="button" (click)="selectDate(day)" [disabled]="isPast(day) || isUnavailable(day)"
                         [ngClass]="{
-                    'bg-primary text-white font-semibold shadow-sm': isSelected(day),
-                    'opacity-30 cursor-not-allowed': isPast(day) || isUnavailable(day),
-                    'ring-2 ring-primary/40 text-primary font-medium': isToday(day) && !isSelected(day),
-                    'hover:bg-gray-100 text-gray-800': !isPast(day) && !isUnavailable(day) && !isSelected(day)
-                  }"
+                          'bg-primary text-white font-semibold shadow-sm': isSelected(day),
+                          'opacity-30 cursor-not-allowed line-through': isPast(day) || isUnavailable(day),
+                          'ring-2 ring-primary/40 text-primary font-medium': isToday(day) && !isSelected(day),
+                          'hover:bg-gray-100 text-gray-800': !isPast(day) && !isUnavailable(day) && !isSelected(day)
+                        }"
                         class="mx-auto w-9 h-9 rounded-full flex items-center justify-center text-sm transition-all duration-150">
                         {{ day.getDate() }}
                     </button>
@@ -73,20 +73,7 @@
                     }
                 </div>
             </div>
-            <!-- ── End Calendar ──────────────────────────────────── -->
 
-            <!-- Legend -->
-            <div class="flex items-center gap-4 mt-3 text-xs text-gray-500">
-                <span class="flex items-center gap-1.5">
-                    <span class="w-3 h-3 rounded-full bg-primary inline-block"></span> Selected
-                </span>
-                <span class="flex items-center gap-1.5">
-                    <span class="w-3 h-3 rounded-full ring-2 ring-primary/40 inline-block"></span> Today
-                </span>
-                <span class="flex items-center gap-1.5">
-                    <span class="w-3 h-3 rounded-full bg-gray-200 opacity-40 inline-block"></span> Unavailable
-                </span>
-            </div>
 
             <!-- Selected date confirmation banner -->
             @if (selectedDate()) {

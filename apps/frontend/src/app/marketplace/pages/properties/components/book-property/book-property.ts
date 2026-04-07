@@ -27,6 +27,7 @@ export class BookProperty implements OnInit {
   property = signal<Property | null>(null);
   selectedDate = signal<Date | null>(null);
   isLoading = signal(false);
+  // Set as ALL past days, updated on calendar navigation
   unavailableDates = signal<Date[]>([]);
   // Backend error message to display inside the dialog when createBooking fails
   errorMessage = signal<string | null>(null);
@@ -101,6 +102,7 @@ export class BookProperty implements OnInit {
     } else {
       this.currentMonth.set(this.currentMonth() - 1);
     }
+    this.loadUnavailableDates();
   }
 
   nextMonth(): void {
@@ -110,6 +112,7 @@ export class BookProperty implements OnInit {
     } else {
       this.currentMonth.set(this.currentMonth() + 1);
     }
+    this.loadUnavailableDates();
   }
 
   selectDate(date: Date | null): void {
@@ -120,13 +123,13 @@ export class BookProperty implements OnInit {
   isPast(date: Date): boolean {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    // Only dates before today are past
     return date < today;
   }
 
   isUnavailable(date: Date): boolean {
-    return this.unavailableDates().some(
-      (d) => d.toDateString() === date.toDateString(),
-    );
+    // Unavailable dates are any date in the past
+    return this.isPast(date);
   }
 
   isSelected(date: Date): boolean {
@@ -140,6 +143,7 @@ export class BookProperty implements OnInit {
 
   // ─── Booking ─────────────────────────────────────────────────────────
   loadUnavailableDates(): void {
+    // Set unavailableDates to ALL past dates in the displayed calendar month
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
