@@ -1,0 +1,209 @@
+<div>
+  <div>
+    <!-- Title -->
+    <div class="flex justify-between">
+      <div class="flex-col">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">
+          Register A Landlord Account
+        </h2>
+        <p class="text-gray-600 text-sm mb-8">
+          Fill in your details to register as a landlord and start listing your properties.
+        </p>
+      </div>
+    </div>
+
+    <form [formGroup]="landlordForm" class="space-y-6">
+
+      <!-- Landlord Info -->
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- Email -->
+        <div class="col-span-2">
+          <label class="block text-xs font-medium text-primary mb-2">Email</label>
+          <input type="email" formControlName="email" placeholder="Enter your email address"
+            class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3 focus:ring-2 focus:ring-primary" />
+
+          @if (landlordForm.controls['email'].touched && landlordForm.controls['email'].invalid) {
+          <div class="text-xs text-danger mt-1">
+            @if (landlordForm.controls['email'].errors?.['required']) {
+            <span>Email is required.</span>
+            }
+            @if (landlordForm.controls['email'].errors?.['email']) {
+            <span>Email is invalid.</span>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- Display Name -->
+        <div class="col-span-2 md:col-span-1">
+          <label class="block text-xs font-medium text-primary mb-2">Display Name</label>
+          <input type="text" formControlName="displayName" placeholder="Enter the business name"
+            class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3 focus:ring-2 focus:ring-primary" />
+
+          @if (landlordForm.controls['displayName'].touched && landlordForm.controls['displayName'].invalid) {
+          <div class="text-xs text-danger mt-1">Display Name is required.</div>
+          }
+        </div>
+
+        <!-- Personal Name -->
+        <div class="col-span-2 md:col-span-1">
+          <label class="block text-xs font-medium text-primary mb-2">Personal Name</label>
+          <input type="text" formControlName="name" placeholder="Enter your legal name"
+            class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3 focus:ring-2 focus:ring-primary" />
+
+          @if (landlordForm.controls['name'].touched && landlordForm.controls['name'].invalid) {
+          <div class="text-xs text-danger mt-1">Personal Name is required.</div>
+          }
+        </div>
+
+
+
+        <!-- Phone -->
+        <div class="col-span-2 md:col-span-1">
+          <label class="block text-xs font-medium text-primary mb-2">Phone</label>
+          <input type="text" formControlName="phone" placeholder="e.g., +254..."
+            class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3 focus:ring-2 focus:ring-primary" />
+
+          @if (landlordForm.controls['phone'].touched && landlordForm.controls['phone'].invalid) {
+          <div class="text-xs text-danger mt-1">Phone is required.</div>
+          }
+        </div>
+        <div class="col-span-2 md:col-span-1">
+          <label class="block text-xs font-medium text-primary mb-2">ID Number</label>
+          <input type="text" formControlName="idNumber" placeholder="Enter your ID number"
+            class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3 focus:ring-2 focus:ring-primary" />
+
+          @if (landlordForm.controls['idNumber'].touched && landlordForm.controls['idNumber'].invalid) {
+          <div class="text-xs text-danger mt-1">ID Number is required (min 8 chars).</div>
+          }
+        </div>
+
+        <!-- ADDRESS GROUP (FIXED) -->
+        <div formGroupName="address" class="col-span-2 grid grid-cols-2 gap-4">
+
+          <!-- Country -->
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-medium text-primary mb-2">Country</label>
+            <app-searchable-select [options]="countryOptions()" formControlName="countryId">
+            </app-searchable-select>
+
+            @if (landlordForm.get('address.countryId')?.touched && landlordForm.get('address.countryId')?.invalid) {
+            <div class="text-xs text-danger mt-1">Country is required.</div>
+            }
+          </div>
+
+          <!-- County -->
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-medium text-primary mb-2">County/City</label>
+            <input type="text" formControlName="county"
+              class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3 focus:ring-2 focus:ring-primary" />
+
+            @if (landlordForm.get('address.county')?.touched && landlordForm.get('address.county')?.invalid) {
+            <div class="text-xs text-danger mt-1">County is required.</div>
+            }
+          </div>
+
+          <!-- Town -->
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-medium text-primary mb-2">Town</label>
+            <input type="text" formControlName="town"
+              class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3" />
+          </div>
+
+          <!-- Street -->
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-medium text-primary mb-2">Street</label>
+            <input type="text" formControlName="street"
+              class="bg-gray-50/80 border border-gray-300 text-sm rounded-lg w-full px-2.5 py-3" />
+          </div>
+
+        </div>
+
+        <!-- Languages -->
+        <div class="col-span-2">
+          <label class="block text-xs font-medium text-gray-600 mb-2">Languages Spoken</label>
+          <app-chip-input (chipsChange)="patchLanguages($event)" />
+
+          @if (landlordForm.controls['languages'].touched && landlordForm.controls['languages'].invalid) {
+          <div class="text-xs text-danger mt-1">At least one language is required.</div>
+          }
+        </div>
+
+      </div>
+
+      <!-- PASSWORD -->
+      <!-- PASSWORD -->
+      <div>
+        <label class="block text-sm font-medium text-primary mb-2">Password</label>
+
+        <div class="relative">
+          <input [type]="showPassword() ? 'text' : 'password'" formControlName="password"
+            placeholder="Create a secure password"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary pr-12" />
+
+          <button type="button" (click)="togglePasswordVisibility()"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary">
+            <i [ngClass]="passwordIcon"></i>
+          </button>
+        </div>
+
+        <div class="mt-2 text-xs text-gray-500">
+          Must include uppercase, lowercase, number, and special character.
+        </div>
+
+        @if (landlordForm.controls['password'].touched && landlordForm.controls['password'].invalid) {
+        <div class="text-xs text-danger mt-1">Invalid password format.</div>
+        }
+      </div>
+      <!-- CONFIRM PASSWORD -->
+      <div>
+        <label class="block text-sm font-medium text-primary mb-2">Confirm Password</label>
+
+        <div class="relative">
+          <input [type]="showConfirmPassword() ? 'text' : 'password'" formControlName="confirmPassword"
+            placeholder="Re-enter your password"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary pr-12" />
+
+          <button type="button" (click)="toggleConfirmPasswordVisibility()"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary">
+            <i [ngClass]="showConfirmPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+
+        @if (landlordForm.controls['confirmPassword'].touched && landlordForm.controls['confirmPassword'].invalid) {
+        <div class="text-xs text-danger mt-1">Confirm your password.</div>
+        }
+      </div>
+
+      <!-- TERMS -->
+      <div class="flex items-start">
+        <input type="checkbox" formControlName="acceptTerms" class="w-4 h-4 mt-1" />
+        <label class="ml-3 text-xs text-gray-600">
+          I agree to the Terms of Service and Privacy Policy
+        </label>
+      </div>
+
+      @if (landlordForm.controls['acceptTerms'].touched && landlordForm.controls['acceptTerms'].invalid) {
+      <div class="text-xs text-danger">You must accept the terms.</div>
+      }
+
+      <!-- SUBMIT -->
+      <app-button (buttonClicked)="onSubmit()" [isLoading]="isLoading()"
+        [disabled]="landlordForm.invalid || isLoading()"
+        styles="w-full bg-linear-to-r from-primary to-secondary-700 py-3 mt-5" label="Register as Landlord">
+      </app-button>
+
+    </form>
+
+    <!-- LOGIN -->
+    <div class="mt-6 text-center">
+      <p class="text-gray-600">
+        Already have an account?
+        <button (click)="switchToLogin()" class="text-primary-600 font-semibold">
+          Login
+        </button>
+      </p>
+    </div>
+  </div>
+</div>

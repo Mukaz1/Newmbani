@@ -1,7 +1,14 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
-import { Component, DestroyRef, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Booking, BookingStatusEnum } from '@newmbani/types';
 import { take } from 'rxjs';
@@ -19,13 +26,17 @@ import { BookProperty } from '../../../marketplace/pages/properties/components/b
 
 @Component({
   selector: 'app-bookings',
-  imports: [    DataLoading,
+  imports: [
+    DataLoading,
     Pagination,
     SearchInputWidget,
     DatePipe,
     CdkMenu,
     CdkMenuItem,
-    CdkMenuTrigger, NgClass, TitleCasePipe],
+    CdkMenuTrigger,
+    NgClass,
+    TitleCasePipe,
+  ],
   templateUrl: './bookings.html',
   styleUrl: './bookings.scss',
 })
@@ -44,7 +55,6 @@ export class Bookings {
   private readonly authService = inject(AuthService);
   private readonly dialog = inject(Dialog);
   private readonly destroyRef = inject(DestroyRef);
-
 
   BookingStatus = BookingStatusEnum;
 
@@ -79,15 +89,15 @@ export class Bookings {
   }
 
   fetchBookings() {
-    const customerId = this.authService.user()?.customerId
-console.log(customerId)
+    const customerId = this.authService.user()?.customerId;
+    console.log(customerId);
     this.isLoading.set(true);
     this.bookingsService
       .getBookings({
         limit: this.pageSize(),
         page: this.currentPage(),
         keyword: this.keyword(),
-        customerId: customerId || ''
+        customerId: customerId || undefined,
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -111,7 +121,6 @@ console.log(customerId)
     // Simply return the booking's assigned status
     return booking?.status;
   }
-
 
   onSearchTermChange(value: string) {
     this.keyword.set(value);
