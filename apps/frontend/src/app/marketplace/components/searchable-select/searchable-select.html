@@ -2,7 +2,8 @@
 
 
   <!-- Selected field -->
-  <button [cdkMenuTriggerFor]="menu" type="button" class="w-full flex flex-row items-center form-select text-left "
+  <button [cdkMenuTriggerFor]="menu" type="button"
+    class="w-full flex flex-row items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left "
     (click)="toggleDropdown()" [class.opacity-50]="disabled">
     <span class="truncate">
       {{ displayValue()|| 'Select an option' }}
@@ -14,8 +15,9 @@
   <ng-template #menu>
     <div cdkMenu class="!min-w-[100%]  mt-1 p-2 bg-white  border border-gray-200 rounded-lg shadow-lg">
       <!-- Search input -->
-      <input type="text" class=" w-full px-3 py-1.5 text-sm form-control" placeholder="{{ placeholder }}"
-        [value]="search()" (input)="search.set(($any($event.target).value))" />
+      <input type="text"
+        class=" w-full px-3 py-1.5 text-sm bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+        placeholder="{{ placeholder }}" [value]="search()" (input)="search.set(($any($event.target).value))" />
 
 
       <!-- Options -->

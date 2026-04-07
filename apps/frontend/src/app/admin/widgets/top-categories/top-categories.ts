@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, viewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { propertyCategories } from '../../../common/data/property-categories.data';
 import { NgStyle, TitleCasePipe } from '@angular/common';
+import { CategoriesService } from '../../pages/categories/services/categories.service';
+import { PaginatedData, HttpResponseInterface, PropertyCategory } from '@newmbani/types';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-top-categories',
@@ -9,13 +11,49 @@ import { NgStyle, TitleCasePipe } from '@angular/common';
   templateUrl: './top-categories.html',
   styleUrl: './top-categories.scss',
 })
-export class TopCategories implements AfterViewInit {
-  categories = propertyCategories.slice(0, 3);
+export class TopCategories implements AfterViewInit, OnInit {
+  propertyCategories = signal<PropertyCategory[]>([])
+  isLoading = signal(false)
+  private destroy$ = new Subject()
+  private propertyCategoriesService = inject(CategoriesService)
+
+  categories = this.propertyCategories().slice(0, 3);
+
+
   readonly myChart = viewChild<any>('myChart');
 
   canvas: any;
   ctx: any;
 
+ngOnInit(): void {
+  this.getPropertyCategories()
+}
+
+
+
+getPropertyCategories(): void {
+  this.isLoading.set(true);
+  this.propertyCategoriesService
+    .getCategories({
+      limit:-1,
+      page: 1,
+      keyword: '',
+    })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res: HttpResponseInterface<PaginatedData<PropertyCategory[]>>) => {
+        const data = res.data;
+        if (data) {
+          this.isLoading.set(false);
+          this.propertyCategories.set(res.data.data);
+        }
+      },
+      error: (error) => {
+        this.isLoading.set(false);
+        console.error('Error fetching categories:', error);
+      },
+    });
+}
   chartData = [
     {
       value: 45,

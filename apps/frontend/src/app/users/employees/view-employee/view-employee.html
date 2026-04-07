@@ -3,24 +3,20 @@
 } @if (employee) {
 <div class="flex flex-row justify-between items-center">
   <div class="mb-6">
-    <p class="title">Employee Information</p>
-    <div class="text-muted">
+    <p class="text-xl font-semibold text-gray-800 ">Employee Information</p>
+    <div class=" text-sm text-gray-500">
       If you need more info, please check out
       <a href="#" class="link-primary font-bold">Help Page</a>.
     </div>
   </div>
   <div class="flex gap-3">
-    <button
-      href="#"
-      class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white"
-      routerLink="/admin/employees/{{ employee._id }}/edit"
-    >
+    <button href="#"
+      class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white"
+      routerLink="/admin/employees/{{ employee._id }}/edit">
       Update Employee Profile
     </button>
-    <button
-      (click)="goToEmployeeList()"
-      class="btn btn-primary p-2 px-4 text-sm font-semibold border border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white"
-    >
+    <button (click)="goToEmployeeList()"
+      class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
       <i class="bi bi-arrow-left me-2"></i>
       Back to Employee List
     </button>
@@ -30,8 +26,7 @@
   <div>
     <div class="flex gap-3 items-center">
       <div
-        class="w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center text-3xl font-bold mb-4 text-white uppercase"
-      >
+        class="w-16 h-16 rounded-full bg-primary-600 flex items-center justify-center text-3xl font-bold mb-4 text-white uppercase">
         {{ employee.name ? (employee.name | initials) : "N/A" }}
       </div>
       <div>

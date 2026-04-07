@@ -33,7 +33,7 @@ import { MetaService } from '../../../../../common/services/meta.service';
 import saveAs from 'file-saver';
 import { DropdownMenu } from '../../../../../common/components/dropdown-menu/dropdown-menu';
 import { LandlordsService } from '../../../../../landlords/services/landlords.service';
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-landlords',
@@ -47,7 +47,7 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
     RouterLink,
     Pagination,
     SearchInputWidget,
-    DropdownMenu,
+    DropdownMenu, NgClass
   ],
   templateUrl: './landlords.html',
   styleUrl: './landlords.scss',

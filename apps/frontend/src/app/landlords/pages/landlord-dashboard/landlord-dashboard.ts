@@ -28,12 +28,13 @@ import { MetaService } from '../../../common/services/meta.service';
 import { BookingChart } from '../../Components/booking-chart/booking-chart';
 import { DoughnutChart } from '../../Components/doughnut-chart/doughnut-chart';
 import {
-  CommonModule,
   DatePipe,
+  DecimalPipe,
   NgClass,
   SlicePipe,
   TitleCasePipe,
 } from '@angular/common';
+import { BookingStatusEnum } from '@newmbani/types'; // Proper enum import
 
 @Component({
   selector: 'app-landlord-dashboard',
@@ -42,7 +43,7 @@ import {
     RouterLink,
     BookingChart,
     DoughnutChart,
-    CommonModule,
+    NgClass, TitleCasePipe, DatePipe, SlicePipe, DecimalPipe
   ],
   templateUrl: './landlord-dashboard.html',
   styleUrl: './landlord-dashboard.scss',
@@ -79,7 +80,7 @@ export class LandlordDashboard implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly metaService = inject(MetaService);
   @ViewChild('listingChart') listingChart!: any;
-
+  BookingStatusEnum =BookingStatusEnum
   constructor() {
     this.metaService.setMeta({
       breadcrumb: {
@@ -99,7 +100,7 @@ export class LandlordDashboard implements OnInit {
   ngOnInit() {
     setInterval(() => {
       this.greeting.set(this.getGreeting());
-    }, 60000); // update every 60 seconds
+    }, 60000);
     this.fetchProperties();
     this.fetchBookings();
   }
@@ -117,7 +118,7 @@ export class LandlordDashboard implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const res = response as HttpResponseInterface<PaginatedData<Property[]>>
+          const res = response as HttpResponseInterface<PaginatedData<Property[]>>;
           this.properties.set(res.data.data);
           this.paginatedData.set(res.data);
           this.isLoading.set(false);
@@ -150,7 +151,7 @@ export class LandlordDashboard implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          const res = response as HttpResponseInterface<PaginatedData<Booking[]>>
+          const res = response as HttpResponseInterface<PaginatedData<Booking[]>>;
           this.bookings.set(res.data.data);
           this.isLoading.set(false);
         },
@@ -172,30 +173,9 @@ export class LandlordDashboard implements OnInit {
     return 'Good Evening';
   }
 
-  getBookingStatus(booking: Booking): 'Booked' | 'Active' | 'Closed' {
-    if (!booking?.invoice?.items?.length) return 'Closed';
-
-    const checkIn = booking.invoice?.items?.[0]?.metadata?.checkIn;
-    const checkOut = booking.invoice?.items?.[0]?.metadata?.checkOut;
-
-    if (!checkIn || !checkOut) return 'Closed';
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const inDate = new Date(checkIn);
-    inDate.setHours(0, 0, 0, 0);
-
-    const outDate = new Date(checkOut);
-    outDate.setHours(0, 0, 0, 0);
-
-    if (today < inDate) {
-      return 'Booked';
-    } else if (today >= inDate && today < outDate) {
-      return 'Active';
-    } else {
-      return 'Closed';
-    }
+  getBookingStatus(booking: Booking): BookingStatusEnum {
+    // Simply return the booking's assigned status
+    return booking?.status;
   }
 
   get activeOrScheduledBookings() {
@@ -203,18 +183,18 @@ export class LandlordDashboard implements OnInit {
     if (!Array.isArray(bookings)) return [];
     return bookings.filter((b: Booking) => {
       const status = this.getBookingStatus(b);
-      return status === 'Booked' || status === 'Active';
+      return status === BookingStatusEnum.PENDING || status === BookingStatusEnum.APPROVED;
     });
   }
+
   viewBookings() {
     this.router.navigate(['/landlord/bookings']);
   }
 
   viewBooking(bookingId?: string) {
-    // If bookingId is provided, use it; otherwise, try to get the first booking's _id
     let id = bookingId;
     if (!id) {
-      const bookings = this.bookings;
+      const bookings = this.bookings();
       if (Array.isArray(bookings) && bookings.length > 0 && bookings[0]?._id) {
         id = bookings[0]._id;
       }
@@ -229,6 +209,4 @@ export class LandlordDashboard implements OnInit {
       });
     }
   }
-
-
 }

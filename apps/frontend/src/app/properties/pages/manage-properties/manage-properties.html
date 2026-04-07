@@ -9,8 +9,9 @@
     <!-- Header -->
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-            <p class="title">{{ property() ? 'Edit Property' : 'Create Property' }}</p>
-            <p class="text-sm text-gray-500 mt-0.5">
+            <p class="text-xl font-semibold text-gray-800 ">{{ property() ? 'Edit Property' : 'Create
+                Property' }}</p>
+            <p class=" text-sm text-gray-500 mt-0.5">
                 {{ property()
                 ? 'Update the details of your existing listing.'
                 : 'Fill in the details below to create a new listing.' }}
@@ -32,7 +33,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Title <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" formControlName="title" class="form-control"
+                    <input type="text" formControlName="title"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="e.g. Modern 3-Bedroom Apartment in Westlands" />
                     @if (propertyForm.get('title')?.invalid && propertyForm.get('title')?.touched) {
                     <p class="text-red-500 text-xs mt-1">Title is required.</p>
@@ -43,7 +45,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Description <span class="text-red-500">*</span>
                     </label>
-                    <textarea formControlName="description" rows="4" class="form-control resize-none"
+                    <textarea formControlName="description" rows="4"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary resize-none"
                         placeholder="Describe the property in detail..."></textarea>
                     @if (propertyForm.get('description')?.invalid && propertyForm.get('description')?.touched) {
                     <p class="text-red-500 text-xs mt-1">Description is required.</p>
@@ -54,7 +57,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Category <span class="text-red-500">*</span>
                     </label>
-                    <select formControlName="categoryId" class="form-control">
+                    <select formControlName="categoryId"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
                         <option value="">Select category</option>
                         @for (cat of categories(); track cat._id) {
                         <option [value]="cat._id">{{ cat.name }}</option>
@@ -69,7 +73,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Subcategory <span class="text-red-500">*</span>
                     </label>
-                    <select formControlName="subcategoryId" class="form-control">
+                    <select formControlName="subcategoryId"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
                         <option value="">Select subcategory</option>
                         @for (sub of selectedCategory()?.subCategories ?? []; track sub._id) {
                         <option [value]="sub._id">{{ sub.name }}</option>
@@ -95,22 +100,27 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Rent Price <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" formControlName="rentPrice" class="form-control" placeholder="0" min="0" />
+                    <input type="number" formControlName="rentPrice"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="0" min="0" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Deposit <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" formControlName="deposit" class="form-control" placeholder="0" min="0" />
+                    <input type="number" formControlName="deposit"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="0" min="0" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Available Units <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" formControlName="availableUnits" class="form-control" placeholder="1"
-                        min="0" />
+                    <input type="number" formControlName="availableUnits"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="1" min="0" />
                 </div>
 
                 <div class="flex flex-col justify-end">
@@ -133,7 +143,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Water <span class="text-red-500">*</span>
                     </label>
-                    <select formControlName="water" class="form-control">
+                    <select formControlName="water"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
                         <option value="">Select water type</option>
                         @for (opt of waterOptions; track opt.value) {
                         <option [value]="opt.value">{{ opt.label }}</option>
@@ -145,7 +156,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Electricity <span class="text-red-500">*</span>
                     </label>
-                    <select formControlName="electricity" class="form-control">
+                    <select formControlName="electricity"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
                         <option value="">Select electricity type</option>
                         @for (opt of electricityOptions; track opt.value) {
                         <option [value]="opt.value">{{ opt.label }}</option>
@@ -157,7 +169,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Security <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" formControlName="security" class="form-control"
+                    <input type="text" formControlName="security"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="e.g. 24hr Guard, CCTV" />
                 </div>
 
@@ -173,7 +186,8 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Country <span class="text-red-500">*</span>
                     </label>
-                    <select formControlName="countryId" class="form-control">
+                    <select formControlName="countryId"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
                         <option value="">Select country</option>
                         @for (country of countries(); track country._id) {
                         <option [value]="country._id">{{ country.name }}</option>
@@ -185,22 +199,29 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         County / Region <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" formControlName="county" class="form-control" placeholder="e.g. Nairobi" />
+                    <input type="text" formControlName="county"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="e.g. Nairobi" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Town</label>
-                    <input type="text" formControlName="town" class="form-control" placeholder="e.g. Westlands" />
+                    <input type="text" formControlName="town"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="e.g. Westlands" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Street</label>
-                    <input type="text" formControlName="street" class="form-control" placeholder="e.g. Waiyaki Way" />
+                    <input type="text" formControlName="street"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="e.g. Waiyaki Way" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Building</label>
-                    <input type="text" formControlName="building" class="form-control"
+                    <input type="text" formControlName="building"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
                         placeholder="e.g. Westgate Mall" />
                 </div>
 
@@ -218,13 +239,17 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Latitude <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" step="any" formControlName="lat" class="form-control" placeholder="-1.2921" />
+                    <input type="number" step="any" formControlName="lat"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="-1.2921" />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
                         Longitude <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" step="any" formControlName="lng" class="form-control" placeholder="36.8219" />
+                    <input type="number" step="any" formControlName="lng"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        placeholder="36.8219" />
                 </div>
             </div>
         </div>

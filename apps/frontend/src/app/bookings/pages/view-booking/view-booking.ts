@@ -1,16 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { DIALOG_DATA, DialogRef, Dialog } from '@angular/cdk/dialog';
-import { Booking } from '@newmbani/types';
+import { Booking, BookingStatusEnum } from '@newmbani/types';
 import { DatePipe } from '@angular/common';
 import { BookingsService } from '../../services/bookings.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { NotificationService } from '../../../common/services/notification.service';
 import { ApproveBooking } from '../../../bookings/modals/approve-booking/approve-booking';
 import { CancelBooking } from '../../modals/cancel-booking/cancel-booking';
+import { Button } from '../../../common/components/button/button';
 
 @Component({
   selector: 'app-view-booking',
-  imports: [DatePipe],
+  imports: [DatePipe, Button],
   templateUrl: './view-booking.html',
   styleUrl: './view-booking.css',
 })
@@ -23,7 +24,7 @@ export class ViewBooking {
   private notificationService = inject(NotificationService);
 
   booking = signal<Booking | null>(this.data?.booking ?? null);
-
+BookingStatus = BookingStatusEnum
   close(): void {
     try {
       this.dialogRef.close();

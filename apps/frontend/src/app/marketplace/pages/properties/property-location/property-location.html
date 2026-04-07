@@ -1,23 +1,11 @@
-<div
-  class="relative w-full rounded-2xl overflow-hidden border border-gray-200 shadow-sm dark:border-gray-700 bg-white dark:bg-gray-800"
->
+<div class="relative w-full rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-white ">
 
   <!-- Skeleton loader before map loads -->
-  <div
-    *ngIf="!mapLoaded"
-    class="h-[260px] w-full animate-pulse bg-gray-200 dark:bg-gray-700"
-  ></div>
+  <div *ngIf="!mapLoaded" class="h-[260px] w-full animate-pulse bg-gray-200 "></div>
 
   <!-- Map -->
-  <google-map
-    class="w-full"
-    height="260px"
-    width="100%"
-    [center]="position"
-    [zoom]="zoom"
-    [options]="mapOptions"
-    (mapInitialized)="onMapInitialized()"
-  >
+  <google-map class="w-full" height="260px" width="100%" [center]="position" [zoom]="zoom" [options]="mapOptions"
+    (mapInitialized)="onMapInitialized()">
     <!-- <map-marker
       [position]="position"
       [title]="propertyName"
@@ -30,21 +18,17 @@
       <div class="font-semibold text-gray-800 dark:text-gray-50">
         {{ propertyName }}
       </div>
-      <div class="text-xs text-gray-600 dark:text-gray-300">
+      <div class="text-xs text-gray-600 ">
         📍 Lat: {{ latitude }} | Lng: {{ longitude }}
       </div>
     </map-info-window>
   </google-map>
 
   <div
-    class="px-3 py-2 text-xs bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 flex justify-between items-center"
-  >
+    class="px-3 py-2 text-xs bg-gray-50  border-t border-gray-200 dark:border-gray-600 text-gray-600  flex justify-between items-center">
     <span>📌 Lat: {{ latitude }} | Lng: {{ longitude }}</span>
 
-    <button
-      class="text-blue-600 dark:text-blue-400 hover:underline"
-       (click)="openFullMap()"
-    >
+    <button class="text-blue-600 dark:text-blue-400 hover:underline" (click)="openFullMap()">
       Full Map →
     </button>
   </div>

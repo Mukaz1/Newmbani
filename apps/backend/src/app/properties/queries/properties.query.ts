@@ -46,6 +46,7 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
     propertyId ? { $match: { propertyId } } : {},
     landlordId ? { $match: { landlordId } } : {},
     categoryId ? { $match: { categoryId } } : {},
+    subcategoryId ? { $match: { subcategoryId } } : {},
     approvalStatus ? { $match: { approvalStatus } } : {},
     minPrice ? { $match: { rentPrice: { $gte: +minPrice || 0 } } } : {},
     maxPrice ? { $match: { rentPrice: { $lte: +maxPrice || 0 } } } : {},
@@ -133,6 +134,15 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
     { $unwind: { path: '$country', preserveNullAndEmptyArrays: false } },
+
+    {
+      $lookup: {
+        from: DatabaseModelEnums.BOOKING,
+        localField: 'propertyId',
+        foreignField: 'propertyId',
+        as: 'bookings',
+      },
+    },
 
     // keyword search
     {

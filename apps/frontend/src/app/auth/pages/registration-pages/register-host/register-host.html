@@ -20,7 +20,8 @@
               Display Name
             </label>
             <input id="displayName" type="text" formControlName="displayName" placeholder="Enter the Business Name"
-              class="form-control" required />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+              required />
             @if (
             hostForm.controls['displayName'].invalid &&
             (hostForm.controls['displayName'].dirty || hostForm.controls['displayName'].touched)
@@ -36,7 +37,8 @@
             <label for="name" class="block text-xs font-medium !text-primary mb-2">
               Personal Name
             </label>
-            <input id="name" type="text" formControlName="name" placeholder="Enter your legal name" class="form-control"
+            <input id="name" type="text" formControlName="name" placeholder="Enter your legal name"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
               required />
             @if (
             hostForm.controls['name'].invalid &&
@@ -54,7 +56,8 @@
               Email
             </label>
             <input id="email" type="email" formControlName="email" placeholder="Enter your email address"
-              class="form-control" required autocomplete="new-email" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+              required autocomplete="new-email" />
             @if (
             hostForm.controls['email'].invalid &&
             (hostForm.controls['email'].dirty || hostForm.controls['email'].touched)
@@ -74,7 +77,8 @@
             <label for="phone" class="block text-xs font-medium !text-primary mb-2">
               Phone
             </label>
-            <input id="phone" type="text" formControlName="phone" placeholder="e.g., +1234567890" class="form-control"
+            <input id="phone" type="text" formControlName="phone" placeholder="e.g., +1234567890"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
               required />
             @if (
             hostForm.controls['phone'].invalid &&
@@ -106,7 +110,7 @@
           <div class="col-span-2 md:col-span-1">
             <label for="idNumber" class="block text-xs font-medium text-gray-600 mb-2">ID Number</label>
             <input id="idNumber" type="text" formControlName="idNumber" placeholder="Enter your National ID number"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
             @if (
             hostForm.controls['idNumber'].invalid &&
             (hostForm.controls['idNumber'].dirty || hostForm.controls['idNumber'].touched)
@@ -221,7 +225,7 @@
 
       <!-- Submit -->
       <app-button (buttonClicked)="onSubmit()" [isLoading]="isLoading()" [disabled]="hostForm.invalid ||isLoading()"
-        styles="w-full bg-gradient-primary py-3 mt-5" label="Register as Host">
+        styles="w-full bg-linear-to-r from-primary to-secondary-700 py-3 mt-5" label="Register as Host">
       </app-button>
     </form>
 

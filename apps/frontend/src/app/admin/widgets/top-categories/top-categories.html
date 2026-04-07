@@ -8,8 +8,8 @@
   <canvas class="max-h-[150px] md:max-h-[200px]" #myChart id="myChart"></canvas>
   <div class="donut-inner flex  justify-center items-center mt-[-80px] md:mt-[-100px]">
     <div>
-      <p class="text-center uppercase">Total Sales</p>
-      <p class="text-black font-bold text-[35px] text-center">28,789.0</p>
+      <p class="text-center uppercase">Total Categories</p>
+      <p class="text-black font-bold text-[35px] text-center">{{propertyCategories().length}}</p>
     </div>
   </div>
   <div>
@@ -18,7 +18,7 @@
       <div class="flex flex-1 justify-start items-center gap-3  ">
         <div class="bg-primary-400 h-5 w-5 rounded-full" [ngStyle]="{ 'background-color': chartData[i].color }"></div>
         <p class="font-bold text-[14px]">
-          {{ category | titlecase}}
+          {{ category.name | titlecase}}
         </p>
       </div>
       <p class="font-bold text-[14px]">60%</p>

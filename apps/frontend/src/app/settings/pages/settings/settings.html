@@ -53,28 +53,28 @@
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-2  gap-6">
           <div class="md:col-span-2 ">
-            <label class="form-label required" for="company">
+            <label class="block font-medium text-gray-600 text-sm required" for="company">
               Company Name
 
             </label>
             <input formControlName="company" id="company" name="company" type="text" placeholder="Enter company name"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="email">
+            <label class="block font-medium text-gray-600 text-sm required" for="email">
               Email Address
 
             </label>
             <input formControlName="email" type="email" id="email" name="email" placeholder="Enter company email"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="phone">
+            <label class="block font-medium text-gray-600 text-sm required" for="phone">
               Phone Number
 
             </label>
             <input formControlName="phone" type="text" name="phone" id="phone" placeholder="Enter phone number"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
         </div>
       </div>
@@ -91,50 +91,53 @@
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" [formGroup]="addressFormGroup">
           <div>
-            <label class="form-label required" for="boxAddress">
+            <label class="block font-medium text-gray-600 text-sm required" for="boxAddress">
               P.O. Box
 
             </label>
             <input formControlName="boxAddress" type="text" id="boxAddress" name="boxAddress"
-              placeholder="Enter P.O. Box" class="form-control" />
+              placeholder="Enter P.O. Box"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="town">
+            <label class="block font-medium text-gray-600 text-sm required" for="town">
               Town/City
 
             </label>
             <input formControlName="town" name="town" id="town" type="text" placeholder="Enter town/city"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="building">
+            <label class="block font-medium text-gray-600 text-sm required" for="building">
               Building
             </label>
             <input formControlName="building" name="building" id="building" type="text"
-              placeholder="Enter building name" class="form-control" />
+              placeholder="Enter building name"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="street">
+            <label class="block font-medium text-gray-600 text-sm required" for="street">
               Street
             </label>
             <input formControlName="street" name="street" id="street" type="text" placeholder="Enter street name"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="postalCode">
+            <label class="block font-medium text-gray-600 text-sm required" for="postalCode">
               Postal Code
 
             </label>
             <input formControlName="postalCode" name="postalCode" id="postalCode" type="text"
-              placeholder="Enter postal code" class="form-control" />
+              placeholder="Enter postal code"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="country">
+            <label class="block font-medium text-gray-600 text-sm required" for="country">
               Country
 
             </label>
             <input formControlName="country" name="country" id="country" type="text" placeholder="Enter country"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
         </div>
       </div>
@@ -153,19 +156,19 @@
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label class=" form-label required" for="KRA">
+            <label class=" block font-medium text-gray-600 text-sm required" for="KRA">
               KRA PIN
 
             </label>
             <input formControlName="KRA" name="KRA" id="KRA" type="text" placeholder="Enter KRA PIN"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
           <div>
-            <label class="form-label required" for="app">
+            <label class="block font-medium text-gray-600 text-sm required" for="app">
               Application Name
             </label>
             <input formControlName="app" name="app" id="app" type="text" placeholder="Enter application Name"
-              class="form-control" />
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
           </div>
         </div>
       </div>
@@ -173,12 +176,13 @@
 
     <!-- Form Actions -->
     <div class="flex items-center justify-end space-x-4 pt-4">
-      <button type="button" (click)="patchForm()" class="btn-reset">
+      <button type="button" (click)="patchForm()"
+        class="py-2 px-4 rounded-full bg-gray-200 hover:bg-gray-400 items-center text-center text-gray-700 font-semibold  isabled:opacity-50 disabled:cursor-not-allowedhover:font-bold transition-colors duration-300 ease-in-out">
         <i class="bi bi-arrow-counterclockwise mr-2"></i>
         Reset Changes
       </button>
       <button type="button" (click)="onSubmit()" [disabled]="isLoading() || generalSettingsForm.invalid"
-        class=" btn-md">
+        class=" py-2 px-4 rounded-full bg-primary hover:bg-primary-400 items-center text-center text-white font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out">
         <i class="bi bi-check2 mr-2"></i>
         {{ isLoading() ? "Saving..." : "Save Changes" }}
       </button>

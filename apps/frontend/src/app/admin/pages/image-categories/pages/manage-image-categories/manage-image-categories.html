@@ -27,7 +27,9 @@
         </div>
 
         <div class="flex gap-2">
-            <button type="submit" class="btn btn-primary" [disabled]="isSaving()">{{ isSaving() ? 'Saving...' : 'Save'
+            <button type="submit"
+                class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out"
+                [disabled]="isSaving()">{{ isSaving() ? 'Saving...' : 'Save'
                 }}</button>
             <button type="button" class="btn" (click)="cancel()">Cancel</button>
         </div>

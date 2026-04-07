@@ -4,7 +4,8 @@
       <div>
         <app-welcome-card />
         <div class="my-5">
-          <app-top-stats [totalClients]="totalClients()" [totalBookings]="totalBookings()" />
+          <app-top-stats [totalLandlords]="totalClients()" [totalBookings]="totalBookings()"
+            [totalProperties]="totalProperties()" [highestProperty]="highestProperty()" />
         </div>
       </div>
       <div class="mt-5">

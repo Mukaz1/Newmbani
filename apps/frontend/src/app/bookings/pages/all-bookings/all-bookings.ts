@@ -12,7 +12,7 @@ import { BookingsService } from '../../services/bookings.service';
 import { DataLoading } from '../../../common/components/data-loading/data-loading';
 import { Pagination } from '../../../common/components/pagination/pagination';
 import { SearchInputWidget } from '../../../common/components/search-input-widget/search-input-widget';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Dialog } from '@angular/cdk/dialog';
@@ -35,7 +35,7 @@ import { CancelBooking } from '../../modals/cancel-booking/cancel-booking';
     DatePipe,
     CdkMenu,
     CdkMenuItem,
-    CdkMenuTrigger,
+    CdkMenuTrigger, NgClass, TitleCasePipe
   ],
   templateUrl: './all-bookings.html',
   styleUrl: './all-bookings.css',
@@ -114,6 +114,12 @@ export class AllBookings implements OnInit {
         },
       });
   }
+
+  getBookingStatus(booking: Booking): BookingStatusEnum {
+    // Simply return the booking's assigned status
+    return booking?.status;
+  }
+
 
   onSearchTermChange(value: string) {
     this.keyword.set(value);

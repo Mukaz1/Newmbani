@@ -14,7 +14,6 @@ import {
 } from '@newmbani/types';
 import { HeroSection } from '../../components/hero-section/hero-section';
 import { Router, RouterLink } from '@angular/router';
-import { Partners } from '../../components/partners/partners';
 import { NotificationService } from '../../../common/services/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
 import { PropertyCard } from '../properties/components/property-card/property-card';
@@ -25,7 +24,7 @@ import { PropertiesService } from '../../../properties/services/properties.servi
 
 @Component({
   selector: 'app-homepage',
-  imports: [HeroSection, RouterLink, Partners, PropertyCard, NgStyle, NgClass],
+  imports: [HeroSection, RouterLink, PropertyCard, NgStyle, NgClass],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',
 })

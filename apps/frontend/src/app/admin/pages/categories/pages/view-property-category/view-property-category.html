@@ -4,8 +4,8 @@
 <div class="toolbar py-3 py-lg-6">
   <div class="flex flex-row justify-between">
     <div class="flex flex-col justify-center flex-wrap me-3">
-      <p class="title">Category Details</p>
-      <div class="text-muted">
+      <p class="text-xl font-semibold text-gray-800 ">Category Details</p>
+      <div class=" text-sm text-gray-500">
         If you need more info, please check out
         <a href="#" class="link-primary font-bold">Help Page</a>.
       </div>
@@ -27,13 +27,13 @@
           </div>
           <div class="flex my-4 gap-5">
             <button type="button"
-              class="btn btn-primary p-2 px-4 text-sm font-semibold border border-gray-400 rounded-full hover:text-white hover:bg-primary-700"
+              class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border border-gray-400 rounded-full hover:text-white hover:bg-primary-700"
               (click)="addSubCategoryModal()">
               <i class="bi bi-plus-lg"></i>
               Add Property Subcategory
             </button>
             <button href="#"
-              class="btn-medium text-sm font-semibold border border-gray-400 rounded-full btn-primary hover:text-white hover:bg-primary-700"
+              class="btn-medium text-sm font-semibold border border-gray-400 rounded-full py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out hover:text-white hover:bg-primary-700"
               [routerLink]="['/admin/property-categories/categories', propertyCategory._id, 'edit']">
               Update Property Category
             </button>
@@ -80,7 +80,9 @@
   <div class="text-center py-8">
     <i class="bi bi-folder-x text-gray-400 text-4xl mb-3"></i>
     <p class="text-gray-500">No subcategories found for this category</p>
-    <button type="button" class="btn btn-primary mt-3" (click)="addSubCategoryModal()">
+    <button type="button"
+      class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out mt-3"
+      (click)="addSubCategoryModal()">
       Add First Subcategory
     </button>
   </div>

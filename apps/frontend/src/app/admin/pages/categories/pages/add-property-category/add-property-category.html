@@ -1,27 +1,20 @@
 <div class="card p-5">
   <div class="mb-5">
-    <p class="title">Add a new Property Category</p>
-    <div class="text-muted">
+    <p class="text-xl font-semibold text-gray-800 ">Add a new Property Category</p>
+    <div class=" text-sm text-gray-500">
       If you need more info, please check out
       <a href="#" class="link-primary font-bold">Help Page</a>.
     </div>
   </div>
   <div>
-    <form
-      [formGroup]="registerPropertyCategoryForm"
-      (ngSubmit)="createPropertyCategory()"
-    >
+    <form [formGroup]="registerPropertyCategoryForm" (ngSubmit)="createPropertyCategory()">
       <div class="grid grid-cols-1">
         <div>
           <div>
             <label for="name" class="required">Category Name</label>
-            <input
-              type="text"
-              name="name"
-              class="form-control"
-              placeholder="Category Name"
-              formControlName="name"
-            />
+            <input type="text" name="name"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Category Name" formControlName="name" />
             @if ( registerPropertyCategoryForm.get('name')?.invalid &&
             (registerPropertyCategoryForm.get('name')?.dirty ||
             registerPropertyCategoryForm.get('name')?.touched) ) {
@@ -37,110 +30,82 @@
         </div>
         <div class="lg:col-span-2 mt-3">
           <label for="description">Description</label>
-          <textarea
-            name="description"
-            id="description"
-            cols="30"
-            rows="3"
-            formControlName="description"
+          <textarea name="description" id="description" cols="30" rows="3" formControlName="description"
             placeholder="Description"
-            class="form-control"
-          ></textarea>
+            class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
         </div>
-        
+
         <!-- Subcategories Section -->
         <div class="mt-8">
           <div class="flex items-center justify-between mb-2">
             <h3 class="text-lg font-semibold">Subcategories (Optional)</h3>
-            <button
-              type="button"
-              (click)="addSubcategory()"
-              class="btn btn-outline-primary rounded-full px-4 py-2 text-sm flex items-center gap-2"
-            >
+            <button type="button" (click)="addSubcategory()"
+              class="btn btn-outline-primary rounded-full px-4 py-2 text-sm flex items-center gap-2">
               <span>+</span> Add Subcategory
             </button>
           </div>
-          
+
           <div formArrayName="subCategories" class="space-y-4">
             @for (subcategory of subCategoriesControls; track $index) {
-              <div [formGroupName]="$index" class="border border-gray-200 rounded-lg p-3 bg-gray-50">
-                <div class="flex items-start justify-between mb-2">
-                  <h4 class="text-sm font-medium text-gray-900">Subcategory {{ $index + 1 }}</h4>
-                  <button
-                    type="button"
-                    (click)="removeSubcategory($index)"
-                    class="text-red-500 hover:text-red-700 text-sm rounded-full px-4 border border-red-800 font-medium"
-                  >
-                    Remove
-                  </button>
-                </div>
-                
-                <div class="grid grid-cols-1 gap-4">
-                  <div>
-                    <label [for]="'subcategory-name-' + $index" class="block text-sm font-medium text-gray-700 mb-1">
-                      Subcategory Name
-                    </label>
-                    <input
-                      type="text"
-                      [id]="'subcategory-name-' + $index"
-                      formControlName="name"
-                      class="form-control"
-                      placeholder="Enter subcategory name"
-                    />
-                    @if (subcategory.get('name')?.invalid && 
-                         (subcategory.get('name')?.dirty || subcategory.get('name')?.touched)) {
-                      <div class="input-error mt-1">
-                        @if (subcategory.get('name')?.errors?.['required']) {
-                          <span class="text-xs">Subcategory name is required.</span>
-                        }
-                      </div>
+            <div [formGroupName]="$index" class="border border-gray-200 rounded-lg p-3 bg-gray-50">
+              <div class="flex items-start justify-between mb-2">
+                <h4 class="text-sm font-medium text-gray-900">Subcategory {{ $index + 1 }}</h4>
+                <button type="button" (click)="removeSubcategory($index)"
+                  class="text-red-500 hover:text-red-700 text-sm rounded-full px-4 border border-red-800 font-medium">
+                  Remove
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 gap-4">
+                <div>
+                  <label [for]="'subcategory-name-' + $index" class="block text-sm font-medium text-gray-700 mb-1">
+                    Subcategory Name
+                  </label>
+                  <input type="text" [id]="'subcategory-name-' + $index" formControlName="name"
+                    class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                    placeholder="Enter subcategory name" />
+                  @if (subcategory.get('name')?.invalid &&
+                  (subcategory.get('name')?.dirty || subcategory.get('name')?.touched)) {
+                  <div class="input-error mt-1">
+                    @if (subcategory.get('name')?.errors?.['required']) {
+                    <span class="text-xs">Subcategory name is required.</span>
                     }
                   </div>
-                  
-                  <div>
-                    <label [for]="'subcategory-description-' + $index" class="block text-sm font-medium text-gray-700 mb-1">
-                      Description
-                    </label>
-                    <textarea
-                      [id]="'subcategory-description-' + $index"
-                      formControlName="description"
-                      class="form-control"
-                      placeholder="Enter subcategory description"
-                      rows="1"
-                    ></textarea>
-                  </div>
+                  }
+                </div>
+
+                <div>
+                  <label [for]="'subcategory-description-' + $index"
+                    class="block text-sm font-medium text-gray-700 mb-1">
+                    Description
+                  </label>
+                  <textarea [id]="'subcategory-description-' + $index" formControlName="description"
+                    class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                    placeholder="Enter subcategory description" rows="1"></textarea>
                 </div>
               </div>
+            </div>
             }
-            
+
             @if (subCategoriesControls.length === 0) {
-              <div class="text-center py-8 text-gray-500">
-                <p>No subcategories added yet.</p>
-                <p class="text-sm">Click "Add Subcategory" to add one.</p>
-              </div>
+            <div class="text-center py-8 text-gray-500">
+              <p>No subcategories added yet.</p>
+              <p class="text-sm">Click "Add Subcategory" to add one.</p>
+            </div>
             }
           </div>
         </div>
       </div>
 
       <div class="pt-5 flex flex-row gap-5">
-        <button
-          type="reset"
-          class="btn bg-gray-500 text-white me-3 rounded-full px-5"
-          (click)="resetForm()"
-        >
+        <button type="reset" class="btn bg-gray-500 text-white me-3 rounded-full px-5" (click)="resetForm()">
           Discard
         </button>
 
         <div>
-          <app-button
-            [label]="'Submit'"
-            [isLoading]="isLoading"
-            type="submit"
-            [styles]="
+          <app-button [label]="'Submit'" [isLoading]="isLoading" type="submit" [styles]="
               'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'
-            "
-          />
+            " />
         </div>
       </div>
     </form>

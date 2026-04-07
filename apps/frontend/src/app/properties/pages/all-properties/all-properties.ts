@@ -277,6 +277,7 @@ export class AllProperties implements OnInit {
   }
 
 
+
   editProperty(id: string) {
     this.router.navigate([id, 'edit'], {relativeTo: this.route})
   }

@@ -2,7 +2,7 @@
   <!-- Input with Add Button -->
   <div class="relative flex items-center">
     <input [formControl]="inputControl" (keydown.enter)="addChip()" type="text" placeholder="Type and press Enter..."
-      class="form-control !accent-primary pr-10" />
+      class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary !accent-primary pr-10" />
     <button type="button" (click)="addChip()" tabindex="-1" aria-label="Add"
       class="absolute right-2 top-1/2 -translate-y-1/2 text-primary-600 hover:text-primary-800 text-lg px-1 py-1 rounded-full focus:outline-none">
       <!-- Simple plus icon (SVG for cross-platform consistency) -->

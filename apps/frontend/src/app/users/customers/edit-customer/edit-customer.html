@@ -8,15 +8,15 @@
         <form class="w-full" (ngSubmit)="editCustomer()" [formGroup]="editCustomerForm">
           <div class="flex flex-row justify-between items-center">
             <div>
-              <p class="title">Edit Customer Information</p>
-              <div class="text-muted">
+              <p class="text-xl font-semibold text-gray-800 ">Edit Customer Information</p>
+              <div class=" text-sm text-gray-500">
                 If you need more info, please check out
                 <a href="#" class="link-primary font-bold">Help Page</a>.
               </div>
             </div>
             <div>
               <button (click)="goToCustomerList()"
-                class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+                class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
                 <i class="bi bi-arrow-left me-2"></i>
                 Back to Customer List
               </button>
@@ -24,9 +24,9 @@
           </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
             <div>
-              <label class="form-label required" for="">Customer Name</label>
+              <label class="block font-medium text-gray-600 text-sm required" for="">Customer Name</label>
               <input type="text" name="name" placeholder="e.g John Smith" formControlName="name"
-                class="form-control placeholder:text-gray-400" />
+                class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400" />
               @if ( editCustomerForm.get('name')?.invalid &&
               (editCustomerForm.get('name')?.dirty ||
               editCustomerForm.get('name')?.touched) ) {
@@ -39,9 +39,10 @@
               }
             </div>
             <div>
-              <label class="form-label required" for="">Email</label>
+              <label class="block font-medium text-gray-600 text-sm required" for="">Email</label>
               <input type="email" name="email" placeholder="e.g email@example.com"
-                class="form-control placeholder:text-gray-400" formControlName="email" />
+                class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
+                formControlName="email" />
               @if ( editCustomerForm.get('email')?.invalid &&
               (editCustomerForm.get('email')?.dirty ||
               editCustomerForm.get('email')?.touched) ) {
@@ -53,8 +54,9 @@
               }
             </div>
             <div>
-              <label class="form-label required" for="">Phone</label>
-              <input type="tel" name="phone" placeholder="0712345678" class="form-control placeholder:text-gray-400"
+              <label class="block font-medium text-gray-600 text-sm required" for="">Phone</label>
+              <input type="tel" name="phone" placeholder="0712345678"
+                class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
                 formControlName="phone" />
               @if ( editCustomerForm.get('phone')?.invalid &&
               (editCustomerForm.get('phone')?.dirty ||

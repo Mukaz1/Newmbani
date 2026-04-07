@@ -42,7 +42,8 @@
       <div class="relative">
         <span class="absolute left-4 text-sm top-1/2 -translate-y-1/2 text-gray-500 font-medium">+254</span>
         <input id="mpesa-phone" type="tel" formControlName="phone" name="phone" autocomplete="tel"
-          class="form-control !pl-16" placeholder="719155083"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary !pl-16"
+          placeholder="719155083"
           [class.border-red-500]="mpesaForm.get('phone')?.invalid && (mpesaForm.get('phone')?.dirty || mpesaForm.get('phone')?.touched)">
       </div>
       <p class="text-xs text-gray-500 mt-2">Enter your Safaricom phone number</p>
@@ -99,7 +100,8 @@
       <div class="relative">
         <span class="absolute text-sm left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">+254</span>
         <input id="pesapal-phone" type="tel" formControlName="phone" name="phone" autocomplete="tel"
-          class="form-control !pl-16" placeholder="719155083"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary !pl-16"
+          placeholder="719155083"
           [class.border-red-500]="pesapalForm.get('phone')?.invalid && (pesapalForm.get('phone')?.dirty || pesapalForm.get('phone')?.touched)">
       </div>
       <p class="text-xs text-gray-500">Enter your Safaricom phone number</p>
@@ -120,8 +122,9 @@
 
     <div>
       <label for="pesapal-email" class="block text-gray-700 font-medium mb-2">Email Address</label>
-      <input id="pesapal-email" type="email" formControlName="email" class="form-control" name="email"
-        autocomplete="email" placeholder="your.email@example.com"
+      <input id="pesapal-email" type="email" formControlName="email"
+        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+        name="email" autocomplete="email" placeholder="your.email@example.com"
         [class.border-red-500]="pesapalForm.get('email')?.invalid && (pesapalForm.get('email')?.dirty || pesapalForm.get('email')?.touched)">
       @if (pesapalForm.get('email')?.errors && (pesapalForm.get('email')?.dirty || pesapalForm.get('email')?.touched)) {
       <div class="text-xs text-red-600 mt-1" id="pesapal-email-error">

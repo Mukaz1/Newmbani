@@ -16,14 +16,17 @@
   <!-- Location -->
   <div class="flex flex-col z-10">
     <label for="location" class="text-sm text-gray-700 mb-1 font-medium">Location</label>
-    <input id="location" formControlName="location" class="form-control" placeholder="e.g. Nairobi, Mombasa..." />
+    <input id="location" formControlName="location"
+      class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+      placeholder="e.g. Nairobi, Mombasa..." />
   </div>
 
 
 
   <div class="flex flex-col z-10">
     <label for="categoryId" class="text-sm text-gray-700 mb-1 font-medium">Property category</label>
-    <select id="categoryId" formControlName="categoryId" class="form-select">
+    <select id="categoryId" formControlName="categoryId"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
       <option value="">Any</option>
       @for (category of propertyCategoryOptions; track category._id) {
       <option [value]="category._id">{{ category.name }}</option>
@@ -35,11 +38,15 @@
   <div class="grid grid-cols-2 gap-4">
     <div class="flex flex-col">
       <label for="minPrice" class="text-sm text-gray-700 mb-1 font-medium">Min Price</label>
-      <input id="minPrice" type="number" formControlName="minPrice" class="form-control" placeholder="Min price" />
+      <input id="minPrice" type="number" formControlName="minPrice"
+        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+        placeholder="Min price" />
     </div>
     <div class="flex flex-col">
       <label for="maxPrice" class="text-sm text-gray-700 mb-1 font-medium">Max Price</label>
-      <input id="maxPrice" type="number" formControlName="maxPrice" class="form-control" placeholder="Max price" />
+      <input id="maxPrice" type="number" formControlName="maxPrice"
+        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+        placeholder="Max price" />
     </div>
   </div>
 

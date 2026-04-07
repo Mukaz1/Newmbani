@@ -6,14 +6,14 @@
     <div class="py-3 py-lg-6">
       <div class="flex flex-row justify-between">
         <div class="page-title flex flex-col justify-center flex-wrap me-3">
-          <p class="title">Property Categories</p>
-          <p class="text-muted">
+          <p class="text-xl font-semibold text-gray-800 ">Property Categories</p>
+          <p class=" text-sm text-gray-500">
             Below are the property categories in the System
           </p>
         </div>
         <div class="flex items-center gap-2 gap-lg-3">
           <button type="button" (click)="addNewPropertyCategory()"
-            class="btn btn-primary p-2 px-4 text-sm font-semibold border border-gray-300 rounded-full hover:text-white hover:bg-primary-700">
+            class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border border-gray-300 rounded-full hover:text-white hover:bg-primary-700">
             New Property Category
           </button>
         </div>
@@ -46,13 +46,15 @@
       </div>
       <div class="py-4">
         <form [formGroup]="form">
-          <table class="table-md w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
+          <table class="px-6 py-6 w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
             <thead>
-              <tr class="bg-gray-50 text-start text-muted font-bold text-uppercase gs-0">
+              <tr class="bg-gray-50 text-start text-sm text-gray-500 font-bold text-uppercase gs-0">
                 <th class="w-10px pe-2 border-b border-gray-200">
                   <div
-                    class="form-check form-check-sm form-check-custom form-check-solid me-3 items-center text-center justify-center">
-                    <input class="form-check-input" type="checkbox" (change)="onSelectAll($event)" #selectAll />
+                    class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold  me-3 items-center text-center justify-center">
+                    <input
+                      class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold-input"
+                      type="checkbox" (change)="onSelectAll($event)" #selectAll />
                   </div>
                 </th>
                 <th class="min-w-125px px-4 py-3 border-b border-gray-200 text-start justify-start">
@@ -87,9 +89,11 @@
               @for(propertyCategory of propertyCategories; track propertyCategory._id) {
               <tr class="hover:bg-gray-50 transition">
                 <td class="border-b border-gray-100 px-2 py-3">
-                  <div class="form-check form-check-sm form-check-custom form-check-solid">
-                    <input class="form-check-input" type="checkbox" [value]="propertyCategory._id"
-                      [checked]="isChecked(propertyCategory._id)" (change)="onCheckboxChange($event)" />
+                  <div class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold ">
+                    <input
+                      class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold-input"
+                      type="checkbox" [value]="propertyCategory._id" [checked]="isChecked(propertyCategory._id)"
+                      (change)="onCheckboxChange($event)" />
                   </div>
                 </td>
                 <td class="border-b border-gray-100 px-4 py-3">

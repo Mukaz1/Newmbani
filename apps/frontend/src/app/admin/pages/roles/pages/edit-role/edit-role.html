@@ -3,16 +3,11 @@
 } @if (role) {
 <div class="card p-5">
   <div class="mb-5">
-    <p class="title">Edit Role</p>
-    <div class="text-muted">
+    <p class="text-xl font-semibold text-gray-800 ">Edit Role</p>
+    <div class=" text-sm text-gray-500">
       Update the role name and description. If you need more info, please check
       out
-      <a
-        href="#"
-        routerLink="/support-center"
-        class="link-primary font-bold hover:underline"
-        >Help Page</a
-      >.
+      <a href="#" routerLink="/support-center" class="link-primary font-bold hover:underline">Help Page</a>.
     </div>
   </div>
   <div>
@@ -21,13 +16,9 @@
         <div>
           <div>
             <label for="name" class="required">Role Name</label>
-            <input
-              type="text"
-              name="name"
-              class="form-control"
-              placeholder="Role Name"
-              formControlName="name"
-            />
+            <input type="text" name="name"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Role Name" formControlName="name" />
             @if ( editRoleForm.get('name')?.invalid &&
             (editRoleForm.get('name')?.dirty ||
             editRoleForm.get('name')?.touched) ) {
@@ -41,36 +32,21 @@
         </div>
         <div class="lg:col-span-2">
           <label for="description">Description</label>
-          <textarea
-            name="description"
-            id="description"
-            cols="30"
-            rows="10"
-            formControlName="description"
+          <textarea name="description" id="description" cols="30" rows="10" formControlName="description"
             placeholder="Description"
-            class="form-control"
-          ></textarea>
+            class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
         </div>
       </div>
 
       <div class="pt-5 gap-5 flex flex-row">
-        <button
-          type="button"
-          (click)="discard()"
-          class="btn bg-gray-500 text-white me-3 rounded-full px-5"
-        >
+        <button type="button" (click)="discard()" class="btn bg-gray-500 text-white me-3 rounded-full px-5">
           Discard
         </button>
 
         <div>
-          <app-button
-            [label]="'Update Role'"
-            [isLoading]="isLoading"
-            type="submit"
-            [styles]="
+          <app-button [label]="'Update Role'" [isLoading]="isLoading" type="submit" [styles]="
               'w-full !rounded-full inline-flex items-center justify-center shadow-sm whitespace-nowrap text-base font-medium text-white'
-            "
-          />
+            " />
         </div>
       </div>
     </form>

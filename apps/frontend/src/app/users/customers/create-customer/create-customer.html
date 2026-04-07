@@ -4,15 +4,15 @@
       <div class="card p-3 lg:p-5">
         <div class="flex flex-row justify-between items-center">
           <div>
-            <p class="title">Register A New Customer</p>
-            <div class="text-muted">
+            <p class="text-xl font-semibold text-gray-800 ">Register A New Customer</p>
+            <div class=" text-sm text-gray-500">
               If you need more info, please check out
               <a href="#" class="link-primary font-bold">Help Page</a>.
             </div>
           </div>
           <div>
             <button (click)="goToCustomerList()"
-              class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+              class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
               <i class="bi bi-arrow-left me-2"></i>
               Back to Customer List
             </button>
@@ -26,9 +26,10 @@
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <div>
-                        <label class="form-label required" for="name">Customer Name</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="name">Customer Name</label>
                         <input type="text" formControlName="name" name="name"
-                          class="form-control placeholder:text-gray-400" placeholder="e.g John Smith" />
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
+                          placeholder="e.g John Smith" />
                         @if (
                         registerNewCustomer.controls['name'].invalid &&
                         (registerNewCustomer.controls['name'].dirty ||
@@ -51,10 +52,10 @@
 
                     <div>
                       <div>
-                        <label class="form-label required" for="email">Email</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="email">Email</label>
                         <input type="email" formControlName="email" name="email"
-                          class="form-control placeholder:text-gray-400" placeholder="e.g email@example.com"
-                          autocomplete="new-email" />
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
+                          placeholder="e.g email@example.com" autocomplete="new-email" />
                         @if ( registerNewCustomer.controls['email'].invalid &&
                         (registerNewCustomer.controls['email'].dirty ||
                         registerNewCustomer.controls['email'].touched) ) {
@@ -81,8 +82,9 @@
                   <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <div>
-                        <label class="form-label required" for="password">Password</label>
-                        <input type="password" formControlName="password" class="form-control placeholder:text-gray-400"
+                        <label class="block font-medium text-gray-600 text-sm required" for="password">Password</label>
+                        <input type="password" formControlName="password"
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
                           name="password" placeholder="AB@12345" autocomplete="new-password" />
                         @if ( registerNewCustomer.controls['password'].invalid
                         && (registerNewCustomer.controls['password'].dirty ||
@@ -113,8 +115,9 @@
                     </div>
                     <div>
                       <div>
-                        <label class="form-label required" for="phone">Phone Number</label>
-                        <input type="tel" formControlName="phone" class="form-control placeholder:text-gray-400"
+                        <label class="block font-medium text-gray-600 text-sm required" for="phone">Phone Number</label>
+                        <input type="tel" formControlName="phone"
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
                           name="phone" placeholder="0712345678" />
                         @if ( registerNewCustomer.controls['phone'].invalid &&
                         (registerNewCustomer.controls['phone'].dirty ||
@@ -140,8 +143,10 @@
                   <p class="font-semibold mb-2">Address Details</p>
                   <div formGroupName="address" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                      <label class="form-label required" for="countryId">Country</label>
-                      <select class="form-control" id="countryId" formControlName="countryId">
+                      <label class="block font-medium text-gray-600 text-sm required" for="countryId">Country</label>
+                      <select
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        id="countryId" formControlName="countryId">
                         <option value="">Select Country</option>
                         @for (c of countries() || []; track c._id) {
                         <option [value]="c._id">{{ c.name }}</option>
@@ -160,9 +165,10 @@
                       }
                     </div>
                     <div>
-                      <label class="form-label required" for="county">County</label>
-                      <input type="text" class="form-control" id="county" formControlName="county"
-                        placeholder="e.g Nairobi" />
+                      <label class="block font-medium text-gray-600 text-sm required" for="county">County</label>
+                      <input type="text"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        id="county" formControlName="county" placeholder="e.g Nairobi" />
                       @if (
                       registerNewCustomer.get('address.county')?.invalid &&
                       (registerNewCustomer.get('address.county')?.dirty ||
@@ -176,19 +182,22 @@
                       }
                     </div>
                     <div>
-                      <label class="form-label" for="town">Town/Area</label>
-                      <input type="text" class="form-control" id="town" formControlName="town"
-                        placeholder="e.g Karen" />
+                      <label class="block font-medium text-gray-600 text-sm" for="town">Town/Area</label>
+                      <input type="text"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        id="town" formControlName="town" placeholder="e.g Karen" />
                     </div>
                     <div>
-                      <label class="form-label" for="street">Street</label>
-                      <input type="text" class="form-control" id="street" formControlName="street"
-                        placeholder="e.g Lang'ata Road" />
+                      <label class="block font-medium text-gray-600 text-sm" for="street">Street</label>
+                      <input type="text"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        id="street" formControlName="street" placeholder="e.g Lang'ata Road" />
                     </div>
                     <div>
-                      <label class="form-label" for="building">Building</label>
-                      <input type="text" class="form-control" id="building" formControlName="building"
-                        placeholder="e.g Apartment 702" />
+                      <label class="block font-medium text-gray-600 text-sm" for="building">Building</label>
+                      <input type="text"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+                        id="building" formControlName="building" placeholder="e.g Apartment 702" />
                     </div>
                   </div>
                 </div>

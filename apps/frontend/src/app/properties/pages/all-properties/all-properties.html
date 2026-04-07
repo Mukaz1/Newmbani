@@ -6,11 +6,13 @@
         <div class="mb-5">
             <div class="flex flex-row justify-between">
                 <div>
-                    <p class="title">Properties</p>
+                    <p class="text-xl font-semibold text-gray-800 ">Properties</p>
                     <p>There are {{ paginatedData()?.total || properties().length }} properties</p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn-md rounded-full" (click)="addNewProperty()">Add Property</button>
+                <div class=" flex items-center gap-3">
+                    <button
+                        class="py-2 px-4 rounded-full bg-primary hover:bg-primary-400 items-center text-center text-white font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out rounded-full"
+                        (click)="addNewProperty()">Add Property</button>
                 </div>
             </div>
         </div>
@@ -34,13 +36,15 @@
 
             <form [formGroup]="form">
                 <table
-                    class="table-md w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
+                    class="px-6 py-6 w-full min-w-full border-separate border-spacing-0 rounded-lg shadow-sm bg-white">
                     <thead>
-                        <tr class="text-start text-muted font-bold text-uppercase gs-0">
+                        <tr class="text-start text-sm text-gray-500 font-bold text-uppercase gs-0">
                             <th class="w-10px pe-2 border-b border-gray-200">
-                                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                    <input class="form-check-input" type="checkbox" (change)="onSelectAll($event)"
-                                        #selectAllElement />
+                                <div
+                                    class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold  me-3">
+                                    <input
+                                        class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold-input"
+                                        type="checkbox" (change)="onSelectAll($event)" #selectAllElement />
                                 </div>
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -71,9 +75,11 @@
                         _property._id) {
                         <tr>
                             <td>
-                                <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" [value]="_property._id"
-                                        (change)="onCheckboxChange($event)" />
+                                <div
+                                    class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold ">
+                                    <input
+                                        class="flex flex-row items-center gap-5 cursor-pointer hover:text-primary-600 hover:font-bold-input"
+                                        type="checkbox" [value]="_property._id" (change)="onCheckboxChange($event)" />
                                 </div>
                             </td>
                             <td class="flex items-center">
@@ -102,8 +108,10 @@
                             <td class="px-6 py-2.5 whitespace-nowrap flex gap-2 text-right">
                                 <button (click)="viewProperty(_property.slug)"><i
                                         class="bi bi-eye text-lg"></i></button>
+                                @if(isLandlord()){
                                 <button (click)="editProperty(_property._id)"><i
                                         class="bi bi-pencil text-lg"></i></button>
+                                }
                                 <button (click)="deleteProperty(_property)"><i
                                         class="bi bi-trash text-lg text-red-500"></i></button>
                             </td>

@@ -14,90 +14,115 @@
     <!-- Universal Fields -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label for="fullName" class="form-label !text-gray-600">Full Name</label>
-        <input id="fullName" type="text" class="form-control" required>
+        <label for="fullName" class="block font-medium text-gray-600 text-sm !text-gray-600">Full Name</label>
+        <input id="fullName" type="text"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+          required>
       </div>
       <div>
-        <label for="email" class="form-label !text-gray-600">Email Address</label>
-        <input id="email" type="email" class="form-control" required>
+        <label for="email" class="block font-medium text-gray-600 text-sm !text-gray-600">Email Address</label>
+        <input id="email" type="email"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+          required>
       </div>
       <div>
-        <label for="phone" class="form-label !text-gray-600">Phone Number</label>
-        <input id="phone" type="tel" class="form-control" required>
+        <label for="phone" class="block font-medium text-gray-600 text-sm !text-gray-600">Phone Number</label>
+        <input id="phone" type="tel"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+          required>
       </div>
       <div>
-        <label for="address" class="form-label !text-gray-600">Service Address</label>
-        <input id="address" type="text" class="form-control" required>
+        <label for="address" class="block font-medium text-gray-600 text-sm !text-gray-600">Service Address</label>
+        <input id="address" type="text"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+          required>
       </div>
       <div>
-        <label for="date" class="form-label !text-gray-600">Preferred Date</label>
-        <input id="date" type="date" class="form-control" required>
+        <label for="date" class="block font-medium text-gray-600 text-sm !text-gray-600">Preferred Date</label>
+        <input id="date" type="date"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+          required>
       </div>
       <div>
-        <label for="time" class="form-label !text-gray-600">Preferred Time</label>
-        <input id="time" type="time" class="form-control" required>
+        <label for="time" class="block font-medium text-gray-600 text-sm !text-gray-600">Preferred Time</label>
+        <input id="time" type="time"
+          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+          required>
       </div>
     </div>
     <div>
-      <label for="notes" class="form-label !text-gray-600">Additional Notes/Instructions</label>
-      <textarea id="notes" class="form-control" rows="3"></textarea>
+      <label for="notes" class="block font-medium text-gray-600 text-sm !text-gray-600">Additional
+        Notes/Instructions</label>
+      <textarea id="notes"
+        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+        rows="3"></textarea>
     </div>
 
     <!-- Dynamically render additional questions for the selected service -->
     @if (service?.additionalQuestions?.length) {
-      <div class="border-t pt-6 mt-6">
-        <h3 class="text-lg font-semibold mb-2 form-label !text-gray-600">Service-Specific Questions</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          @for (q of service?.additionalQuestions; track q; let i = $index) {
-            <div>
-              @switch (q.type) {
-                @case ('text') {
-                  <div>
-                    <label [for]="'q' + i" class="form-label !text-gray-600">{{ q.label }}</label>
-                    <input [id]="'q' + i" type="text" class="form-control">
-                  </div>
-                }
-                @case ('number') {
-                  <div>
-                    <label [for]="'q' + i" class="form-label !text-gray-600">{{ q.label }}</label>
-                    <input [id]="'q' + i" type="number" class="form-control">
-                  </div>
-                }
-                @case ('select') {
-                  <div>
-                    <label [for]="'q' + i" class="form-label !text-gray-600">{{ q.label }}</label>
-                    <select [id]="'q' + i" class="form-select">
-                      @for (opt of q.options; track opt) {
-                        <option>{{ opt }}</option>
-                      }
-                    </select>
-                  </div>
-                }
-                @case ('textarea') {
-                  <div>
-                    <label [for]="'q' + i" class="form-label !text-gray-600">{{ q.label }}</label>
-                    <textarea [id]="'q' + i" class="form-control" rows="3"></textarea>
-                  </div>
-                }
-                @case ('date') {
-                  <div>
-                    <label [for]="'q' + i" class="form-label !text-gray-600">{{ q.label }}</label>
-                    <input [id]="'q' + i" type="date" class="form-control">
-                  </div>
-                }
-                @case ('time') {
-                  <div>
-                    <label [for]="'q' + i" class="form-label !text-gray-600">{{ q.label }}</label>
-                    <input [id]="'q' + i" type="time" class="form-control">
-                  </div>
-                }
+    <div class="border-t pt-6 mt-6">
+      <h3 class="text-lg font-semibold mb-2 block font-medium text-gray-600 text-sm !text-gray-600">Service-Specific
+        Questions</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        @for (q of service?.additionalQuestions; track q; let i = $index) {
+        <div>
+          @switch (q.type) {
+          @case ('text') {
+          <div>
+            <label [for]="'q' + i" class="block font-medium text-gray-600 text-sm !text-gray-600">{{ q.label }}</label>
+            <input [id]="'q' + i" type="text"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
+          </div>
+          }
+          @case ('number') {
+          <div>
+            <label [for]="'q' + i" class="block font-medium text-gray-600 text-sm !text-gray-600">{{ q.label }}</label>
+            <input [id]="'q' + i" type="number"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
+          </div>
+          }
+          @case ('select') {
+          <div>
+            <label [for]="'q' + i" class="block font-medium text-gray-600 text-sm !text-gray-600">{{ q.label }}</label>
+            <select [id]="'q' + i"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+              @for (opt of q.options; track opt) {
+              <option>{{ opt }}</option>
               }
-            </div>
+            </select>
+          </div>
+          }
+          @case ('textarea') {
+          <div>
+            <label [for]="'q' + i" class="block font-medium text-gray-600 text-sm !text-gray-600">{{ q.label }}</label>
+            <textarea [id]="'q' + i"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"
+              rows="3"></textarea>
+          </div>
+          }
+          @case ('date') {
+          <div>
+            <label [for]="'q' + i" class="block font-medium text-gray-600 text-sm !text-gray-600">{{ q.label }}</label>
+            <input [id]="'q' + i" type="date"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
+          </div>
+          }
+          @case ('time') {
+          <div>
+            <label [for]="'q' + i" class="block font-medium text-gray-600 text-sm !text-gray-600">{{ q.label }}</label>
+            <input [id]="'q' + i" type="time"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary">
+          </div>
+          }
           }
         </div>
+        }
       </div>
+    </div>
     }
 
-    <button type="submit" class="btn-md justify-center">Submit Request</button>
+    <button type="submit"
+      class="py-2 px-4 rounded-full bg-primary hover:bg-primary-400 items-center text-center text-white font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out justify-center">Submit
+      Request</button>
   </form>
 </div>

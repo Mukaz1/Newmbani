@@ -1,26 +1,28 @@
-<div class="modal-backdrop flex items-center justify-center">
-    <div class="modal-container w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 shadow-xl relative"
+<div class="fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm z-50 p-4 animate-fadeIn">
+    <div class="relative bg-white  w-full rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-100 flex flex-col max-w-lg "
         style="min-width: 24rem;">
         <!-- Header -->
-        <div class="modal-header flex justify-between items-center border-b border-gray-200 dark:border-gray-700 p-4">
-            <h2 class="modal-title text-lg font-bold text-white">Property Verification</h2>
+        <div
+            class="bg-linear-to-r from-primary to-secondary-700 text-white px-4 md:px-8 py-6  sticky top-0 z-10 flex justify-between items-center border-b border-gray-200 p-4">
+            <h2 class="text-2xl md:text-3xl font-bold tracking-tight  text-white">Property Verification
+            </h2>
             <button class="modal-close" (click)="closeModal()" aria-label="Close modal">
                 <i class="bi bi-x-lg text-gray-800 dark:text-white text-lg"></i>
             </button>
         </div>
 
         <!-- Body -->
-        <div class="modal-body p-6">
+        <div class="flex-1 md:px-8 px-4 py-6 space-y-6 overflow-y-auto p-6">
             <form [formGroup]="propertyVerificationForm" (submit)="onSubmit()" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <h3 class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                        <h3 class="block text-sm font-medium text-gray-500 ">
                             Property Name
                         </h3>
                         <p class="text-md text-gray-700">{{ property()?.title }} </p>
                     </div>
                     <div>
-                        <h3 class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                        <h3 class="block text-sm font-medium text-gray-500 ">
                             Address
                         </h3>
                         <p class="text-md text-gray-700">{{ property()?.address?.county }} - {{
@@ -30,10 +32,12 @@
                     </div>
                 </div>
                 <div>
-                    <label for="status" class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                    <label for="status" class="block text-sm font-medium text-gray-500 ">
                         Restrication Status
                     </label>
-                    <select id="status" formControlName="status" class="form-control mt-1" required>
+                    <select id="status" formControlName="status"
+                        class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary mt-1"
+                        required>
                         <option [ngValue]="PropertyApprovalStatus.UNDER_REVIEW">Pending Review</option>
                         <option [ngValue]="PropertyApprovalStatus.APPROVED">Approved</option>
                         <option [ngValue]="PropertyApprovalStatus.REJECTED">Rejected</option>
@@ -41,7 +45,7 @@
                 </div>
 
                 <div>
-                    <label for="comments" class="block text-sm font-medium text-gray-500 dark:text-gray-300">
+                    <label for="comments" class="block text-sm font-medium text-gray-500 ">
                         Comments
                     </label>
                     <textarea id="comments" formControlName="comments" rows="4"
@@ -52,7 +56,8 @@
         </div>
 
         <!-- Footer -->
-        <div class="modal-footer flex justify-end gap-3 border-t border-gray-200 dark:border-gray-700 p-4">
+        <div
+            class="bg-gray-50  px-8 py-4 text-center  text-xs text-gray-500  border-t border-gray-200 sticky bottom-0 z-10 flex justify-end gap-3  p-4">
             <app-button (buttonClicked)="closeModal()" [label]="'Cancel'"
                 styles="!bg-gray-200 !hover:bg-gray-400 !text-gray-700 "></app-button>
             <app-button [label]="'Verify Property'" (click)="onSubmit()"

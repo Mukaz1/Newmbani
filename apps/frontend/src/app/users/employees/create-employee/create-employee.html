@@ -4,15 +4,15 @@
       <div class="card p-3 lg:p-5">
         <div class="flex flex-row justify-between items-center">
           <div>
-            <p class="title">Register A New Employee</p>
-            <div class="text-muted">
+            <p class="text-xl font-semibold text-gray-800 ">Register A New Employee</p>
+            <div class=" text-sm text-gray-500">
               If you need more info, please check out
               <a href="#" class="link-primary font-bold">Help Page</a>.
             </div>
           </div>
           <div>
             <button (click)="goToEmployeeList()"
-              class="btn btn-primary p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
+              class="btn py-2 px-4 rounded-full bg-white hover:bg-primary hover:text-white items-center text-center text-primary border-2 border-primary font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out p-2 px-4 text-sm font-semibold border-2 border-gray-500 rounded-full hover:bg-primary-700 hover:text-white">
               <i class="bi bi-arrow-left me-2"></i>
               Back to Employee List
             </button>
@@ -26,9 +26,9 @@
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <div>
-                        <label class="form-label required" for="">Name</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="">Name</label>
                         <input type="text" formControlName="name" name="name" placeholder="e.g James Smith"
-                          class="form-control placeholder:text-gray-400" />
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400" />
                         @if ( registerNewEmployee.controls['name'].invalid &&
                         (registerNewEmployee.controls['name'].dirty ||
                         registerNewEmployee.controls['name'].touched) ) {
@@ -50,9 +50,10 @@
                     </div>
                     <div>
                       <div>
-                        <label class="form-label required" for="">Email</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="">Email</label>
                         <input type="email" formControlName="email" name="email" placeholder="Email"
-                          autocomplete="new-email" class="form-control placeholder:text-gray-400" />
+                          autocomplete="new-email"
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400" />
                         @if ( registerNewEmployee.controls['email'].invalid &&
                         (registerNewEmployee.controls['email'].dirty ||
                         registerNewEmployee.controls['email'].touched) ) {
@@ -79,9 +80,10 @@
                   <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <div>
-                        <label class="form-label required" for="">Password</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="">Password</label>
                         <input type="text" formControlName="password" name="password" placeholder="AB@12345"
-                          autocomplete="new-password" class="form-control placeholder:text-gray-400" />
+                          autocomplete="new-password"
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400" />
                         @if ( registerNewEmployee.controls['password'].invalid
                         && (registerNewEmployee.controls['password'].dirty ||
                         registerNewEmployee.controls['password'].touched) ) {
@@ -111,9 +113,9 @@
                     </div>
                     <div>
                       <div>
-                        <label class="form-label required" for="">Phone Number</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="">Phone Number</label>
                         <input type="tel" formControlName="phone" name="phone" placeholder="Phone Number"
-                          class="form-control placeholder:text-gray-400" />
+                          class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400" />
                         @if ( registerNewEmployee.controls['phone'].invalid &&
                         (registerNewEmployee.controls['phone'].dirty ||
                         registerNewEmployee.controls['phone'].touched) ) {
@@ -138,7 +140,7 @@
                     </div>
                     <div>
                       <div>
-                        <label class="form-label required" for="">Role</label>
+                        <label class="block font-medium text-gray-600 text-sm required" for="">Role</label>
                         <select name="roleId" id="roleId" formControlName="roleId">
                           <option value="">Select an Option</option>
                           @for (_role of roles; track _role) {

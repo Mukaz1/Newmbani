@@ -58,7 +58,8 @@
             }
           </h2>
           } @else {
-          <input type="text" formControlName="name" class="form-control text-2xl font-bold text-gray-900 w-full mb-2" />
+          <input type="text" formControlName="name"
+            class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary text-2xl font-bold text-gray-900 w-full mb-2" />
           }
 
           <div class="text-gray-500 mb-2">{{ landlord()?.name }}</div>
@@ -76,7 +77,8 @@
           <div>
             <div class="text-xs text-gray-500 mb-1">Email address</div>
             @if (isEditProfile()) {
-            <input formControlName="email" type="email" class="form-control" />
+            <input formControlName="email" type="email"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
             } @else {
             <div class="font-medium text-gray-900">{{ landlord()?.email }}</div>
             }
@@ -86,7 +88,8 @@
           <div>
             <div class="text-xs text-gray-500 mb-1">Phone</div>
             @if (isEditProfile()) {
-            <input formControlName="phone" type="text" class="form-control" />
+            <input formControlName="phone" type="text"
+              class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary" />
             } @else {
             <div class="font-medium text-gray-900">{{ landlord()?.phone }}</div>
             }
@@ -115,7 +118,8 @@
         <div>
           <div class="text-xs text-gray-500 mb-1">Bio</div>
           @if (isEditProfile()) {
-          <textarea formControlName="bio" rows="4" class="form-control"></textarea>
+          <textarea formControlName="bio" rows="4"
+            class="bg-gray-50/80  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-2.5 py-3 focus:outline-1 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
           } @else {
           <div class="font-medium text-gray-900 whitespace-pre-line">{{ landlord()?.bio }}</div>
           }
