@@ -16,6 +16,7 @@ export interface PropertyAggregationPayload {
   minPrice?: number;
   maxPrice?: number;
   isAvailable?: boolean;
+  location?: string;
 }
 
 export async function AggregateProperties(payload: PropertyAggregationPayload) {
@@ -34,6 +35,7 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
     minPrice,
     maxPrice,
     isAvailable,
+    location,
   } = payload;
 
   const query: Record<string, any>[] = [
@@ -53,6 +55,21 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
     rating ? { $match: { rating: { $gte: rating } } } : {},
     isAvailable ? { $match: { isAvailable } } : {},
 
+    location
+      ? {
+          $match: {
+            $or: [
+              { 'country.name': { $regex: location, $options: 'i' } },
+              { 'address.county': { $regex: location, $options: 'i' } },
+              { 'address.county': { $regex: location, $options: 'i' } },
+              { 'address.town': { $regex: location, $options: 'i' } },
+              { 'address.street': { $regex: location, $options: 'i' } },
+              { 'address.building': { $regex: location, $options: 'i' } },
+            ],
+          },
+        }
+      : {},
+
     {
       $addFields: {
         categoryId: { $toObjectId: '$categoryId' },
@@ -63,7 +80,6 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
 
-    // lookups
     {
       $lookup: {
         from: DatabaseModelEnums.PROPERTY_CATEGORY,
@@ -83,6 +99,7 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
     { $unwind: { path: '$subcategory', preserveNullAndEmptyArrays: true } },
+
     {
       $lookup: {
         from: DatabaseModelEnums.PROPERTY_IMAGE,
@@ -144,27 +161,29 @@ export async function AggregateProperties(payload: PropertyAggregationPayload) {
       },
     },
 
-    // keyword search
     {
       $match: {
         $or: [
           { name: { $regex: keyword, $options: 'i' } },
+          { title: { $regex: keyword, $options: 'i' } },
           { slug: { $regex: keyword, $options: 'i' } },
           { description: { $regex: keyword, $options: 'i' } },
           { 'category.name': { $regex: keyword, $options: 'i' } },
+          { 'subcategory.name': { $regex: keyword, $options: 'i' } },
+          { 'country.name': { $regex: keyword, $options: 'i' } },
+          { 'address.county': { $regex: keyword, $options: 'i' } },
+          { 'address.town': { $regex: keyword, $options: 'i' } },
+          { 'address.street': { $regex: keyword, $options: 'i' } },
+          { 'address.building': { $regex: keyword, $options: 'i' } },
         ],
       },
     },
-    {
-      $project: {
-        propertyId: 0,
-      },
-    },
+
+    { $project: { propertyId: 0 } },
     { $sort: sort },
     { $skip: skip },
     { $limit: limit },
   ];
 
-  // clean out empty objects
   return query.filter((value) => Object.keys(value).length !== 0);
 }

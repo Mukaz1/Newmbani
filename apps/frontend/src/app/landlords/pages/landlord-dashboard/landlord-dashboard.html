@@ -112,19 +112,19 @@
 
       <!-- RIGHT → Doughnut Chart -->
       <div class="bg-white rounded-xl p-4 lg:p-6 shadow-sm border border-gray-200 lg:col-span-2">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Listings Distribution</h3>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Property Distribution</h3>
         <app-doughnut-chart #listingChart></app-doughnut-chart>
       </div>
 
     </div>
 
 
-    <!-- ACTIVE LISTINGS + BOOKINGS TABLE -->
+    <!-- ACTIVE PROPERTY + BOOKINGS TABLE -->
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mt-6">
 
-      <!-- LEFT → Active Listings -->
+      <!-- LEFT → Active Properties -->
       <div class="bg-white rounded-xl p-4 lg:p-6 shadow-sm border border-gray-200 hover-scale-105 mt-4 lg:col-span-3">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Active Listings</h3>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Active Properties</h3>
 
         <div class="overflow-x-auto">
           <div class="min-w-full">
@@ -137,7 +137,7 @@
               <span>Action</span>
             </div>
 
-            <!-- Listings -->
+            <!-- Property -->
             <div class="divide-y">
               @for (property of properties() | slice:0:7; track property) {
               <div

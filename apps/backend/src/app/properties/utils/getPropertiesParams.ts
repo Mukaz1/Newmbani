@@ -22,7 +22,7 @@ export async function getPropertyQueryParams(
     query && query.minPrice ? +query.minPrice || undefined : undefined;
   const maxPrice: number | undefined =
     query && query.maxPrice ? +query.maxPrice || undefined : undefined;
-  // get the landlord id
+
   const landlordId: string | undefined =
     query && query.landlordId
       ? (query.landlordId as string).includes('undefined')
@@ -30,32 +30,43 @@ export async function getPropertyQueryParams(
         : (query.landlordId as string)
       : undefined;
 
-  // get the rating
   const rating: number | undefined =
     query && query.rating
       ? (query.rating as string).includes('undefined')
         ? undefined
         : +(query.rating as string)
       : undefined;
-  // get propertyAvailability param
+
   const isAvailable: boolean | undefined =
     query && query.isAvailable
       ? (query.isAvailable as string).includes('undefined')
         ? undefined
-        : (query.isAvailable as unknown as boolean)
+        : (query.isAvailable as string) === 'true'
       : undefined;
 
-  // prepare category Id
   const categoryId: string | undefined =
     query && query.categoryId
       ? (query.categoryId as string).includes('undefined')
         ? undefined
         : (query.categoryId as string)
       : undefined;
+
+  const subcategoryId: string | undefined =
+    query && query.subcategoryId
+      ? (query.subcategoryId as string).includes('undefined')
+        ? undefined
+        : (query.subcategoryId as string)
+      : undefined;
+
+  const location: string | undefined =
+    query && query.location
+      ? (query.location as string).trim() || undefined
+      : undefined;
+
   const skip = limit * (page - 1);
   const sort =
     query && query.sort ? { ...(query.sort as any) } : { createdAt: -1 };
-  // prepare subcategory Id
+
   const approvalStatus: PropertyApprovalStatus | undefined =
     query && query.approvalStatus
       ? (query.approvalStatus as string).includes('undefined')
@@ -74,9 +85,11 @@ export async function getPropertyQueryParams(
     rating,
     isAvailable,
     categoryId,
+    subcategoryId,
     skip,
     maxPrice,
     minPrice,
     approvalStatus,
+    location,
   };
 }

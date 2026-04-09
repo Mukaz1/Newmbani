@@ -97,7 +97,7 @@ export class LandlordDashboard implements OnInit {
       },
       title: 'Landlord Dashboard',
       description:
-        'Overview of your listings, bookings, and landlord activity.',
+        'Overview of your properties, bookings, and landlord activity.',
     });
   }
 

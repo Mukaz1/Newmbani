@@ -111,6 +111,7 @@ export class Homepage implements OnInit {
         limit: query?.limit ?? -1,
         page: query?.page ?? 1,
         approvalStatus: PropertyApprovalStatus.APPROVED,
+        isAvailable: true,
       })
       .pipe(take(1))
       .subscribe({

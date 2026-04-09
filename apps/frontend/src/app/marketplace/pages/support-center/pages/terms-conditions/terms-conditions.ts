@@ -92,9 +92,9 @@ export class TermsConditions {
         'Maintain the accommodation in safe, clean, and habitable condition',
         'Comply with all applicable laws regarding licensing, zoning, taxation, health, and safety',
         'Honour confirmed bookings except as allowed by a Host cancellation policy',
-        'Respond promptly to Guests and address reasonable concerns',
+        'Respond promptly to Customers and address reasonable concerns',
       ],
-      note: 'Hosts confirm they are legally authorized to offer the accommodation.',
+      note: 'Landlords confirm they are legally authorized to offer the accommodation.',
     },
     {
       role: 'Guest',
@@ -124,18 +124,17 @@ export class TermsConditions {
       id: 'introduction',
       title: '1. Introduction',
       content:
-        'Welcome to Newmbani. By accessing or using the Newmbani platform, you agree to these Terms & Conditions, which govern your relationship with Newmbani Ltd. This document outlines how the platform operates, the responsibilities of each party, and the standards required to ensure a safe, transparent, and seamless experience for all Users, Hosts, Guests, and Service Providers.',
+        'Welcome to Newmbani. By accessing or using the Newmbani platform, you agree to these Terms & Conditions, which govern your relationship with Newmbani Ltd. This document outlines how the platform operates, the responsibilities of each party, and the standards required to ensure a safe, transparent, and seamless experience for all Users, Landlords, and Customers.',
     },
     {
       id: 'nature',
       title: '3. Nature of the Platform',
       content:
-        'The Platform functions as a digital marketplace that connects Guests with Hosts and Service Providers.',
+        'The Platform functions as a digital marketplace that connects Customers with Landlords and Service Providers.',
       highlights: [
         'Newmbani does not own or manage the properties listed unless explicitly stated in writing.',
-        'Hosts control their Listings, pricing, rules, and availability.',
-        'Guests contract directly with Hosts or Service Providers when making a booking.',
-        'Service Providers operate independently and are solely responsible for the services they deliver.',
+        'Landlords control their Property, pricing, rules, and availability.',
+        'Customers contract directly with landlords when making a booking.',
         'Newmbani facilitates communication, discovery, and transactions but is not a party to individual accommodation or service agreements.',
       ],
     },
@@ -162,11 +161,11 @@ export class TermsConditions {
       subsections: [
         {
           items: [
-            'Payments may be processed through Newmbani or directly to Hosts or Service Providers.',
+            'Payments may be processed through Newmbani or directly to Landlords.',
             'All applicable fees, commissions, or charges will be displayed prior to booking.',
             'Pricing may vary based on factors such as demand, season, or location.',
-            'Guests agree to pay the total amount presented at checkout.',
-            'Hosts and Service Providers are responsible for reporting and paying any applicable taxes, including income tax, VAT, or occupancy taxes.',
+            'Customers agree to pay the total amount presented at checkout.',
+            'Landlords and Service Providers are responsible for reporting and paying any applicable taxes, including income tax, VAT, or occupancy taxes.',
           ],
         },
       ],
@@ -208,7 +207,7 @@ export class TermsConditions {
         {
           items: [
             'Newmbani does not guarantee the accuracy, legality, safety, or condition of any Listing',
-            'Newmbani is not responsible for actions, omissions, or conduct of Hosts, Guests, or Service Providers',
+            'Newmbani is not responsible for actions, omissions, or conduct of Landlords or Customers',
             'Newmbani is not liable for indirect, incidental, or consequential damages',
             "Newmbani's total liability is limited to the service fees paid by the User for the specific transaction giving rise to the claim",
           ],

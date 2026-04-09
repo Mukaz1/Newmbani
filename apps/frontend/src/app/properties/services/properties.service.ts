@@ -32,29 +32,53 @@ export class PropertiesService {
    * Get paginated list of properties
    */
   getAllProperties(data?: {
-    limit?: number;
-    page?: number;
-    keyword?: string;
+    limit: number;
+    page: number;
+    keyword: string;
     categoryId?: string;
+    subcategoryId?: string;
     approvalStatus?: PropertyApprovalStatus;
     landlordId?: string;
-    countryId?: string;
+    propertyId?: string;
+    slug?: string;
+    rating?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    isAvailable?: boolean;
+    location?: string;
+    sort?: object;
   }): Observable<HttpResponseInterface<PaginatedData<Property[]>>> {
-    const options = data
-      ? {
-          params: new HttpParams()
-            .set('limit', data.limit?.toString() ?? '')
-            .set('page', data.page?.toString() ?? '')
-            .set('keyword', data.keyword ?? '')
-            .set('categoryId', data.categoryId ?? '')
-            .set('landlordId', data.landlordId ?? '')
-            .set('countryId', data.countryId ?? '')
-            .set('approvalStatus', data.approvalStatus ?? ''),
-        }
-      : {};
+    let params = new HttpParams();
+
+    if (data) {
+      if (data.limit !== undefined)
+        params = params.set('limit', data.limit.toString());
+      if (data.page !== undefined)
+        params = params.set('page', data.page.toString());
+      if (data.keyword) params = params.set('keyword', data.keyword || '');
+      if (data.categoryId) params = params.set('categoryId', data.categoryId);
+      if (data.subcategoryId)
+        params = params.set('subcategoryId', data.subcategoryId);
+      if (data.approvalStatus)
+        params = params.set('approvalStatus', data.approvalStatus);
+      if (data.landlordId) params = params.set('landlordId', data.landlordId);
+      if (data.propertyId) params = params.set('propertyId', data.propertyId);
+      if (data.slug) params = params.set('slug', data.slug);
+      if (data.rating !== undefined)
+        params = params.set('rating', data.rating.toString());
+      if (data.minPrice !== undefined)
+        params = params.set('minPrice', data.minPrice.toString());
+      if (data.maxPrice !== undefined)
+        params = params.set('maxPrice', data.maxPrice.toString());
+      if (data.isAvailable !== undefined)
+        params = params.set('isAvailable', data.isAvailable.toString());
+      if (data.location) params = params.set('location', data.location);
+      if (data.sort) params = params.set('sort', JSON.stringify(data.sort));
+    }
+
     return this.http.get<HttpResponseInterface<PaginatedData<Property[]>>>(
       API_ENDPOINTS.GET_PROPERTIES,
-      options,
+      { params },
     );
   }
 

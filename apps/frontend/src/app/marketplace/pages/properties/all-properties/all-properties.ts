@@ -33,10 +33,13 @@ interface PropertyQueryParams {
   page: number;
   landlordId?: string;
   categoryId?: string;
+  subcategoryId?: string;
   location?: string;
+  minPrice?: number;
+  maxPrice?: number;
   approvalStatus?: PropertyApprovalStatus;
+  isAvailable?: boolean;
 }
-
 @Component({
   selector: 'app-all-properties',
   standalone: true,
@@ -94,7 +97,6 @@ export class AllProperties implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.getProperty();
     this.getCategories();
     this.loadFavorites();
     this.route.queryParams
@@ -104,9 +106,13 @@ export class AllProperties implements OnInit {
           keyword: params['keyword'] ?? this.keyword(),
           limit: params['limit'] ? +params['limit'] : this.pageSize(),
           page: params['page'] ? +params['page'] : this.currentPage(),
-          landlordId: params['landlordId'],
-          categoryId: params['categoryId'],
-          approvalStatus: params['approvalStatus'],
+          landlordId: params['landlordId'] || undefined,
+          categoryId: params['categoryId'] || undefined,
+          subcategoryId: params['subcategoryId'] || undefined,
+          location: params['location'] || undefined,
+          minPrice: params['minPrice'] ? +params['minPrice'] : undefined,
+          maxPrice: params['maxPrice'] ? +params['maxPrice'] : undefined,
+          approvalStatus: params['approvalStatus'] || undefined,
         };
         this.getProperty(queryParams);
       });
@@ -123,6 +129,10 @@ export class AllProperties implements OnInit {
       categoryId: query?.categoryId,
       location: query?.location,
       approvalStatus: query?.approvalStatus ?? PropertyApprovalStatus.APPROVED,
+      isAvailable: true,
+      subcategoryId: query?.subcategoryId,
+      minPrice: query?.minPrice,
+      maxPrice: query?.maxPrice,
     };
 
     this.propertiesService
