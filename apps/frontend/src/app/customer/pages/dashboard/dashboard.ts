@@ -77,17 +77,18 @@ export class CustomerDashboard implements OnInit {
   private loadUserData() {
     this.user.set(this.authService.user());
   }
+  //  const dashboard = endpoint.includes('customer')
+  // ? DashboardsEnum.CUSTOMER
+  // : endpoint.includes('landlord')
+  //   ? DashboardsEnum.LANDLORD
+  //   : DashboardsEnum.ADMIN;
 
   goBack() {
-    this.router.navigate(['/customer/addresses']);
+    this.router.navigate(['/customer']);
   }
   fetchBookings() {
     const endpoint = this.router.url;
-    const dashboard = endpoint.includes('customer')
-      ? DashboardsEnum.CUSTOMER
-      : endpoint.includes('landlord')
-        ? DashboardsEnum.LANDLORD
-        : DashboardsEnum.ADMIN;
+
     this.isLoading.set(true);
     const customerId = this.authService.user()?.customerId;
     this.bookingsService
@@ -95,7 +96,7 @@ export class CustomerDashboard implements OnInit {
         limit: this.pageSize(),
         keyword: this.keyword(),
         page: this.currentPage(),
-        customerId: customerId ?? '',
+        customerId: customerId || undefined,
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

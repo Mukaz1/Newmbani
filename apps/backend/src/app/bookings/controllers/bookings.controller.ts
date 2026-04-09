@@ -68,8 +68,10 @@ export class BookingsController {
   async findAll(
     @Query() query: ExpressQuery,
     @GenericResponse() res: GenericResponse,
+    @Req() { user }: UserRequest,
   ): Promise<HttpResponseInterface> {
-    const response = await this.bookingsService.findAll(query);
+    const userId = user._id.toString();
+    const response = await this.bookingsService.findAll(query, userId);
     res.setStatus(response.statusCode);
     return response;
   }

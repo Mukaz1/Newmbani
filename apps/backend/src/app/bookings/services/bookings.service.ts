@@ -21,6 +21,7 @@ import {
 } from '../utils/getBookingsParams';
 import { BookingAggregation } from '../queries/bookings.query';
 import { PipelineStage } from 'mongoose';
+import { UserModel } from '../../auth/schemas/user.schema';
 
 /**
  * Service for handling bookings.
@@ -80,36 +81,31 @@ export class BookingsService {
    */
   async findAll(
     query?: ExpressQuery,
+    userId?: string,
   ): Promise<HttpResponseInterface<PaginatedData<Booking[]>>> {
     try {
-      const limitQ = query?.limit;
       const totalDocuments = await BookingModel.find().countDocuments().exec();
-      const limit = +limitQ === -1 ? totalDocuments : +query?.limit || 10;
-      const keyword = query && query.keyword ? query.keyword : '';
-      const page = query && query.page ? +query.page : 1;
-      const skip = limit * (page - 1);
-      const slim: boolean = query?.slim
-        ? (query.slim as unknown as boolean) || false
-        : false;
-      const sort: any =
-        query && query.sort ? { ...(query.sort as any) } : { createdAt: -1 };
+      const bookingPayload: BookingQueryPayload = await getBookingParams({
+        query: query || {},
+        totalDocuments,
+      });
 
-      const bookingPayload: BookingQueryPayload = {
-        keyword: keyword as string,
-        skip,
-        sort,
-        limit,
-        page,
-        slim,
-      };
+      if (userId) {
+        const user = await UserModel.findById(userId).exec();
 
-      const search: Array<any> =
-        query &&
-        (await BookingAggregation({
-          payload: bookingPayload,
-        }));
+        if (user) {
+          if (user.customerId) {
+            bookingPayload.customerId = user.customerId.toString();
+          } else if (user.landlordId) {
+            bookingPayload.landlordId = user.landlordId.toString();
+          }
+        }
+      }
 
-      // get all the bookings
+      const search: Array<any> = await BookingAggregation({
+        payload: bookingPayload,
+      });
+
       const bookings: Booking[] = await BookingModel.aggregate(search).exec();
 
       const counts = await BookingModel.aggregate([
@@ -118,12 +114,11 @@ export class BookingsService {
       ]).exec();
 
       const total = counts.length > 0 ? counts[0].count : 0;
-      const pages = Math.ceil(total / limit);
+      const pages = Math.ceil(total / bookingPayload.limit);
 
-      // prepare the response
       const response: PaginatedData<Booking[]> = {
-        page,
-        limit,
+        page: bookingPayload.page,
+        limit: bookingPayload.limit,
         total,
         data: bookings,
         pages,
@@ -142,7 +137,6 @@ export class BookingsService {
       });
     }
   }
-
   /**
    * Get a single booking by ID.
    */
