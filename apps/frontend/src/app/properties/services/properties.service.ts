@@ -55,7 +55,7 @@ export class PropertiesService {
         params = params.set('limit', data.limit.toString());
       if (data.page !== undefined)
         params = params.set('page', data.page.toString());
-      if (data.keyword) params = params.set('keyword', data.keyword || '');
+      if (data.keyword !== undefined) params = params.set('keyword', data.keyword);
       if (data.categoryId) params = params.set('categoryId', data.categoryId);
       if (data.subcategoryId)
         params = params.set('subcategoryId', data.subcategoryId);
@@ -75,7 +75,6 @@ export class PropertiesService {
       if (data.location) params = params.set('location', data.location);
       if (data.sort) params = params.set('sort', JSON.stringify(data.sort));
     }
-
     return this.http.get<HttpResponseInterface<PaginatedData<Property[]>>>(
       API_ENDPOINTS.GET_PROPERTIES,
       { params },

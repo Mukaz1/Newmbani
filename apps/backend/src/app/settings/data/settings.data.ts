@@ -11,14 +11,14 @@ export const defaultSettings = (): Settings => {
     general: {
       app: appName,
       company: 'Newmbani',
-      email: 'info@newmbani.co.ke',
-      phone: '+254701663066',
-      KRA: 'P89787878H',
+      email: 'mukazion@gmail.com',
+      phone: '+254793039963',
+      KRA: '',
       address: {
         boxAddress: '6040',
-        town: 'Eldoret',
-        building: `Eden Center`,
-        street: 'Off Ronald Ngala St',
+        town: 'Kapsabet',
+        building: `Baraton`,
+        street: 'Baraton Center',
         country: 'Kenya',
         postalCode: '30100',
       },
@@ -43,13 +43,13 @@ export const defaultSettings = (): Settings => {
       defaultStorageType: StorageProvidersEnum.CLOUDINARY,
     },
     mail: {
-      host: 'mail.newmbani.co.ke',
+      host: 'smtp.gmail.com',
       port: 465,
       auth: {
-        user: 'no-reply@newmbani.co.ke',
-        pass: 'DJXM0o?z%YoK#t.p',
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
       },
-      from: `${appName} <no-reply@newmbani.co.ke>`,
+      from: `${appName} <mukazion@gmail.com>`,
     },
     appURL: 'http://localhost:4200',
     vatRate: 18,

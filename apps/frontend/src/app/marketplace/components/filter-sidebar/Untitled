@@ -58,9 +58,9 @@
     </div>
   </div>
 
-  <!-- Rating -->
-  <!-- <div class="flex flex-col"> -->
-  <!-- <label for="rating" class="text-sm text-gray-700 mb-1 font-medium">Minimum Rating</label>
+  <!-- Rating
+  <div class="flex flex-col">
+    <label for="rating" class="text-sm text-gray-700 mb-1 font-medium">Minimum Rating</label>
     <select id="rating" formControlName="rating"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
       <option [value]="null">Any</option>

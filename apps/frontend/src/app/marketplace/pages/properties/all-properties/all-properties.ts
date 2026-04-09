@@ -103,7 +103,7 @@ export class AllProperties implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params: any) => {
         const queryParams: PropertyQueryParams = {
-          keyword: params['keyword'] ?? this.keyword(),
+          keyword: params['keyword'] ?? this.keyword() ??  '',
           limit: params['limit'] ? +params['limit'] : this.pageSize(),
           page: params['page'] ? +params['page'] : this.currentPage(),
           landlordId: params['landlordId'] || undefined,
@@ -134,7 +134,6 @@ export class AllProperties implements OnInit {
       minPrice: query?.minPrice,
       maxPrice: query?.maxPrice,
     };
-
     this.propertiesService
       .getAllProperties(params)
       .pipe(take(1))
@@ -171,45 +170,36 @@ export class AllProperties implements OnInit {
 
   onFiltersChanged(filters?: any): void {
     this.currentPage.set(1);
-
-    // Prevent errors if filters is undefined, null, or not an object
+  
     if (!filters || typeof filters !== 'object') {
-      // Reset to just page and limit (clear all filters)
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: {
-          page: 1,
-          limit: this.pageSize(),
-        },
+        queryParams: { page: 1, limit: this.pageSize() },
         queryParamsHandling: '',
       });
       return;
     }
-
-    // Clear all current query params by resetting to only page and limit
+  
     const queryParams: any = {
       page: 1,
       limit: this.pageSize(),
     };
-
-    // Populate queryParams from filters, only including non-empty values
-    if ('keyword' in filters && !!filters.keyword) {
+  
+    if (filters.keyword) {
       queryParams.keyword = filters.keyword;
       this.keyword.set(filters.keyword);
     }
-    if ('categoryId' in filters && !!filters.categoryId) {
-      queryParams.categoryId = filters.categoryId;
-    }
-    if ('location' in filters && !!filters.location) {
-      queryParams.location = filters.location;
-    }
-    {
-      queryParams.guestsType = JSON.stringify(filters.guestsType);
-    }
-
+    if (filters.categoryId) queryParams.categoryId = filters.categoryId;
+    if (filters.subcategoryId) queryParams.subcategoryId = filters.subcategoryId; // ✅
+    if (filters.location) queryParams.location = filters.location;
+    if (filters.minPrice != null) queryParams.minPrice = filters.minPrice;         // ✅
+    if (filters.maxPrice != null) queryParams.maxPrice = filters.maxPrice;         // ✅
+    if (filters.rating != null) queryParams.rating = filters.rating;               // ✅
+    if (filters.isAvailable != null) queryParams.isAvailable = filters.isAvailable; // ✅
+  
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: queryParams,
+      queryParams,
       queryParamsHandling: '',
     });
   }

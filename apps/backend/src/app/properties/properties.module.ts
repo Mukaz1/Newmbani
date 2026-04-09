@@ -9,10 +9,30 @@ import { PropertyImageCategoriesService } from './services/property-image-catego
 import { PropertyImagesService } from './services/property-images.service';
 import { PropertySubCategoriesController } from './controllers/property-subcategories.controller';
 import { PropertySubCategoriesService } from './services/property-subcategories.service';
+import { PropertyAutomationService } from './services/property-automation.service';
 
 @Module({
-  providers: [PropertyCategoriesService, PropertiesService, PropertyImageCategoriesService, PropertyImagesService, PropertySubCategoriesService],
-  exports: [PropertyCategoriesService, PropertiesService, PropertyImageCategoriesService, PropertyImagesService, PropertySubCategoriesService],
-  controllers: [PropertyCategoriesController, PropertiesController, PropertyImageCategoriesController, PropertyImagesController, PropertySubCategoriesController],
+  providers: [
+    PropertyCategoriesService,
+    PropertiesService,
+    PropertyImageCategoriesService,
+    PropertyImagesService,
+    PropertySubCategoriesService,
+    PropertyAutomationService,
+  ],
+  exports: [
+    PropertyCategoriesService,
+    PropertiesService,
+    PropertyImageCategoriesService,
+    PropertyImagesService,
+    PropertySubCategoriesService,
+  ],
+  controllers: [
+    PropertyCategoriesController,
+    PropertiesController,
+    PropertyImageCategoriesController,
+    PropertyImagesController,
+    PropertySubCategoriesController,
+  ],
 })
 export class PropertiesModule {}

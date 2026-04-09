@@ -3,9 +3,14 @@ import { BookingCancellationsController } from './controllers/booking-cancellati
 import { BookingsController } from './controllers/bookings.controller';
 import { BookingCancellationsService } from './services/booking-cancellations.service';
 import { BookingsService } from './services/bookings.service';
+import { BookingAutomationService } from './services/booking-automation.service';
 
 @Module({
-  providers: [BookingsService, BookingCancellationsService],
+  providers: [
+    BookingsService,
+    BookingCancellationsService,
+    BookingAutomationService,
+  ],
   controllers: [BookingsController, BookingCancellationsController],
   exports: [BookingsService, BookingCancellationsService],
 })
