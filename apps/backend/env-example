@@ -58,3 +58,5 @@ CLOUDINARY_API_SECRET="oW2-39dEOiKz7vfUR1990m6-RfI"
 CLOUDINARY_URL=cloudinary://761623373942536:oW2-39dEOiKz7vfUR1990m6-RfI@dtxinzwir
 CLOUDINARY_UPLOAD_PRESET="newmbani_uploads"
 CLOUDINARY_FOLDER="newmbani-app"
+
+; Updated env example
