@@ -3,7 +3,7 @@ import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
 
 export class ResetPasswordDTO {
   @ApiProperty({
-    example: 'brian@newmbani.co.ke',
+    example: 'frasiah@newmbani.co.ke',
     required: true,
   })
   @IsNotEmpty()

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   HttpResponseInterface,
   HttpStatusCodeEnum,
@@ -6,6 +7,7 @@ import {
   BookingStatusEnum,
   Booking,
   PaginatedData,
+  SystemEventsEnum,
 } from '@newmbani/types';
 import { CustomHttpResponse } from '../../common';
 import { BookingModel } from '../schemas/booking.schema';
@@ -15,22 +17,15 @@ import {
   UpdateBookingDto,
   UpdateBookingStatusDto,
 } from '../dto/bookings.dto';
-import {
-  BookingQueryPayload,
-  getBookingParams,
-} from '../utils/getBookingsParams';
+import { BookingQueryPayload, getBookingParams } from '../utils/getBookingsParams';
 import { BookingAggregation } from '../queries/bookings.query';
 import { PipelineStage } from 'mongoose';
 import { UserModel } from '../../auth/schemas/user.schema';
 
-/**
- * Service for handling bookings.
- */
 @Injectable()
 export class BookingsService {
-  /**
-   * Create a new booking.
-   */
+  constructor(private readonly eventEmitter: EventEmitter2) {} // ✅ inject EventEmitter2
+
   async create(
     bookingDto: CreateBookingDto,
     userId: string,
@@ -46,8 +41,7 @@ export class BookingsService {
         return new CustomHttpResponse({
           data: null,
           statusCode: HttpStatusCodeEnum.BAD_REQUEST,
-          message:
-            'A booking with the same customer, property, and date already exists.',
+          message: 'A booking with the same customer, property, and date already exists.',
         });
       }
 
@@ -59,8 +53,10 @@ export class BookingsService {
       };
 
       const created = await BookingModel.create(payload);
-
       const bookingResponse = await this.findOne(created._id.toString());
+
+      // ✅ emit booking created event
+      this.eventEmitter.emit(SystemEventsEnum.BookingCreated, bookingResponse.data);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.CREATED,
@@ -76,9 +72,6 @@ export class BookingsService {
     }
   }
 
-  /**
-   * Get all bookings with optional query for pagination, filtering, sorting, etc.
-   */
   async findAll(
     query?: ExpressQuery,
     userId?: string,
@@ -92,7 +85,6 @@ export class BookingsService {
 
       if (userId) {
         const user = await UserModel.findById(userId).exec();
-
         if (user) {
           if (user.customerId) {
             bookingPayload.customerId = user.customerId.toString();
@@ -102,10 +94,7 @@ export class BookingsService {
         }
       }
 
-      const search: Array<any> = await BookingAggregation({
-        payload: bookingPayload,
-      });
-
+      const search: Array<any> = await BookingAggregation({ payload: bookingPayload });
       const bookings: Booking[] = await BookingModel.aggregate(search).exec();
 
       const counts = await BookingModel.aggregate([
@@ -116,18 +105,10 @@ export class BookingsService {
       const total = counts.length > 0 ? counts[0].count : 0;
       const pages = Math.ceil(total / bookingPayload.limit);
 
-      const response: PaginatedData<Booking[]> = {
-        page: bookingPayload.page,
-        limit: bookingPayload.limit,
-        total,
-        data: bookings,
-        pages,
-      };
-
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
         message: 'Bookings loaded successfully',
-        data: response,
+        data: { page: bookingPayload.page, limit: bookingPayload.limit, total, data: bookings, pages },
       });
     } catch (error) {
       return new CustomHttpResponse({
@@ -137,31 +118,20 @@ export class BookingsService {
       });
     }
   }
-  /**
-   * Get a single booking by ID.
-   */
+
   async findOne(id: string): Promise<HttpResponseInterface<Booking>> {
     try {
-      // Use a default sort key to avoid MongoDB error when sort is empty
       const bookingPayload = {
         keyword: '',
         skip: 0,
         limit: 1,
         page: 1,
-        sort: { _id: -1 }, // Ensures at least one sort key is present
+        sort: { _id: -1 },
         slim: false,
       };
 
-      // Get the aggregation pipeline with bookingId
-      const pipeline = BookingAggregation({
-        payload: bookingPayload,
-        bookingId: id,
-      });
-
-      // Execute the aggregation pipeline
-      const bookings = await BookingModel.aggregate(
-        pipeline as PipelineStage[],
-      ).exec();
+      const pipeline = BookingAggregation({ payload: bookingPayload, bookingId: id });
+      const bookings = await BookingModel.aggregate(pipeline as PipelineStage[]).exec();
       const booking = bookings[0];
 
       if (booking) {
@@ -186,9 +156,6 @@ export class BookingsService {
     }
   }
 
-  /**
-   * Update a booking.
-   */
   async update(
     id: string,
     updateDto: UpdateBookingDto,
@@ -206,19 +173,15 @@ export class BookingsService {
         return new CustomHttpResponse({
           data: null,
           statusCode: HttpStatusCodeEnum.BAD_REQUEST,
-          message:
-            'A booking for this property with the same date already exists.',
+          message: 'A booking for this property with the same date already exists.',
         });
       }
 
-      const updatePayload = {
-        ...updateDto,
-        updatedAt: new Date(),
-      };
-
-      await BookingModel.findOneAndUpdate({ _id: id }, updatePayload, {
-        new: true,
-      }).exec();
+      await BookingModel.findOneAndUpdate(
+        { _id: id },
+        { ...updateDto, updatedAt: new Date() },
+        { new: true },
+      ).exec();
 
       const updatedBooking = (await this.findOne(id)).data;
       if (!updatedBooking) {
@@ -228,6 +191,9 @@ export class BookingsService {
           data: null,
         });
       }
+
+      // ✅ emit booking updated event
+      this.eventEmitter.emit(SystemEventsEnum.BookingUpdated, updatedBooking);
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,
@@ -247,11 +213,16 @@ export class BookingsService {
     bookingId: string,
     statusDto: UpdateBookingStatusDto,
   ): Promise<HttpResponseInterface<Booking>> {
-    const booking = await BookingModel.findOneAndUpdate(
+    await BookingModel.findOneAndUpdate(
       { _id: bookingId },
       { status: statusDto.status, updatedAt: new Date() },
       { new: true },
     ).exec();
+
+    // ✅ fetch the full populated booking so emails have customer/property data
+    const bookingResponse = await this.findOne(bookingId);
+    const booking = bookingResponse.data;
+
     if (!booking) {
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.NOT_FOUND,
@@ -259,6 +230,17 @@ export class BookingsService {
         data: null,
       });
     }
+
+    // ✅ emit specific event based on new status
+    const statusEventMap: Partial<Record<BookingStatusEnum, string>> = {
+      [BookingStatusEnum.APPROVED]: SystemEventsEnum.BookingApproved,
+      [BookingStatusEnum.REJECTED]: SystemEventsEnum.BookingRejected,
+      [BookingStatusEnum.CANCELLED]: SystemEventsEnum.BookingCancelled,
+    };
+
+    const event = statusEventMap[statusDto.status];
+    if (event) this.eventEmitter.emit(event, booking);
+
     return new CustomHttpResponse({
       statusCode: HttpStatusCodeEnum.OK,
       message: `Booking status updated`,
@@ -266,9 +248,6 @@ export class BookingsService {
     });
   }
 
-  /**
-   * Remove a booking.
-   */
   async remove(id: string): Promise<HttpResponseInterface<null>> {
     try {
       const result = await BookingModel.deleteOne({ _id: id }).exec();

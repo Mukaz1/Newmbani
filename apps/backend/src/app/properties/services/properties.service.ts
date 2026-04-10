@@ -265,6 +265,11 @@ export class PropertiesService {
       );
 
       this.eventEmitter.emit(SystemEventsEnum.PropertyUpdated, updatedProperty);
+      if((payload.approvalStatus === PropertyApprovalStatus.APPROVED) && (updatedProperty.approvalStatus === PropertyApprovalStatus.APPROVED) ){
+        this.eventEmitter.emit(SystemEventsEnum.PropertyApproved, updatedProperty);
+      }else if ((payload.approvalStatus === PropertyApprovalStatus.REJECTED) && (updatedProperty.approvalStatus === PropertyApprovalStatus.REJECTED)){
+        this.eventEmitter.emit(SystemEventsEnum.PropertyRejected, updatedProperty);
+      }
 
       return new CustomHttpResponse({
         statusCode: HttpStatusCodeEnum.OK,

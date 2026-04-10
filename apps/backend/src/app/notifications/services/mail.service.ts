@@ -34,11 +34,11 @@ export class MailService {
     transporter: nodemailer.Transporter | undefined;
   }> {
     try {
-      // const environment = process.env.NODE_ENV;
-      // const isProduction: boolean =
-      //   environment && environment.toLowerCase().includes('production')
-      //     ? true
-      //     : false;
+      const environment = process.env.NODE_ENV;
+      const isProduction: boolean =
+        environment && environment.toLowerCase().includes('production')
+          ? true
+          : false;
       if (settings && settings.mail) {
         const port = settings.mail.port || 465;
         const transporter = nodemailer.createTransport({
@@ -50,6 +50,8 @@ export class MailService {
             //TODO: Disables SSL certificate validation: I should remove it in production
             rejectUnauthorized: false,
           },
+
+
         });
         return { transporter };
       }
@@ -82,13 +84,11 @@ export class MailService {
         return;
       }
 
-      const testMode = this.configService.get('TEST_MODE')
-        ? JSON.parse(this.configService.get('TEST_MODE'))
-        : true;
+      // const testMode = this.configService.get('TEST_MODE')
+      //   ? JSON.parse(this.configService.get('TEST_MODE'))
+      //   : true;
 
-      const to = testMode
-        ? this.configService.get('TEST_EMAIL')
-        : mail.recipient;
+      const to = mail.recipient;
 
       // prepare the template properly adding the header and the footer
       const template = `

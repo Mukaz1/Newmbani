@@ -3,13 +3,12 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class OnfonService {
-  baseURL = 'https://apis.onfonmedia.co.ke/v1';
-  apiUsername = 'briankoech650@gmail.com';
-  apiPassword = 'Lc3128$%^&';
-  AccessToken = '9H8Ved1lgoX4KiE3Qj6BDtMcUTGwFP7vhmYxR5WfS02ArLzN';
-  clientId = 'bdcomputing';
-  callback =
-    'https://2bc0-2a09-bac1-3b80-8-00-2c0-3e.ngrok-free.app/api/sms-webhook/onfon';
+  baseURL = process.env.ONFON_BASE_URL;
+  apiUsername = process.env.ONFON_API_USERNAME;
+  apiPassword = process.env.ONFON_API_PASSWORD;
+  AccessToken = process.env.ONFON_ACCESS_TOKEN;
+  clientId = process.env.ONFON_CLIENT_ID;
+  callback = process.env.ONFON_CALLBACK_URL;
 
   /**
    * Creates an instance of OnfonService.

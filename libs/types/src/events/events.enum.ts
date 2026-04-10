@@ -3,6 +3,7 @@ import { LandlordEvents } from '../landlords/enums/landlord-events';
 import { OTPEventEnums } from '../otp';
 import { PropertyEventEnums } from '../properties/enums/events.enums';
 import { CustomerEventEnums } from '../customers/enums/events.enums';
+import { BookingEventEnums } from '../bookings/enums/events.enums';
 
 enum GeneralEventEnums {
   // System
@@ -51,6 +52,7 @@ export const SystemEventsEnum = {
   ...CustomerEventEnums,
   ...OTPEventEnums,
   ...AuthEventEnums,
+  ...BookingEventEnums
 };
 
 export type SystemEventsEnum = typeof SystemEventsEnum;
