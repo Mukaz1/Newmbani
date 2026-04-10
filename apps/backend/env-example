@@ -1,0 +1,60 @@
+
+NODE_ENV=development
+API_PORT=3000
+
+# Server URL
+SERVER_URL=http://localhost:3000
+
+# --- GOOGLE AUTHENTICATION ---
+GOOGLE_CLIENT_ID=295707735919-ufa8ugkg3qe7ejeoq7i4hkf7tjsnh96a.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+
+# --- MAIL SETTINGS ---
+MAIL_USER=mukazion@gmail.com
+MAIL_PASS=nhletpifrztxjopn
+
+# --- ONFON SMS SETTINGS ---
+ONFON_BASE_URL=https://apis.onfonmedia.co.ke/v1
+ONFON_API_USERNAME=briankoech650@gmail.com
+ONFON_API_PASSWORD=Lc3128$%^&
+ONFON_ACCESS_TOKEN=9H8Ved1lgoX4KiE3Qj6BDtMcUTGwFP7vhmYxR5WfS02ArLzN
+ONFON_CLIENT_ID=bdcomputing
+ONFON_CALLBACK_URL=https://2bc0-2a09-bac1-3b80-8-00-2c0-3e.ngrok-free.app/api/sms-webhook/onfon
+
+# MONGO DB
+# DATABASE_PATH="mongodb+srv://mukazion_db_user:RQSxTjDmQfTJRCJL@cluster0.aamhsde.mongodb.net/?retryWrites=true&w=majority&tls=true"
+# DATABASE_PATH="mongodb://localhost:27017/"
+DATABASE_PATH=mongodb://127.0.0.1:27017/newmbani
+DATABASE_NAME="Newmbani"
+
+
+# REDIS
+REDIS_HAS_PASSWORD=true
+REDIS_SELF_HOSTED=false
+REDIS_HOST=redis-14698.c100.us-east-1-4.ec2.cloud.redislabs.com
+REDIS_PORT=14698
+REDIS_USERNAME=default
+REDIS_PASSWORD=K122CmxIMQjNqYse2jJOexFOkpQQhdmt
+REDIS_TLS=true
+
+CACHE_TTL=10
+
+# AUTHENTICATION
+AUTH_TOKEN_EXPIRY=12h
+JWT_ACCESS_TOKEN_SECRET='this-is-a-secret'
+MAGIC_LOGIN_EXPIRY=5m
+
+# FRONTEND INTEGRATION
+FRONTEND_URL=http://localhost:4200
+
+# THROTTLE
+THROTTLE_TTL=6000
+THROTTLE_LIMIT=20
+
+
+CLOUDINARY_CLOUD_NAME="dtxinzwir"
+CLOUDINARY_API_KEY="761623373942536"
+CLOUDINARY_API_SECRET="oW2-39dEOiKz7vfUR1990m6-RfI"
+CLOUDINARY_URL=cloudinary://761623373942536:oW2-39dEOiKz7vfUR1990m6-RfI@dtxinzwir
+CLOUDINARY_UPLOAD_PRESET="newmbani_uploads"
+CLOUDINARY_FOLDER="newmbani-app"
