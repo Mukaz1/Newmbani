@@ -10,10 +10,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { HttpResponseInterface, PermissionEnum, UserRequest } from '@newmbani/types';
+import {
+  HttpResponseInterface,
+  PermissionEnum,
+  UserRequest,
+} from '@newmbani/types';
 import { GenericResponse } from '../../common/decorators/generic-response.decorator';
 import { ExpressQuery } from '@newmbani/types';
-import { CreatePropertyDto, PropertyReviewDto, UpdatePropertyDto } from '../dtos/properties.dto';
+import {
+  CreatePropertyDto,
+  PropertyReviewDto,
+  UpdatePropertyDto,
+} from '../dtos/properties.dto';
 import { PropertiesService } from '../services/properties.service';
 import { RequiredPermissions } from '../../auth/decorators/permissions.decorator';
 import { AuthenticationGuard } from '../../auth/guards/authentication.guard';
@@ -27,11 +35,11 @@ export class PropertiesController {
    * Register a new property
    */
   @Post()
-    @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    @RequiredPermissions([
-      PermissionEnum.CREATE_PROPERTY,
-      PermissionEnum.MANAGE_PROPERTIES,
-    ])
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.CREATE_PROPERTY,
+    PermissionEnum.MANAGE_PROPERTIES,
+  ])
   async create(
     @Body() propertyDto: CreatePropertyDto,
     @Req() { user }: UserRequest,
@@ -76,11 +84,11 @@ export class PropertiesController {
    * Update property
    */
   @Patch(':id')
-    @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    @RequiredPermissions([
-      PermissionEnum.UPDATE_PROPERTY,
-      PermissionEnum.MANAGE_PROPERTIES,
-    ])
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.UPDATE_PROPERTY,
+    PermissionEnum.MANAGE_PROPERTIES,
+  ])
   async update(
     @Param('id') id: string,
     @Body() updatePropertyDto: UpdatePropertyDto,
@@ -105,37 +113,54 @@ export class PropertiesController {
     PermissionEnum.REVIEW_PROPERTIES,
     PermissionEnum.MANAGE_PROPERTIES,
   ])
-async review(
-  @Param('id') id: string,
-  @Body() reviewPropertyDto: PropertyReviewDto,
-  @Req() { user }: UserRequest,
-  @GenericResponse() res: GenericResponse,
-): Promise<HttpResponseInterface> {
-  const userId = user._id.toString();
-  const response = await this.propertiesService.reviewProperty(
-    id,
-    reviewPropertyDto,
-    userId,
-  );
+  async review(
+    @Param('id') id: string,
+    @Body() reviewPropertyDto: PropertyReviewDto,
+    @Req() { user }: UserRequest,
+    @GenericResponse() res: GenericResponse,
+  ): Promise<HttpResponseInterface> {
+    const userId = user._id.toString();
+    const response = await this.propertiesService.reviewProperty(
+      id,
+      reviewPropertyDto,
+      userId,
+    );
 
-  res.setStatus(response.statusCode);
-  return response;
-}
+    res.setStatus(response.statusCode);
+    return response;
+  }
 
   /**
    * Remove property
    */
   @Delete(':id')
-    @UseGuards(AuthenticationGuard, AuthorizationGuard)
-    @RequiredPermissions([
-      PermissionEnum.DELETE_PROPERTY,
-      PermissionEnum.MANAGE_PROPERTIES,
-    ])
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([
+    PermissionEnum.DELETE_PROPERTY,
+    PermissionEnum.MANAGE_PROPERTIES,
+  ])
   async remove(
     @Param('id') id: string,
     @GenericResponse() res: GenericResponse,
   ): Promise<HttpResponseInterface> {
     const response = await this.propertiesService.remove(id);
+    res.setStatus(response.statusCode);
+    return response;
+  }
+
+  @Get(':id/qrcode')
+  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  @RequiredPermissions([PermissionEnum.MANAGE_PROPERTIES])
+  async generateQRCode(
+    @Param('id') id: string,
+    @Req() { user }: UserRequest,
+    @GenericResponse() res: GenericResponse,
+  ): Promise<HttpResponseInterface> {
+    const response = await this.propertiesService.generatePropertyQRCode(
+      id,
+      user._id.toString(),
+    );
+
     res.setStatus(response.statusCode);
     return response;
   }

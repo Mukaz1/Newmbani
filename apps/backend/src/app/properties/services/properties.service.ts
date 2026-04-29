@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   HttpResponseInterface,
@@ -11,7 +15,12 @@ import {
   LandlordApprovalStatus,
 } from '@newmbani/types';
 import { PipelineStage } from 'mongoose';
-import { CustomHttpResponse, generateSlug, getSlugAndId } from '../../common';
+import {
+  CustomHttpResponse,
+  generateSlug,
+  getSlugAndId,
+  QrCodeService,
+} from '../../common';
 import {
   CreatePropertyDto,
   PostCreatePropertyDto,
@@ -23,10 +32,14 @@ import { AggregateProperties } from '../queries/properties.query';
 import { PropertyModel } from '../schemas/properties.schema';
 import { getPropertyQueryParams } from '../utils/getPropertiesParams';
 import { LandlordModel } from '../../landlords/schemas/landlord.schema';
+import { UserModel } from '../../auth/schemas/user.schema';
 
 @Injectable()
 export class PropertiesService {
-  constructor(private readonly eventEmitter: EventEmitter2) {}
+  constructor(
+    private readonly eventEmitter: EventEmitter2,
+    private readonly qrCodeService: QrCodeService,
+  ) {}
 
   /**
    * Register a new Property
@@ -265,10 +278,22 @@ export class PropertiesService {
       );
 
       this.eventEmitter.emit(SystemEventsEnum.PropertyUpdated, updatedProperty);
-      if((payload.approvalStatus === PropertyApprovalStatus.APPROVED) && (updatedProperty.approvalStatus === PropertyApprovalStatus.APPROVED) ){
-        this.eventEmitter.emit(SystemEventsEnum.PropertyApproved, updatedProperty);
-      }else if ((payload.approvalStatus === PropertyApprovalStatus.REJECTED) && (updatedProperty.approvalStatus === PropertyApprovalStatus.REJECTED)){
-        this.eventEmitter.emit(SystemEventsEnum.PropertyRejected, updatedProperty);
+      if (
+        payload.approvalStatus === PropertyApprovalStatus.APPROVED &&
+        updatedProperty.approvalStatus === PropertyApprovalStatus.APPROVED
+      ) {
+        this.eventEmitter.emit(
+          SystemEventsEnum.PropertyApproved,
+          updatedProperty,
+        );
+      } else if (
+        payload.approvalStatus === PropertyApprovalStatus.REJECTED &&
+        updatedProperty.approvalStatus === PropertyApprovalStatus.REJECTED
+      ) {
+        this.eventEmitter.emit(
+          SystemEventsEnum.PropertyRejected,
+          updatedProperty,
+        );
       }
 
       return new CustomHttpResponse({
@@ -302,6 +327,68 @@ export class PropertiesService {
         statusCode: HttpStatusCodeEnum.BAD_REQUEST,
         message: `Error removing property ${id}`,
         data: error,
+      });
+    }
+  }
+
+  async generatePropertyQRCode(
+    propertyId: string,
+    userId: string,
+  ): Promise<HttpResponseInterface<any>> {
+    try {
+      // 1. Find property
+      const property = await PropertyModel.findById(propertyId).exec();
+      const user = await UserModel.findById(userId).exec();
+      if (!property) {
+        throw new NotFoundException(`Property ${propertyId} not found`);
+      }
+
+      // 2. Ownership check (critical, don’t get lazy here)
+      if (property.landlordId.toString() !== user.landlordId?.toString()) {
+        throw new ForbiddenException(
+          'You are not allowed to generate QR for this property',
+        );
+      }
+
+      // 3. Optional: only allow approved properties
+      // (prevents QR codes for rejected/draft listings)
+      if (property.approvalStatus !== PropertyApprovalStatus.APPROVED) {
+        throw new ForbiddenException(
+          'Only approved properties can have QR codes',
+        );
+      }
+
+      if (property.qrCode) {
+        return new CustomHttpResponse({
+          statusCode: HttpStatusCodeEnum.OK,
+          message: 'QR Code fetched successfully',
+          data: {
+            qrCode: property.qrCode,
+            cached: true,
+          },
+        });
+      }
+
+      const url = `${process.env.FRONTEND_URL}/properties/${propertyId}`;
+      const qrCode = await this.qrCodeService.generateQRCode(url);
+
+      // 💾 Save it
+      property.qrCode = qrCode;
+      await property.save();
+
+      return new CustomHttpResponse({
+        statusCode: HttpStatusCodeEnum.OK,
+        message: 'QR Code generated successfully',
+        data: {
+          qrCode,
+          cached: false,
+        },
+      });
+    } catch (error) {
+      return new CustomHttpResponse({
+        statusCode: error.status || HttpStatusCodeEnum.BAD_REQUEST,
+        message: error.message || 'Failed to generate QR code',
+        data: null,
       });
     }
   }

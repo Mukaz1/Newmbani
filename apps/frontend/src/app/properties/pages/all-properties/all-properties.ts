@@ -364,4 +364,7 @@ export class AllProperties implements OnInit {
   isLandlord(): boolean {
     return this.authService.getUserType().landlord;
   }
+  isAdmin(): boolean {
+    return this.authService.getUserType().admin;
+  }
 }

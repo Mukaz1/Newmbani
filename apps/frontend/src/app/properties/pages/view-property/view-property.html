@@ -116,6 +116,19 @@
                                     <i class="bi bi-pencil text-gray-400 w-4"></i> Edit Property
                                 </button>
                                 }
+                                @if (isLandlord() && prop.approvalStatus === PropertyApprovalStatus.APPROVED) {
+                                <button cdkMenuItem (click)="openQrModal(prop, 'generate')"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                    <i class="bi bi-qr-code text-gray-400 w-4"></i> Generate QR Code
+                                </button>
+                                }
+
+                                @if (isLandlord() && prop.qrCode) {
+                                <button cdkMenuItem (click)="openQrModal(prop, 'view')"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                    <i class="bi bi-eye text-gray-400 w-4"></i> View QR Code
+                                </button>
+                                }
                                 <!-- Upload images — landlord only -->
                                 @if (isLandlord()) {
                                 <button cdkMenuItem (click)="switchTab('images')"
@@ -296,43 +309,44 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card py-6 space-y-3 text-sm">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Classification</h3>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Category</span>
+                        <span class="font-medium text-gray-800">{{ prop.category.name || '—' }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Subcategory</span>
+                        <span class="font-medium text-gray-800">{{ prop.subcategory.name || '—' }}</span>
+                    </div>
 
+                </div>
+
+                <div class="card py-6 space-y-2 text-sm">
+                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Timeline</h3>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Created</span>
+                        <span class="text-gray-700">{{ prop.createdAt | date:'mediumDate' }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Updated</span>
+                        <span class="text-gray-700">{{ prop.updatedAt | date:'mediumDate' }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 
             <div class="card p-6">
                 <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Location</h3>
                 <app-property-location [latitude]="prop.map.lat" [longitude]="prop.map.lng"
                     [propertyName]="prop.title" />
-            </div>
+            </div> -->
 
         </div>
 
         <!-- RIGHT: Meta -->
         <div class="space-y-5">
 
-            <div class="card p-6 space-y-3 text-sm">
-                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Classification</h3>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Category</span>
-                    <span class="font-medium text-gray-800">{{ prop.category.name || '—' }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Subcategory</span>
-                    <span class="font-medium text-gray-800">{{ prop.subcategory.name || '—' }}</span>
-                </div>
 
-            </div>
-
-            <div class="card p-6 space-y-2 text-sm">
-                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Timeline</h3>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Created</span>
-                    <span class="text-gray-700">{{ prop.createdAt | date:'mediumDate' }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-400">Updated</span>
-                    <span class="text-gray-700">{{ prop.updatedAt | date:'mediumDate' }}</span>
-                </div>
-            </div>
 
             <!-- Landlord full card -->
             <div class="card p-6">

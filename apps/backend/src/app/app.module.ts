@@ -45,7 +45,6 @@ import { CloudinaryModule } from './files/providers/cloudinary/cloudinary.module
     BookingsModule,
     FilesModule,
     CloudinaryModule,
-
   ],
   controllers: [AppController],
   providers: [AppService],

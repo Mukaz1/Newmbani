@@ -9,6 +9,7 @@ export const propertiesEndpoints = {
   GET_PROPERTIES: PROPERTIES,
   GET_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
   UPDATE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
+  GENERATE_QR_CODE: (id: string) => `${PROPERTIES}/${id}/qrcode`,
   DELETE_PROPERTY: (id: string) => `${PROPERTIES}/${id}`,
   REVIEW_PROPERTY: (id: string) => `${PROPERTIES}/${id}/review`,
 } as const;

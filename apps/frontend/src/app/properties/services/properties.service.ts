@@ -55,7 +55,8 @@ export class PropertiesService {
         params = params.set('limit', data.limit.toString());
       if (data.page !== undefined)
         params = params.set('page', data.page.toString());
-      if (data.keyword !== undefined) params = params.set('keyword', data.keyword);
+      if (data.keyword !== undefined)
+        params = params.set('keyword', data.keyword);
       if (data.categoryId) params = params.set('categoryId', data.categoryId);
       if (data.subcategoryId)
         params = params.set('subcategoryId', data.subcategoryId);
@@ -102,6 +103,12 @@ export class PropertiesService {
     return this.http.patch<HttpResponseInterface<Partial<Property>>>(
       API_ENDPOINTS.UPDATE_PROPERTY(propertyId),
       property,
+    );
+  }
+
+  generateQrCode(propertyId: string) {
+    return this.http.get<HttpResponseInterface<{ qrCode: string }>>(
+      API_ENDPOINTS.GENERATE_QR_CODE(propertyId),
     );
   }
 

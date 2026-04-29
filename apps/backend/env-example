@@ -45,7 +45,8 @@ JWT_ACCESS_TOKEN_SECRET='this-is-a-secret'
 MAGIC_LOGIN_EXPIRY=5m
 
 # FRONTEND INTEGRATION
-FRONTEND_URL=http://localhost:4200
+; FRONTEND_URL=http://localhost:4200
+FRONTEND_URL= https://lumpishly-subtarsal-maira.ngrok-free.dev
 
 # THROTTLE
 THROTTLE_TTL=6000

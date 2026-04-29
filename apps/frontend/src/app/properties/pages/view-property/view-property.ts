@@ -42,6 +42,7 @@ import { UploadImages } from '../../modals/upload-images/upload-images';
 import { PropertyLocation } from '../../../marketplace/pages/properties/property-location/property-location';
 import { FormatLabelPipe } from '../../../common/pipes/format-label.pipe';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { QrCodeModal } from '../../modals/qrCode-modal/qrCode-modal';
 
 type TabType = 'details' | 'images';
 
@@ -360,6 +361,20 @@ export class ViewProperty implements OnInit, OnDestroy {
     ref.closed.subscribe(() => {
       const id = this.property()?._id;
       if (id) this.getProperty(id);
+    });
+  }
+
+  openQrModal(property: Property, mode: 'generate' | 'view'): void {
+    const ref = this.dialog.open(QrCodeModal, {
+      data: { property, mode },
+      disableClose: true,
+    });
+
+    ref.closed.subscribe((updated) => {
+      if (updated as boolean) {
+        const id = this.propertyId();
+        if (id) this.getProperty(id); // refresh to get QR
+      }
     });
   }
 
