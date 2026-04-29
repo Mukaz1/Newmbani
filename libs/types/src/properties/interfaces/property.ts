@@ -4,7 +4,10 @@ import { Booking } from '../../bookings';
 import { Country } from '../../countries';
 import { Landlord } from '../../landlords';
 import { PropertyApprovalStatus } from '../enums/property-approval-status.enum';
-import { PropertyElectricityEnum,  PropertyWaterEnum } from '../enums/property-type';
+import {
+  PropertyElectricityEnum,
+  PropertyWaterEnum,
+} from '../enums/property-type';
 import { PropertyCategory } from './property-category';
 import { PropertyImage } from './property-images';
 import { PropertySubCategory } from './property-subcategory';
@@ -22,7 +25,7 @@ export interface CreateProperty {
   address: Address;
   map: Coordinates;
   features: PropertyFeatures;
-  caretaker?: Caretaker
+  caretaker?: Caretaker;
 }
 
 export interface PostCreateProperty extends CreateProperty {
@@ -38,7 +41,8 @@ export interface Property extends PostCreateProperty, AuditData {
   country: Country;
   bookings: Booking[];
   isFavorite: boolean;
-  reviewComment: string
+  reviewComment: string;
+  qrCode?: string;
 }
 
 export interface Coordinates {
@@ -51,7 +55,6 @@ export interface Caretaker {
   email: string;
   phone: string;
 }
-
 
 export interface PropertyFeatures {
   electricity: PropertyElectricityEnum;

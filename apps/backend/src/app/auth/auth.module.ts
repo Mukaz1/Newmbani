@@ -10,7 +10,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { MagicLoginStrategy } from './strategies/magic-login.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GoogleAuthService } from './services/google-auth.service';
-import { GoogleStrategy } from './strategies/google.strategy';
 import { JwtRefreshTokenStrategy } from './strategies/jwt-refresh-token.strategy';
 import { AccountLinksController } from './controllers/account-links.controller';
 import { RegisterController } from './controllers/register.controller';
@@ -67,7 +66,6 @@ import { BookingsModule } from '../bookings/bookings.module';
     AuthService,
     JwtStrategy,
     MagicLoginStrategy,
-    GoogleStrategy,
     GoogleAuthService,
     JwtRefreshTokenStrategy,
     AccountVerificationService,
