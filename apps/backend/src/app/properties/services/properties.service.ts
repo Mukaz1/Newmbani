@@ -369,7 +369,7 @@ export class PropertiesService {
         });
       }
 
-      const url = `${process.env.FRONTEND_URL}/property/${propertyId}`;
+      const url = `${process.env.FRONTEND_URL}/properties/${propertyId}`;
       const qrCode = await this.qrCodeService.generateQRCode(url);
 
       // 💾 Save it
