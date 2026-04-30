@@ -75,6 +75,11 @@ export class ManageProperty implements OnInit, OnDestroy {
       street: new FormControl(''),
       building: new FormControl(''),
     }),
+    caretaker: new FormGroup({
+      name: new FormControl(''),
+      email: new FormControl(''),
+      phone: new FormControl(''),
+    }),
   });
 
   private destroy$ = new Subject<void>();
@@ -153,6 +158,11 @@ export class ManageProperty implements OnInit, OnDestroy {
               town: prop.address?.town ?? '',
               street: prop.address?.street ?? '',
               building: prop.address?.building ?? '',
+            },
+            caretaker: {
+              name: prop.caretaker?.name ?? '',
+              email: prop.caretaker?.email ?? '',
+              phone: prop.caretaker?.phone ?? '',
             },
           });
         },
@@ -260,6 +270,7 @@ export class ManageProperty implements OnInit, OnDestroy {
       availableUnits,
       rentPrice,
       deposit,
+      caretaker,
     } = this.propertyForm.value;
     const { lat, lng } = this.propertyForm.controls.map.value;
     const { electricity, water, security } =
@@ -291,6 +302,11 @@ export class ManageProperty implements OnInit, OnDestroy {
         electricity:
           (electricity as PropertyElectricityEnum) ??
           PropertyElectricityEnum.OTHER,
+      },
+      caretaker: {
+        name: caretaker?.name ?? '',
+        email: caretaker?.email ?? '',
+        phone: caretaker?.phone ?? '',
       },
     };
 

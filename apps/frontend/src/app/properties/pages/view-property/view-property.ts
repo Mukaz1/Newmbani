@@ -39,7 +39,6 @@ import { PropertyVerificationModal } from '../../modals/property-verification-mo
 import { ChangeImageCategory } from '../../modals/change-image-category/change-image-category';
 import { PropertiesService } from '../../services/properties.service';
 import { UploadImages } from '../../modals/upload-images/upload-images';
-import { PropertyLocation } from '../../../marketplace/pages/properties/property-location/property-location';
 import { FormatLabelPipe } from '../../../common/pipes/format-label.pipe';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { QrCodeModal } from '../../modals/qrCode-modal/qrCode-modal';
@@ -55,7 +54,6 @@ type TabType = 'details' | 'images';
     TitleCasePipe,
     CurrencyPipe,
     FormatLabelPipe,
-    PropertyLocation,
     CdkMenu,
     CdkMenuItem,
     CdkMenuTrigger,

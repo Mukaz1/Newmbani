@@ -235,8 +235,32 @@
                     <p class="text-sm font-semibold text-gray-900 truncate">
                         {{ prop.landlord.displayName || 'N/A' }}
                     </p>
+                    <p class="text-xs text-gray-400 truncate mt-0.5">
+                        {{ prop.landlord.phone ? prop.landlord.phone : '' }}
+                    </p>
                 </div>
             </div>
+
+            <!-- Caretaker mini card (just below landlord) -->
+            @if (prop.caretaker) {
+            <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl mt-2 border border-gray-100">
+
+                <div
+                    class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center flex-shrink-0">
+                    <i class="bi bi-person text-lg text-gray-400"></i>
+                </div>
+
+                <div class="min-w-0">
+                    <p class="text-xs text-gray-400">Caretaker</p>
+                    <p class="text-sm font-semibold text-gray-900 truncate">
+                        {{ prop.caretaker.name || 'N/A' }}
+                    </p>
+                    <p class="text-xs text-gray-400 truncate mt-0.5">
+                        {{ prop.caretaker.phone ? prop.caretaker.phone : '' }}
+                    </p>
+                </div>
+            </div>
+            }
 
         </div>
     </div>
@@ -365,6 +389,11 @@
                     <div class="min-w-0">
                         <p class="font-semibold text-gray-900 truncate">{{ prop.landlord.displayName || 'N/A' }}</p>
                         <p class="text-xs text-gray-400 truncate">{{ prop.landlord.email }}</p>
+                        @if (prop.landlord.phone) {
+                        <p class="text-xs text-gray-400 truncate mt-0.5">
+                            {{ prop.landlord.phone }}
+                        </p>
+                        }
                         @if (prop.landlord.createdAt) {
                         <p class="text-xs text-gray-400 mt-0.5">
                             Member since {{ prop.landlord.createdAt | date:'MMM yyyy' }}
@@ -373,6 +402,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Caretaker full card (just below landlord) -->
+            @if (prop.caretaker) {
+            <div class="card p-6">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                    Caretaker
+                </h3>
+                <div class="flex items-center gap-4">
+
+                    <div class="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                        <i class="bi bi-person text-2xl text-gray-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="font-semibold text-gray-900 truncate">{{ prop.caretaker.name || 'N/A' }}</p>
+                        @if (prop.caretaker.phone) {
+                        <p class="text-xs text-gray-400 truncate mt-0.5">
+                            {{ prop.caretaker.phone }}
+                        </p>
+                        }
+                        @if (prop.caretaker.email) {
+                        <p class="text-xs text-gray-400 truncate">{{ prop.caretaker.email }}</p>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            }
 
         </div>
 

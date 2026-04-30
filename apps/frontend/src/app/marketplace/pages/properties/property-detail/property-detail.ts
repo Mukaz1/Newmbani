@@ -26,7 +26,6 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ViewImagesModal } from '../components/view-images-modal/view-images-modal';
 import { PropertiesService } from '../../../../properties/services/properties.service';
 import { FormatLabelPipe } from '../../../../common/pipes/format-label.pipe';
-import { PropertyLocation } from '../property-location/property-location';
 import { PropertyCard } from '../components/property-card/property-card';
 import { PricingCard } from '../components/pricing-card/pricing-card';
 
@@ -37,7 +36,6 @@ import { PricingCard } from '../components/pricing-card/pricing-card';
     FormsModule,
     Button,
     FormatLabelPipe,
-    PropertyLocation,
     PropertyCard,
     PricingCard,
   ],

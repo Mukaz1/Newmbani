@@ -9,11 +9,14 @@
                     <p class="text-xl font-semibold text-gray-800 ">Properties</p>
                     <p>There are {{ paginatedData()?.total || properties().length }} properties</p>
                 </div>
+                @if(isLandlord()){
+
                 <div class=" flex items-center gap-3">
                     <button
                         class="py-2 px-4 rounded-full bg-primary hover:bg-primary-400 items-center text-center text-white font-semibold hover:font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out rounded-full"
                         (click)="addNewProperty()">Add Property</button>
                 </div>
+                }
             </div>
         </div>
 
@@ -93,9 +96,9 @@
                                     </a>
                                 </div>
                                 <div class="flex flex-col">
-                                    <a href="#" class="text-gray-500 text-hover-primary font-normal"
+                                    <span class="text-gray-500 text-hover-primary font-normal"
                                         (click)="viewProperty(_property.slug)">
-                                        {{ _property.title }}</a>
+                                        {{ _property.title }}</span>
                                 </div>
                             </td>
                             @if(isAdmin()){

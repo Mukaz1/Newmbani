@@ -29,14 +29,14 @@
     </p>
     }
     <nav class="space-y-2">
-      <a routerLink="/landlord" routerLinkActive="bg-primary-400 text-white" [routerLinkActiveOptions]="{ exact: true}"
+      <a routerLink="/landlord" routerLinkActive="bg-teal-400 text-white" [routerLinkActiveOptions]="{ exact: true}"
         [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
         <i class="bi bi-grid-fill text-lg group-hover:text-primary" [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>
         @if (!isCollapsed) {
         <span class="whitespace-nowrap text-sm font-medium">Overview</span>
         }
       </a>
-      <a routerLink="/landlord/bookings" routerLinkActive="bg-primary-400 text-white"
+      <a routerLink="/landlord/bookings" routerLinkActive="bg-teal-400 text-white"
         [routerLinkActiveOptions]="{ exact: true}"
         [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
         <i class="bi bi-calendar-check-fill text-lg group-hover:text-primary"
@@ -47,7 +47,7 @@
       </a>
 
 
-      <a routerLink="/landlord/properties" routerLinkActive="bg-primary-400 text-white"
+      <a routerLink="/landlord/properties" routerLinkActive="bg-teal-400 text-white"
         [routerLinkActiveOptions]="{ exact: true}"
         [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
         <i class="bi bi-houses-fill text-lg group-hover:text-primary" [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>
@@ -67,7 +67,7 @@
     }
     <nav class="space-y-2">
 
-      <a routerLink="/landlord/settings" routerLinkActive="bg-primary-400 text-white"
+      <a routerLink="/landlord/settings" routerLinkActive="bg-teal-400 text-white"
         [routerLinkActiveOptions]="{ exact: true}"
         [ngClass]="['group flex items-center py-2 px-2 rounded-lg hover:bg-primary-400 transition-colors text-gray-300 hover:text-white', isCollapsed ? 'justify-center ' : 'justify-start']">
         <i class="bi bi-gear text-lg group-hover:text-primary" [ngClass]="isCollapsed ? 'mx-auto' : 'mr-3'"></i>

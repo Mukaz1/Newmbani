@@ -52,7 +52,6 @@ import { DatePipe } from '@angular/common';
     ReactiveFormsModule,
     Pagination,
     DatePipe,
-    RouterLink,
     DataLoading,
     DropdownMenu,
     SearchInputWidget,
